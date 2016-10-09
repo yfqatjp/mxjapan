@@ -30,7 +30,7 @@ define("SMTP_USER", "yue@livetech.co.jp");
 define("SMTP_PASS", "19821020");
 define("SMTP_PORT", "465");
 define("PAYMENT_TYPE", "cards,paypal,check,arrival"); // cards,paypal,check,arrival
-define("PAYPAL_EMAIL", "contact@pandao.eu");
+define("PAYPAL_EMAIL", "contact@test.te");
 define("VENDOR_ID", "901320405"); // 2Checkout.com account number
 define("SECRET_WORD", "Y2Q5ZDk4ZmItMmE2Zi00NWQ1LThiYzYtMzlhYzI4NjI0OTg1"); // 2Checkout.com secret word
 define("PAYMENT_TEST_MODE", "1");

@@ -26,14 +26,13 @@ if($result_slide !== false){
 	$nb_slides = $db->last_row_count();
 	if($nb_slides > 0){ ?>
         
-       <!-- 
        
         <div id="search-home-wrapper">
             <div id="search-home" class="container">
                 <?php include(SYSBASE."templates/".TEMPLATE."/common/search.php"); ?>
             </div>
         </div>
- -->
+
 		<section id="sliderContainer">
             
             <div class="royalSlider rsMinW fullSized clearfix">
