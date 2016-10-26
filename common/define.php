@@ -1,6 +1,6 @@
 <?php
 /**
- * Common file for Pandao CMS
+ * Common file for  CMS
  * gets the configuration values and defines the environment
  */
 if(!is_session_started()) session_start();
@@ -12,33 +12,37 @@ require_once("setenv.php");
 $default_lang = 2;
 $default_lang_tag = "en";
 $lang_alias = "";
-$locale = "en-GB";
+$locale = "en_GB";
 $default_currency_code = "USD";
 $default_currency_sign = "$";
 $default_currency_rate = 1;
 $rtl_dir = false;
 $db = false;
 
-if(ADMIN && is_file(SYSBASE."admin/includes/lang.ini"))
-    $texts = parse_ini_file(SYSBASE."admin/includes/lang.ini");
-
 if(is_file(SYSBASE."common/config.php")){
     require_once(SYSBASE."common/config.php");
+    
+    if(ADMIN && is_file(SYSBASE.ADMIN_FOLDER."/includes/lang.ini"))
+        $texts = parse_ini_file(SYSBASE.ADMIN_FOLDER."/includes/lang.ini");
+    
     try{
         $db = new db("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME.";charset=utf8", DB_USER, DB_PASS);
         $db->exec("SET NAMES 'utf8'");
     }catch(PDOException $e){
-        $_SESSION['msg_error'] .= $texts['DATABASE_ERROR'];
+        if(ADMIN) $_SESSION['msg_error'][] = $texts['DATABASE_ERROR'];
+        else die("Unable to connect to the database. Please contact the webmaster or retry later.");
     }
 }
 
+if(!defined("ADMIN_FOLDER")) define("ADMIN_FOLDER", "admin");
+
 if(($db !== false && db_table_exists($db, "pm_%") === false) || !is_file(SYSBASE."common/config.php")){
-    header("Location: ".DOCBASE."admin/setup.php");
+    header("Location: ".DOCBASE.ADMIN_FOLDER."/setup.php");
     exit();
 }
 
 if(!ADMIN){
-    $request_uri = (DOCBASE != "/") ? str_replace(DOCBASE, "", $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
+    $request_uri = (DOCBASE != "/") ? substr($_SERVER['REQUEST_URI'], strlen(DOCBASE)) : $_SERVER['REQUEST_URI'];
     $request_uri = trim($request_uri, "/");
     $pos = strpos($request_uri, "?");
     if($pos !== false) $request_uri = substr($request_uri, 0, $pos);
@@ -127,13 +131,21 @@ if($db !== false){
         foreach($result_widget as $row)
             $widgets[$row['pos']][] = $row;
     }
+}else{
+    $id_lang = $default_lang;
+    $lang_tag = $default_lang_tag;
 }
-
-date_default_timezone_set(TIME_ZONE);
 
 $currency_code = (isset($_SESSION['currency']['code'])) ? $_SESSION['currency']['code'] : $default_currency_code;
 $currency_sign = (isset($_SESSION['currency']['sign'])) ? $_SESSION['currency']['sign'] : $default_currency_sign;
 $currency_rate = (isset($_SESSION['currency']['rate'])) ? $_SESSION['currency']['rate'] : $default_currency_rate;
+
+date_default_timezone_set(TIME_ZONE);
+
+if(setlocale(LC_ALL, $locale.".UTF-8", $locale) === false){
+    $locale = "en_GB";
+    setlocale(LC_ALL, $locale.".UTF-8", $locale);
+}
 
 define("DEFAULT_CURRENCY_CODE", $default_currency_code);
 define("DEFAULT_CURRENCY_SIGN", $default_currency_sign);
@@ -146,8 +158,6 @@ define("LANG_ID", $id_lang);
 define("LANG_TAG", $lang_tag);
 define("LANG_ALIAS", $lang_alias);
 define("RTL_DIR", $rtl_dir);
-
-setlocale(LC_ALL, $locale.".UTF-8", $locale);
 
 $allowable_file_exts = array(
     "pdf" => "pdf.png",

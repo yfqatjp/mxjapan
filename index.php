@@ -34,7 +34,7 @@ if(MAINTENANCE_MODE == 0 || (isset($_SESSION['user']) && ($_SESSION['user']['typ
                 $alias = text_format($alias);
                 $currequest = $alias;
             }else{
-                $alias = DOCBASE.LANG_ALIAS;
+                $alias = "";
                 $currequest = "";
             }
             
@@ -74,7 +74,7 @@ if(MAINTENANCE_MODE == 0 || (isset($_SESSION['user']) && ($_SESSION['user']['typ
             $currequest = $row['currequest'];
             
             //current page
-            if(($ishome && $home == 1) || ($alias != "" && $page_alias == $alias)){
+            if(($ishome && $home == 1) XOR ($alias != "" && $page_alias == $alias)){
                 $page_id = $id_page;
                 if($article_alias == "" && $currequest != REQUEST_URI) err404();
                 else{
@@ -84,6 +84,7 @@ if(MAINTENANCE_MODE == 0 || (isset($_SESSION['user']) && ($_SESSION['user']['typ
             }
         }
     }
+    
     if($found === false) err404();
 
     $title_tag = $page['title_tag'];
@@ -106,7 +107,7 @@ if(MAINTENANCE_MODE == 0 || (isset($_SESSION['user']) && ($_SESSION['user']['typ
     $breadcrumbs = array_reverse($breadcrumbs);
 
     $page_model = SYSBASE."templates/".TEMPLATE."/models/".str_replace("_","/",$page_model).".php";
-        
+    
     if(is_file($page_model)) include($page_model);
 
     require(SYSBASE."templates/".TEMPLATE."/common/footer.php");

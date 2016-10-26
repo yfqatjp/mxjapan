@@ -25,9 +25,9 @@ $(document).ready(function(){
 			return !!navigator.userAgent.match(/iPad/i);
 		});
 	});
-	
 	screenSize();
 	'use strict';
+    
     /* =================================================================
      * form placeholder for IE
      * =================================================================
@@ -84,6 +84,4 @@ $(document).ready(function(){
 	$('.alert').delegate('button', 'click', function(){
 		$(this).parent().fadeOut('fast');
 	});
-
-
 });

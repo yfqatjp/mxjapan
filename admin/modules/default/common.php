@@ -12,24 +12,24 @@ require_once(SYSBASE."common/lib.php");
 require_once(SYSBASE."common/define.php");
 
 if(!isset($_SESSION['user'])){
-    header("Location: ".DOCBASE."admin/login.php");
+    header("Location: ".DOCBASE.ADMIN_FOLDER."/login.php");
     exit();
 }elseif($_SESSION['user']['type'] == "registered"){
     $_SESSION['msg_error'] = "Access denied.<br/>";
-    header("Location: ".DOCBASE."admin/login.php");
+    header("Location: ".DOCBASE.ADMIN_FOLDER."/login.php");
     exit();
 }
 
 if(!isset($_SESSION['redirect'])) $_SESSION['redirect'] = false;
 
-require_once(SYSBASE."admin/includes/fn_module.php");
+require_once(SYSBASE.ADMIN_FOLDER."/includes/fn_module.php");
 
 if(in_array("no_access", $permissions) || empty($permissions)){
-    header("Location: ".DOCBASE."admin/index.php");
+    header("Location: ".DOCBASE.ADMIN_FOLDER."/index.php");
     exit();
 }
 
-require_once(SYSBASE."admin/includes/fn_actions.php");
+require_once(SYSBASE.ADMIN_FOLDER."/includes/fn_actions.php");
 
 if(NB_FILES > 0){
     $upload_allowed = true;
@@ -95,10 +95,10 @@ if(NB_FILES > 0){
 if(isset($_GET['view'])){
     $view = $_GET['view'];
     if($view == "list"){
-        if(is_file("list.php")) require_once("list.php"); else require_once(SYSBASE."admin/modules/default/list.php");
+        if(is_file("list.php")) require_once("list.php"); else require_once(SYSBASE.ADMIN_FOLDER."/modules/default/list.php");
     }
     if($view == "form"){
-        if(is_file("form.php")) require_once("form.php"); else require_once(SYSBASE."admin/modules/default/form.php");
+        if(is_file("form.php")) require_once("form.php"); else require_once(SYSBASE.ADMIN_FOLDER."/modules/default/form.php");
     }
 }else{
     header("Location: ".DOCBASE."admin");

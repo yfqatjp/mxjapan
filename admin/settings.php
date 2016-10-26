@@ -8,7 +8,7 @@ if(!isset($_SESSION['user'])){
     header("Location: login.php");
     exit();
 }elseif($_SESSION['user']['type'] == "registered"){
-    $_SESSION['msg_error'] = "Access denied.<br/>";
+    $_SESSION['msg_error'][] = "Access denied.<br/>";
     header("Location: login.php");
     exit();
 }
@@ -18,6 +18,7 @@ require_once("../common/lib.php");
 require_once("../common/setenv.php");
         
 $config_file = "../common/config.php";
+$htaccess_file = "../.htaccess";
 $field_notice = array();
 $config_tmp = array();
 $db = false;
@@ -39,7 +40,7 @@ if(isset($_POST['edit_settings'])){
         $config_tmp['lang_enabled'] = isset($_POST['lang_enabled']) ? htmlentities($_POST['lang_enabled'], ENT_QUOTES, "UTF-8") : "";
         $config_tmp['template'] = htmlentities($_POST['template'], ENT_QUOTES, "UTF-8");
         $config_tmp['owner'] = htmlentities($_POST['owner'], ENT_QUOTES, "UTF-8");
-        $config_tmp['address'] = preg_replace("/([\n\r])/", "", nl2br(htmlentities($_POST['address'], ENT_QUOTES, "UTF-8")));
+        $config_tmp['address'] = addslashes(preg_replace("/([\n\r])/", "", nl2br(strip_tags($_POST['address']))));
         $config_tmp['phone'] = htmlentities($_POST['phone'], ENT_QUOTES, "UTF-8");
         $config_tmp['mobile'] = htmlentities($_POST['mobile'], ENT_QUOTES, "UTF-8");
         $config_tmp['fax'] = htmlentities($_POST['fax'], ENT_QUOTES, "UTF-8");
@@ -60,8 +61,10 @@ if(isset($_POST['edit_settings'])){
         $config_tmp['smtp_port'] = htmlentities($_POST['smtp_port'], ENT_QUOTES, "UTF-8");
         $config_tmp['enable_cookies_notice'] = isset($_POST['enable_cookies_notice']) ? htmlentities($_POST['enable_cookies_notice'], ENT_QUOTES, "UTF-8") : "";
         $config_tmp['maintenance_mode'] = isset($_POST['maintenance_mode']) ? htmlentities($_POST['maintenance_mode'], ENT_QUOTES, "UTF-8") : "";
-        $config_tmp['maintenance_msg'] = preg_replace("/([\n\r])/", "", htmlentities($_POST['maintenance_msg'], ENT_QUOTES, "UTF-8"));
+        $config_tmp['maintenance_msg'] = addslashes(preg_replace("/([\n\r])/", "", $_POST['maintenance_msg']));
         $config_tmp['gmaps_api_key'] = htmlentities($_POST['gmaps_api_key'], ENT_QUOTES, "UTF-8");
+        $config_tmp['analytics_code'] = addslashes(preg_replace("/([\n\r])/", "", $_POST['analytics_code']));
+        $config_tmp['admin_folder'] = htmlentities($_POST['admin_folder'], ENT_QUOTES, "UTF-8");
         
         $config_tmp['payment_type'] = isset($_POST['payment_type']) ? implode(",", $_POST['payment_type']) : "";
         $config_tmp['paypal_email'] = htmlentities($_POST['paypal_email'], ENT_QUOTES, "UTF-8");
@@ -81,7 +84,7 @@ if(isset($_POST['edit_settings'])){
     $user = htmlentities($_POST['user'], ENT_QUOTES, "UTF-8");
     $password = $_POST['password'];
 
-    if(check_token("/admin/settings.php", "settings", "post")){
+    if(check_token("/".ADMIN_FOLDER."/settings.php", "settings", "post")){
 
         if($_SESSION['user']['type'] == "administrator"){
             if($config_tmp['time_zone'] == "") $field_notice['time_zone'] = $texts['REQUIRED_FIELD'];
@@ -95,6 +98,21 @@ if(isset($_POST['edit_settings'])){
             if($config_tmp['db_port'] == "") $field_notice['db_port'] = $texts['REQUIRED_FIELD'];
             if($config_tmp['db_user'] == "") $field_notice['db_user'] = $texts['REQUIRED_FIELD'];
             if($config_tmp['db_pass'] == "") $field_notice['db_pass'] = $texts['REQUIRED_FIELD'];
+            
+            if($config_tmp['admin_folder'] != "" && preg_match("/(^[a-z0-9]+$)/i", $config_tmp['admin_folder']) !== 1) $field_notice['admin_folder'] = $texts['ALPHANUM_ONLY'];
+            
+            $curr_dirname = dirname(__FILE__);
+            $curr_folder = substr($curr_dirname, strrpos($curr_dirname, "/")+1);
+            $rep = opendir(SYSBASE);
+            while($entry = @readdir($rep)){
+                if(is_dir(SYSBASE.$entry) && $entry != $curr_folder){
+                    if($entry == $config_tmp['admin_folder']){
+                        $field_notice['admin_folder'] = $texts['FOLDER_EXISTS'];
+                        break;
+                    }
+                }
+            }
+            closedir($rep);
             
             if($config_tmp['payment_type'] == "") $field_notice['payment_type'] = $texts['REQUIRED_FIELD'];
             
@@ -124,9 +142,11 @@ if(isset($_POST['edit_settings'])){
         
         if($email == "" || !preg_match("/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/i", $email)) $field_notice['email'] = $texts['INVALID_EMAIL'];
 
-        $result_user = $db->query("SELECT * FROM pm_user WHERE login = ".$db->quote($user));
-        if($result_user === false || $db->last_row_count() > 1) $field_notice['user'] = $texts['USER_EXISTS'];
-
+        if($db !== false){
+            $result_user = $db->query("SELECT * FROM pm_user WHERE login = ".$db->quote($user));
+            if($result_user === false || $db->last_row_count() > 1) $field_notice['user'] = $texts['USER_EXISTS'];
+        }
+        
         if(count($field_notice) == 0){
             
             if($_SESSION['user']['type'] == "administrator"){
@@ -134,26 +154,47 @@ if(isset($_POST['edit_settings'])){
                     $db = new db("mysql:host=".$config_tmp['db_host'].";port=".$config_tmp['db_port'].";dbname=".$config_tmp['db_name'].";charset=utf8", $config_tmp['db_user'], $config_tmp['db_pass']);
                     $db->exec("SET NAMES 'utf8'");
                 }catch(PDOException $e){
-                    $_SESSION['msg_error'] .= $texts['DATABASE_ERROR'];
+                    $_SESSION['msg_error'][] = $texts['DATABASE_ERROR'];
                 }
             }
-
+            
             if($db !== false){
+                
+                $key = array_search($texts['DATABASE_ERROR'], $_SESSION['msg_error']);
+                if($key !== false) unset($_SESSION['msg_error'][$key]);
 
                 if($_SESSION['user']['type'] == "administrator"){
-
+                    
+                    $renamed = false;
+                    if($config_tmp['admin_folder'] != "")
+                        $renamed = @rename($curr_dirname, SYSBASE.$config_tmp['admin_folder']);
+                    
+                    if($renamed){
+                        if(is_file($htaccess_file)){
+                            $admin_rule = "RewriteCond %{REQUEST_URI} /".ADMIN_FOLDER."/";
+                            $new_admin_rule = "RewriteCond %{REQUEST_URI} /".$config_tmp['admin_folder']."/";
+                            
+                            $ht_content = str_replace($admin_rule, $new_admin_rule, file_get_contents($htaccess_file));
+                            if(file_put_contents($htaccess_file, $ht_content) === false)
+                                $_SESSION['msg_notice'][] = $texts['ADMIN_RULE_NOTICE']." <b>".$new_admin_rule."</b><br>";
+                        }
+                    }
+                    
                     $config_str = file_get_contents($config_file);
+                    
+                    $count = substr_count($config_str, "define(");
 
                     foreach($config_tmp as $key => $value){
-                        $key = mb_strtoupper($key, "UTF-8");
-                        $config_str = preg_replace("/define\((\"|')".$key."(\"|'),\s*(\"|')?([^\n\"']*)(\"|')?\);/i", "define(\"".$key."\", \"".$value."\");", $config_str);
+                        if($key != "admin_folder" || ($config_tmp['admin_folder'] != "" && $renamed)){
+                            $key = mb_strtoupper($key, "UTF-8");
+                            $config_str = preg_replace("/define\((\"|')".$key."(\"|'),\s*(\"|')?([^\n\"']*)(\"|')?\);/i", "define(\"".$key."\", \"".$value."\");", $config_str);
+                        }
                     }
 
-                    if(file_put_contents($config_file, $config_str) === false){
-                        $_SESSION['msg_notice'] .= $texts['CONFIG_NOTICE'];
-                        $_SESSION['msg_notice'] .= preg_replace("/(\r\n|\n|\r)/", "", nl2br(htmlentities($config_str, ENT_QUOTES, "UTF-8")));
-                    }else
-                        $_SESSION['msg_success'] .= $texts['CONFIG_SAVED'];
+                    if($config_str == "" || substr_count($config_str, "define(") != $count || file_put_contents($config_file, $config_str) === false)
+                        $_SESSION['msg_notice'][] = $texts['CONFIG_NOTICE'].preg_replace("/(\r\n|\n|\r)/", "", nl2br(htmlentities($config_str, ENT_QUOTES, "UTF-8")));
+                    else
+                        $_SESSION['msg_success'][] = $texts['CONFIG_SAVED'];
                 }
                 
                 $data = array();
@@ -166,16 +207,19 @@ if(isset($_POST['edit_settings'])){
                 if($result_user->execute() !== false){
                     $_SESSION['user']['email'] = $email;
                     $_SESSION['user']['login'] = $user;
-                    $_SESSION['msg_success'] .= $texts['PROFILE_SUCCESS'];
+                    $_SESSION['msg_success'][] = $texts['PROFILE_SUCCESS'];
                 }
-                    
-                header("Location: settings.php");
-                exit();
+                
+                if($renamed)
+                    ;//header("Location: ../".$config_tmp['admin_folder']."/settings.php");
+                else
+                    ;//header("Location: settings.php");
+                //exit();
             }
         }else
-            $_SESSION['msg_error'] .= $texts['FORM_ERRORS'];
+            $_SESSION['msg_error'][] = $texts['FORM_ERRORS'];
     }else
-        $_SESSION['msg_error'] .= $texts['BAD_TOKEN1'];
+        $_SESSION['msg_error'][] = $texts['BAD_TOKEN1'];
 }
 define("TITLE_ELEMENT", $texts['SETTINGS']);
 
@@ -210,6 +254,8 @@ $config_tmp['enable_cookies_notice'] = ENABLE_COOKIES_NOTICE;
 $config_tmp['maintenance_mode'] = MAINTENANCE_MODE;
 $config_tmp['maintenance_msg'] = MAINTENANCE_MSG;
 $config_tmp['gmaps_api_key'] = GMAPS_API_KEY;
+$config_tmp['analytics_code'] = ANALYTICS_CODE;
+$config_tmp['admin_folder'] = ADMIN_FOLDER;
 $config_tmp['payment_type'] = PAYMENT_TYPE;
 $config_tmp['paypal_email'] = PAYPAL_EMAIL;
 $config_tmp['vendor_id'] = VENDOR_ID;
@@ -241,7 +287,7 @@ $csrf_token = get_token("settings"); ?>
 <body>
     <div id="overlay"><div id="loading"></div></div>
     <div id="wrapper">
-        <?php include(SYSBASE."admin/includes/inc_top.php"); ?>
+        <?php include(SYSBASE.ADMIN_FOLDER."/includes/inc_top.php"); ?>
         
         <form id="form" class="form-horizontal" role="form" action="settings.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
@@ -482,6 +528,41 @@ $csrf_token = get_token("settings"); ?>
                                                     </label>
                                                     <div class="field-notice" rel="enable_cookies_notice"></div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb10">
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <label class="col-md-3 control-label">
+                                                    <?php echo $texts['ADMIN_FOLDER']; ?>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input class="form-control" type="text" value="" name="admin_folder">
+                                                    <div class="field-notice" rel="admin_folder"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="pt5 pb5 bg-info text-info">
+                                                <i class="fa fa-info"></i> <?php echo $texts['ADMIN_FOLDER_NOTICE']." ".$config_tmp['admin_folder']; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb10">
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <label class="col-md-3 control-label">
+                                                    <?php echo $texts['ANALYTICS_CODE']; ?>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control" name="analytics_code"><?php echo $config_tmp['analytics_code']; ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="pt5 pb5 bg-info text-info">
+                                                <i class="fa fa-info"></i> <?php echo $texts['ANALYTICS_CODE_NOTICE']; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -1068,6 +1149,6 @@ $csrf_token = get_token("settings"); ?>
 </body>
 </html>
 <?php
-$_SESSION['msg_error'] = "";
-$_SESSION['msg_success'] = "";
-$_SESSION['msg_notice'] = ""; ?>
+$_SESSION['msg_error'] = array();
+$_SESSION['msg_success'] = array();
+$_SESSION['msg_notice'] = array(); ?>

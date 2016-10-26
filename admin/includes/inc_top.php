@@ -8,16 +8,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<?php echo DOCBASE; ?>admin/"><?php echo SITE_TITLE; ?> | CMS</a>
+        <a class="navbar-brand" href="<?php echo DOCBASE.ADMIN_FOLDER; ?>/"><?php echo SITE_TITLE; ?><span class="hidden-xs"> |  CMS</span></a>
         <div class="pull-right hidden-xs" id="info-header">
             <?php echo $texts['CONNECTED_AS']; ?> <i class="fa fa-user"></i> <?php echo "<b>".$_SESSION['user']['login']."</b> (".$_SESSION['user']['type'].")"; ?>&nbsp;
-            <a href="<?php echo DOCBASE; ?>admin/login.php?action=logout"><i class="fa fa-power-off"></i> <?php echo $texts['LOG_OUT']; ?></a>
+            <a href="<?php echo DOCBASE.ADMIN_FOLDER; ?>/login.php?action=logout"><i class="fa fa-power-off"></i> <?php echo $texts['LOG_OUT']; ?></a>
         </div>
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav">
             <li>
-                <a href="<?php echo DOCBASE; ?>admin/"<?php if(strpos($_SERVER['SCRIPT_NAME'], "admin/index.php") !== false) echo " class=\"active\""; ?>>
+                <a href="<?php echo DOCBASE.ADMIN_FOLDER; ?>/"<?php if(strpos($_SERVER['SCRIPT_NAME'], ADMIN_FOLDER."/index.php") !== false) echo " class=\"active\""; ?>>
                     <i class="fa fa-dashboard"></i> <?php echo $texts['DASHBOARD']; ?>
                 </a>
             </li>
@@ -48,7 +48,7 @@
             <?php
             if($_SESSION['user']['type'] == "administrator"){ ?>
                 <li>
-                    <a href="<?php echo DOCBASE; ?>admin/settings.php"<?php if(strpos($_SERVER['SCRIPT_NAME'], "settings.php") !== false) echo " class=\"active\""; ?>>
+                    <a href="<?php echo DOCBASE.ADMIN_FOLDER; ?>/settings.php"<?php if(strpos($_SERVER['SCRIPT_NAME'], "settings.php") !== false) echo " class=\"active\""; ?>>
                         <i class="fa fa-cog"></i> <?php echo $texts['SETTINGS']; ?>
                     </a>
                 </li>

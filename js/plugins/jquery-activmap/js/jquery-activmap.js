@@ -1,4 +1,4 @@
-/* Activ'Map Plugin 1.6.6
+/* Activ'Map Plugin 1.6.7
  * Copyright (c) 2015 Pandao
  * Documentation : /doc/index.html
  */
@@ -162,7 +162,6 @@
                         maxZoom: 12,
                         gridSize: 40
                     });
-                    markerCluster.setIgnoreHidden(true);
                 }
                 _order();
                 
@@ -230,7 +229,7 @@
                         else{
                             latlng = place.geometry.location;
                             map.setCenter(place.geometry.location);
-                            map.setZoom(10);
+                            map.setZoom(s.zoom);
                             if($('.activmap-place').length) _order();
                             $('input[name="marker_type[]"]').each(function(){
                                 _update_places_tag($(this));

@@ -8,7 +8,7 @@ if(!isset($_SESSION['user'])){
     header("Location: login.php");
     exit();
 }elseif($_SESSION['user']['type'] == "registered"){
-    $_SESSION['msg_error'] = "Access denied.<br/>";
+    $_SESSION['msg_error'][] = "Access denied.";
     header("Location: login.php");
     exit();
 }
@@ -60,7 +60,7 @@ require_once("includes/fn_module.php"); ?>
                                     $query .= " AND id_user = ".$_SESSION['user']['id'];
                                 
                                 $result = @$db->query($query);
-                                if($result !== false && $db->last_row_count() == 1){
+                                if($result !== false && $db->last_row_count() > 0){
                                     $row = $result->fetch();
                                     $count = $row[0];
                                     if($dates){
@@ -115,6 +115,6 @@ require_once("includes/fn_module.php"); ?>
 </body>
 </html>
 <?php
-$_SESSION['msg_error'] = "";
-$_SESSION['msg_success'] = "";
-$_SESSION['msg_notice'] = ""; ?>
+$_SESSION['msg_error'] = array();
+$_SESSION['msg_success'] = array();
+$_SESSION['msg_notice'] = array(); ?>

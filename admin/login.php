@@ -6,14 +6,14 @@ define("TITLE_ELEMENT", $texts['DASHBOARD']." - ".$texts['LOGIN']);
 
 $action = (isset($_GET['action'])) ? $_GET['action'] : "";
 
-if(isset($_POST['login'])){
+if($db !== false && isset($_POST['login'])){
     $user = htmlentities($_POST['user'], ENT_COMPAT, "UTF-8");
     $password = $_POST['password'];
     
-    if(check_token("/admin/login.php", "login", "post")){
+    if(check_token("/".ADMIN_FOLDER."/login.php", "login", "post")){
         
         $result_user = $db->query("SELECT * FROM pm_user WHERE login = ".$db->quote($user)." AND pass = '".md5($password)."' AND checked = 1");
-        if($result_user !== false && $db->last_row_count() == 1){
+        if($result_user !== false && $db->last_row_count() > 0){
             $row = $result_user->fetch();
             $_SESSION['user']['id'] = $row['id'];
             $_SESSION['user']['login'] = $user;
@@ -22,20 +22,20 @@ if(isset($_POST['login'])){
             header("Location: index.php");
             exit();
         }else
-            $_SESSION['msg_error'] .= $texts['LOGIN_FAILED'];
+            $_SESSION['msg_error'][] = $texts['LOGIN_FAILED'];
     }else
-        $_SESSION['msg_error'] .= $texts['BAD_TOKEN2'];
+        $_SESSION['msg_error'][] = $texts['BAD_TOKEN2'];
 }
 
 if($action == "logout" && isset($_SESSION['user'])) unset($_SESSION['user']);
 
-if(isset($_POST['reset'])){
+if($db !== false && isset($_POST['reset'])){
     $email = htmlentities($_POST['email'], ENT_COMPAT, "UTF-8");
 
-    if(check_token("/admin/login.php", "login", "post")){
+    if(check_token("/".ADMIN_FOLDER."/login.php", "login", "post")){
 
         $result_user = $db->query("SELECT * FROM pm_user WHERE email = ".$db->quote($email)." AND checked = 1");
-        if($result_user !== false && $db->last_row_count() == 1){
+        if($result_user !== false && $db->last_row_count() > 0){
             $row = $result_user->fetch();
             $url = getUrl();
             $new_pass = genPass(6);
@@ -48,9 +48,9 @@ if(isset($_POST['reset'])){
             if(sendMail($email, $row['name'], "Your new password", $mailContent) !== false)
                 $db->query("UPDATE pm_user SET pass = '".md5($new_pass)."' WHERE id = ".$row['id']);
         }
-        $_SESSION['msg_success'] = "A new password has been sent to your e-mail.<br>";
+        $_SESSION['msg_success'][] = "A new password has been sent to your e-mail.<br>";
     }else
-        $_SESSION['msg_error'] .= "Bad token! Thank you for re-trying by clicking on \"New password\".<br>";
+        $_SESSION['msg_error'][] = "Bad token! Thank you for re-trying by clicking on \"New password\".<br>";
 }
 
 $csrf_token = get_token("login"); ?>
@@ -132,6 +132,6 @@ $csrf_token = get_token("login"); ?>
 </body>
 </html>
 <?php
-$_SESSION['msg_error'] = "";
-$_SESSION['msg_success'] = "";
-$_SESSION['msg_notice'] = ""; ?>
+$_SESSION['msg_error'] = array();
+$_SESSION['msg_success'] = array();
+$_SESSION['msg_notice'] = array(); ?>

@@ -74,7 +74,6 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="options" minOccurs="0" />
-				<xs:element ref="relation" minOccurs="0" />
 			</xs:sequence>
 			<xs:attribute name="validation" use="optional">
 				<xs:simpleType>
@@ -162,11 +161,23 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+    
+    <xs:element name="table">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="field" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="label" type="xs:string" use="required" />
+			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="fieldref" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="form">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="field" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="field" minOccurs="0" maxOccurs="50" />
+                <xs:element ref="table" minOccurs="0" maxOccurs="5" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -199,16 +210,6 @@
 			<xs:attribute name="fieldlabel" type="xs:string" use="optional" />
 			<xs:attribute name="order" type="xs:string" use="optional" />
 			<xs:attribute name="directory" type="xs:string" use="optional" />
-		</xs:complexType>
-	</xs:element>
-
-	<xs:element name="relation">
-		<xs:complexType>
-			<xs:attribute name="tablerel" type="xs:string" use="required" />
-			<xs:attribute name="leftidfield" type="xs:string" use="required" />
-			<xs:attribute name="rightidfield" type="xs:string" use="required" />
-			<xs:attribute name="leftlangfield" type="xs:string" use="optional" />
-			<xs:attribute name="rightlangfield" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	
