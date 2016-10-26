@@ -15,7 +15,7 @@ define("ADDRESS", "東京都世田谷区玉川2-15-12");
 define("PHONE", "090-0000-0000");
 define("MOBILE", "090-0000-0000");
 define("FAX", "090-0000-0000");
-define("DB_NAME", "hoteltest");
+define("DB_NAME", "hotel");
 define("DB_HOST", "localhost");
 define("DB_PORT", "3306");
 define("DB_USER", "root");
