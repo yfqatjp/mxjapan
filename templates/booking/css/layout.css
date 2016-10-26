@@ -456,6 +456,8 @@ body[dir="rtl"] .labels {
 .more-link {
     position: relative;
     display: block;
+    width: 360px;
+    height: 360px;
 }
 .more-action {
     position: absolute;
