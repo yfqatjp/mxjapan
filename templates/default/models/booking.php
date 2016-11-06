@@ -423,6 +423,7 @@ $javascripts[] = DOCBASE."js/plugins/owl-carousel/owl.carousel.min.js";
 
 $stylesheets[] = array("file" => DOCBASE."js/plugins/live-search/jquery.liveSearch.css", "media" => "all");
 $javascripts[] = DOCBASE."js/plugins/live-search/jquery.liveSearch.js";
+$stylesheets[] = array("file" => getFromTemplate("css/style.css"), "media" => "all");
 
 require(getFromTemplate("common/header.php", false)); ?>
 
@@ -437,8 +438,240 @@ require(getFromTemplate("common/header.php", false)); ?>
                 <?php include(getFromTemplate("common/search.php", false)); ?>
             </div>
         </div>
+
+    <?php
+        if($result_hotel !== false){
+    ?>
+    <div class="container mb20">
+        <div class="row">
+
+            <aside class="col-md-3 col-md-push-9" id="sidebar">
+                <div class="theiaStickySidebar ">
+                    <!--<div id="filter_tools">
+                        <ul>
+                            <li><a href="florence-must-see-map-listing.html" id="map_icon">Map view</a>
+                            </li>
+                            <li><a href="#0" id="grid_icon">Grid view</a>
+                            </li>
+                            <li><a href="florence-must-see-list.html" id="list_icon">List view</a>
+                            </li>
+                        </ul>
+                    </div>-->
+                    <div id="filters_col">
+                        <a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filters </a>
+                        <div class="collapse" id="collapseFilters">
+                            <p>
+                <?php echo $texts['CHECK_IN']." <b>".$from_date."</b> ".$texts['CHECK_OUT']." <b>".$to_date."</b><br>";
+                if(isset($num_nights) && $num_nights > 0) echo "<b>".$num_nights."</b> ".$texts['NIGHTS']." - ";
+                echo "<b>".($num_adults+$num_children)."</b> ".$texts['PERSONS']; ?>
+            </p>
+            <div class="alert alert-success" style="display:none;"></div>
+            <div class="alert alert-danger" style="display:none;"></div>
+                            <!--<div class="filter_type">
+                                <h6>Duration</h6>
+                                <input type="text" id="range" name="range" value="">
+                            </div>
+                            <div class="filter_type">
+                                <h6>Review score</h6>
+                                <ul>
+                                    <li>
+                                        <label>Superb: 9+ (77)</label>
+                                        <input type="checkbox" class="js-switch" checked>
+                                    </li>
+                                    <li>
+                                        <label>Very good: 8+ (552)</label>
+                                        <input type="checkbox" class="js-switch">
+                                    </li>
+                                    <li>
+                                        <label>Good: 7+ (909)</label>
+                                        <input type="checkbox" class="js-switch">
+                                    </li>
+                                    <li>
+                                        <label>Pleasant: 6+ (1196)</label>
+                                        <input type="checkbox" class="js-switch">
+                                    </li>
+                                    <li>
+                                        <label>No rating (198)</label>
+                                        <input type="checkbox" class="js-switch">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="filter_type">
+                                <h6>Type</h6>
+                                <ul>
+                                    <li>
+                                        <label>Historic (77)</label>
+                                        <input type="checkbox" class="js-switch" checked>
+                                    </li>
+                                    <li>
+                                        <label>Monumets (552)</label>
+                                        <input type="checkbox" class="js-switch">
+                                    </li>
+                                    <li>
+                                        <label>Interesting (909)</label>
+                                        <input type="checkbox" class="js-switch">
+                                    </li>
+                                    <li>
+                                        <label>Architectural (1196)</label>
+                                        <input type="checkbox" class="js-switch">
+                                    </li>
+                                </ul>
+                            </div>-->
+                        </div>
+                        <!--End collapse -->
+                    </div>
+                    <!--End filters col-->
+                </div>
+                <!--End Sticky -->
+            </aside>
+            <!--End aside -->
+
+            <div class="col-md-9 col-md-pull-3">
+                <div class="row">
+                    <?php
+                        foreach($result_hotel as $i => $row){
+                            $id_hotel = $row['id'];
+                            $hotel_title = $row['title'];
+                            $hotel_alias = $row['alias'];
+                            $hotel_subtitle = $row['subtitle'];
+                            $hotel_descr = $row['descr'];
+                            $hotel_facilities = $row['facilities'];
+                            $hotel_lat = $row['lat'];
+                            $hotel_lng = $row['lng'];
+                    ?>
+                    <div class="col-sm-6 wow fadeIn" data-wow-delay="0.1s">
+                        <div class="img_wrapper">
+                            <div class="ribbon">
+                                <span>Popular</span>
+                            </div>
+                            <div class="tools_i">
+                                <form action="http://maps.google.com/maps" method="get" target="_blank" class="directions_list">
+                                    <input type="hidden" name="daddr" value="<?php echo $hotel_lat;?>, <?php echo $hotel_lng;?>">
+                                    <button type="submit" class="tooltip_styled tooltip-effect-4">
+                                        <span class="tooltip-item"></span>
+                                        <span class="tooltip-content">Directions</span>
+                                    </button>
+                                </form>
+                                <div class="wishlist">
+                                    <a class="tooltip_styled tooltip-effect-4"><span class="tooltip-item"></span>
+                                    <div class="tooltip-content"> Bookmark</div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End tools i-->
+                            <div class="img_container">
+                                <a href="<?php echo DOCBASE.$sys_pages['hotels']['alias']."/".text_format($hotel_alias); ?>" title="<?php echo $texts['READMORE']; ?>">
+                                    <?php
+                                        $result_hotel_file->execute();
+                                        if($result_hotel_file !== false && $db->last_row_count() > 0){
+                                            $row = $result_hotel_file->fetch(PDO::FETCH_ASSOC);
+
+                                            $file_id = $row['id'];
+                                            $filename = $row['file'];
+                                            $label = $row['label'];
+
+                                            $realpath = SYSBASE."medias/hotel/medium/".$file_id."/".$filename;
+                                            $thumbpath = DOCBASE."medias/hotel/medium/".$file_id."/".$filename;
+                                            $zoompath = DOCBASE."medias/hotel/big/".$file_id."/".$filename;
+
+                                            if(is_file($realpath)){ ?>
+                                                <img src="<?php echo $thumbpath;?>" width="800" height="533" class="img-responsive" alt="<?php echo $label; ?>">
+                                                <?php
+                                            }
+                                        } 
+                                    ?>
+                                    <div class="short_info">
+                                        <small>1.30 min</small>
+                                        <h3><?php echo $hotel_title; ?></h3>
+                                        <em><?php echo $hotel_subtitle; ?></em>
+                                        <p>
+                                            <?php echo strtrunc(strip_tags($hotel_descr), 120); ?>
+                                        </p>
+                                        <p>
+                                            <?php
+                                                $result_hotel_facilities->execute();
+                                                if($result_hotel_facilities !== false && $db->last_row_count() > 0){
+                                                    foreach($result_hotel_facilities as $row){
+                                                        $id_facility = $row['id'];
+                                                        $facility_name = $row['name'];
+                                                        
+                                                        $result_facility_file->execute();
+                                                        if($result_facility_file !== false && $db->last_row_count() > 0){
+                                                            $row = $result_facility_file->fetch();
+                                                            
+                                                            $file_id = $row['id'];
+                                                            $filename = $row['file'];
+                                                            $label = $row['label'];
+                                                            
+                                                            $realpath = SYSBASE."medias/facility/big/".$file_id."/".$filename;
+                                                            $thumbpath = DOCBASE."medias/facility/big/".$file_id."/".$filename;
+                                                                
+                                                            if(is_file($realpath)){ ?>
+                                                                <span class="facility-icon">
+                                                                    <img alt="<?php echo $facility_name; ?>" title="<?php echo $facility_name; ?>" src="<?php echo $thumbpath; ?>" class="tips">
+                                                                </span>
+                                                                <?php
+                                                            }
+                                                        }
+                                                    } 
+                                                } ?>
+                                        </p>
+                                        <div class="score_wp">Superb
+                                            <div id="score_1" class="score" data-value="7.5"></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- End img_wrapper -->
+                    </div>
+                    <!-- End col-md-6 -->
+
+                    <?php
+                        }
+                    ?>
+                </div>
+                <!-- End row -->
+                <nav>
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                        </li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li><a href="#">2</a>
+                        </li>
+                        <li><a href="#">3</a>
+                        </li>
+                        <li><a href="#">4</a>
+                        </li>
+                        <li><a href="#">5</a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- End col lg 9 -->
+        </div>
+        <!-- End row -->
+    </div>
+    <!-- End container -->
+    <!-- Fixed sidebar + Input Range + Carousel + Switch-->
+    <script src="js/theia-sticky-sidebar.min.js"></script>
+    <script>
+        'use strict';
+        jQuery('#sidebar').theiaStickySidebar({
+            additionalMarginTop: 80
+        });
+    </script>
+    <?php
+        }
+    ?>
         
-        <div class="container boxed mb20">
+        <!--<div class="container boxed mb20">
             <p>
                 <?php echo $texts['CHECK_IN']." <b>".$from_date."</b> ".$texts['CHECK_OUT']." <b>".$to_date."</b><br>";
                 if(isset($num_nights) && $num_nights > 0) echo "<b>".$num_nights."</b> ".$texts['NIGHTS']." - ";
@@ -447,7 +680,7 @@ require(getFromTemplate("common/header.php", false)); ?>
             <div class="alert alert-success" style="display:none;"></div>
             <div class="alert alert-danger" style="display:none;"></div>
         </div>
-        
+
         <?php
         if($page['text'] != ""){ ?>
             <div class="container mb20"><?php echo $page['text']; ?></div>
@@ -813,6 +1046,6 @@ require(getFromTemplate("common/header.php", false)); ?>
                 </div>
                 <?php
             }
-        } ?>
+        } ?>-->
     </div>
 </section>

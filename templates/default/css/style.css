@@ -1,0 +1,392 @@
+/*-------- 2.2 Grid page  --------*/
+#filters_col{
+	background-color:#fff;
+	padding:20px 20px 20px 20px;
+	 border: 1px solid #ededed;
+	 -webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin-bottom:25px;
+}
+#filters_col label{
+	color:#555;
+	font-weight:normal;
+	font-size:12px;
+}
+a#filters_col_bt {
+	display:block;
+	color:#333;
+	position:relative;
+	font-size:16px;
+}
+a#filters_col_bt:before{
+	font-family: "ElegantIcons";
+  	content: "\66";
+	font-size:26px;
+	position:absolute;
+	right:0;
+	top:0;
+	line-height:1;
+}
+.filter_type h6{
+	border-top: 1px solid #ddd;
+	margin:15px 0;
+	padding:15px 0 0 0;
+	font-size:13px;
+}
+.filter_type ul{
+	list-style:none;
+	padding:0;
+	margin:0 0 15px 0;
+}
+.filter_type ul li{
+	margin-bottom:10px;
+}
+.filter_type ul li:last-child{
+	margin-bottom:0;
+}
+#filter_tools ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+	width:100%;
+	text-align:center;
+}
+#filter_tools ul li {
+	display:inline-block;
+	width:32%;
+	margin-bottom:20px;
+}
+#filter_tools ul li a{
+	-webkit-border-radius: 5px;
+	display:block;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color:#fff;
+	border: 1px solid #ededed;
+	padding:10px;
+	font-size:11px;
+	width:100%;
+	text-align:center;
+	color:#999;
+}
+#filter_tools ul li a#grid_icon:before, #filter_tools ul li a#list_icon:before, #filter_tools ul li a#map_icon:before{
+	display:block;
+	font-size:24px;
+	color:#1aa79b;
+	font-family: "ElegantIcons";
+}
+#filter_tools ul li a#grid_icon:hover:before, #filter_tools ul li a#list_icon:hover:before, #filter_tools ul li a#map_icon:hover:before{
+	color:#ed145b;
+}
+#filter_tools ul li a#grid_icon:before{
+  	content: "\e025";
+}
+#filter_tools ul li a#list_icon:before{
+  	content: "\64";
+}
+#filter_tools ul li a#map_icon:before{
+  	content: "\e01d";
+}
+.img_wrapper{
+	background-color:#000;
+	margin:0;
+	margin-bottom:30px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	position:relative;
+}
+.img_container a:hover img {
+	-webkit-transform:scale(1.2);
+	transform:scale(1.2);
+	opacity:0.4;
+}
+.img_container img {
+	-webkit-transform:scale(1);
+	transform:scale(1);
+	-moz-transition: all 0.4s;
+	-webkit-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+	opacity:0.8;
+}
+.img_container{
+	position:relative;
+	overflow: hidden;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	z-index:0;
+}
+.short_info {
+	position:absolute;
+	left:0;
+	bottom:0;
+	background: url(../images/shadow_tour.png) repeat-x left bottom;
+	width:100%;
+	padding:25px 15px 15px 20px;
+	color:#fff;
+	font-size:13px;
+	 -webkit-transition: all 0.4s ease;
+  -moz-transition:    all 0.4s ease;
+  -o-transition:      all 0.4s ease;
+}
+.short_info h3{
+	font-size:20px;
+	color:#fff;
+	margin:0;
+	padding:0;
+}
+.short_info small{
+	font-weight:bold;
+}
+.short_info em{
+	font-style:normal;
+	opacity:0.8;
+}
+.short_info p{
+	opacity:0;
+	display:none;
+	padding-top:10px;
+	line-height:1.2;
+	color: #fff;
+}
+.img_container a:hover .short_info{
+	padding-bottom:13%;
+}
+.img_container a:hover .short_info p{
+	display:block;
+	opacity:1;
+}
+.score text{
+	font-size:13px !important;
+}
+.score_wp{
+	position:absolute;
+	right:8px;
+	bottom:10px;
+	font-size:12px;
+	color:#999;
+	width:110px;
+	text-align:right;
+	height:50px;
+	line-height:50px;
+	padding-right:50px;
+}
+.score{
+	width:50px;
+	height:50px;
+	position:absolute;
+	right:0;
+	top:0;
+}
+.wishlist{
+	position:absolute;
+	top:18px;
+	right:18px;
+	width:18px;
+	height:26px;
+	z-index:2;
+	font-size:26px;
+	display:block;
+	cursor:pointer;
+	color: #FFF;
+	padding:0;
+	line-height:1;
+}
+.wishlist .tooltip-item:before{
+  font-family: "fontello";
+  content: "\eeab";
+}
+.wishlist a, .directions_list button, .directions_list_map a {
+	color:#fff;
+}
+.wishlist a:hover, .directions_list button:hover, .directions_list_map a:hover {
+	color:#f26522;
+}
+.directions_list{
+	position:absolute;
+	top:18px;
+	right:50px;
+	width:26px;
+	height:26px;
+	z-index:2;
+	font-size:26px;
+	display:block;
+	cursor:pointer;
+	color: #FFF;
+	line-height:1;
+}
+.directions_list button{
+	background:none;
+	padding:0;
+	border:0;
+	outline:none;
+}
+.directions_list button .tooltip-item:before{
+  font-family: "ElegantIcons";
+  content: "\e01c";
+}
+.directions_list_map{
+	position:absolute;
+	top:18px;
+	right:50px;
+	width:26px;
+	height:26px;
+	z-index:2;
+	font-size:26px;
+	display:block;
+	cursor:pointer;
+	color: #FFF;
+	line-height:1;
+}
+.directions_list_map .tooltip-item:before{
+	font-family: "ElegantIcons";
+  content: "\e01d";
+}
+
+
+/*-------- 4.6 Ribbons --------*/
+.ribbon {
+  position: absolute;
+  left:-5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; left: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon.top span {
+  background: linear-gradient(#2989d8 0%, #1e5799 100%);
+}
+.ribbon.top span::before {
+  border-left: 3px solid #1e5799;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #1e5799;
+}
+.ribbon.top span::after {
+  border-left: 3px solid transparent;
+  border-right: 3px solid #1e5799;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #1e5799;
+}
+
+
+/*-------- 4.3 Tooltips --------*/
+.tooltip_styled {
+	display: inline;
+	position: relative;
+	z-index: 999999;
+}
+.tooltip-item {
+	cursor: pointer;
+	display: inline-block;
+}
+.tooltip-content {
+	position: absolute;
+	z-index: 999999;
+	width: 80px;
+	left: 50%;
+	margin: 0 0 12px -40px;
+	bottom: 100%;
+	text-align: center;
+	line-height: 1.2;
+	display: block;
+	padding: 10px;
+	text-align:center;
+	font-size:12px;
+	color: #fff;
+	box-shadow: -5px -5px 15px rgba(48,54,61,0.2);
+	background: #333;
+	opacity: 0;
+	cursor: default;
+	pointer-events: none;
+	font-weight: 600;
+}
+.tooltip-effect-1 .tooltip-content {
+	-webkit-transform: translate3d(0,-10px,0);
+	transform: translate3d(0,-10px,0);
+	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+	transition: opacity 0.3s, transform 0.3s;
+}
+.tooltip-effect-2 .tooltip-content {
+	-webkit-transform-origin: 50% calc(100% + 10px);
+	transform-origin: 50% calc(100% + 10px);
+	-webkit-transform: perspective(1000px) rotate3d(1,0,0,45deg);
+	transform: perspective(1000px) rotate3d(1,0,0,45deg);
+	-webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+	transition: opacity 0.2s, transform 0.2s;
+}
+.tooltip-effect-3 .tooltip-content {
+	-webkit-transform: translate3d(0,10px,0) rotate3d(1,1,0,25deg);
+	transform: translate3d(0,10px,0) rotate3d(1,1,0,25deg);
+	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+	transition: opacity 0.3s, transform 0.3s;
+}
+.tooltip-effect-4 .tooltip-content {
+	-webkit-transform-origin: 50% 100%;
+	transform-origin: 50% 100%;
+	-webkit-transform: scale3d(0.7,0.3,1);
+	transform: scale3d(0.7,0.3,1);
+	-webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+	transition: opacity 0.2s, transform 0.2s;
+}
+.tooltip_styled:hover .tooltip-content {
+	pointer-events: auto;
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0) rotate3d(0,0,0,0);
+	transform: translate3d(0,0,0) rotate3d(0,0,0,0);
+}
+.tooltip_styled.tooltip-effect-2:hover .tooltip-content {
+	-webkit-transform: perspective(1000px) rotate3d(1,0,0,0deg);
+	transform: perspective(1000px) rotate3d(1,0,0,0deg);
+}
+.tooltip-content::after {
+	content: '';
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: transparent;
+	border-top-color: #333;
+	border-width: 10px;
+	margin-left: -10px;
+}
