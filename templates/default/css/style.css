@@ -1,3 +1,7 @@
+.navbar-fixed-top{
+	position: absolute !important;
+}
+
 /*-------- 2.2 Grid page  --------*/
 #filters_col{
 	background-color:#fff;
