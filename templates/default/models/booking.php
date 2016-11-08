@@ -581,7 +581,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                                         } 
                                     ?>
                                     <div class="short_info">
-                                        <small>1.30 min</small>
+                                        <!--<small>1.30 min</small>-->
                                         <h3><?php echo $hotel_title; ?></h3>
                                         <em><?php echo $hotel_subtitle; ?></em>
                                         <p>
@@ -616,9 +616,9 @@ require(getFromTemplate("common/header.php", false)); ?>
                                                     } 
                                                 } ?>
                                         </p>
-                                        <div class="score_wp">Superb
+                                        <!--<div class="score_wp">Superb
                                             <div id="score_1" class="score" data-value="7.5"></div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </a>
                             </div>
