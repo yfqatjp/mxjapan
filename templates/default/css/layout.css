@@ -150,6 +150,7 @@ blockquote p {
 }
 .navbar-fixed-top {
     border: none;
+    position: absolute !important;;
 }
 .navbar-collapse {
     padding: 0;
