@@ -279,9 +279,9 @@ if($db !== false){
                     if($action == "add" && (in_array("add", $permissions) || in_array("all", $permissions))){
                             
                         $result_insert = db_prepareInsert($db, "pm_".MODULE, $data);
-                        
+                        $result_insert->bindValue(":alias", 0);
                         add_item($db, MODULE, $result_insert, $id_lang);
-
+                        $db->query("UPDATE pm_".MODULE." SET alias = '.$id.' WHERE id = ".$id);
                     }elseif($action == "edit" && (in_array("edit", $permissions) || in_array("all", $permissions))){
                         
                         $query_exist = "SELECT * FROM pm_".MODULE." WHERE id = ".$id;
