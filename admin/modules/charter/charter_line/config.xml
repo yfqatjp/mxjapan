@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module title="服务路线" name="charter_line" multi="0" library="0" dashboard="1" icon="road" ranking="0" home="0" main="0" validation="0" dates="1" release="0" index="32">
+	<!-- resizing
+	[0] 1 single image
+	[1] 1x big, 1x medium, 1x small -->
+	<medias max="20" resizing="1">
+		<big maxw="1920" maxh="1440"/>
+		<medium maxw="600" maxh="600"/>
+		<small maxw="400" maxh="400"/>
+	</medias>
+	<list order="id_charter, id">
+		<col label="包车服务" name="id_charter" table="pm_charter" fieldvalue="title" fieldref="id"/>
+		<col label="行程名称" name="line_name" type="none"/>
+	</list>
+	<form>
+		<!-- 服务明细 -->
+		<field multi="0" label="包车服务" name="id_charter" type="select" required="1" unique="0" validation="none">
+            <options table="pm_charter" fieldlabel="id - title | subtitle" fieldvalue="id" order="title"></options>
+        </field>
+		<field multi="0" label="行程名称" name="line_name" type="text" required="1" unique="0" validation="none"/>
+		<field multi="0" label="到达时间" name="arrive_time" type="text" required="0" unique="0" validation="none"/>
+		<field multi="0" label="景点/餐饮/交通" name="line_detail" type="textarea" editor="1" required="1" unique="0" validation="none"/>
+		<field multi="0" label="酒店" name="hotel" type="textarea" editor="1" required="0" unique="0" validation="none"/>
+		<field multi="0" label="注意事项" name="note" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+		<field multi="0" label="个人评价" name="self_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+	</form>
+    <roles>
+        <user type="administrator" permissions="all"/>
+        <user type="manager" permissions="all"/>
+        <user type="editor" permissions="no_access"/>
+        <user type="charter" permissions="edit,upload,add"/>
+    </roles>
+</module>

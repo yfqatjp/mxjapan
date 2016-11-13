@@ -67,6 +67,11 @@ function checkFields($db, $fields, $id)
                 }
             }
         }
+        /* @jeff 包车服务  start */
+        if ($field->getNotice() != null && !empty($field->getNotice())) {
+        	$valid = false;
+        }
+        /* @jeff 包车服务  end */
     }
     return $valid;
 }
@@ -176,7 +181,17 @@ function getFieldsFromNode($db, $itemList)
                     }
                 }
             }
-            $fields[$name] = new Field($name, $label, $type, $required, $validation, $options, $multilingual, $unique, $comment, $active, $editor, $optionTable, $roles);
+            
+            /* @jeff 包车服务  start */
+            //$fields[$name] = new Field($name, $label, $type, $required, $validation, $options, $multilingual, $unique, $comment, $active, $editor, $optionTable, $roles);
+            $fieldObject = new Field($name, $label, $type, $required, $validation, $options, $multilingual, $unique, $comment, $active, $editor, $optionTable, $roles);
+            // 标签索引
+            $tabindex = htmlentities($item->getAttribute("tabindex"), ENT_QUOTES, "UTF-8");
+            if($tabindex != null && $tabindex > 0) {
+            	$fieldObject->setTabindex($tabindex);
+            }
+            $fields[$name] = $fieldObject;
+            /* @jeff 包车服务  end */
         }
     }
     return $fields;
@@ -325,12 +340,27 @@ function displayField($field, $table, $index, $id_lang)
             }
         break;
         case "radio" :
-            foreach($options as $option){
-                $key = key($options);
-                $checked = ($value == $key) ? " checked=\"checked\"" : "";        
-                echo "<label class=\"radio-inline\"><input name=\"".$inputname."\" type=\"radio\"".$str_active." value=\"".$key."\"".$checked.">&nbsp;".$options[$key]."</label>\n";
-                next($options);
+            /* @jeff 包车服务  start */
+            if ($active == 0) {
+            	$checkText = "";
+            	foreach($options as $option){
+            		$key = key($options);
+            		if ($value == $key) {
+            			$checkText = $options[$key];
+            		}
+            	}
+            	echo "<input type=\"text\"".$str_active." name=\"".$inputname."_text\" value=\"".$checkText."\" class=\"form-control\"/>\n";
+            	echo "<input type=\"hidden\""." name=\"".$inputname."\" value=\"".$value."\" />\n";
+            } else {
+            	foreach($options as $option){
+            		$key = key($options);
+            		$checked = ($value == $key) ? " checked=\"checked\"" : "";
+            		echo "<label class=\"radio-inline\"><input name=\"".$inputname."\" type=\"radio\"".$str_active." value=\"".$key."\"".$checked."/>&nbsp;".$options[$key]."</label>\n";
+            		next($options);
+            		$i++;
+            	}
             }
+            /* @jeff 包车服务  end */
         break;
         case "date" :
         case "datetime" :
@@ -420,4 +450,243 @@ function getNumMaxRows($fields, $tableName)
         if($numRows > $maxRows) $maxRows = $numRows;
     }
     return $maxRows;
+}
+
+
+/***********************************************************************
+ * displayFieldsForTab()
+ *
+ * @param $fields collection of field objects
+ * @param $id_lang ID of the current language
+ *
+ * @return void
+ *
+ */
+function displayFieldsForTab($fields, $tabId)
+{
+	foreach($fields as $field){
+
+		$type = $field->getType();
+		$label = $field->getLabel();
+		$name = $field->getName();
+		$required = $field->isRequired();
+		$options = $field->getOptions();
+		$editor = $field->isEditor();
+		$multilingual = $field->isMultilingual();
+		$validation = $field->getValidation();
+		$comment = $field->getComment();
+		$notice = $field->getNotice();
+		$active = $field->isActive();
+
+		$value = $field->getValue(true);
+		if(!is_array($value)) $value = stripslashes($field->getValue(true));
+
+		$str_active = ($active == 0) ? " readonly=\"readonly\"" : "";
+
+		$inputname = $name;
+		$tabindex = $field->getTabindex();
+
+		$i = 0;
+
+		if($tabId == $tabindex){
+
+			if($type == "separator"){ ?>
+                <div class="row mb10">
+                    <div class="col-lg-12">
+                        <p><big><b><?php echo $label; ?></b></big></p>
+                        <hr class="mt0 mb0">
+                    </div>
+                </div>
+                <?php
+            }elseif($type != "current_date"){
+                $class = "";
+                if(($type == "text" && $validation == "numeric")
+                    || $type == "select"
+                    || $type == "filelist"
+                    || $type == "multiselect"
+                    || $type == "date"
+                    || $type == "datetime")
+                    $class .= " form-inline";
+                if($notice != "")
+                    $class .= " has-error has-feedback"; ?>
+                
+                <div class="row mb10">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <label class="col-lg-3 control-label">
+                                <?php
+                                echo $label;
+                                if($required) echo "&nbsp;<span class=\"red\">*</span>\n"; ?>
+                            </label>
+                            <div class="col-lg-9">
+                                <div class="<?php echo $class; ?>">
+                                    <?php
+                                    switch($type){
+                                        case "text" :
+                                        case "alias" :
+                                            echo "<input type=\"text\"".$str_active." name=\"".$inputname."\" value=\"".$value."\" class=\"form-control\"/>\n";
+                                        break;
+                                        case "password" :
+                                            echo "<input type=\"password\"".$str_active." name=\"".$inputname."\" value=\"\" size=\"30\" class=\"form-control\"/>\n";
+                                        break;
+                                        case "textarea" :
+                                            echo "<textarea name=\"".$inputname."\"".$str_active." id=\"".$inputname."\" cols=\"40\" rows=\"5\" class=\"form-control\">".$value."</textarea>\n";
+                                        break;
+                                        case "select" :
+                                        case "filelist" :
+                                            echo "<select name=\"".$inputname."\"".$str_active." class=\"form-control\">\n";
+                                            
+                                            if(!$required) echo "<option value=\"\">-</option>\n";
+                                            
+                                            foreach($options as $option){
+                                                $key = key($options);
+                                                $selected = ($value == $key) ? " selected=\"selected\"" : "";
+                                                echo "<option value=\"".$key."\"".$selected.">".$options[$key]."</option>\n";
+                                                next($options);
+                                            }
+                                            echo "</select>\n";
+                                        break;
+                                        case "multiselect" :
+                                            $size = (count($options) > 4) ? 8 : 4;
+                                            $selected = array();
+                                            $value = explode(",", $value);
+                                            
+                                            echo "<select name=\"".$inputname."_tmp[]\" multiple=\"multiple\" id=\"".$inputname."_tmp\" size=\"".$size."\"".$str_active." class=\"form-control\">\n";
+                                            
+                                            foreach($options as $key => $option){
+                                                if((is_array($value) && !in_array($key, $value)) || (!is_array($value) && $key != $value))
+                                                    echo "<option value=\"".$key."\">".$options[$key]."</option>\n";
+                                            }
+                                            echo "</select>";
+                                            
+                                            echo "
+                                                <a href=\"#\" class=\"btn btn-default remove_option\" rel=\"".$inputname."\"><i class=\"fa fa-arrow-left\"></i></a>
+                                                <a href=\"#\" class=\"btn btn-default add_option\" rel=\"".$inputname."\"><i class=\"fa fa-arrow-right\"></i></a>
+                                                <select name=\"".$inputname."[]\" multiple=\"multiple\" id=\"".$inputname."\" size=\"".$size."\"".$str_active." class=\"form-control\">\n";
+                                                foreach($options as $key => $option){
+                                                    if(((is_array($value) && in_array($key, $value)) || (!is_array($value) && $key == $value)) && $key != "")
+                                                        echo "<option value=\"".$key."\" selected=\"selected\">".$options[$key]."</option>\n";
+                                                }
+                                                echo "</select>\n";
+                                        break;
+                                        case "checkbox" :
+                                            foreach($options as $option){
+                                                $key = key($options);
+                                                $checked = ($value == $key) ? " checked=\"checked\"" : "";                    
+                                                echo "<label class=\"checkbox-inline\"><input name=\"".$inputname."[]\" type=\"checkbox\"".$str_active." value=\"".$key."\"".$checked."/>&nbsp;".$options[$key]."</label>\n";
+                                                next($options);
+                                                $i++;
+                                            }
+                                        break;
+                                        case "radio" :
+                                        	if ($active == 0) {
+                                        		$checkText = "";
+                                        		foreach($options as $option){
+                                        			$key = key($options);
+                                        			if ($value == $key) {
+                                        				$checkText = $options[$key];
+                                        			}
+                                        		}
+                                        		echo "<input type=\"text\"".$str_active." name=\"".$inputname."_text\" value=\"".$checkText."\" class=\"form-control\"/>\n";
+                                        		echo "<input type=\"hidden\""." name=\"".$inputname."\" value=\"".$value."\" />\n";
+                                        	} else {
+	                                            foreach($options as $option){
+	                                                $key = key($options);
+	                                                $checked = ($value == $key) ? " checked=\"checked\"" : "";        
+	                                                echo "<label class=\"radio-inline\"><input name=\"".$inputname."\" type=\"radio\"".$str_active." value=\"".$key."\"".$checked."/>&nbsp;".$options[$key]."</label>\n";
+	                                                next($options);
+	                                                $i++;
+	                                            }
+                                        	}
+                                        break;
+                                        case "date" :
+                                        case "datetime" :
+                                            if($value == "" || $value == 0) $value = ($required) ? time() : NULL;
+                                            
+                                            if(is_numeric($value)){
+                                                $day = date("j", $value);
+                                                $month = date("n", $value);
+                                                $year = date("Y", $value);
+                                            }else{
+                                                $day = "";
+                                                $month = "";
+                                                $year = "";
+                                            }
+                                            if($type == "datetime"){
+                                                if(is_numeric($value)){
+                                                    $hour = date("H", $value);
+                                                    $minute = date("i", $value);
+                                                }else{
+                                                    $hour = "";
+                                                    $minute = "";
+                                                }
+                                            }
+                                            
+                                            echo "<select name=\"".$inputname."_year\"".$str_active." class=\"form-control\">\n";
+                                            echo "<option value=\"\">-</option>";
+                                                for($i = date("Y") + 4; $i >= date("Y") - 90; $i--){
+                                                    $selected = ($i == $year) ? " selected=\"selected\"" : "";
+                                                    echo "<option value=\"".$i."\"".$selected.">".$i."</option>\n";
+                                                }
+                                            echo "</select>&nbsp;/&nbsp;\n";
+                                            
+                                            echo "<select name=\"".$inputname."_month\"".$str_active." class=\"form-control\">\n";
+                                            echo "<option value=\"\">-</option>";
+                                                for($i = 1; $i <= 12; $i++){
+                                                    $selected = ($i == $month) ? " selected=\"selected\"" : "";
+                                                    echo "<option value=\"".$i."\"".$selected.">".$i."</option>\n";
+                                                }
+                                            echo "</select>&nbsp;/&nbsp;\n";
+                                            
+                                            echo "<select name=\"".$inputname."_day\"".$str_active." class=\"form-control\">\n";
+                                            echo "<option value=\"\">-</option>";
+                                                for($i = 1; $i <= 31; $i++){
+                                                    $selected = ($i == $day) ? " selected=\"selected\"" : "";
+                                                    echo "<option value=\"".$i."\"".$selected.">".$i."</option>\n";
+                                                }
+                                            echo "</select>\n";
+                                            
+                                            if($type == "datetime"){
+                                                echo "&nbsp;at&nbsp;\n<select name=\"".$inputname."_hour\"".$str_active." id=\"".$inputname."_hour\" class=\"form-control\">\n";
+                                                echo "<option value=\"\">-</option>";
+                                                    for($i = 0; $i <= 23; $i++){
+                                                        $selected = ($i == $hour) ? " selected=\"selected\"" : "";
+                                                        echo "<option value=\"".$i."\"".$selected.">".$i."</option>\n";
+                                                    }
+                                                echo "</select>&nbsp;:&nbsp;\n";
+                                                
+                                                echo "<select name=\"".$inputname."_minute\"".$str_active." id=\"".$inputname."_minute\" class=\"form-control\">\n";
+                                                echo "<option value=\"\">-</option>";
+                                                    for($i = 0; $i <= 59; $i++){
+                                                        $selected = ($i == $minute) ? " selected=\"selected\"" : "";
+                                                        echo "<option value=\"".$i."\"".$selected.">".$i."</option>\n";
+                                                    }
+                                                echo "</select>\n";
+                                            }
+                                        break;
+                                    }
+                                    if($notice != ""){ ?>
+                                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                        <?php
+                                    }
+                                    if($notice != ""){ ?>
+                                        <p class="help-block"><?php echo $notice; ?></p>
+                                        <?php
+                                    } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    if($comment != ""){ ?>
+                        <div class="col-lg-4">
+                            <div class="pt5 pb5 bg-info text-info"><i class="fa fa-info"></i> <?php echo $comment; ?></div>
+                        </div>
+                        <?php
+                    } ?>
+                </div>
+                <?php
+            }
+        }
+    }
 }

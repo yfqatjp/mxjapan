@@ -76,6 +76,11 @@ require_once(SYSBASE.ADMIN_FOLDER."/includes/fn_form.php");
 $fields = getFields($db);
 if(is_null($fields)) $fields = array();
 
+/* @jeff 包车服务  start */
+// 应用的前期处理
+$hotelApp->beforeAction($fields, $id);
+/* @jeff 包车服务  end */
+
 // Getting datas in the database
 if($db !== false){
     $result = $db->query("SELECT * FROM pm_".MODULE." WHERE id = ".$id);

@@ -23,7 +23,7 @@
             </li>
             <li class="dropdown">
                 <a data-target="#module-menu" data-toggle="collapse" href="#"><i class="fa fa-th"></i> <?php echo $texts['MODULES']; ?> <i class="fa fa-angle-down"></i></a>
-                <ul class="<?php if(array_key_exists($dirname, $modules)) echo "in"; else echo "collapse"; ?>" role="menu" id="module-menu">
+                <ul class="<?php if(array_key_exists($dirname, $indexes)) echo "in"; else echo "collapse"; ?>" role="menu" id="module-menu">
                     <?php
                     foreach($modules as $module){
 

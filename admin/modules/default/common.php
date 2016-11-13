@@ -29,6 +29,11 @@ if(in_array("no_access", $permissions) || empty($permissions)){
     exit();
 }
 
+/* @jeff 包车服务  start */
+// 后台应用追加
+@require_once(SYSBASE."common/admin.php");
+/* @jeff 包车服务  end */
+
 require_once(SYSBASE.ADMIN_FOLDER."/includes/fn_actions.php");
 
 if(NB_FILES > 0){

@@ -11,6 +11,7 @@
 						<xs:enumeration value="editor" />
 						<xs:enumeration value="registered" />
 						<xs:enumeration value="hotel" />
+						<xs:enumeration value="charter" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -151,7 +152,7 @@
 				<xs:simpleType>
                     <xs:annotation>
                         <xs:documentation>
-                            administrator,manager,editor,registered,hotel
+                            administrator,manager,editor,registered,hotel,charter
                         </xs:documentation>
                     </xs:annotation>
 					<xs:restriction base="xs:string">
@@ -159,6 +160,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
+			<xs:attribute name="tabindex" type="xs:integer" use="optional" />
 		</xs:complexType>
 	</xs:element>
     
