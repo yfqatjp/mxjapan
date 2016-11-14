@@ -66,12 +66,12 @@ function checkFields($db, $fields, $id)
                     }
                 }
             }
+	        /* @jeff 包车服务  start */
+	        if ($field->getNotice() != null && !empty($field->getNotice())) {
+	        	$valid = false;
+	        }
+	        /* @jeff 包车服务  end */
         }
-        /* @jeff 包车服务  start */
-        if ($field->getNotice() != null && !empty($field->getNotice())) {
-        	$valid = false;
-        }
-        /* @jeff 包车服务  end */
     }
     return $valid;
 }
