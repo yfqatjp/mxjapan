@@ -363,9 +363,8 @@ if($result_slide !== false){
                     $hotel_alias = DOCBASE.$pages[9]['alias']."/".text_format($row['alias']); ?>
                     
                     <article class="col-sm-4 mb20" itemscope itemtype="http://schema.org/LodgingBusiness">
-                      <!--   <a itemprop="url" href="<?php echo $hotel_alias; ?>" class="moreLink">
-                       -->
-                          <a itemprop="url" href="" class="moreLink">
+                         <a itemprop="url" href="<?php echo $hotel_alias; ?>" class="moreLink">
+                         
                             <?php
                             if($result_hotel_file->execute() !== false && $db->last_row_count() == 1){
                                 $row = $result_hotel_file->fetch(PDO::FETCH_ASSOC);
