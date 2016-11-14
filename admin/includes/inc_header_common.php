@@ -34,6 +34,10 @@ if(defined("TEMPLATE")){ ?>
         <?php
         if(isset($_SESSION['msg_error']) && isset($_SESSION['msg_success']) && isset($_SESSION['msg_notice'])){
             
+            if(!is_array($_SESSION['msg_error'])) $_SESSION['msg_error'] = array();
+            if(!is_array($_SESSION['msg_success'])) $_SESSION['msg_success'] = array();
+            if(!is_array($_SESSION['msg_notice'])) $_SESSION['msg_notice'] = array();
+            
             $_SESSION['msg_error'] = array_unique($_SESSION['msg_error']);
             $_SESSION['msg_success'] = array_unique($_SESSION['msg_success']);
             $_SESSION['msg_notice'] = array_unique($_SESSION['msg_notice']); ?>

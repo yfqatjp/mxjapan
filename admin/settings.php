@@ -105,7 +105,7 @@ if(isset($_POST['edit_settings'])){
             $curr_folder = substr($curr_dirname, strrpos($curr_dirname, "/")+1);
             $rep = opendir(SYSBASE);
             while($entry = @readdir($rep)){
-                if(is_dir(SYSBASE.$entry) && $entry != $curr_folder){
+                if($entry != "." && $entry != ".." && is_dir(SYSBASE.$entry) && $entry != $curr_folder){
                     if($entry == $config_tmp['admin_folder']){
                         $field_notice['admin_folder'] = $texts['FOLDER_EXISTS'];
                         break;
@@ -160,8 +160,10 @@ if(isset($_POST['edit_settings'])){
             
             if($db !== false){
                 
-                $key = array_search($texts['DATABASE_ERROR'], $_SESSION['msg_error']);
-                if($key !== false) unset($_SESSION['msg_error'][$key]);
+                if(is_array($_SESSION['msg_error'])){
+                    $key = array_search($texts['DATABASE_ERROR'], $_SESSION['msg_error']);
+                    if($key !== false) unset($_SESSION['msg_error'][$key]);
+                }
 
                 if($_SESSION['user']['type'] == "administrator"){
                     
@@ -187,7 +189,7 @@ if(isset($_POST['edit_settings'])){
                     foreach($config_tmp as $key => $value){
                         if($key != "admin_folder" || ($config_tmp['admin_folder'] != "" && $renamed)){
                             $key = mb_strtoupper($key, "UTF-8");
-                            $config_str = preg_replace("/define\((\"|')".$key."(\"|'),\s*(\"|')?([^\n\"']*)(\"|')?\);/i", "define(\"".$key."\", \"".$value."\");", $config_str);
+                            $config_str = preg_replace("/define\((\"|')".$key."(\"|'),\s*(\"|')?([^\n\r]*)(\"|')?\);/i", "define(\"".$key."\", \"".$value."\");", $config_str);
                         }
                     }
 
@@ -211,10 +213,10 @@ if(isset($_POST['edit_settings'])){
                 }
                 
                 if($renamed)
-                    ;//header("Location: ../".$config_tmp['admin_folder']."/settings.php");
+                    header("Location: ../".$config_tmp['admin_folder']."/settings.php");
                 else
-                    ;//header("Location: settings.php");
-                //exit();
+                    header("Location: settings.php");
+                exit();
             }
         }else
             $_SESSION['msg_error'][] = $texts['FORM_ERRORS'];
@@ -370,7 +372,7 @@ $csrf_token = get_token("settings"); ?>
                                                     <?php echo $texts['MAINTENANCE_MSG']; ?>
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <textarea class="form-control" name="maintenance_msg"><?php echo $config_tmp['maintenance_msg']; ?></textarea>
+                                                    <textarea class="form-control" name="maintenance_msg"><?php echo stripslashes($config_tmp['maintenance_msg']); ?></textarea>
                                                 </div>
                                             </div>
                                         </div>
