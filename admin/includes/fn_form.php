@@ -357,7 +357,7 @@ function displayField($field, $table, $index, $id_lang)
             		$checked = ($value == $key) ? " checked=\"checked\"" : "";
             		echo "<label class=\"radio-inline\"><input name=\"".$inputname."\" type=\"radio\"".$str_active." value=\"".$key."\"".$checked."/>&nbsp;".$options[$key]."</label>\n";
             		next($options);
-            		$i++;
+//             		$i++;
             	}
             }
             /* @jeff 包车服务  end */
