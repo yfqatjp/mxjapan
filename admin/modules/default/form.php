@@ -47,6 +47,10 @@ $unpublish_date = null;
 $id_user = $_SESSION['user']['id'];
 $referer = DIR."index.php?view=form";
 
+if(!is_array($_SESSION['msg_error'])) $_SESSION['msg_error'] = array();
+if(!is_array($_SESSION['msg_success'])) $_SESSION['msg_success'] = array();
+if(!is_array($_SESSION['msg_notice'])) $_SESSION['msg_notice'] = array();
+
 // Messages
 if(NB_FILES > 0) $_SESSION['msg_notice'][] = $texts['EXPECTED_IMAGES_SIZE']." ".MAX_W_BIG." x ".MAX_H_BIG."px<br>";
 
