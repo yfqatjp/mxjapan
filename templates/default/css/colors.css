@@ -315,7 +315,9 @@ footer {
     }
 }
 #mainFooter {
-    background: #38507E;
+    /*background: #38507E;*/
+    background: #3c3c3c;
+    color: #c2c2c2;
 }
 footer a, footer h3, footer .widget-title {
     color: #fff;
