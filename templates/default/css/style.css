@@ -510,3 +510,54 @@ a#filters_col_bt:before{
   margin: 0;
   padding: 0;
 }
+
+/*-------- 4.4 Breadcrumbs --------*/
+#position {
+	background-color:#fff;
+	padding:10px 0;
+	font-size:13px;
+	border-bottom:1px solid #ededed;
+}
+#position ul li:first-child{
+	padding-left:20px;
+}
+#position ul li:first-child:before{
+	content:"\eaf4";
+	font-style: normal;
+  font-weight: normal;
+  font-family: "fontello";
+  position:absolute;
+  left:0;
+  top:1px;
+  color:#888;
+}
+#position ul{
+	margin:0;
+	padding:0;
+	color:#888;
+}
+#position ul li a{
+	color:#111;
+	opacity:0.7;
+}
+#position ul li a:hover{
+	opacity:1;
+}
+#position ul li{
+	display:inline-block;
+	padding-right:8px;
+	margin-right:3px;
+	position:relative;
+}
+#position ul li:after{
+	content:"\e9ee";
+	  font-style: normal;
+  font-weight: normal;
+  font-family: "fontello";
+  position:absolute;
+  right:0;
+  top:1px;
+}
+#position ul li:last-child:after{
+	content:'';
+}

@@ -79,7 +79,6 @@ $javascripts[] = DOCBASE."js/plugins/owl-carousel/owl.carousel.min.js";
 
 $stylesheets[] = array("file" => DOCBASE."js/plugins/live-search/jquery.liveSearch.css", "media" => "all");
 $javascripts[] = DOCBASE."js/plugins/live-search/jquery.liveSearch.js";
-$stylesheets[] = array("file" => getFromTemplate("css/style.css"), "media" => "all");
 
 require(getFromTemplate("common/header.php", false)); ?>
 

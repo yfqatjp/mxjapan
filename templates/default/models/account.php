@@ -101,7 +101,6 @@ if(isset($_POST['edit'])){
         $msg_error .= $texts['FORM_ERRORS'];
     
 }
-$stylesheets[] = array("file" => getFromTemplate("css/style.css"), "media" => "all");
 
 require(getFromTemplate("common/header.php", false)); ?>
 
