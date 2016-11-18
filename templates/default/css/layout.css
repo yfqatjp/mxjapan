@@ -254,7 +254,7 @@ blockquote p {
 }
 .page-header {
     margin: 0;
-    padding: 15px 0;
+    padding: 0;
     border: none;
 }
 .page-header h1,

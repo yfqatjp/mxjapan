@@ -145,7 +145,7 @@ ul.navbar-nav > li.primary > a.firstLevel:focus {
     background: #67ABEA;
 }
 .page-header {
-    background-color: rgba(54, 148, 237, 0.3);
+    /*background-color: rgba(54, 148, 237, 0.3);*/
     color: #fff;
     border: none;
 }
