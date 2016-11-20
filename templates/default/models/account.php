@@ -122,42 +122,42 @@ require(getFromTemplate("common/header.php", false)); ?>
                     </div>
                     <ul class="list user-profile-nav">
                         <li>
-                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account'; ?>">
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/0'; ?>">
                             <!--<a href="user-profile.php">-->
                                 <i class="fa fa-user"></i>
                                 Overview
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account'; ?>">
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/1'; ?>">
                             <!--<a href="user-profile-settings.html">-->
                                 <i class="fa fa-cog"></i>
                                 Settings
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account'; ?>">
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/2'; ?>">
                             <!--<a href="user-profile-photos.html">-->
                                 <i class="fa fa-camera"></i>
                                 My Travel Photos
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account'; ?>">
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/3'; ?>">
                             <!--<a href="user-profile-booking-history.html">-->
                                 <i class="fa fa-clock-o"></i>
                                 Booking History
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account'; ?>">
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/4'; ?>">
                             <!--<a href="user-profile-cards.html">-->
                                 <i class="fa fa-credit-card"></i>
                                 Credit/Debit Cards
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account'; ?>">
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/5'; ?>">
                             <!--<a href="user-profile-wishlist.html">-->
                                 <i class="fa fa-heart-o"></i>
                                 Wishlist
@@ -167,12 +167,21 @@ require(getFromTemplate("common/header.php", false)); ?>
                 </aside>
             </div>
             <div class="col-md-9">
-                <?php include(getFromTemplate("common/user-profile.php", false)); ?>
-                <?php include(getFromTemplate("common/user-profile-settings.php", false)); ?>
-                <?php include(getFromTemplate("common/user-profile-photos.php", false)); ?>
-                <?php include(getFromTemplate("common/user-profile-booking-history.php", false)); ?>
-                <?php include(getFromTemplate("common/user-profile-cards.php", false)); ?>
-                <?php include(getFromTemplate("common/user-profile-wishlist.php", false)); ?>
+                <?php 
+                    if($article_alias == "" || $article_alias == 0){
+                        include(getFromTemplate("common/user-profile.php", false));
+                    }else if($article_alias == 1){
+                        include(getFromTemplate("common/user-profile-settings.php", false));
+                    }else if($article_alias == 2){
+                        include(getFromTemplate("common/user-profile-photos.php", false));
+                    }else if($article_alias == 3){
+                        include(getFromTemplate("common/user-profile-booking-history.php", false));
+                    }else if($article_alias == 4){
+                        include(getFromTemplate("common/user-profile-cards.php", false));
+                    }else if($article_alias == 5){
+                        include(getFromTemplate("common/user-profile-wishlist.php", false));
+                    }
+                ?>
             </div>
         </div>
     </div>
