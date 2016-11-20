@@ -432,11 +432,12 @@ require(getFromTemplate("common/header.php", false)); ?>
     
     <div id="content" class="pb30">
         
-        <div id="search-page" class="mb30">
+<!--        <div id="search-page" class="mb30">
             <div class="container">
                 <?php include(getFromTemplate("common/search.php", false)); ?>
             </div>
-        </div>
+        </div>-->
+    <div class="gap"></div>
 
     <?php
         if($result_hotel !== false){
