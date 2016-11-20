@@ -1,4 +1,4 @@
-[class^="fa-"]:before, [class*=" fa-"]:before {
+/*[class^="fa-"]:before, [class*=" fa-"]:before {
 	font-family: FontAwesome!important;
     font-style: normal;
 	display: inline-block;
@@ -61,4 +61,4 @@
 	.pt20 {	padding-top: 2em; }
 	.pt30 {	padding-top: 3em; }
 	.pt40 {	padding-top: 4em; }
-}
+}*/

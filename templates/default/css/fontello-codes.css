@@ -237,7 +237,7 @@
 .icon-align-center:before { content: '\e8e4'; } /* '' */
 .icon-align-right:before { content: '\e8e5'; } /* '' */
 .icon-align-justify:before { content: '\e8e6'; } /* '' */
-.icon-list:before { content: '\e8e7'; } /* '' */
+/*.icon-list:before { content: '\e8e7'; }  '' */
 .icon-indent-left:before { content: '\e8e8'; } /* '' */
 .icon-indent-right:before { content: '\e8e9'; } /* '' */
 .icon-list-bullet:before { content: '\e8ea'; } /* '' */
@@ -1583,7 +1583,7 @@
 .icon-star-circled:before { content: '\ee7c'; } /* '' */
 .icon-star-empty-3:before { content: '\ee7d'; } /* '' */
 .icon-user-8:before { content: '\ee7e'; } /* '' */
-.icon-group:before { content: '\ee7f'; } /* '' */
+/*.icon-group:before { content: '\ee7f'; }  '' */
 .icon-group-circled:before { content: '\ee80'; } /* '' */
 .icon-torso:before { content: '\ee81'; } /* '' */
 .icon-video-5:before { content: '\ee82'; } /* '' */

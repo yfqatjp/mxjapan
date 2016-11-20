@@ -110,7 +110,8 @@
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
     <script src="<?php echo DOCBASE; ?>common/js/modernizr-2.6.1.min.js"></script>
-    <script src="<?php echo DOCBASE; ?>common/js/plugins/wow/wow.min.js"></script>    
+    <script src="<?php echo DOCBASE; ?>common/js/plugins/wow/wow.min.js"></script> 
+    <script src="<?php echo DOCBASE; ?>js/fotorama.js"></script> 
     <script src="<?php echo DOCBASE; ?>common/js/plugins/prettyPhoto/jquery.prettyPhoto.init.min.js"></script>    
     <script src="<?php echo DOCBASE; ?>common/js/plugins/prettyPhoto/jquery.prettyPhoto.js"></script>    
     

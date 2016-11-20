@@ -82,7 +82,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                 <header class="booking-item-header">
                     <div class="row">
                         <div class="col-md-9">
-                            <h2 class="lh1em">InterContinental New York Barclay</h2>
+                            <h2 class="lh1em"><?php echo $hotel['title']; ?></h2>
                             <p class="lh1em text-small"><i class="fa fa-map-marker"></i> 6782 Sarasea Circle, Siesta Key, FL 34242</p>
                             <ul class="list list-inline text-small">
                                 <li><a href="#"><i class="fa fa-envelope"></i> Hotel E-mail</a>
