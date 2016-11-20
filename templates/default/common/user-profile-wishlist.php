@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="booking-item-img-wrap">
-                        <img src="img/800x600.png" alt="Image Alternative text" title="hotel 1" />
+                        <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="hotel 1" />
                         <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>19</div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="booking-item-img-wrap">
-                        <img src="img/800x600.png" alt="Image Alternative text" title="hotel 2" />
+                        <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="hotel 2" />
                         <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>6</div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="booking-item-img-wrap">
-                        <img src="img/800x600.png" alt="Image Alternative text" title="hotel PORTO BAY RIO INTERNACIONAL rooftop pool" />
+                        <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="hotel PORTO BAY RIO INTERNACIONAL rooftop pool" />
                         <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>16</div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
         <a class="booking-item" href="#">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="img/800x600.png" alt="Image Alternative text" title="new york at an angle" />
+                    <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="new york at an angle" />
                 </div>
                 <div class="col-md-6">
                     <div class="booking-item-rating">
@@ -151,7 +151,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="booking-item-img-wrap">
-                        <img src="img/800x600.png" alt="Image Alternative text" title="The pool" />
+                        <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="The pool" />
                         <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>11</div>
                     </div>
                 </div>
@@ -183,7 +183,7 @@
         <a class="booking-item" href="#">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="img/800x600.png" alt="Image Alternative text" title="Street Yoga" />
+                    <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="Street Yoga" />
                 </div>
                 <div class="col-md-6">
                     <div class="booking-item-rating">
@@ -214,7 +214,7 @@
         <a class="booking-item" href="#">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="img/800x600.png" alt="Image Alternative text" title="Pictures at the museum" />
+                    <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="Pictures at the museum" />
                 </div>
                 <div class="col-md-6">
                     <div class="booking-item-rating">
@@ -246,7 +246,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="booking-item-img-wrap">
-                        <img src="img/800x600.png" alt="Image Alternative text" title="hotel PORTO BAY SERRA GOLF suite2" />
+                        <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="hotel PORTO BAY SERRA GOLF suite2" />
                         <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>25</div>
                     </div>
                 </div>
@@ -287,7 +287,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="booking-item-img-wrap">
-                        <img src="img/800x600.png" alt="Image Alternative text" title="hotel THE CLIFF BAY spa suite" />
+                        <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" alt="Image Alternative text" title="hotel THE CLIFF BAY spa suite" />
                         <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>25</div>
                     </div>
                 </div>

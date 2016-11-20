@@ -72,7 +72,7 @@
             <p class="card-thumb-number">XXXX XXX XXXX 6058</p>
             <p class="card-thumb-valid">valid thru <span>3 / 16</span>
             </p>
-            <img class="card-thumb-type" src="img/payment/american-express-curved-32px.png" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
+            <img class="card-thumb-type" src="<?php echo getFromTemplate("images/payment/american-express-curved-32px.png"); ?>" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
             <h5 class="uc">John Doe</h5>
         </div>
     </div>
@@ -89,7 +89,7 @@
             <p class="card-thumb-number">XXXX XXX XXXX 3961</p>
             <p class="card-thumb-valid">valid thru <span>9 / 18</span>
             </p>
-            <img class="card-thumb-type" src="img/payment/american-express-curved-32px.png" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
+            <img class="card-thumb-type" src="<?php echo getFromTemplate("images/payment/american-express-curved-32px.png"); ?>" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
             <h5 class="uc">John Doe</h5>
         </div>
     </div>
@@ -106,7 +106,7 @@
             <p class="card-thumb-number">XXXX XXX XXXX 2065</p>
             <p class="card-thumb-valid">valid thru <span>3 / 15</span>
             </p>
-            <img class="card-thumb-type" src="img/payment/american-express-curved-32px.png" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
+            <img class="card-thumb-type" src="<?php echo getFromTemplate("images/payment/american-express-curved-32px.png"); ?>" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
             <h5 class="uc">John Doe</h5>
         </div>
     </div>
@@ -123,7 +123,7 @@
             <p class="card-thumb-number">XXXX XXX XXXX 9080</p>
             <p class="card-thumb-valid">valid thru <span>1 / 15</span>
             </p>
-            <img class="card-thumb-type" src="img/payment/mastercard-curved-32px.png" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
+            <img class="card-thumb-type" src="<?php echo getFromTemplate("images/payment/mastercard-curved-32px.png"); ?>" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
             <h5 class="uc">John Doe</h5>
         </div>
     </div>
@@ -140,7 +140,7 @@
             <p class="card-thumb-number">XXXX XXX XXXX 3122</p>
             <p class="card-thumb-valid">valid thru <span>3 / 16</span>
             </p>
-            <img class="card-thumb-type" src="img/payment/mastercard-curved-32px.png" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
+            <img class="card-thumb-type" src="<?php echo getFromTemplate("images/payment/mastercard-curved-32px.png"); ?>" alt="Image Alternative text" title="Image Title" /><small>cardholder name</small>
             <h5 class="uc">John Doe</h5>
         </div>
     </div>
