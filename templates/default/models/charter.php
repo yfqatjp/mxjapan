@@ -1,6 +1,10 @@
 <?php
 if($article_alias == "") err404();
-
+// 前台
+require(SYSBASE."common/front.php");
+$field_notice = array();
+$msg_error = $hotelApp->getBookingCheckMsg();
+$msg_success = "";
 // 包车服务
 $arrCharter = array();
 // 包车详情
@@ -111,7 +115,8 @@ if (isset($arrCharter["id_user"])) {
 	}
 }
 
-//
+// 安全考虑
+$token = $hotelApp->getToken();
 
 // 
 require(SYSBASE."templates/".TEMPLATE."/common/header.php"); 
@@ -126,10 +131,15 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
     
         <div class="container" >
             <div class="alert alert-success" style="display:none;"></div>
-            <div class="alert alert-danger" style="display:none;"></div>
+            <div class="alert alert-danger" style="display:none;"><?php echo $msg_error;?></div>
         </div>
     
     	<form method="post" action="<?php echo DOCBASE.$sys_pages['charter-booking']['alias']; ?>">
+    	
+    	<input type="hidden" name="charter_id" value="<?php echo $arrCharter['id']; ?>" />
+    	<input type="hidden" name="charter_alias" value="<?php echo $arrCharter['alias']; ?>" />
+    	<input type="hidden" name="<?php echo $hotelApp->token_name; ?>" value="<?php echo $token; ?>" />
+    	
         <article class="container pt20">
             <div class="row">
                 <div class="col-md-8 mb20">
@@ -203,7 +213,7 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
 								<!-- Comments -->
 							    <h3 class="mb10">
 							    <?php if(is_file($realpath)) {?>
-							    <img src="<?php echo $thumbpath; ?>" alt="" class="">
+							    <img src="<?php echo $thumbpath; ?>" alt="" style="width:25px;">
 							    <?php 
     							}
 							    echo $arrCharterItem[1]["name"]; ?>
@@ -254,7 +264,7 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
 								<!-- Comments -->
 							    <h3 class="mb10">
 							    <?php if(is_file($realpath)) {?>
-							    <img src="<?php echo $thumbpath; ?>" alt="" class="">
+							    <img src="<?php echo $thumbpath; ?>" alt="" style="width:25px;">
 							    <?php 
     							}
 							    echo $arrCharterItem[2]["name"]; ?>
@@ -340,3 +350,14 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
         </form>
     </div>
 </section>
+
+    <script>
+      <?php 
+      	if (!empty($msg_error)) {
+      ?>
+		$(".alert-danger").show();
+      <?php 
+		}
+      ?>
+    </script>
+    

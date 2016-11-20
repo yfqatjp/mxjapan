@@ -285,24 +285,13 @@ $(document).ready(function(){
      * DATEPICKER
      * =================================================================
      */
-    if($('#from_picker').length && $('#to_picker').length){
-        $('#from_picker').datepicker({
-            dateFormat: 'dd/mm/yy',
-            minDate: 0,
-            onClose: function(selectedDate){
-                var a = selectedDate.split('/');
-                var d = new Date(a[2]+'/'+a[1]+'/'+a[0]);
-                var t = new Date(d.getTime()+86400000);
-                var date = t.getDate()+'/'+(t.getMonth()+1)+'/'+t.getFullYear();
-                $('#to_picker').datepicker('option', 'minDate', date);
-            }
-        });
-        $('#to_picker').datepicker({
-            dateFormat: 'dd/mm/yy',
-            defaultDate: '+1w'
-        });
-    }
 
+    if($('#depart_date').length){
+		$('#depart_date').datepicker({
+	         dateFormat: 'yy-mm-dd',
+	         minDate: 0
+	    });
+    }
     /* =================================================================
      * CALENDAR
      * =================================================================

@@ -1,39 +1,90 @@
 <?php
 
+// 前台
+require(SYSBASE."common/front.php");
+
+$arrCharter = array();
+$max_adults_search = 10;
+// 是否可以预定
+$bookingEnble = "0";
+//
+$charterId = 0;
+$charter_alias = "";
+if (!$hotelApp->isPOST()) {
+	// 非法请求
+	header("Location: ".DOCBASE."charters/");
+	exit();
+}
+
+// 还没有登录
+if(!$hotelApp->isLogin()){
+	header("Location: ".DOCBASE."charter/".text_format($arrCharter['alias']));
+	exit();
+}
+
+// token的check
+if (!$hotelApp->checkBooking()) {
+	// 非法请求
+	header("Location: ".DOCBASE.$sys_pages['charters']['alias']);
+	exit();
+}
 
 $msg_error = "";
 $msg_success = "";
 $field_notice = array();
-
-$id = 0;
-$lastname = "";
-$firstname = "";
-$email = "";
-$address = "";
-$postcode = "";
-$city = "";
-$company = "";
-$country = "";
-$mobile = "";
-$phone = "";
-$comments = "";
-
-if(isset($_SESSION['user'])){
-	$result_user = $db->query("SELECT * FROM pm_user WHERE id = ".$db->quote($_SESSION['user']['id'])." AND checked = 1");
-	if($result_user !== false && $db->last_row_count() > 0){
-		$row = $result_user->fetch();
-
-		$lastname = $row['name'];
-		$email = $row['email'];
-		$address = $row['address'];
-		$postcode = $row['postcode'];
-		$city = $row['city'];
-		$company = $row['company'];
-		$country = $row['country'];
-		$mobile = $row['mobile'];
-		$phone = $row['phone'];
+//
+$arrBookingUser = array();
+// 预定的场合
+if ($hotelApp->query("action") == "booking") {
+	//
+	$arrMsg = $hotelApp->checkBookingForm();
+	if ($arrMsg != null && count($arrMsg) > 0) {
+		$msg_error = implode("<br/>", $arrMsg);
+		$arrBookingUser = $_POST;
+	} else {
+		// 预定处理
+		$hotelApp->setCharterBooking();
+		
+		// 
+		// 预定支付确认画面
+		header("Location: ".DOCBASE.$sys_pages['charter-payment']['alias']);
+		exit();
 	}
 }
+//
+$charterId = $hotelApp->query("charter_id");
+//
+$charter_alias = $hotelApp->query("charter_alias");
+
+// 
+$result = $db->query("SELECT t1.*, 
+		t2.car_brand, t2.car_model, t2.car_no, t2.car_seat, t2.safe, t2.fee  
+		FROM pm_charter t1 
+		INNER JOIN pm_charter_info t2 on t1.id = t2.id_charter 
+		WHERE t1.checked = 1 AND t1.lang = ".LANG_ID." AND t1.id = ".$db->quote($charterId));
+if($result !== false && $db->last_row_count() == 1){
+	$arrCharter = $result->fetch(PDO::FETCH_ASSOC);
+	$page_alias = DOCBASE.$pages[$page_id]['alias']."/".text_format($arrCharter['alias']);
+} else {
+	$hotelApp->setBookingCheckMsg("CHARTER_NOT_EXIST");
+	header("Location: ".DOCBASE."charters/");
+	exit();
+}
+
+// 将追加的包车服务放到预约车里
+$hotelApp->charterSession($arrCharter);
+
+
+// 个人的信息/否则显示刚才自己输入过的信息
+if(isset($_SESSION['user']) && count($arrBookingUser) == 0){
+	$result_user = $db->query("SELECT * FROM pm_user WHERE id = ".$db->quote($_SESSION['user']['id'])." AND checked = 1");
+	if($result_user !== false && $db->last_row_count() > 0){
+		$arrBookingUser = $result_user->fetch();
+	}
+}
+
+// 安全考虑
+$token = $hotelApp->getToken();
 
 require(getFromTemplate("common/header.php", false)); ?>
 
@@ -45,9 +96,19 @@ require(getFromTemplate("common/header.php", false)); ?>
         <div class="container">
 
             <div class="alert alert-success" style="display:none;"></div>
-            <div class="alert alert-danger" style="display:none;"></div>
+            <?php 
+            	if (!empty($msg_error)) {
+            ?>
+            <div class="alert alert-danger"><?php echo $msg_error;?></div>
+            <?php 
+            	}
+            ?>
+            <form method="post" action="?" class="ajax-form">
             
-            <form method="post" action="<?php echo DOCBASE.$page['alias']; ?>" class="ajax-form">
+				<input type="hidden" name="charter_id" value="<?php echo $arrCharter['id']; ?>" />
+		    	<input type="hidden" name="action" value="booking" />
+		    	<input type="hidden" name="<?php echo $hotelApp->token_name; ?>" value="<?php echo $token; ?>" />
+            	
                 <div class="row">
                     <div class="col-md-6">
                         <fieldset>
@@ -56,49 +117,49 @@ require(getFromTemplate("common/header.php", false)); ?>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['LASTNAME']; ?> *</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="lastname" value="<?php echo $lastname; ?>"/>
+                                    <input type="text" class="form-control" name="lastname" value="<?php echo $hotelApp->t("name", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="lastname"></div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['FIRSTNAME']; ?> *</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="firstname" value="<?php echo $firstname; ?>"/>
+                                    <input type="text" class="form-control" name="firstname" value="<?php echo $hotelApp->t("firstname", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="firstname"></div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?> *</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="email" value="<?php echo $email; ?>"/>
+                                    <input type="text" class="form-control" name="email" value="<?php echo $hotelApp->t("email", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="email"></div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="company" value="<?php echo $company; ?>"/>
+                                    <input type="text" class="form-control" name="company" value="<?php echo $hotelApp->t("company", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="company"></div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['ADDRESS']; ?> *</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="address" value="<?php echo $address; ?>"/>
+                                    <input type="text" class="form-control" name="address" value="<?php echo $hotelApp->t("address", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="address"></div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['POSTCODE']; ?> *</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="postcode" value="<?php echo $postcode; ?>"/>
+                                    <input type="text" class="form-control" name="postcode" value="<?php echo $hotelApp->t("postcode", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="postcode"></div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['CITY']; ?> *</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="city" value="<?php echo $city; ?>"/>
+                                    <input type="text" class="form-control" name="city" value="<?php echo $hotelApp->t("city", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="city"></div>
                                 </div>
                             </div>
@@ -109,6 +170,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                                         <option value="0">-</option>
                                         <?php
                                         $result_country = $db->query("SELECT * FROM pm_country");
+                                        $country = $hotelApp->t("country", $arrBookingUser);
                                         if($result_country !== false){
                                             foreach($result_country as $i => $row){
                                                 $id_country = $row['id'];
@@ -125,14 +187,14 @@ require(getFromTemplate("common/header.php", false)); ?>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['PHONE']; ?> *</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="phone" value="<?php echo $phone; ?>"/>
+                                    <input type="text" class="form-control" name="phone" value="<?php echo $hotelApp->t("phone", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="phone"></div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <label class="col-lg-3 control-label"><?php echo $texts['MOBILE']; ?></label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="mobile" value="<?php echo $mobile; ?>"/>
+                                    <input type="text" class="form-control" name="mobile" value="<?php echo $hotelApp->t("mobile", $arrBookingUser); ?>"/>
                                     <div class="field-notice" rel="mobile"></div>
                                 </div>
                             </div>
@@ -140,170 +202,79 @@ require(getFromTemplate("common/header.php", false)); ?>
                     </div>
                     <div class="col-md-6">
                         <fieldset class="mb20">
-                            <legend><?php echo $texts['BOOKING_DETAILS']; ?></legend>
+                            <legend><?php echo $hotelApp->getTextsByName("CHARTER_DETAILS"); ?></legend>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h3><?php echo $_SESSION['book']['hotel']; ?></h3>
-                                    <h4><?php echo $_SESSION['book']['room']; ?></h4>
-                                    <p>
-                                        <?php
-                                        echo $texts['CHECK_IN']." <strong>".strftime(DATE_FORMAT, $_SESSION['book']['from_date'])."</strong><br>
-                                        ".$texts['CHECK_OUT']." <strong>".strftime(DATE_FORMAT, $_SESSION['book']['to_date'])."</strong><br>
-                                        <strong>".$_SESSION['book']['nights']."</strong> ".$texts['NIGHTS']." -
-                                        <strong>".($_SESSION['book']['adults']+$_SESSION['book']['children'])."</strong> ".$texts['PERSONS']; ?>
-                                    </p>
+                                    <h3><?php echo $hotelApp->t("title", $_SESSION['charter_booking']); ?></h3>
                                 </div>
-                                <?php
-                                if(isset($_SESSION['book']['amount_rooms'])){ ?>
                                     <div class="col-md-6">
                                         <span class="pull-right lead">
-                                            <?php echo formatPrice($_SESSION['book']['amount_rooms']*CURRENCY_RATE); ?><br/>
+                                            <?php echo formatPrice($hotelApp->t("price", $_SESSION['charter_booking'])*CURRENCY_RATE); ?>
                                         </span>
                                     </div>
-                                    <?php
-                                } ?>
                             </div>
-                            <?php
-                            if(ENABLE_TOURIST_TAX == 1 && isset($_SESSION['book']['tourist_tax'])){ ?>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p>
-                                            <strong><?php echo $texts['TOURIST_TAX']; ?></strong>
-                                            <span class="pull-right"><?php echo formatPrice($_SESSION['book']['tourist_tax']*CURRENCY_RATE); ?></span>
-                                        </p>
-                                    </div>
+                            
+  							<div class="row">
+								<div class="col-md-6"><p><?php echo $hotelApp->getTextsByName("CHARTER_DESTINATION"); ?></p></div>
+                                <div class="col-md-6">
+                                    <span class="pull-right"><?php echo $hotelApp->t("destination", $_SESSION['charter_booking']); ?></span>
                                 </div>
-                                <?php
-                            } ?>
-                        </fieldset>
-                        <?php
-                        if(isset($_SESSION['book']['activities']) && count($_SESSION['book']['activities']) > 0){ ?>
-                            <fieldset class="mb20">
-                                <legend><?php echo $texts['ACTIVITIES']; ?></legend>
-                                <?php
-                                foreach($_SESSION['book']['activities'] as $id_activity => $activity){ ?>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <?php
-                                                echo "<strong>".$activity['title']."</strong> - ".$activity['duration']."<br>
-                                                <strong>".strftime(DATE_FORMAT." ".TIME_FORMAT, $activity['session_date'])."</strong> -
-                                                <strong>".($activity['adults']+$activity['children'])."</strong> ".$texts['PERSONS']; ?>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <span class="pull-right">
-                                                <?php echo formatPrice($activity['amount']*CURRENCY_RATE); ?><br/>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <?php
-                                } ?>
-                            </fieldset>
-                            <?php
-                        } ?>
-                        <fieldset class="mb20">
-                            <legend><?php echo $texts['EXTRA_SERVICES']; ?></legend>
-                            <?php
-                            $result_service = $db->query("SELECT * FROM pm_service WHERE rooms REGEXP '(^|,)".$_SESSION['book']['room_id']."(,|$)' AND lang = ".LANG_ID." AND checked = 1 ORDER BY rank");
-                            if($result_service !== false){
-                                $action = getFromTemplate("common/update_booking.php");
-                                foreach($result_service as $i => $row){
-                                    $id_service = $row['id'];
-                                    $service_title = $row['title'];
-                                    $service_descr = $row['descr'];
-                                    $service_long_descr = $row['long_descr'];
-                                    $service_price = $row['price'];
-                                    $service_type = $row['type'];
-
-                                    if($service_type == "person") $service_price *= $_SESSION['book']['adults']+$_SESSION['book']['children'];
-                                    if($service_type == "person-night" || $service_type == "qty-person-night") $service_price *= ($_SESSION['book']['adults']+$_SESSION['book']['children'])*$_SESSION['book']['nights'];
-                                    if($service_type == "qty-night" || $service_type == "night") $service_price *= $_SESSION['book']['nights'];
-
-                                    $checked = array_key_exists($id_service, $_SESSION['book']['extra_services']) ? " checked=\"checked\"" : ""; ?>
-
-                                    <div class="row form-group">
-                                        <label class="col-sm-<?php echo (strpos($service_type, "qty") !== false) ? 7 : 10; ?> col-xs-9 control-label">
-                                            <input type="checkbox" name="extra_services[]" value="<?php echo $id_service; ?>" class="sendAjaxForm" data-action="<?php echo $action; ?>" data-target="#total_booking"<?php echo $checked;?>>
-                                            <?php
-                                            echo $service_title;
-                                            if($service_descr != ""){ ?>
-                                                <br><small><?php echo $service_descr; ?></small>
-                                                <?php
-                                            }
-                                            if($service_long_descr != ""){ ?>
-                                                <br><small><a href="#service_<?php echo $id_service; ?>" class="popup-modal"><?php echo $texts['READMORE']; ?></a></small>
-                                                <div id="service_<?php echo $id_service; ?>" class="white-popup-block mfp-hide">
-                                                    <?php echo $service_long_descr; ?>
-                                                </div>
-                                                <?php
-                                            } ?>
-                                        </label>
-                                        <?php
-                                        if(strpos($service_type, "qty") !== false){
-                                            $qty = isset($_SESSION['book']['extra_services'][$id_service]['qty']) ? $_SESSION['book']['extra_services'][$id_service]['qty'] : 1; ?>
-                                            <div class="col-sm-3 col-xs-9">
-                                                <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-default btn-number" data-field="qty_service_<?php echo $id_service; ?>" data-type="minus" disabled="disabled" type="button">
-                                                            <i class="fa fa-minus"></i>
-                                                        </button>
-                                                    </span>
-                                                    <input class="form-control input-number sendAjaxForm" type="text" max="20" min="1" value="<?php echo $qty; ?>" name="qty_service_<?php echo $id_service; ?>" data-action="<?php echo $action; ?>" data-target="#total_booking">
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-default btn-number" data-field="qty_service_<?php echo $id_service; ?>" data-type="plus" type="button">
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <?php
-                                        } ?>
-                                        <div class="col-sm-2 col-xs-3 text-right">
-                                            <?php
-                                            if(strpos($service_type, "qty") !== false) echo "x ";
-                                            echo formatPrice($service_price*CURRENCY_RATE); ?>
-                                        </div>
-                                    </div>
-                                    <?php
-                                }
-                            } ?>
-                        </fieldset>
-                        <?php
-                        if(isset($_SESSION['book']['amount_rooms'])){
-                            $total = $_SESSION['book']['amount_rooms']+$_SESSION['book']['tourist_tax']+$_SESSION['book']['amount_activities']+$_SESSION['book']['amount_services'];
-                            $vat_total = $_SESSION['book']['vat_rooms']+$_SESSION['book']['vat_activities']+$_SESSION['book']['vat_services'];  ?>
-                            <hr>
+                            </div>
+                            
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <h3>
-                                        <?php
-                                        echo $texts['TOTAL'];
-                                        if($vat_total > 0) echo " ".$texts['INCL_VAT']; ?>
-                                    </h3>
-                                    
-                                    <?php if($vat_total > 0) echo $texts['VAT_AMOUNT']; ?>
+								<div class="col-md-6"><p><?php echo $hotelApp->getTextsByName("CHARTER_PHONE"); ?></p></div>
+                                <div class="col-md-6">
+                                    <span class="pull-right"><?php echo $hotelApp->t("phone", $_SESSION['charter_booking']); ?></span>
                                 </div>
-                                <div class="col-xs-6 lead text-right">
-                                    <span id="total_booking">
-                                        <?php echo formatPrice($total*CURRENCY_RATE); ?><br>
-                                        
-                                        <?php
-                                        if($vat_total > 0){ ?>
-                                            <small>
-                                                <?php echo formatPrice($vat_total*CURRENCY_RATE); ?>
-                                            </small>
-                                            <?php
-                                        } ?>
+                            </div>
+                            
+                            <div class="row">
+								<div class="col-md-6"><p><?php echo $hotelApp->getTextsByName("CHARTER_CAR_INFO"); ?></p></div>
+                                <div class="col-md-6">
+                                    <span class="pull-right">
+                                    <?php 
+                                    	echo $hotelApp->t("car_model", $_SESSION['charter_booking'])." - ".$hotelApp->t("car_no", $_SESSION['charter_booking']); 
+                                    ?>
                                     </span>
                                 </div>
                             </div>
-                            <?php
-                        } ?>
+                            
+                            <div class="row">
+								<div class="col-md-6"><p><?php echo $hotelApp->getTextsByName("CHARTER_SAFE"); ?></p></div>
+                                <div class="col-md-6">
+                                    <span class="pull-right"><?php echo $hotelApp->t("safe", $_SESSION['charter_booking']); ?></span>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="mb20">
+                            <legend><?php echo $hotelApp->getTextsByName("CHARTER_BOOKING_DETAILS"); ?></legend>
+                                <div class="row">
+                                    <div class="col-md-6"><p><?php echo $hotelApp->getTextsByName("CHARTER_DEPART_DATE"); ?></p></div>
+                                    <div class="col-md-6 pull-right input-group">
+                                    	<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+						                <input type="text" class="form-control text-right" name="depart_date" id="depart_date" value="" >
+                                    </div>
+                                </div>
+        
+                                <div class="row">
+                                    <div class="col-md-6"><p><?php echo $hotelApp->getTextsByName("CHARTER_DEPART_NUM"); ?></p></div>
+                                    <div class="col-md-6 input-group pull-right">
+					                    <select name="depart_num" class="selectpicker form-control">
+					                        <?php
+					                        for($i = 1; $i <= $max_adults_search; $i++){
+					                            //$select = ($num_adults == $i) ? " selected=\"selected\"" : "";
+					                            echo "<option value=\"".$i."\"".$select.">".$i."</option>";
+					                        } ?>
+					                    </select>
+                                    </div>
+                                </div>
+                        </fieldset>
+                       
+                       
                         <fieldset>
                             <legend><?php echo $texts['SPECIAL_REQUESTS']; ?></legend>
                             <div class="form-group">
-                                <textarea class="form-control" name="comments"><?php echo $comments; ?></textarea>
+                                <textarea class="form-control" name="comments"><?php echo $hotelApp->t("comments", $arrBookingUser); ?></textarea>
                                 <div class="field-notice" rel="comments"></div>
                             </div>
                             <p><?php //echo $texts['BOOKING_TERMS']; ?></p>
@@ -311,16 +282,10 @@ require(getFromTemplate("common/header.php", false)); ?>
                     </div>
                 </div>
                 
-                <a class="btn btn-default btn-lg pull-left" href="<?php echo (isset($_SESSION['book']['activities'])) ? DOCBASE.$sys_pages['booking-activities']['alias'] : DOCBASE.$sys_pages['booking']['alias']; ?>"><i class="fa fa-angle-left"></i> <?php echo $texts['PREVIOUS_STEP']; ?></a>
-                <?php
-                if(isset($_SESSION['book']['amount_rooms'])){ ?>
-                    <button type="submit" class="btn btn-primary btn-lg pull-right" name="book"><?php echo $texts['NEXT_STEP']; ?> <i class="fa fa-angle-right"></i></button>
-                    <?php
-                }else{ ?>
-                    <button type="submit" class="btn btn-primary btn-lg pull-right" name="request"><i class="fa fa-send"></i> <?php echo $texts['MAKE_A_REQUEST']; ?></button>
-                    <?php
-                } ?>
+                <button type="submit" class="btn btn-primary btn-lg pull-right" name="request"><i class="fa fa-send"></i> <?php echo $texts['MAKE_A_REQUEST']; ?></button>
             </form>
         </div>
     </div>
 </section>
+
+

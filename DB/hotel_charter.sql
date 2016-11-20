@@ -272,3 +272,68 @@ INSERT INTO `pm_page` VALUES ('18', '2', '包车游玩详情', '包车游玩详�
 
 -- 预定包车
 INSERT INTO `pm_page` VALUES ('19', '2', '预定包车', '预定包车', '', 'Charter Booking', 'charter-booking', '', 'noindex,nofollow', '', '', '', '', '0', 'charter-booking', '', '0', '0', '0', '1', '11', '1472477070', '1473658466', '0', '0', '1');
+
+-- 2016/11/20 追加  Start
+CREATE TABLE `pm_charter_booking` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `booking_code` varchar(64) NOT NULL,
+  `charter_id` int(11) NOT NULL,
+  `charter_type` int(11) DEFAULT '1',
+  `lang` int(11) DEFAULT NULL,
+  `charter_owner` int(11) DEFAULT NULL,
+  `title` varchar(250) DEFAULT NULL,
+  `alias` varchar(250) DEFAULT NULL,
+  `car_brand` varchar(250) DEFAULT NULL,
+  `car_model` varchar(250) DEFAULT NULL,
+  `car_no` varchar(250) DEFAULT NULL,
+  `safe` varchar(250) DEFAULT NULL,
+  `add_date` int(11) DEFAULT NULL,
+  `edit_date` int(11) DEFAULT NULL,
+  `depart_date` int(11) DEFAULT NULL,
+  `depart_num` int(11) DEFAULT '1',
+  `price` float DEFAULT NULL,
+  `tourist_tax` float DEFAULT NULL,
+  `total` float DEFAULT NULL,
+  `booking_user_id` int(11) DEFAULT NULL,
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `company` varchar(50) DEFAULT NULL,
+  `address` varchar(250) DEFAULT NULL,
+  `postcode` varchar(10) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `mobile` varchar(50) DEFAULT NULL,
+  `country` varchar(100) NOT NULL,
+  `comments` text,
+  `status` int(11) DEFAULT '1',
+  `payment_date` int(11) DEFAULT NULL,
+  `payment_method` varchar(250) DEFAULT NULL,
+  `payment_total` float DEFAULT NULL,
+  `session_data` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- 预定包车
+INSERT INTO `pm_page` VALUES ('22', '2', '预定包车支付', '预定包车支付', '', 'Charter Payment', 'charter-payment', '', 'noindex,nofollow', '', '', '', '', '0', 'charter-payment', '', '0', '0', '0', '1', '11', '1472477070', '1473658466', '0', '0', '1');
+
+-- 预定包车
+INSERT INTO `pm_page` VALUES ('23', '2', '预定包车支付完成', '预定包车支付完成', '', 'Charter Payment Complete', 'charter-payment-complete', '', 'noindex,nofollow', '', '', '', '', '0', 'charter-payment-complete', '', '0', '0', '0', '1', '11', '1472477070', '1473658466', '0', '0', '1');
+
+-------------------------------------------------------------------------------------------
+INSERT INTO `pm_text` VALUES ('138', '2', 'CHARTER_ACCESS', 'NO ACCESS');
+INSERT INTO `pm_text` VALUES ('139', '2', 'CHARTER_LOGIN', 'NO LOGIN');
+INSERT INTO `pm_text` VALUES ('140', '2', 'CHARTER_NOT_EXIST', '访问的数据不存在');
+INSERT INTO `pm_text` VALUES ('141', '2', 'CHARTER_BOOKING_DETAILS', '预定');
+INSERT INTO `pm_text` VALUES ('142', '2', 'CHARTER_DESTINATION', '目的地：');
+INSERT INTO `pm_text` VALUES ('143', '2', 'CHARTER_PHONE', '车主电话：');
+INSERT INTO `pm_text` VALUES ('144', '2', 'CHARTER_CAR_INFO', '车辆信息：');
+INSERT INTO `pm_text` VALUES ('145', '2', 'CHARTER_SAFE', '保险：');
+INSERT INTO `pm_text` VALUES ('146', '2', 'CHARTER_DETAILS', '包车信息');
+
+INSERT INTO `pm_text` VALUES ('147', '2', 'CHARTER_DEPART_DATE', '出行日期');
+INSERT INTO `pm_text` VALUES ('148', '2', 'CHARTER_DEPART_NUM', '游玩人数');
+INSERT INTO `pm_text` VALUES ('149', '2', 'CHECK_REQUIRE_MSG', '{0}必须输入');
+INSERT INTO `pm_text` VALUES ('150', '2', 'CHECK_DATE_MSG', '请输入正确的日期');
+INSERT INTO `pm_text` VALUES ('151', '2', 'CHECK_PAYMENT_COMPLETE_MSG', '您的预定已经成功，还没有支付请尽快完成支付');
+-- 2016/11/20 追加  End

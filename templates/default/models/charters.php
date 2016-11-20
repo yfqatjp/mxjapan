@@ -3,7 +3,7 @@
 require(SYSBASE."common/front.php");
 
 $field_notice = array();
-$msg_error = "";
+$msg_error = $hotelApp->getBookingCheckMsg();
 $msg_success = "";
 $response = "";
 //$room_stock = 1;
@@ -64,21 +64,21 @@ if(isset($_GET['action'])){
 $javascripts[] = DOCBASE."js/plugins/jquery.event.calendar/js/jquery.event.calendar.js";
 
 if(is_file(SYSBASE."js/plugins/jquery.event.calendar/js/languages/jquery.event.calendar.".LANG_TAG.".js"))
-    $javascripts[] = DOCBASE."js/plugins/jquery.event.calendar/js/languages/jquery.event.calendar.".LANG_TAG.".js";
-else
-    $javascripts[] = DOCBASE."js/plugins/jquery.event.calendar/js/languages/jquery.event.calendar.en.js";
-    
-$stylesheets[] = array("file" => DOCBASE."js/plugins/jquery.event.calendar/css/jquery.event.calendar.css", "media" => "all");
+	$javascripts[] = DOCBASE."js/plugins/jquery.event.calendar/js/languages/jquery.event.calendar.".LANG_TAG.".js";
+	else
+		$javascripts[] = DOCBASE."js/plugins/jquery.event.calendar/js/languages/jquery.event.calendar.en.js";
 
-$stylesheets[] = array("file" => DOCBASE."js/plugins/star-rating/css/star-rating.min.css", "media" => "all");
-$javascripts[] = DOCBASE."js/plugins/star-rating/js/star-rating.min.js";
+		$stylesheets[] = array("file" => DOCBASE."js/plugins/jquery.event.calendar/css/jquery.event.calendar.css", "media" => "all");
 
-$stylesheets[] = array("file" => DOCBASE."js/plugins/owl-carousel/owl.carousel.css", "media" => "all");
-$stylesheets[] = array("file" => DOCBASE."js/plugins/owl-carousel/owl.theme.css", "media" => "all");
-$javascripts[] = DOCBASE."js/plugins/owl-carousel/owl.carousel.min.js";
+		$stylesheets[] = array("file" => DOCBASE."js/plugins/star-rating/css/star-rating.min.css", "media" => "all");
+		$javascripts[] = DOCBASE."js/plugins/star-rating/js/star-rating.min.js";
 
-$stylesheets[] = array("file" => DOCBASE."js/plugins/live-search/jquery.liveSearch.css", "media" => "all");
-$javascripts[] = DOCBASE."js/plugins/live-search/jquery.liveSearch.js";
+		$stylesheets[] = array("file" => DOCBASE."js/plugins/owl-carousel/owl.carousel.css", "media" => "all");
+		$stylesheets[] = array("file" => DOCBASE."js/plugins/owl-carousel/owl.theme.css", "media" => "all");
+		$javascripts[] = DOCBASE."js/plugins/owl-carousel/owl.carousel.min.js";
+
+		$stylesheets[] = array("file" => DOCBASE."js/plugins/live-search/jquery.liveSearch.css", "media" => "all");
+		$javascripts[] = DOCBASE."js/plugins/live-search/jquery.liveSearch.js";
 
 require(getFromTemplate("common/header.php", false)); ?>
 
@@ -117,7 +117,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                 ?>
             </p>
             <div class="alert alert-success" style="display:none;"></div>
-            <div class="alert alert-danger" style="display:none;"></div>
+            <div class="alert alert-danger" style="display:none;"><?php echo $msg_error;?></div>
                             <!--<div class="filter_type">
                                 <h6>Duration</h6>
                                 <input type="text" id="range" name="range" value="">
@@ -304,6 +304,14 @@ require(getFromTemplate("common/header.php", false)); ?>
         jQuery('#sidebar').theiaStickySidebar({
             additionalMarginTop: 80
         });
+
+        <?php 
+			if (!empty($msg_error)) {
+		?>
+				$(".alert-danger").show();
+		<?php 
+			}
+		?>
     </script>
     <?php
         }
