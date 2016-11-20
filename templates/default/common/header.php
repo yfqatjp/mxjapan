@@ -98,8 +98,10 @@
     <link rel="stylesheet" href="<?php echo getFromTemplate("css/elegant-icon-meixi.css"); ?>">
     <link rel="stylesheet" href="<?php echo getFromTemplate("css/style-meixi.css"); ?>">
     <link rel="stylesheet" href="<?php echo getFromTemplate("css/fontello-codes.css"); ?>">
+    <link rel="stylesheet" href="<?php echo getFromTemplate("css/font-awesome.css"); ?>">
+    <link rel="stylesheet" href="<?php echo getFromTemplate("css/icomoon.css"); ?>">
     <link rel="stylesheet" href="<?php echo getFromTemplate("css/style.css"); ?>">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">-->
     
     <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
