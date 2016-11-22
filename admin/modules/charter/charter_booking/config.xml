@@ -36,6 +36,7 @@
         
         <field multi="0" label="Title" name="title" type="text" required="1" unique="0" validation="none"/>
         <field multi="0" label="Alias" name="alias" type="text" required="1" unique="0" validation="none"/>
+        <field multi="0" label="Destination" name="destination" type="text" required="1" unique="0" validation="none"/>
         
         <field multi="0" label="Car Brand" name="car_brand" type="text" required="1" unique="0" validation="none"/>
         <field multi="0" label="Car Model" name="car_model" type="text" required="1" unique="0" validation="none"/>

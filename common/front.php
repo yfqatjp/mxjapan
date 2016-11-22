@@ -351,7 +351,51 @@ class Front extends Hotel {
     	return $_SESSION["charter_booking"]["price"];
     }
     //////////////////////////////////////////////////////////////////////////////////////
-
+    //////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * 包车服务的检索用的SQL文
+     *
+     */
+    public function findChartersHistory() {
+    	// SQL文
+    	$sql  = " SELECT ";
+    	$sql .= "     T1.id AS booking_id ";
+    	$sql .= "    ,T1.booking_code AS booking_code ";
+    	$sql .= "    ,T1.title AS title ";
+    	$sql .= "    ,T1.alias AS alias ";
+    	$sql .= "    ,T1.destination AS destination ";
+    	$sql .= "    ,T1.car_model AS car_model ";
+    	$sql .= "    ,T1.car_no AS car_no ";
+   		$sql .= "    ,T1.destination AS destination ";
+   		$sql .= "    ,T1.depart_date AS depart_date ";
+   		$sql .= "    ,T1.total AS total ";
+   		$sql .= "    ,T1.add_date AS add_date ";
+   		$sql .= "    ,T1.status AS status ";
+   		
+   		$sql .= "    ,T1.charter_owner AS charter_owner ";
+   		$sql .= "    ,T1.charter_type AS charter_type ";
+   		$sql .= "    ,T1.destination AS destination ";
+   		$sql .= "    ,T1.depart_date AS depart_date ";
+   		$sql .= "    ,T2.name AS charter_name ";
+   		$sql .= "    ,T2.phone AS charter_phone ";
+    	// 检索的条件和表的设定
+    	$sql .= " FROM ";
+    	$sql .= "      pm_charter_booking T1 ";
+    	$sql .= " LEFT JOIN ";
+    	$sql .= "      pm_user T2 ON ( T1.charter_owner = T2.id ) ";             // 包车服务详情
+    	$sql .= " WHERE ";
+    	$sql .= "      1 = 1 ";
+    	$sql .= "      AND ";
+    	$sql .= "      T1.booking_user_id = ".$_SESSION['user']['id'];	 
+		// 排序
+    	$sql .= " ORDER BY T1.id DESC ";	 
+    	// 检索结果的取得
+    	$arrResult = $this->db->query($sql);
+    	// 返回检索的结果
+    	return $arrResult;
+    }
+    //////////////////////////////////////////////////////////////////////////////////////
+    
 }
 
 // 前台的应用

@@ -337,3 +337,9 @@ INSERT INTO `pm_text` VALUES ('149', '2', 'CHECK_REQUIRE_MSG', '{0}必须输入'
 INSERT INTO `pm_text` VALUES ('150', '2', 'CHECK_DATE_MSG', '请输入正确的日期');
 INSERT INTO `pm_text` VALUES ('151', '2', 'CHECK_PAYMENT_COMPLETE_MSG', '您的预定已经成功，还没有支付请尽快完成支付');
 -- 2016/11/20 追加  End
+
+-- 2016/11/21 追加  Start
+ALTER TABLE `pm_charter_booking`
+ADD COLUMN `destination`  varchar(250) NULL AFTER `alias`;
+
+-- 2016/11/21 追加  End

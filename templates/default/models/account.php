@@ -163,6 +163,12 @@ require(getFromTemplate("common/header.php", false)); ?>
                                 Wishlist
                             </a>
                         </li>
+                        <li>
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/6'; ?>">
+                                <i class="fa fa-clock-o"></i>
+                                Charter History
+                            </a>
+                        </li>
                     </ul>
                 </aside>
             </div>
@@ -180,6 +186,8 @@ require(getFromTemplate("common/header.php", false)); ?>
                         include(getFromTemplate("common/user-profile-cards.php", false));
                     }else if($article_alias == 5){
                         include(getFromTemplate("common/user-profile-wishlist.php", false));
+                    }else if($article_alias == 6){
+                        include(getFromTemplate("common/user-profile-charter-history.php", false));
                     }
                 ?>
             </div>
