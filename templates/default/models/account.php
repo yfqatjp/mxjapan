@@ -11,7 +11,7 @@ $field_notice = array();
 $result_user = $db->query("SELECT * FROM pm_user WHERE id = ".$db->quote($_SESSION['user']['id'])." AND checked = 1");
 if($result_user !== false && $db->last_row_count() == 1){
     $row = $result_user->fetch();
-    
+
     $name = $row['name'];
     $login = $row['login'];
     $email = $row['email'];
@@ -22,7 +22,7 @@ if($result_user !== false && $db->last_row_count() == 1){
     $country = $row['country'];
     $mobile = $row['mobile'];
     $phone = $row['phone'];
-    
+
 }else{
     $name = "";
     $login = "";
@@ -33,11 +33,11 @@ if($result_user !== false && $db->last_row_count() == 1){
     $company = "";
     $country = "";
     $mobile = "";
-    $phone = ""; 
+    $phone = "";
 }
 
 if(isset($_POST['edit'])){
-    
+
     $name = $_POST['name'];
     $login = $_POST['login'];
     $email = $_POST['email'];
@@ -50,7 +50,7 @@ if(isset($_POST['edit'])){
     $phone = $_POST['phone'];
     $password = $_POST['password'];
     $password_confirm = $_POST['password_confirm'];
-    
+
     if($name == "") $field_notice['name'] = $texts['REQUIRED_FIELD'];
     if($login == "") $field_notice['login'] = $texts['REQUIRED_FIELD'];
     if($address == "") $field_notice['address'] = $texts['REQUIRED_FIELD'];
@@ -63,14 +63,14 @@ if(isset($_POST['edit'])){
     }
     if($phone == "" || preg_match("/([0-9\-\s\+\(\)\.]+)/i", $phone) !== 1) $field_notice['phone'] = $texts['REQUIRED_FIELD'];
     if($email == "" || !preg_match("/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/i", $email)) $field_notice['email'] = $texts['INVALID_EMAIL'];
-    
+
     $result_exists = $db->query("SELECT * FROM pm_user WHERE id != ".$db->quote($_SESSION['user']['id'])." AND (email = ".$db->quote($email)." OR login = ".$db->quote($login).")");
     if($result_exists !== false && $db->last_row_count() > 0){
         $row = $result_exists->fetch();
         if($email = $row['email']) $field_notice['email'] = $texts['ACCOUNT_EXISTS'];
         if($login = $row['login']) $field_notice['login'] = $texts['USERNAME_EXISTS'];
     }
-    
+
     if(count($field_notice) == 0){
 
         $data = array();
@@ -90,24 +90,24 @@ if(isset($_POST['edit'])){
 
         $result_user = db_prepareUpdate($db, "pm_user", $data);
         if($result_user->execute() !== false){
-            
+
             $_SESSION['user']['login'] = $login;
             $_SESSION['user']['email'] = $email;
-            
+
             $msg_success .= $texts['ACCOUNT_EDIT_SUCCESS'];
         }else
             $msg_error .= $texts['ACCOUNT_EDIT_FAILURE'];
     }else
         $msg_error .= $texts['FORM_ERRORS'];
-    
+
 }
 
 require(getFromTemplate("common/header.php", false)); ?>
 
 <section id="page">
-    
+
     <?php include(getFromTemplate("common/page_header.php", false)); ?>
-    
+
     <div class="container">
         <h2 class="page-title">Travel Profile</h2>
     </div>
@@ -173,7 +173,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                 </aside>
             </div>
             <div class="col-md-9">
-                <?php 
+                <?php
                     if($article_alias == "" || $article_alias == 0){
                         include(getFromTemplate("common/user-profile.php", false));
                     }else if($article_alias == 1){
@@ -188,6 +188,8 @@ require(getFromTemplate("common/header.php", false)); ?>
                         include(getFromTemplate("common/user-profile-wishlist.php", false));
                     }else if($article_alias == 6){
                         include(getFromTemplate("common/user-profile-charter-history.php", false));
+                    }else if($article_alias == 7){
+                        include(getFromTemplate("common/user-profile-charter-booking-detail.php", false));
                     }
                 ?>
             </div>
@@ -196,5 +198,5 @@ require(getFromTemplate("common/header.php", false)); ?>
 
     <div class="gap"></div>
 
-    
+
 </section>

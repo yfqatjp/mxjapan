@@ -9,9 +9,22 @@ $response = "";
 //$room_stock = 1;
 //$max_people = 30;
 
-// TODO::设定检索条件
 // 检索的条件
 $arrContidion = array();
+
+if ($page_alias == "pickup") {
+	// 包车接送
+	$arrContidion["charter_type"] = "1";
+}
+if ($page_alias == "charters") {
+	// 包车游玩
+	$arrContidion["charter_type"] = "2";
+}
+
+$city_id = $hotelApp->query("city_id", "");
+if (!empty($city_id)) {
+	$arrContidion["charter_city"] = $city_id;
+}
 // 检索结果的取得
 $arrResult = array();
 // 总页码
@@ -31,7 +44,7 @@ if(count($field_notice) == 0){
 		$num_records = $result->fetchColumn(0);
 		$totalPage = ceil($num_records/$limit);
 	}
-	// 
+	//
 	if ($num_records > 0) {
 		// 检索的sql
 		$searchSql = $hotelApp->getChartersSql($arrContidion);
@@ -48,7 +61,7 @@ $charter_id = 0;
 $result_file = $db->prepare("SELECT * FROM pm_charter_file WHERE id_item = :charter_id AND checked = 1 AND lang = ".LANG_ID." AND type = 'image' AND file != '' ORDER BY rank LIMIT 1");
 $result_file->bindParam(":charter_id", $charter_id);
 
-// 
+//
 if(isset($_GET['action'])){
     if($_GET['action'] == "confirm")
         $msg_success .= "<p class=\"text-center lead\">".$texts['PAYMENT_SUCCESS_NOTICE']."</p>";
@@ -83,15 +96,15 @@ if(is_file(SYSBASE."js/plugins/jquery.event.calendar/js/languages/jquery.event.c
 require(getFromTemplate("common/header.php", false)); ?>
 
 <section id="page">
-    
+
     <?php include(getFromTemplate("common/page_header.php", false)); ?>
-    
+
     <div id="content" class="pb30">
-        
+
         <div id="search-page" class="mb30">
             <div class="container">
-                <?php 
-				include(getFromTemplate("common/search.php", false));
+                <?php
+				include(getFromTemplate("common/charter_search.php", false));
 				?>
             </div>
         </div>
@@ -108,12 +121,12 @@ require(getFromTemplate("common/header.php", false)); ?>
                         <a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filters </a>
                         <div class="collapse" id="collapseFilters">
                             <p>
-                <?php 
-                
+                <?php
+
 //                 echo $texts['CHECK_IN']." <b>".$from_date."</b> ".$texts['CHECK_OUT']." <b>".$to_date."</b><br>";
 //                 if(isset($num_nights) && $num_nights > 0) echo "<b>".$num_nights."</b> ".$texts['NIGHTS']." - ";
-//                 echo "<b>".($num_adults+$num_children)."</b> ".$texts['PERSONS']; 
-                
+//                 echo "<b>".($num_adults+$num_children)."</b> ".$texts['PERSONS'];
+
                 ?>
             </p>
             <div class="alert alert-success" style="display:none;"></div>
@@ -187,19 +200,19 @@ require(getFromTemplate("common/header.php", false)); ?>
                             $charter_alias = $row['alias'];
                             $charter_price = $row["charter_price"];
                             $destination = $row["destination"];
-                            
+
                             $charter_lat = $row['lat'];
                             $charter_lng = $row['lng'];
                             $charter_descr = $row['descr'];
                             $charter_type_name = $row["charter_type_name"];
-                            
+
                             $charter_alias = DOCBASE."charter/".text_format($charter_alias);
-                            
+
                             $min_price = 0;
                             if ($charter_price > 0) {
                             	$min_price = $charter_price;
                             }
-                            
+
                     ?>
                     <div class="col-sm-6 wow fadeIn" data-wow-delay="0.1s">
                         <div class="img_wrapper">
@@ -214,7 +227,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                                         <span class="tooltip-content"><?php echo $destination;?></span>
                                     </button>
                                 </form>
-                                <!-- 
+                                <!--
                                 <div class="wishlist">
                                     <a class="tooltip_styled tooltip-effect-4"><span class="tooltip-item"></span>
                                     <div class="tooltip-content"> Bookmark</div>
@@ -242,7 +255,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                                                 <img src="<?php echo $thumbpath;?>" width="800" height="533" class="img-responsive" alt="<?php echo $label; ?>">
                                                 <?php
                                             }
-                                        } 
+                                        }
                                     ?>
                                     <div class="short_info">
                                         <!--<small>1.30 min</small>-->
@@ -252,7 +265,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                                             <?php echo strtrunc(strip_tags($charter_descr), 120); ?>
                                         </p>
                                         <p>
-                                            
+
                                         </p>
                                         <div class="score_wp"><?php echo formatPrice($min_price*CURRENCY_RATE);?>
                                             <div id="score_1" class="score" data-value="7.5"></div>
@@ -270,6 +283,8 @@ require(getFromTemplate("common/header.php", false)); ?>
                     ?>
                 </div>
                 <!-- End row -->
+
+                <!--
                 <nav>
                     <ul class="pagination">
                         <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
@@ -291,6 +306,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                         </li>
                     </ul>
                 </nav>
+                 -->
             </div>
             <!-- End col lg 9 -->
         </div>
@@ -305,11 +321,11 @@ require(getFromTemplate("common/header.php", false)); ?>
             additionalMarginTop: 80
         });
 
-        <?php 
+        <?php
 			if (!empty($msg_error)) {
 		?>
 				$(".alert-danger").show();
-		<?php 
+		<?php
 			}
 		?>
     </script>

@@ -2,28 +2,70 @@
 // 前台
 require(SYSBASE."common/front.php");
 
-//
+$viewMsg = "";
+if ($hotelApp->isPOST()) {
+	// 取得预订订单ID
+	$charterBookingId = $hotelApp->query("booking_id");
+
+	// 操作Action
+	$action =  $hotelApp->query("action");
+
+	//
+	$arrData = array();
+	if ($action == "cancel") {
+		$arrData["status"] = BOOKING_STAUTS_CANCEL;
+		// 取消操作
+		$hotelApp->updateCharterBookingById($charterBookingId, $arrData);
+
+		// 记录操作日志
+		$hotelApp->insertCharterLog("pm_charter_booking", "【状态变更】【".BOOKING_STAUTS_CANCEL."】", $charterBookingId, $_SESSION['user']['id'], $arrData);
+		$viewMsg = $hotelApp->getTextsByName("BOOKING_STAUTS_UPDATE_MSG");
+	}
+
+	if ($action == "complete") {
+		$arrData["status"] = BOOKING_STAUTS_COMPLETE;
+		// 操作服务完成
+		$hotelApp->updateCharterBookingById($charterBookingId, $arrData);
+		// 记录操作日志
+		$hotelApp->insertCharterLog("pm_charter_booking", "【状态变更】【".BOOKING_STAUTS_COMPLETE."】", $charterBookingId, $_SESSION['user']['id'], $arrData);
+		$viewMsg = $hotelApp->getTextsByName("BOOKING_STAUTS_UPDATE_MSG");
+	}
+
+	// 去支付处理
+	if ($action == "pay") {
+		header("Location: ".DOCBASE.LANG_ALIAS."account/6");
+		exit();
+	}
+}
+
+// 取得包车服务订单一览
 $arrCharterHistory = $hotelApp->findChartersHistory();
 
+
 ?>
-<div class="checkbox">
-    <label>
-        <input class="i-check" type="checkbox" />Show only current trip</label>
-</div>
-<form action="?" method="post">
-<input type="hidden" name="action" value="" />
-<input type="hidden" name="action" value="booking" />
+
+<?php
+if (strlen($viewMsg) > 0) {
+?>
+<div class="alert alert-success" ><?php echo $viewMsg;?></div>
+<?php
+}
+?>
+<form id="charter_form" action="<?php echo DOCBASE.LANG_ALIAS.'account/6'; ?>" method="post">
+<input type="hidden" id="action" name="action" value="" />
+<input type="hidden" id="booking_id" name="booking_id" value="" />
 <table class="table table-bordered table-striped table-booking-history">
     <thead>
         <tr>
-            <th>Destination</th>
-            <th>Title</th>
-            <th>Depart Date</th>
-            <th>Car Info</th>
-            <th>Total</th>
-            <th>Charter Owner</th>
-            <th>Charter Phone</th>
-            <th>Cancel</th>
+            <th>目的地</th>
+            <th>标题</th>
+            <th>出发日</th>
+            <th>爱车信息</th>
+            <th>车主姓名</th>
+            <th>车主电话</th>
+            <th>金额</th>
+            <th>状态</th>
+            <th>操作</th>
         </tr>
     </thead>
     <tbody>
@@ -44,19 +86,42 @@ $arrCharterHistory = $hotelApp->findChartersHistory();
 	?>
         <tr>
             <td class="booking-history-type">
-            	<i class="fa fa-plane"></i><small><?php echo $destination;?></small>
+            	<a href="<?php echo DOCBASE.LANG_ALIAS.'account/7'; ?>?id=<?php echo $booking_id;?>" ><?php echo $destination;?></a>
             </td>
             <td class="booking-history-title"><?php echo $charter_title;?></td>
             <td><?php echo $depart_date;?></td>
             <td><?php echo $car_model."(".$car_no.")";?></td>
-            <td><?php echo formatPrice($total*CURRENCY_RATE);?></td>
             <td><?php echo $charter_name;?></td>
             <td><?php echo $charter_phone;?></td>
-            <td class="text-center"><a class="btn btn-default btn-sm" href="#">Cancel</a></td>
+            <td><?php echo formatPrice($total*CURRENCY_RATE);?></td>
+            <td><?php echo $hotelApp->displayStatusName($status);?></td>
+            <td class="text-center">
+				<?php
+				if ($status == BOOKING_STAUTS_WAITING) {
+				?>
+            	<a class="btn btn-default btn-sm" href="javascript:void(0);" onclick="submitCharterForm('cancel', <?php echo $booking_id;?>);">取消</a>
+            	<a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="submitCharterForm('pay', <?php echo $booking_id;?>);">支付</a>
+            	<?php
+				} else if ($status == BOOKING_STAUTS_PAYED) {
+            	?>
+				<a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="submitCharterForm('complete', <?php echo $booking_id;?>);">完成</a>
+            	<?php
+				}
+				?>
+            </td>
         </tr>
-	<?php 
+	<?php
 		}
 	?>
     </tbody>
 </table>
 </form>
+
+    <script>
+        function submitCharterForm(action, bookingId) {
+
+			$("#action").val(action);
+			$("#booking_id").val(bookingId);
+			$("#charter_form").submit();
+        }
+    </script>

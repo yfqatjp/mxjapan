@@ -342,4 +342,37 @@ INSERT INTO `pm_text` VALUES ('151', '2', 'CHECK_PAYMENT_COMPLETE_MSG', '您的�
 ALTER TABLE `pm_charter_booking`
 ADD COLUMN `destination`  varchar(250) NULL AFTER `alias`;
 
--- 2016/11/21 追加  End
+-- 操作日志
+CREATE TABLE `pm_charter_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(100) DEFAULT NULL,
+  `context` text,
+  `source_id` int(11) DEFAULT NULL,
+  `add_date` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `other_data` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `pm_text` VALUES ('152', '2', 'BOOKING_STAUTS_WAITING', '等待支付');
+INSERT INTO `pm_text` VALUES ('153', '2', 'BOOKING_STAUTS_CANCEL', '取消');
+INSERT INTO `pm_text` VALUES ('154', '2', 'BOOKING_STAUTS_PAYED', '已支付');
+INSERT INTO `pm_text` VALUES ('155', '2', 'BOOKING_STAUTS_COMPLETE', '服务完成');
+INSERT INTO `pm_text` VALUES ('156', '2', 'BOOKING_STAUTS_UPDATE_MSG', '操作成功');
+
+
+ALTER TABLE `pm_charter_line`
+CHANGE COLUMN `line_detail` `traffic`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '交通介绍' AFTER `arrive_time`,
+ADD COLUMN `scenic_area`  text NULL COMMENT '景点介绍' AFTER `arrive_time`,
+ADD COLUMN `caterers`  text NULL COMMENT '餐饮介绍' AFTER `scenic_area`;
+
+ALTER TABLE `pm_charter`
+ADD COLUMN `city`  int(11) NULL COMMENT '接送城市' AFTER `alias`;
+
+
+-- 预定包车
+INSERT INTO `pm_page` VALUES ('24', '2', '包车接送', '包车接送', '', 'Charter pick up', 'charter-payment-complete', '', 'noindex,nofollow', '', '', '', '', '0', 'charter-payment-complete', '', '0', '0', '0', '1', '11', '1472477070', '1473658466', '0', '0', '1');
+
+
+-- 2016/11/27 追加  End

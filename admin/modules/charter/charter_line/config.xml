@@ -19,7 +19,9 @@
         </field>
 		<field multi="0" label="行程名称" name="line_name" type="text" required="1" unique="0" validation="none"/>
 		<field multi="0" label="到达时间" name="arrive_time" type="text" required="0" unique="0" validation="none"/>
-		<field multi="0" label="景点/餐饮/交通" name="line_detail" type="textarea" editor="1" required="1" unique="0" validation="none"/>
+		<field multi="0" label="景点" name="scenic_area" type="textarea" editor="1" required="0" unique="0" validation="none"/>
+		<field multi="0" label="餐饮" name="caterers" type="textarea" editor="1" required="0" unique="0" validation="none"/>
+		<field multi="0" label="交通" name="traffic" type="textarea" editor="1" required="0" unique="0" validation="none"/>
 		<field multi="0" label="酒店" name="hotel" type="textarea" editor="1" required="0" unique="0" validation="none"/>
 		<field multi="0" label="注意事项" name="note" type="textarea" editor="0" required="0" unique="0" validation="none"/>
 		<field multi="0" label="个人评价" name="self_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
