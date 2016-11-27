@@ -576,7 +576,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria del Fiorel</h3>
@@ -614,7 +614,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_2.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria Novella</h3>
@@ -656,7 +656,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria del Fiorel</h3>
@@ -694,7 +694,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_2.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria Novella</h3>
@@ -736,7 +736,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria del Fiorel</h3>
@@ -774,7 +774,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_2.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria Novella</h3>
@@ -816,7 +816,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria del Fiorel</h3>
@@ -854,7 +854,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_2.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria Novella</h3>
@@ -896,7 +896,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria del Fiorel</h3>
@@ -934,7 +934,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_2.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria Novella</h3>
@@ -976,7 +976,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria del Fiorel</h3>
@@ -1014,7 +1014,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_2.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria Novella</h3>
@@ -1056,7 +1056,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria del Fiorel</h3>
@@ -1094,7 +1094,7 @@ require(getFromTemplate("common/header.php", false));
                                     <!-- End tool_i -->
                                     <div class="img_container">
                                         <a href="florence-must-see-detail.html">
-                                            <img src="img/must_see_list_2.jpg" width="800" height="533" class="img-responsive" alt="">
+                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                             <div class="short_info">
                                                 <small>1.30 min</small>
                                                 <h3>Santa Maria Novella</h3>
@@ -1347,7 +1347,7 @@ require(getFromTemplate("common/header.php", false));
                                                     <!-- End tool_i -->
                                                     <div class="img_container">
                                                         <a href="florence-must-see-detail.html">
-                                                            <img src="img/must_see_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                                             <div class="short_info">
                                                                 <small>1.30 min</small>
                                                                 <h3>Santa Maria del Fiorel</h3>
@@ -1385,7 +1385,7 @@ require(getFromTemplate("common/header.php", false));
                                                     <!-- End tool_i -->
                                                     <div class="img_container">
                                                         <a href="florence-must-see-detail.html">
-                                                            <img src="img/must_see_list_2.jpg" width="800" height="533" class="img-responsive" alt="">
+                                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                                             <div class="short_info">
                                                                 <small>1.30 min</small>
                                                                 <h3>Santa Maria Novella</h3>
@@ -1426,7 +1426,7 @@ require(getFromTemplate("common/header.php", false));
                                                     <!-- End tool_i -->
                                                     <div class="img_container">
                                                         <a href="florence-must-see-detail.html">
-                                                            <img src="img/must_see_list_3.jpg" width="800" height="533" class="img-responsive" alt="">
+                                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                                             <div class="short_info">
                                                                 <small>1.10 min</small>
                                                                 <h3>Uffizi Gallery</h3>
@@ -1464,7 +1464,7 @@ require(getFromTemplate("common/header.php", false));
                                                     <!-- End tool_i -->
                                                     <div class="img_container">
                                                         <a href="florence-must-see-detail.html">
-                                                            <img src="img/must_see_list_4.jpg" width="800" height="533" class="img-responsive" alt="">
+                                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                                             <div class="short_info">
                                                                 <small>1.30 min</small>
                                                                 <h3>Piazza della Signoria</h3>
@@ -1505,7 +1505,7 @@ require(getFromTemplate("common/header.php", false));
                                                     <!-- End tool_i -->
                                                     <div class="img_container">
                                                         <a href="florence-must-see-detail.html">
-                                                            <img src="img/must_see_list_5.jpg" width="800" height="533" class="img-responsive" alt="">
+                                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                                             <div class="short_info">
                                                                 <small>1.30 min</small>
                                                                 <h3>Ponte Vecchio</h3>
@@ -1543,7 +1543,7 @@ require(getFromTemplate("common/header.php", false));
                                                     <!-- End tool_i -->
                                                     <div class="img_container">
                                                         <a href="florence-must-see-detail.html">
-                                                            <img src="img/must_see_list_6.jpg" width="800" height="533" class="img-responsive" alt="">
+                                                            <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                                             <div class="short_info">
                                                                 <small>1.30 min</small>
                                                                 <h3>Duomo Cathedral</h3>
@@ -1839,7 +1839,7 @@ require(getFromTemplate("common/header.php", false));
                                                 <!-- End tools i-->
                                                 <div class="img_container">
                                                     <a href="florence-must-see-detail.html">
-                                                        <img src="img/events_list_1.jpg" width="800" height="533" class="img-responsive" alt="">
+                                                        <img src="<?php echo getFromTemplate("images/800x600.png"); ?>" width="800" height="533" class="img-responsive" alt="">
                                                         <div class="short_info">
                                                             <small>20 Oct. 2016</small>
                                                             <h3>Museums Free Entrance</h3>
