@@ -484,7 +484,12 @@ require(getFromTemplate("common/header.php", false));
 <section id="page">
 
     <?php include(getFromTemplate("common/page_header.php", false)); ?>
-
+  
+                        <div id="search-page" class="mb30">
+                            <div class="container">
+                            <?php include(getFromTemplate("common/search.php", false)); ?>
+                            </div>
+                        </div>
     <?php
     if ($result_hotel !== false) {
         ?>
