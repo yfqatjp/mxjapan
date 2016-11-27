@@ -182,7 +182,7 @@ ul.navbar-nav > li.primary > a.firstLevel:focus {
     background: rgba(255, 82, 79, 0.75);
 }
 #search-page {
-    background: rgba(255, 82, 79, 0.75);
+    background: #1aa79b;
 }
 .booking-search .form-control:focus,
 .booking-search .btn.dropdown-toggle:focus,
