@@ -1,4 +1,3 @@
-
 /*-------- 2.2 Grid page  --------*/
 #filters_col{
 	background-color:#fff;
@@ -123,7 +122,7 @@ a#filters_col_bt:before{
 	position:absolute;
 	left:0;
 	bottom:0;
-	background: url(../images/shadow_tour.png) repeat-x left bottom;
+	background: url(../img/shadow_tour.png) repeat-x left bottom;
 	width:100%;
 	padding:25px 15px 15px 20px;
 	color:#fff;
@@ -150,7 +149,6 @@ a#filters_col_bt:before{
 	display:none;
 	padding-top:10px;
 	line-height:1.2;
-	color: #fff;
 }
 .img_container a:hover .short_info{
 	padding-bottom:13%;
@@ -245,6 +243,285 @@ a#filters_col_bt:before{
 	font-family: "ElegantIcons";
   content: "\e01d";
 }
+/*-------- 2.3 List page  --------*/
+.strip_list{
+	background-color:#fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin-bottom:30px;
+	border:1px solid #ededed;
+	position:relative;
+}
+.strip_list .img_wrapper{
+	margin-bottom:0;
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+	-moz-border-radius-topright: 0;
+	-moz-border-radius-bottomright: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.strip_list:hover .img_container img {
+	-webkit-transform:scale(1.2);
+	transform:scale(1.2);
+	opacity:0.6;
+}
+.strip_list .img_container img {
+	-webkit-transform:scale(1);
+	transform:scale(1);
+	-moz-transition: all 0.4s;
+	-webkit-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+	opacity:0.8;
+}
+.strip_list .img_container{
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+	-moz-border-radius-topright: 0;
+	-moz-border-radius-bottomright: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.strip_list .desc{
+	padding:60px 25px 0 0;
+	color:#777;
+}
+.strip_list .desc h4{
+	font-style:italic;
+	color:#777;
+}
+.strip_list .img_container a:hover .short_info{
+	padding-bottom: 15px;
+}
+.tools_i{
+	position:absolute; 
+	z-index:99;
+	top:0;
+	right:0; 
+	padding:25px; 
+	width:80px;
+}
+
+/*-------- 2.4 Map list --------*/
+.full-height {height:1000px;}
+.row-height{
+    height:100%;
+    min-height:100%;
+}
+.map-right{
+    height:100%;
+    min-height:100%;
+	padding:0px;
+}
+.content-left{
+    height:100%;
+    min-height:100%;
+	overflow-y:scroll;
+	padding:0px 30px 30px 30px;
+	background-color:#fff;
+	border-right: 1px solid #ededed;
+}
+#map{
+	width:100%;
+	height:100%;
+}
+#collapseFiltesmap .filter_type{
+	clear:both;
+	width:100%;
+	border-top: 1px solid #ddd;
+}
+#collapseFiltesmap .filter_type .range_wp{
+	float:left;
+	width:80%;
+	padding-left:30px;
+	padding-bottom:20px;
+	padding-top:5px;
+}
+#collapseFiltesmap .filter_type h6{
+	float:left;
+	width:20%;
+	border:0;
+	padding-top:10px;
+}
+#collapseFiltesmap .filter_type ul{
+	float:left;
+	width:80%;
+	margin:0 0 15px 0;
+	padding:0;
+	padding-top:20px;
+}
+#collapseFiltesmap .filter_type ul li {
+	display:inline-block;
+	min-width:190px;
+	margin-left:45px;
+}
+#collapseFiltesmap .filter_type ul li label{
+	font-weight:normal;
+	font-size:13px;
+}
+.infoBox {padding-right:45px !important;}
+.marker_info {
+    width: 240px;
+    height: 290px;
+    border-radius: 5px;
+	text-align:left;
+	background: #000;
+    background: rgba(0, 0, 0, 0.85);
+    position: relative;
+    z-index: 9999999;
+	font-family:"Roboto", Arial, sans-serif;
+}
+.marker_info img {
+    display: block;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.marker_info h3 {
+	font-size:14px;
+	line-height:1.1;
+	font-weight:500;
+	text-transform:uppercase;
+	margin-bottom:0;
+		color:#fff;
+}
+.marker_info em {
+	margin-bottom:10px;
+	display:inline-block;
+	font-size:12px;
+	color:#999;
+}
+.marker_info span {
+    display: block;
+    padding: 0px 20px;
+    font-size: 13px;
+	line-height:1.2;
+	color:#fff;
+	margin-bottom:15px;
+	position:relative;
+}
+.marker_info span strong{
+	display:block;
+	font-weight:500;
+	margin-bottom:10px;
+}
+.marker_info:after{
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 0, 0, 0);
+	border-right-color: rgba(0, 0, 0, 0.85);
+	border-width: 10px;
+	margin-top: -10px;
+}
+a.btn_infobox_detail{
+	position:absolute;
+	top:-5px;
+	right:15px;
+	width:20px;
+	height:20px;
+}
+a.btn_infobox_detail:before, .btn_infobox_get_directions:before,a.btn_infobox_phone:before{
+	 font-style: normal;
+  font-weight: normal;
+  font-family: "ElegantIcons";
+  font-size:20px;
+  cursor:pointer;
+}
+a.btn_infobox_detail:before{
+  content: "\70";
+  color:#fff;
+}
+.btn_infobox_get_directions, a.btn_infobox_phone{
+	border:none;
+	display:inline-block;
+	font-weight:500;
+	color:#FC0;
+	background:none;
+	cursor:pointer;
+	font-size:13px;
+	position:relative;
+	padding-left:20px;
+	margin-top:10px;
+	outline:none;
+}
+.btn_infobox_get_directions:hover, a.btn_infobox_phone:hover{color:#fff;}
+.btn_infobox_get_directions:before{
+  font-size:14px;
+  content: "\e080";
+  position:absolute;
+  left:0;
+  top:0;
+}
+a.btn_infobox_phone:before{
+  font-size:14px;
+  content: "\e090";
+  position:absolute;
+  left:0;
+  top:-2px;
+}
+span.infobox_rate{
+	display:inline-block;
+	margin:-45px 0 0 -20px;
+	float:left;
+	background-color:#ec008c;
+	padding:5px 8px;
+	font-weight:500;
+	text-align:left;
+	font-size:13px;
+}
+#filters_map{
+	border-bottom:1px solid #ededed;
+	margin:0 -30px 30px -30px;
+	background-color:#f8f8f8;
+	padding:15px 30px 0 30px;
+}
+a.btn_filter{
+	padding:5px;
+	background-color:#fff;
+	border:1px solid #ededed;
+	display:inline-block;
+	line-height:1;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin-bottom:15px;
+}
+a.btn_filter:before{
+	font-size:30px;
+	color:#999;
+	padding:0;
+}
+a.btn_filter#open_filters:before{
+	font-family: "ElegantIcons";
+  	content: "\66";
+}
+a.btn_filter#list:before{
+	font-family: "ElegantIcons";
+  	content: "\64";
+	font-size:22px;
+}
+a.btn_filter#grid, a.btn_filter#list{
+	margin-top:5px;
+}
+a.btn_filter#grid:before{
+  	font-family: "ElegantIcons";
+	content: "\e025";
+	font-size:20px;
+}
+a.btn_filter#grid{
+	margin-right:5px;
+}
+
 
 
 /*-------- 4.6 Ribbons --------*/

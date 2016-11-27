@@ -119,7 +119,11 @@
     <script>
         Modernizr.load({
             load : [
-                '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+                '<?php echo DOCBASE; ?>js/bootstrap.js',
+                '<?php echo DOCBASE; ?>js/bootstrap-datepicker.js',
+                '<?php echo DOCBASE; ?>js/bootstrap-select.js',
+                '<?php echo DOCBASE; ?>js/bootstrap-timepicker.js',
+//                '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
                 '<?php echo DOCBASE; ?>js/plugins/respond/respond.min.js',
                 '//code.jquery.com/ui/1.11.4/jquery-ui.js',
                 <?php if(LANG_TAG != "en") : ?>'//rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-<?php echo LANG_TAG; ?>.js',<?php endif; ?>

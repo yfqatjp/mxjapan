@@ -34,7 +34,7 @@
         </div>
     </div>
 </footer>
-<a href="#" id="toTop"><i class="fa-angle-up"></i></a>
+<a href="#" id="toTop"><i class="fa fa-angle-up"></i></a>
 </body>
 </html>
 <?php
