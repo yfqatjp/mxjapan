@@ -115,6 +115,19 @@ if (isset($arrCharter["id_user"])) {
 	}
 }
 
+
+//
+$arrCharterGuaranteed = array();
+$result = $db->query("SELECT t1.*, t2.file, t2.id as fileid FROM pm_charter_guaranteed t1 left join pm_charter_guaranteed_file t2 ON ( t1.id = t2.id_item and t2.lang = t1.lang ) WHERE  t1.lang = ".DEFAULT_LANG);
+if($result !== false){
+	foreach($result as $row) {
+		$arrCharterGuaranteed[$row["id"]]["name"] = $row["name"];
+		$arrCharterGuaranteed[$row["id"]]["content"] = $row["content"];
+		$arrCharterGuaranteed[$row["id"]]["file"] = $row["file"];
+		$arrCharterGuaranteed[$row["id"]]["file_id"] = $row["fileid"];
+	}
+}
+
 // 安全考虑
 $token = $hotelApp->getToken();
 
@@ -192,127 +205,172 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
                             </div>
                         </div>
                     </div>
-                    <div class="row mb10">
-                        <div class="col-md-12" itemprop="description">
-							<?php 
-                            echo $arrCharter['descr'];
-                            ?>
-                        </div>
-                    </div>
                     
-
-    				<!--  -->
-    				<?php 
-    				if ($arrCharterInfo != null && count($arrCharterInfo) > 0) {
-    					if (isset($arrCharterItem[1])) {
-    						$realpath = SYSBASE."medias/charter_item/big/".$arrCharterItem[1]["file_id"]."/".$arrCharterItem[1]["file"];
-    						$thumbpath = DOCBASE."medias/charter_item/big/".$arrCharterItem[1]["file_id"]."/".$arrCharterItem[1]["file"];
-    				?>
-	                    <div class="row">
-	                        <div class="col-md-12">
-								<!-- Comments -->
-							    <h3 class="mb10">
-							    <?php if(is_file($realpath)) {?>
-							    <img src="<?php echo $thumbpath; ?>" alt="" style="width:25px;">
-							    <?php 
-    							}
-							    echo $arrCharterItem[1]["name"]; ?>
-							    </h3>                        
-		                        
-		                        <section class="clearfix">
-			                        <div class="media row">
-						                <div class="col-sm-3">汽车品牌:</div>
-						                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["car_brand"]; ?></div>
-						            </div>
-						            <div class="media row">
-						                <div class="col-sm-3">汽车型号:</div>
-						                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["car_model"]; ?></div>
-						            </div>
-						            <div class="media row">
-						                <div class="col-sm-3">车牌号:</div>
-						                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["car_no"]; ?></div>
-						            </div>
-						            <div class="media row">
-						                <div class="col-sm-3">座位:</div>
-						                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["car_seat"]; ?>座</div>
-						            </div>
-						            <div class="media row">
-						                <div class="col-sm-3">驾龄:</div>
-						                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["driving_year"]; ?>年</div>
-						            </div>
-						            <div class="media row">
-						                <div class="col-sm-3">行李数量</div>
-						                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["luggage"]; ?>座</div>
-						            </div>
-						            <div class="media row">
-						                <div class="col-sm-3">乘客保险</div>
-						                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["safe"]; ?></div>
-						            </div>
-							    </section>
-						    </div>
-	                    </div>
-					<?php 
-    					}
-    					
-    					if (isset($arrCharterItem[2])) {
-    						$realpath = SYSBASE."medias/charter_item/big/".$arrCharterItem[2]["file_id"]."/".$arrCharterItem[2]["file"];
-    						$thumbpath = DOCBASE."medias/charter_item/big/".$arrCharterItem[2]["file_id"]."/".$arrCharterItem[2]["file"];
-    				?>
                     
-                    <div class="row">
-	                        <div class="col-md-12">
-								<!-- Comments -->
-							    <h3 class="mb10">
-							    <?php if(is_file($realpath)) {?>
-							    <img src="<?php echo $thumbpath; ?>" alt="" style="width:25px;">
-							    <?php 
-    							}
-							    echo $arrCharterItem[2]["name"]; ?>
-							    </h3>                        
-		                        
-		                        <section class="clearfix">
-			                        <div class="media row">
-						                <div class="col-sm-3">包含:</div>
-						                <div class="text-right col-sm-8"><?php echo $haveFeeName; ?></div>
-						            </div>
-						            
-						            <div class="media row">
-						                <div class="col-sm-3">不包含:</div>
-						                <div class="text-right col-sm-8"><?php echo $notHaveFeeName; ?></div>
-						            </div>
-							    </section>
-						    </div>
-	                    </div>
-					<?php 
-    					}
-    					if (count($arrCharterItem) >= 3) {
-    						for ($i = 3; $i <= count($arrCharterItem); $i++ ) {
-    							$realpath = SYSBASE."medias/charter_item/big/".$arrCharterItem[$i]["file_id"]."/".$arrCharterItem[$i]["file"];
-    							$thumbpath = DOCBASE."medias/charter_item/big/".$arrCharterItem[$i]["file_id"]."/".$arrCharterItem[$i]["file"];
-    				?>
-    				<div class="row">
-    					<div class="col-md-12">
-								<!-- Comments -->
-							    <h3 class="mb10">
-							    <?php if(is_file($realpath)) {?>
-							    <img src="<?php echo $thumbpath; ?>" alt="" class="">
-							    <?php 
-    							}
-							    echo $arrCharterItem[$i]["name"]; ?>
-							    </h3> 
-						</div> 
-    					<div class="col-md-12" itemprop="description">
-                            <?php 
-                            $notekey = 'note'.($i-2);
-                            echo $arrCharterInfo[$notekey]; 
-                            ?>
-                        </div>
-                    </div>
-                      <?php 
-    						}
-    					}
-    				}
-    				?>
+                    <div class="tabbable booking-details-tabbable">
+                    	<ul class="nav nav-tabs" id="myTab">
+                            <li class="active"><a href="#tab-1" data-toggle="tab"><i class="fa fa-camera"></i>图文详情</a>
+                            </li>
+                            <li><a href="#guaranteed-tab" data-toggle="tab"><i class="fa fa-legal"></i>交易保障</a>
+                            </li>
+                        </ul>
+                    
+                    	<div class="tab-content">
+                    		<div class="tab-pane fade in active" id="tab-1">
+			                    <div class="row mb10">
+			                        <div class="col-md-12" itemprop="description">
+										<?php 
+			                            echo $arrCharter['descr'];
+			                            ?>
+			                        </div>
+			                    </div>
+			    				<!--  -->
+			    				<?php 
+			    				if ($arrCharterInfo != null && count($arrCharterInfo) > 0) {
+			    					if (isset($arrCharterItem[1])) {
+			    						$realpath = SYSBASE."medias/charter_item/big/".$arrCharterItem[1]["file_id"]."/".$arrCharterItem[1]["file"];
+			    						$thumbpath = DOCBASE."medias/charter_item/big/".$arrCharterItem[1]["file_id"]."/".$arrCharterItem[1]["file"];
+			    				?>
+				                    <div class="row">
+				                        <div class="col-md-12">
+											<!-- Comments -->
+										    <h3 class="mb10">
+										    <?php if(is_file($realpath)) {?>
+										    <img src="<?php echo $thumbpath; ?>" alt="" style="width:25px;">
+										    <?php 
+			    							}
+										    echo $arrCharterItem[1]["name"]; ?>
+										    </h3>                        
+					                        
+					                        <section class="clearfix">
+						                        <div class="media row">
+									                <div class="col-sm-3">汽车品牌:</div>
+									                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["car_brand"]; ?></div>
+									            </div>
+									            <div class="media row">
+									                <div class="col-sm-3">汽车型号:</div>
+									                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["car_model"]; ?></div>
+									            </div>
+									            <div class="media row">
+									                <div class="col-sm-3">车牌号:</div>
+									                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["car_no"]; ?></div>
+									            </div>
+									            <div class="media row">
+									                <div class="col-sm-3">座位:</div>
+									                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["car_seat"]; ?>座</div>
+									            </div>
+									            <div class="media row">
+									                <div class="col-sm-3">驾龄:</div>
+									                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["driving_year"]; ?>年</div>
+									            </div>
+									            <div class="media row">
+									                <div class="col-sm-3">行李数量</div>
+									                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["luggage"]; ?>座</div>
+									            </div>
+									            <div class="media row">
+									                <div class="col-sm-3">乘客保险</div>
+									                <div class="text-right col-sm-8"><?php echo $arrCharterInfo["safe"]; ?></div>
+									            </div>
+										    </section>
+									    </div>
+				                    </div>
+								<?php 
+			    					}
+			    					
+			    					if (isset($arrCharterItem[2])) {
+			    						$realpath = SYSBASE."medias/charter_item/big/".$arrCharterItem[2]["file_id"]."/".$arrCharterItem[2]["file"];
+			    						$thumbpath = DOCBASE."medias/charter_item/big/".$arrCharterItem[2]["file_id"]."/".$arrCharterItem[2]["file"];
+			    				?>
+			                    
+			                    <div class="row">
+				                        <div class="col-md-12">
+											<!-- Comments -->
+										    <h3 class="mb10">
+										    <?php if(is_file($realpath)) {?>
+										    <img src="<?php echo $thumbpath; ?>" alt="" style="width:25px;">
+										    <?php 
+			    							}
+										    echo $arrCharterItem[2]["name"]; ?>
+										    </h3>                        
+					                        
+					                        <section class="clearfix">
+						                        <div class="media row">
+									                <div class="col-sm-3">包含:</div>
+									                <div class="text-right col-sm-8"><?php echo $haveFeeName; ?></div>
+									            </div>
+									            
+									            <div class="media row">
+									                <div class="col-sm-3">不包含:</div>
+									                <div class="text-right col-sm-8"><?php echo $notHaveFeeName; ?></div>
+									            </div>
+										    </section>
+									    </div>
+				                    </div>
+								<?php 
+			    					}
+			    					if (count($arrCharterItem) >= 3) {
+			    						for ($i = 3; $i <= count($arrCharterItem); $i++ ) {
+			    							$realpath = SYSBASE."medias/charter_item/big/".$arrCharterItem[$i]["file_id"]."/".$arrCharterItem[$i]["file"];
+			    							$thumbpath = DOCBASE."medias/charter_item/big/".$arrCharterItem[$i]["file_id"]."/".$arrCharterItem[$i]["file"];
+			    				?>
+			    				<div class="row">
+			    					<div class="col-md-12">
+											<!-- Comments -->
+										    <h3 class="mb10">
+										    <?php if(is_file($realpath)) {?>
+										    <img src="<?php echo $thumbpath; ?>" alt="" class="">
+										    <?php 
+			    							}
+										    echo $arrCharterItem[$i]["name"]; ?>
+										    </h3> 
+									</div> 
+			    					<div class="col-md-12" itemprop="description">
+			                            <?php 
+			                            $notekey = 'note'.($i-2);
+			                            echo $arrCharterInfo[$notekey]; 
+			                            ?>
+			                        </div>
+			                    </div>
+			                      <?php 
+			    						}
+			    					}
+			    				}
+			    				?>
+			    			</div><!-- tab1 -->
+			    			
+			    			<div class="tab-pane fade" id="guaranteed-tab">
+			    				<?php 
+			    					if ($arrCharterGuaranteed != null && count($arrCharterGuaranteed) > 0) {
+			    						
+			    						foreach($arrCharterGuaranteed as $key => $guaranteedInfo) {
+			    					
+			    						$realpath = SYSBASE."medias/charter_guaranteed/big/".$guaranteedInfo["file_id"]."/".$guaranteedInfo["file"];
+			    						$thumbpath = DOCBASE."medias/charter_guaranteed/big/".$guaranteedInfo["file_id"]."/".$guaranteedInfo["file"];
+			    						?>
+                                    <div class="row">
+                                    	<?php if(!empty($guaranteedInfo["content"])) {?>
+                                    		<div class="col-md-12" itemprop="description">
+                                    			<?php echo $guaranteedInfo["content"]; ?>
+                                    		</div>
+                                    	<?php 
+			    							}
+			    							?>
+			    						<div class="col-md-12">
+			    							<?php if(is_file($realpath)) {?>
+										    	<img src="<?php echo $thumbpath; ?>" alt="" class="">
+										    <?php 
+			    							}
+			    							?>
+			    						</div>
+			    					</div>
+			    					 <?php 
+			    					}
+			    				}
+			    				?>
+                            </div>
+                                
+	    				</div> <!-- tab-content end -->
+    				</div> <!-- tabbable end -->
     				
                     <div class="row">
     					<div class="col-md-12">
@@ -321,6 +379,9 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
                     </div>
                     
                 </div>
+                
+                
+                
                 
                 <aside class="col-md-4 mb20">
                     <div class="boxed">

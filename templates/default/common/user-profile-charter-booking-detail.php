@@ -29,23 +29,156 @@ function echoInfo($arr, $key){
         <div class="row">
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['FULLNAME']; ?></label>
+	                <label class="col-lg-3 control-label">订单编号</label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice">1111111</div>
+	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
 	                </div>
 	            </div>
 
 	        </div>
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['ADDRESS']; ?></label>
+	                <label class="col-lg-3 control-label">订单状态</label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" >2222</div>
+	                    <div class="field-notice" ><?php echo $hotelApp->displayStatusName(echoInfo($charterBookingId, "status"));?></div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+        
+		<div class="row">
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">服务内容</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">接送地点</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "destination");?></div>
+	                </div>
+	            </div>
+
+	        </div>
+        </div>
+
+		<div class="row">
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">订单总额</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice"><?php echo formatPrice(echoInfo($charterBookingId, "total")*CURRENCY_RATE);?></div>
+	                </div>
+	            </div>
+
+	        </div>
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">支付</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+        
+		<div class="row">
+
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">下单时间</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo date("Y-m-d H:i:s", echoInfo($charterBookingId, "add_date"));?></div>
 	                </div>
 	            </div>
 	        </div>
         </div>
 
+
+
+		<div class="row">
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">订单编号</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
+	                </div>
+	            </div>
+
+	        </div>
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">服务内容</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+
+		<div class="row">
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">订单编号</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
+	                </div>
+	            </div>
+
+	        </div>
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">服务内容</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+
+		<div class="row">
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">订单编号</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
+	                </div>
+	            </div>
+
+	        </div>
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">服务内容</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+
+		<div class="row">
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">订单编号</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
+	                </div>
+	            </div>
+
+	        </div>
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">服务内容</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
 
         <h4>预订人详情</h4>
         <div class="row">

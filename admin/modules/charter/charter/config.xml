@@ -26,8 +26,8 @@
             <options table="pm_charter_city" fieldlabel="name" fieldvalue="id" order="name"></options>
         </field>
 		<field multi="1" label="接送地" name="destination" type="text" required="1" unique="0" validation="none"/>
-		<field multi="1" label="纬度" name="lat" type="text" required="1" unique="0" validation="none"/>
-		<field multi="1" label="经度" name="lng" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="纬度" name="lat" type="text" required="0" unique="0" validation="none"/>
+		<field multi="1" label="经度" name="lng" type="text" required="0" unique="0" validation="none"/>
 		<field multi="1" label="服务别名" name="alias" type="alias" required="1" unique="1" validation="none"/>
 		<field multi="1" label="说明" name="descr" type="textarea" editor="1" required="0" unique="0" validation="none"/>
 		<field multi="0" label="手机号码" name="phone" type="text" required="0" unique="0" validation="none"/>

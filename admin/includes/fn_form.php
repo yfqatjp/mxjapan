@@ -343,8 +343,7 @@ function displayField($field, $table, $index, $id_lang)
             /* @jeff 包车服务  start */
             if ($active == 0) {
             	$checkText = "";
-            	foreach($options as $option){
-            		$key = key($options);
+            	foreach($options as $key => $option){
             		if ($value == $key) {
             			$checkText = $options[$key];
             		}

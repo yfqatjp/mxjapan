@@ -355,6 +355,62 @@ CREATE TABLE `pm_charter_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+-- ----------------------------
+-- Table structure for `pm_charter_city`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_charter_city`;
+CREATE TABLE `pm_charter_city` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lang` int(11) NOT NULL,
+  `name` varchar(250) DEFAULT NULL COMMENT '城市名称',
+  `rank` int(11) DEFAULT '0',
+  `checked` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`,`lang`),
+  KEY `charter_city_lang_fkey` (`lang`),
+  CONSTRAINT `charter_city_lang_fkey` FOREIGN KEY (`lang`) REFERENCES `pm_lang` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `pm_charter_guaranteed`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_charter_guaranteed`;
+CREATE TABLE `pm_charter_guaranteed` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lang` int(11) NOT NULL,
+  `name` varchar(250) DEFAULT NULL COMMENT '担保名称',
+  `content` text COMMENT '担保内容',
+  `rank` int(11) DEFAULT '0',
+  `checked` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`,`lang`),
+  KEY `charter_guaranteed_lang_fkey` (`lang`),
+  CONSTRAINT `charter_guaranteed_lang_fkey` FOREIGN KEY (`lang`) REFERENCES `pm_lang` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pm_charter_guaranteed
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `pm_charter_guaranteed_file`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_charter_guaranteed_file`;
+CREATE TABLE `pm_charter_guaranteed_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lang` int(11) NOT NULL,
+  `id_item` int(11) NOT NULL,
+  `home` int(11) DEFAULT '0',
+  `checked` int(11) DEFAULT '1',
+  `rank` int(11) DEFAULT '0',
+  `file` varchar(250) DEFAULT NULL,
+  `label` varchar(250) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`,`lang`),
+  KEY `charter_guaranteed_file_fkey` (`id_item`,`lang`),
+  KEY `charter_guaranteedfile_lang_fkey` (`lang`),
+  CONSTRAINT `charter_guaranteed_file_fkey` FOREIGN KEY (`id_item`, `lang`) REFERENCES `pm_charter_guaranteed` (`id`, `lang`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `charter_guaranteed_file_lang_fkey` FOREIGN KEY (`lang`) REFERENCES `pm_lang` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO `pm_text` VALUES ('152', '2', 'BOOKING_STAUTS_WAITING', '等待支付');
 INSERT INTO `pm_text` VALUES ('153', '2', 'BOOKING_STAUTS_CANCEL', '取消');
 INSERT INTO `pm_text` VALUES ('154', '2', 'BOOKING_STAUTS_PAYED', '已支付');
@@ -372,7 +428,7 @@ ADD COLUMN `city`  int(11) NULL COMMENT '接送城市' AFTER `alias`;
 
 
 -- 预定包车
-INSERT INTO `pm_page` VALUES ('24', '2', '包车接送', '包车接送', '', 'Charter pick up', 'charter-payment-complete', '', 'noindex,nofollow', '', '', '', '', '0', 'charter-payment-complete', '', '0', '0', '0', '1', '11', '1472477070', '1473658466', '0', '0', '1');
+INSERT INTO `pm_page` VALUES ('24', '2', '包车接送', '包车接送', '', 'Charter pick up', 'pickup', '', 'noindex,nofollow', '', '', '', '', '0', 'charters', '', '1', '0', '0', '1', '11', '1472477070', '1473658466', '0', '0', '1');
 
 
 -- 2016/11/27 追加  End

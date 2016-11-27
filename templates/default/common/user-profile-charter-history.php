@@ -57,8 +57,7 @@ if (strlen($viewMsg) > 0) {
 <table class="table table-bordered table-striped table-booking-history">
     <thead>
         <tr>
-            <th>目的地</th>
-            <th>标题</th>
+            <th>包车服务</th>
             <th>出发日</th>
             <th>爱车信息</th>
             <th>车主姓名</th>
@@ -85,11 +84,10 @@ if (strlen($viewMsg) > 0) {
 			$charter_phone = $row["charter_phone"];
 	?>
         <tr>
-            <td class="booking-history-type">
-            	<a href="<?php echo DOCBASE.LANG_ALIAS.'account/7'; ?>?id=<?php echo $booking_id;?>" ><?php echo $destination;?></a>
+            <td class="booking-history-title">
+            	<a href="<?php echo DOCBASE.LANG_ALIAS.'account/7'; ?>?id=<?php echo $booking_id;?>" ><?php echo $charter_title;?></a>
             </td>
-            <td class="booking-history-title"><?php echo $charter_title;?></td>
-            <td><?php echo $depart_date;?></td>
+            <td><?php echo date('Y-m-d', $depart_date);?></td>
             <td><?php echo $car_model."(".$car_no.")";?></td>
             <td><?php echo $charter_name;?></td>
             <td><?php echo $charter_phone;?></td>
