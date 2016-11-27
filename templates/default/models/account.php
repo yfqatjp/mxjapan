@@ -169,6 +169,12 @@ require(getFromTemplate("common/header.php", false)); ?>
                                 Charter History
                             </a>
                         </li>
+                        <li>
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/8'; ?>">
+                                <i class="fa fa-file-text"></i>
+                                Notice
+                            </a>
+                        </li>
                     </ul>
                 </aside>
             </div>
@@ -190,6 +196,9 @@ require(getFromTemplate("common/header.php", false)); ?>
                         include(getFromTemplate("common/user-profile-charter-history.php", false));
                     }else if($article_alias == 7){
                         include(getFromTemplate("common/user-profile-charter-booking-detail.php", false));
+                    }else if($article_alias == 8){
+						include(getFromTemplate("common/user-profile-notice.php", false));
+//                         include(getFromTemplate("common/get_notices.php", false));
                     }
                 ?>
             </div>
