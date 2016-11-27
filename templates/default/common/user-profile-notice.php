@@ -7,7 +7,8 @@ if(isset($db) && $db !== false){
 <table class="table table-bordered table-striped table-booking-history">
     <thead>
         <tr>
-            <th>Category</th>
+            <th>No</th>
+        	<th>Category</th>
             <th>Title</th>
             <th>Level</th>
             <th>Expiration Date</th>
@@ -18,20 +19,35 @@ if(isset($db) && $db !== false){
 		$notice_id = 0;
 		foreach($result_notice as $i => $row){
 			$notice_id += 1;
-			$notice_category = $row['category'];
+			$query_category = "SELECT value FROM pm_category WHERE id = ".$row['category']." AND lang = ".LANG_ID;
+			$result_category = $db->query($query_category);
+			if($result_category !== false && $db->last_row_count() > 0){
+				$row_category = $result_category->fetch();
+				$notice_category = $row_category['value'];
+			} else {
+				$notice_category = '-';
+			}
 			$notice_title = $row['title'];
 			$notice_text = $row['text'];
-			$notice_level = $row['level'];
-			$notice_expiration = $row['expiration_date'];
+			$query_level = "SELECT level FROM pm_level WHERE value = ".$row['level']." AND lang = ".LANG_ID;
+			$result_level = $db->query($query_level);
+			if($result_level !== false && $db->last_row_count() > 0){
+				$row_level = $result_level->fetch();
+				$notice_level = $row_level['level'];
+			} else {
+				$notice_level = '-';
+			}
+            $notice_expiration = (is_null($row['expiration_date'])) ? "-" : strftime(DATE_FORMAT." ".TIME_FORMAT, $row['expiration_date']);
 ?>
 		<tr onclick="show_hide_row('<?php echo $notice_id;?>');">
-    	    <td><?php echo $notice_category;?></td>
+    	    <td><?php echo $notice_id;?></td>
+			<td><?php echo $notice_category;?></td>
             <td><?php echo $notice_title;?></td>
 	        <td><?php echo $notice_level;?></td>
     	    <td><?php echo $notice_expiration;?></td>
-    	</tr>
+    	    </tr>
 		<tr id="<?php echo $notice_id;?>" style="display:none;">
-    	    <td colspan=4><?php echo $notice_text;?></td>
+    	    <td colspan=5><?php echo $notice_text;?></td>
     	</tr>
 <?php
 	    }
