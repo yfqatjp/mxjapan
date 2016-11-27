@@ -105,12 +105,14 @@ if(MAINTENANCE_MODE == 0 || (isset($_SESSION['user']) && ($_SESSION['user']['typ
     }
 
     $breadcrumbs = array_reverse($breadcrumbs);
-
+    $isBooking = $page_model;
     $page_model = SYSBASE."templates/".TEMPLATE."/models/".str_replace("_","/",$page_model).".php";
     
     if(is_file($page_model)) include($page_model);
 
-    require(SYSBASE."templates/".TEMPLATE."/common/footer.php");
+    if($isBooking != 'booking'){   
+        require(SYSBASE."templates/".TEMPLATE."/common/footer.php");
+    }
 }else{
     header("HTTP/1.1 503 Service Temporarily Unavailable");
     if(DOCBASE.REQUEST_URI != DOCBASE) header("Location: ".DOCBASE);

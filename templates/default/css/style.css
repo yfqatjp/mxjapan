@@ -310,12 +310,12 @@ a#filters_col_bt:before{
     min-height:100%;
 }
 .map-right{
-    height:900px;
+    height:700px;
     min-height:100%;
 	padding:0px;
 }
 .content-left{
-    height:900px;
+    height:700px;
     min-height:100%;
 	overflow-y:scroll;
 	padding:0px 30px 30px 30px;

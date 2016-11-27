@@ -2310,5 +2310,5 @@ require(getFromTemplate("common/header.php", false));
       }
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA48m0NOfngvNNPu3yo3LUv8NWPVhii9U&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GMAPS_API_KEY; ?>&callback=initMap"
     async defer></script>
