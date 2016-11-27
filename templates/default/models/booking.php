@@ -2299,8 +2299,6 @@ require(getFromTemplate("common/header.php", false));
 <!--    <script src="http://maps.googleapis.com/maps/api/js"></script>
     <script src="<?php echo DOCBASE; ?>js/must_see_map.js"></script>
     <script src="<?php echo DOCBASE; ?>js/infobox.js"></script>-->
-    
-
     <script>
       function initMap() {
         // Create a map object and specify the DOM element for display.
