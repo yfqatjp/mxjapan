@@ -125,7 +125,7 @@ blockquote p {
     z-index: 10;
 }
 .navbar-brand img {
-	max-height: 70px;
+	max-height: 50px;
 }
 @media(max-width:767px) {
 	.navbar-brand {

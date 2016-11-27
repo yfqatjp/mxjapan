@@ -71,9 +71,12 @@ blockquote {
 #mainHeader {
     background: none;
 }
+body:not(#page-1) #mainHeader {
+    background: #000;
+}
 body:not(#page-1) .fixed #mainHeader,
 .fixed #mainHeader {
-    background: #38507E;
+    background: #000;
 }
 @media (max-width: 767px) {
     #mainHeader, #mainMenu {
