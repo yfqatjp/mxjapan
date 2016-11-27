@@ -12,7 +12,7 @@ define("TEMPLATE", "default");
 define("OWNER", "美溪车友传媒俱乐部");
 define("EMAIL", "contact@meixinpo.com");
 define("ADDRESS", "東京都世田谷区玉川2-15-12");
-define("PHONE", "090-0000-0000");
+define("PHONE", "090-1111-0000");
 define("MOBILE", "090-0000-0000");
 define("FAX", "090-0000-0000");
 define("DB_NAME", "hotel");
