@@ -164,6 +164,7 @@
         
         <?php echo stripslashes(ANALYTICS_CODE); ?>
          
+        function show_hide_row(row){$("#"+row).toggle();}
     </script>
 </head>
 <body id="page-<?php echo $page_id; ?>" itemscope itemtype="http://schema.org/WebPage"<?php if(RTL_DIR) echo " dir=\"rtl\""; ?>>
