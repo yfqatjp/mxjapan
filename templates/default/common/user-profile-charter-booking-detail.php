@@ -45,11 +45,51 @@ function echoInfo($arr, $key){
 	            </div>
 	        </div>
         </div>
-        
+
+        <div class="row">
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">车牌号码</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "car_no");?></div>
+	                </div>
+	            </div>
+
+	        </div>
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">车品牌</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "car_model");?></div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+
 		<div class="row">
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">服务内容</label>
+	                <label class="col-lg-3 control-label">接送日</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo date("Y-m-d H:i:s", echoInfo($charterBookingId, "depart_date"));?></div>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">接送人数</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "depart_num");?></div>
+	                </div>
+	            </div>
+
+	        </div>
+        </div>
+
+		<div class="row">
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">服务标题</label>
 	                <div class="col-lg-9">
 	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
 	                </div>
@@ -78,14 +118,14 @@ function echoInfo($arr, $key){
 	        </div>
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">支付</label>
+	                <label class="col-lg-3 control-label">支付总额</label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
+	                    <div class="field-notice" ><?php echo formatPrice(echoInfo($charterBookingId, "payment_total")*CURRENCY_RATE);?></div>
 	                </div>
 	            </div>
 	        </div>
         </div>
-        
+
 		<div class="row">
 
 	        <div class="col-sm-5">
@@ -96,91 +136,19 @@ function echoInfo($arr, $key){
 	                </div>
 	            </div>
 	        </div>
+
+	        <div class="col-sm-5">
+	            <div class="row form-group">
+	                <label class="col-lg-3 control-label">支付时间</label>
+	                <div class="col-lg-9">
+	                    <div class="field-notice" ><?php echo date("Y-m-d H:i:s", echoInfo($charterBookingId, "payment_date"));?></div>
+	                </div>
+	            </div>
+	        </div>
+
         </div>
 
-
-
-		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">订单编号</label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">服务内容</label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
-		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">订单编号</label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">服务内容</label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
-		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">订单编号</label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">服务内容</label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
-		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">订单编号</label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice"><?php echo echoInfo($charterBookingId, "booking_code");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label">服务内容</label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "title");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
-        <h4>预订人详情</h4>
+        <h4>预订人信息</h4>
         <div class="row">
 	        <div class="col-sm-5">
 	            <div class="row form-group">
@@ -245,18 +213,18 @@ function echoInfo($arr, $key){
  		<div class="row">
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
+	                <label class="col-lg-3 control-label"><?php echo $texts['ADDRESS']; ?></label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "address");?></div>
 	                </div>
 	            </div>
 
 	        </div>
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
+	                <label class="col-lg-3 control-label"><?php echo $texts['POSTCODE']; ?></label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "postcode");?></div>
 	                </div>
 	            </div>
 	        </div>
@@ -265,18 +233,18 @@ function echoInfo($arr, $key){
  		<div class="row">
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
+	                <label class="col-lg-3 control-label"><?php echo $texts['CITY']; ?></label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "city");?></div>
 	                </div>
 	            </div>
 
 	        </div>
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
+	                <label class="col-lg-3 control-label"><?php echo $texts['PHONE']; ?></label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "phone");?></div>
 	                </div>
 	            </div>
 	        </div>
@@ -285,18 +253,18 @@ function echoInfo($arr, $key){
  		<div class="row">
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
+	                <label class="col-lg-3 control-label"><?php echo $texts['MOBILE']; ?></label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "mobile");?></div>
 	                </div>
 	            </div>
 
 	        </div>
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
+	                <label class="col-lg-3 control-label"><?php echo $texts['COUNTRY']; ?></label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "country");?></div>
 	                </div>
 	            </div>
 	        </div>
@@ -305,121 +273,14 @@ function echoInfo($arr, $key){
  		<div class="row">
 	        <div class="col-sm-5">
 	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
+	                <label class="col-lg-3 control-label"><?php echo $texts['COMMENTS']; ?></label>
 	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
+	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "comments");?></div>
 	                </div>
 	            </div>
 
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
-	                </div>
-	            </div>
 	        </div>
         </div>
 
- 		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
- 		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
- 		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
- 		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
- 		<div class="row">
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['EMAIL']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "email");?></div>
-	                </div>
-	            </div>
-
-	        </div>
-	        <div class="col-sm-5">
-	            <div class="row form-group">
-	                <label class="col-lg-3 control-label"><?php echo $texts['COMPANY']; ?></label>
-	                <div class="col-lg-9">
-	                    <div class="field-notice" ><?php echo echoInfo($charterBookingId, "company");?></div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
     </div>
 </div>
