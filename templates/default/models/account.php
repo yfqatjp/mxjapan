@@ -102,6 +102,14 @@ if(isset($_POST['edit'])){
 
 }
 
+/* ==============================================
+ * CSS AND JAVASCRIPT USED IN THIS MODEL
+ * ==============================================
+ */
+if($article_alias == 9) {
+	$stylesheets[] = array("file" => DOCBASE."admin/includes/uploadifive/uploadifive.css", "media" => "all");
+}
+
 require(getFromTemplate("common/header.php", false)); ?>
 
 <section id="page">
@@ -165,14 +173,18 @@ require(getFromTemplate("common/header.php", false)); ?>
                         </li>
                         <li>
                             <a href="<?php echo DOCBASE.LANG_ALIAS.'account/6'; ?>">
-                                <i class="fa fa-clock-o"></i>
-                                Charter History
+                                <i class="fa fa-clock-o"></i>包车订单
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo DOCBASE.LANG_ALIAS.'account/8'; ?>">
                                 <i class="fa fa-file-text"></i>
                                 Notice
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo DOCBASE.LANG_ALIAS.'account/9'; ?>">
+                                <i class="fa fa-car"></i>美溪车友申请
                             </a>
                         </li>
                     </ul>
@@ -199,6 +211,8 @@ require(getFromTemplate("common/header.php", false)); ?>
                     }else if($article_alias == 8){
 						include(getFromTemplate("common/user-profile-notice.php", false));
 //                         include(getFromTemplate("common/get_notices.php", false));
+                    }else if($article_alias == 9){
+                        include(getFromTemplate("common/user-profile-charter-apply.php", false));
                     }
                 ?>
             </div>

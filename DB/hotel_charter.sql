@@ -431,4 +431,25 @@ ADD COLUMN `city`  int(11) NULL COMMENT '接送城市' AFTER `alias`;
 INSERT INTO `pm_page` VALUES ('24', '2', '包车接送', '包车接送', '', 'Charter pick up', 'pickup', '', 'noindex,nofollow', '', '', '', '', '0', 'charters', '', '1', '0', '0', '1', '11', '1472477070', '1473658466', '0', '0', '1');
 
 
+DROP TABLE IF EXISTS `pm_charter_user`;
+CREATE TABLE `pm_charter_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `user_name` varchar(250) DEFAULT NULL COMMENT '姓名',
+  `drive_year` varchar(250) DEFAULT NULL COMMENT '在当地年限',
+  `mobile` varchar(250) DEFAULT NULL COMMENT '手机号码',
+  `alipay` varchar(250) DEFAULT NULL COMMENT '支付宝账号',
+  `identity` varchar(250) DEFAULT NULL COMMENT '您在当地的身份',
+  `self_comment` text COMMENT '请用几句话形容自己',
+  `friend_comment` text COMMENT '朋友如何评价您',
+  `why_comment` text COMMENT '您为什么来到这座城市',
+  `service_comment` text COMMENT '您可以提供什么样的特色服务',
+  `checked_comment` text COMMENT '审批不通过的理由',
+  `add_date` int(11) DEFAULT NULL,
+  `edit_date` int(11) DEFAULT NULL,
+  `checked_date` int(11) DEFAULT NULL,
+  `checked` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 -- 2016/11/27 追加  End

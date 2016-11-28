@@ -247,7 +247,7 @@ class Front extends Hotel {
     	}
 
     	// 日期的check
-    	if (array_key_exists("depart_date", $arrMsg)) {
+    	if (!array_key_exists("depart_date", $arrMsg)) {
     		$depart_date = $this->query("depart_date");
     		if (!$this->validateDate($depart_date)) {
     			$arrMsg["depart_date"] = $this->getTextsByName("CHECK_DATE_MSG");
@@ -256,6 +256,28 @@ class Front extends Hotel {
     	return $arrMsg;
     }
 
+    public function checkCharterUserForm() {
+    	//
+    	$requireItemArr = array();
+    	$requireItemArr[] = array("key" => "user_name", "name" => "姓名");
+    	$requireItemArr[] = array("key" => "drive_year", "name" => "在当地年限");
+    	$requireItemArr[] = array("key" => "mobile", "name" => "手机号码");
+    	$requireItemArr[] = array("key" => "identity", "name" => "您在当地的身份");
+    	$requireItemArr[] = array("key" => "self_comment", "name" => "请用几句话形容自己");
+    	$requireItemArr[] = array("key" => "friend_comment", "name" => "朋友如何评价您");
+    
+    	//
+    	$arrMsg = array();
+    	//
+    	foreach($requireItemArr as $checkItem) {
+    		$itemValue = $this->query($checkItem["key"]);
+    		if ($itemValue == null || strlen($itemValue) == 0) {
+    			$arrMsg[$checkItem["key"]] = $this->replaceMsg("CHECK_REQUIRE_MSG", array($checkItem["name"]));
+    		}
+    	}
+    	return $arrMsg;
+    }
+    
     //////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////包车的服务预定SESSION处理//////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////
