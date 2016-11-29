@@ -1702,8 +1702,11 @@ require(getFromTemplate("common/header.php", false));
                                                     <span>Popular</span>
                                                 </div>
                                                 <div class="tools_i">
-                                                    <form action="http://maps.google.com/maps" method="get" target="_blank" class="directions_list">
-                                                        <input type="hidden" name="daddr" value="<?php echo $hotel_lat; ?>, <?php echo $hotel_lng; ?>">
+                                                   <!--  <form action="http://maps.google.com/maps" method="get" target="_blank" class="directions_list">
+                                                        -->
+<form action="http://maps.google.cn/maps" method="get" target="_blank" class="directions_list">
+                                                        
+                                                <input type="hidden" name="daddr" value="<?php echo $hotel_lat; ?>, <?php echo $hotel_lng; ?>">
                                                         <button type="submit" class="tooltip_styled tooltip-effect-4">
                                                             <span class="tooltip-item"></span>
                                                             <span class="tooltip-content">Directions</span>
@@ -1828,7 +1831,7 @@ require(getFromTemplate("common/header.php", false));
                                                     <span>Popular</span>
                                                 </div>
                                                 <div class="tools_i">
-                                                    <form action="http://maps.google.com/maps" method="get" target="_blank" class="directions_list">
+                                                    <form action="http://maps.google.cn/maps" method="get" target="_blank" class="directions_list">
                                                         <input type="hidden" name="daddr" value="43.773460, 11.255985">
                                                         <button type="submit" class="tooltip_styled tooltip-effect-4">
                                                             <span class="tooltip-item"></span>
@@ -2315,5 +2318,9 @@ require(getFromTemplate("common/header.php", false));
       }
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GMAPS_API_KEY; ?>&callback=initMap"
-    async defer></script>
+<!-- 
+ <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GMAPS_API_KEY; ?>&callback=initMap" async defer></script>
+     -->
+    <script src="http://maps.google.cn/maps/api/js?region=cn&language=zh-CN&key=<?php echo GMAPS_API_KEY; ?>&callback=initMap"  type="text/javascript">
+</script>
+    
