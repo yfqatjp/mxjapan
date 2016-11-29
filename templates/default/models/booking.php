@@ -2318,9 +2318,6 @@ require(getFromTemplate("common/header.php", false));
       }
 
     </script>
-<!-- 
- <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GMAPS_API_KEY; ?>&callback=initMap" async defer></script>
-     -->
     <script src="http://maps.google.cn/maps/api/js?region=cn&language=zh-CN&key=<?php echo GMAPS_API_KEY; ?>&callback=initMap"  type="text/javascript">
 </script>
     
