@@ -441,7 +441,7 @@ $csrf_token = get_token("list"); ?>
                                                     foreach($cols as $col){
                                                         echo "<td";
                                                         $type = $col->getType();
-                                                        if($type == "date" || $type == "date") echo " class=\"text-center\"";
+                                                        if($type == "date" || $type == "datetime") echo " class=\"text-center\"";
                                                         if($type == "price") echo " class=\"text-right\"";
                                                         echo ">".$col->getValue($i)."</td>";
                                                     }

@@ -178,8 +178,7 @@ require(getFromTemplate("common/header.php", false)); ?>
                         </li>
                         <li>
                             <a href="<?php echo DOCBASE.LANG_ALIAS.'account/8'; ?>">
-                                <i class="fa fa-file-text"></i>
-                                Notice
+                                <i class="fa fa-file-text"></i>用户公告
                             </a>
                         </li>
                         <li>
