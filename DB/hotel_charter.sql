@@ -452,4 +452,17 @@ CREATE TABLE `pm_charter_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+
+-- ----------------------------
+-- Table structure for `pm_charter_file`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_charter_user_file`;
+CREATE TABLE `pm_charter_user_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `file` varchar(250) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 -- 2016/11/27 追加  End

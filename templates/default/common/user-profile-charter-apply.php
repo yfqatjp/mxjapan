@@ -1,6 +1,7 @@
 <?php
 // 前台
 require(SYSBASE."common/front.php");
+require(SYSBASE."templates/default/common/charter_actions.php");
 
 // 用户ID
 $userId = $_SESSION['user']['id'];
@@ -13,6 +14,31 @@ $result_user = $db->query("SELECT * FROM pm_charter_user WHERE user_id = ".$db->
 if($result_user !== false && $db->last_row_count() == 1){
 	$arrCharterUser = $result_user->fetch();
 	$chartUserId = $arrCharterUser["id"];
+}
+
+$action = $hotelApp->query("action", "");
+if ($action == "delete_file") {
+	$fileId = $hotelApp->query("file", "");
+	delete_charter_file($db, $fileId);
+}
+
+$query_file = "SELECT * FROM pm_charter_user_file WHERE user_id = ".$db->quote($userId);
+$query_file .= " ORDER BY type asc, id asc ";
+$result_file = $db->query($query_file);
+
+//
+$arrResultFile = array();
+$arrResultFile[1] = array();
+$arrResultFile[2] = array();
+$arrResultFile[3] = array();
+if ($result_file != null && count($result_file) > 0) {
+	foreach ($result_file as $file_row) {
+		$type = $file_row["type"];
+		if (!array_key_exists($type, $arrResultFile)) {
+			$arrResultFile[$type] = array();
+		}
+		$arrResultFile[$type][] = $file_row;
+	}
 }
 
 // 错误提示消息
@@ -48,6 +74,9 @@ if ($hotelApp->isPOST()) {
 			$result_update = db_prepareUpdate($db, "pm_charter_user", $arrData);
 			if($result_update->execute() !== false) {
 				//$msg_error = $texts['UPDATE_SUCCESS'];
+				$dir = SYSBASE."medias/charter_user/tmp/".$_SESSION['token']."/".$userId;
+				// 文件上传
+				upload_charter_files($db, $userId, $dir, $_SESSION['token']);
 			} else {
 				$msg_error = $texts['UPDATE_ERROR'];
 			}
@@ -55,9 +84,9 @@ if ($hotelApp->isPOST()) {
 			$arrData['add_date'] = $add_date;
 			$result_insert = db_prepareInsert($db, "pm_charter_user", $arrData);
 			if($result_insert->execute() !== false) {
-				
-				// 
-				
+				$dir = SYSBASE."medias/charter_user/tmp/".$_SESSION['token']."/".$userId;
+				// 文件上传
+				upload_charter_files($db, $userId, $dir, $_SESSION['token']);
 			} else {
 				$msg_error = $texts['UPDATE_ERROR'];
 			}
@@ -67,6 +96,7 @@ if ($hotelApp->isPOST()) {
 	}
 }
 
+// 上传图片
 if(!isset($_SESSION['uniqid'])) $_SESSION['uniqid'] = uniqid();
 if(!isset($_SESSION['timestamp'])) $_SESSION['timestamp'] = time();
 if(!isset($_SESSION['token'])) $_SESSION['token'] = md5("sessid_".$_SESSION['uniqid'].$_SESSION['timestamp']);
@@ -93,7 +123,7 @@ function echoInfo($arr, $key){
 	}
 }
 
-
+//////////////////////////////////////////////////////////////////
 
 ?>
 
@@ -147,37 +177,159 @@ function echoInfo($arr, $key){
     </div>
     <hr>
     
-    <div class="form-group form-group-icon-left <?php echo checkHasError($arrMsg, "identity1");?>">
-        <label class='control-label'>领队证或者导游证（最多一个）</label>
-        <input type="file" name="file_upload_1" id="file_upload_1" class="file_upload" rel="1,1"/>
+    <div class="form-group form-group-icon-left <?php echo checkHasError($arrMsg, "file_upload_1");?>">
+        <label class='control-label'>驾驶证 *</label>
+        <?php
+        	$maxFile = 1 - count($arrResultFile[1]);
+		?>
+        <input type="file" name="file_upload_1" id="file_upload_1" class="file_upload" rel="1,<?php echo $maxFile;?>"/>
         <div id="file_upload_1-queue" class="uploadify-queue"></div>
         <div class="uploaded clearfix alert alert-success" id="file_uploaded_1">
         </div>
+        
+        <ul class="files-list" id="files_list_1">
+		<?php
+			if (count($arrResultFile[1]) > 0) {
+		    foreach($arrResultFile[1] as $row_file){
+		    
+		        $filename = $row_file['file'];
+		        $id_file = $row_file['id'];
+		        $type = $row_file['type'];
+		        
+		        $file_path = "medias/charter_user/".$userId."/".$id_file."/".$filename;
+		        $ext = strtolower(ltrim(strrchr($filename, "."), "."));
+		        $filesize = "";
+		        $dim = @getimagesize(SYSBASE.$file_path);
+		        if(is_array($dim)){
+		        	$w = $dim[0]."px";
+		        	$h = $dim[1];
+		        }else{
+		        	$w = "100%";
+		        	$h = 0;
+		        }
+		        $weight = filesize(SYSBASE.$file_path);
+		        $filesize = $w." x ".$h." | ";
+		        
+		      ?>
+	            <li id="file_<?php echo $id_file; ?>">
+	                <div class="prev-file">
+	                    <img src="<?php echo DOCBASE.$file_path; ?>" alt="" border="0" style="width:<?php echo $w; ?>">
+	                </div>
+	                <div class="actions-file">
+	                    <a class="tips" href="javascript:if(confirm('您确定要删除吗？')) window.location = '?file=<?php echo $id_file; ?>&csrf_token=<?php echo $csrf_token; ?>&action=delete_file';" >删除</a>
+	                </div>
+	                <div class="infos-file">
+	                    <span class="filename"><?php echo strtrunc(substr($filename, 0, strrpos($filename, ".")), 23, "..", true).".".$ext; ?></span><br>
+	                    <span class="filesize"><?php echo $filesize; ?></span>
+	                </div>
+	            </li>
+			<?php
+			    } 
+			}?>
+		</ul>                               
     </div>
     
-    <div class="form-group form-group-icon-left <?php echo checkHasError($arrMsg, "identity1");?>">
-        <label class='control-label'>驾驶证 *</label>
-        <input type="file" name="file_upload_2" id="file_upload_2" class="file_upload" rel="2,1"/>
+    <div class="form-group form-group-icon-left <?php echo checkHasError($arrMsg, "file_upload_2");?>">
+        <label class='control-label'>护照，中国身份证，居住证，学生证,领队证或者导游证（最多5张）</label>
+        <?php
+        	$maxFile = 5 - count($arrResultFile[2]);
+		?>
+        <input type="file" name="file_upload_2" id="file_upload_2" class="file_upload" rel="2,<?php echo $maxFile;?>"/>
         <div id="file_upload_2-queue" class="uploadify-queue"></div>
         <div class="uploaded clearfix alert alert-success" id="file_uploaded_2">
         </div>
+        <ul class="files-list" id="files_list_2">
+		<?php
+			if (count($arrResultFile[2]) > 0) {
+		    foreach($arrResultFile[2] as $row_file){
+		    
+		        $filename = $row_file['file'];
+		        $id_file = $row_file['id'];
+		        $type = $row_file['type'];
+		        
+		        $file_path = "medias/charter_user/".$userId."/".$id_file."/".$filename;
+		        $ext = strtolower(ltrim(strrchr($filename, "."), "."));
+		        $filesize = "";
+		        $dim = @getimagesize(SYSBASE.$file_path);
+		        if(is_array($dim)){
+		        	$w = $dim[0]."px";
+		        	$h = $dim[1];
+		        }else{
+		        	$w = "100%";
+		        	$h = 0;
+		        }
+		        $weight = filesize(SYSBASE.$file_path);
+		        $filesize = $w." x ".$h." | ";
+		        
+		      ?>
+	            <li id="file_<?php echo $id_file; ?>">
+	                <div class="prev-file">
+	                    <img src="<?php echo DOCBASE.$file_path; ?>" alt="" border="0" style="width:<?php echo $w; ?>">
+	                </div>
+	                <div class="actions-file">
+	                    <a class="tips" href="javascript:if(confirm('您确定要删除吗？')) window.location = '?file=<?php echo $id_file; ?>&csrf_token=<?php echo $csrf_token; ?>&action=delete_file';" >删除</a>
+	                </div>
+	                <div class="infos-file">
+	                    <span class="filename"><?php echo strtrunc(substr($filename, 0, strrpos($filename, ".")), 23, "..", true).".".$ext; ?></span><br>
+	                    <span class="filesize"><?php echo $filesize; ?></span>
+	                </div>
+	            </li>
+			<?php
+			    } 
+			}?>
+		</ul>  
     </div>
     
-    <div class="form-group form-group-icon-left <?php echo checkHasError($arrMsg, "identity1");?>">
-        <label class='control-label'>护照，中国身份证，居住证，学生证 *</label>
-        <input type="file" name="file_upload_3" id="file_upload_3" class="file_upload" rel="3,5"/>
+    <div class="form-group form-group-icon-left <?php echo checkHasError($arrMsg, "file_upload_3");?>">
+        <label class='control-label'>个人照，风景，美食，游客合影 *</label>
+        <?php
+        	$maxFile = 5 - count($arrResultFile[3]);
+		?>
+        <input type="file" name="file_upload_3" id="file_upload_3" class="file_upload" rel="3,<?php echo $maxFile;?>"/>
+        <div class="field-notice">至少有一张是车前与车合影</div>
         <div id="file_upload_3-queue" class="uploadify-queue"></div>
         <div class="uploaded clearfix alert alert-success" id="file_uploaded_3">
         </div>
-    </div>
-    
-    <div class="form-group form-group-icon-left <?php echo checkHasError($arrMsg, "identity1");?>">
-        <label class='control-label'>个人照，风景，美食，游客合影 *</label>
-        <input type="file" name="file_upload_4" id="file_upload_4" class="file_upload" rel="4,5"/>
-        <div class="field-notice">至少有一张是车前与车合影</div>
-        <div id="file_upload_4-queue" class="uploadify-queue"></div>
-        <div class="uploaded clearfix alert alert-success" id="file_uploaded_4">
-        </div>
+        <ul class="files-list" id="files_list_3">
+		<?php
+			if (count($arrResultFile[3]) > 0) {
+		    foreach($arrResultFile[3] as $row_file){
+		    
+		        $filename = $row_file['file'];
+		        $id_file = $row_file['id'];
+		        $type = $row_file['type'];
+		        
+		        $file_path = "medias/charter_user/".$userId."/".$id_file."/".$filename;
+		        $ext = strtolower(ltrim(strrchr($filename, "."), "."));
+		        $filesize = "";
+		        $dim = @getimagesize(SYSBASE.$file_path);
+		        if(is_array($dim)){
+		        	$w = $dim[0]."px";
+		        	$h = $dim[1];
+		        }else{
+		        	$w = "100%";
+		        	$h = 0;
+		        }
+		        $weight = filesize(SYSBASE.$file_path);
+		        $filesize = $w." x ".$h." | ";
+		        
+		      ?>
+	            <li id="file_<?php echo $id_file; ?>">
+	                <div class="prev-file">
+	                    <img src="<?php echo DOCBASE.$file_path; ?>" alt="" border="0" style="width:<?php echo $w; ?>">
+	                </div>
+	                <div class="actions-file">
+	                    <a class="tips" href="javascript:if(confirm('您确定要删除吗？')) window.location = '?file=<?php echo $id_file; ?>&csrf_token=<?php echo $csrf_token; ?>&action=delete_file';" >删除</a>
+	                </div>
+	                <div class="infos-file">
+	                    <span class="filename"><?php echo strtrunc(substr($filename, 0, strrpos($filename, ".")), 23, "..", true).".".$ext; ?></span><br>
+	                    <span class="filesize"><?php echo $filesize; ?></span>
+	                </div>
+	            </li>
+			<?php
+			    } 
+			}?>
+		</ul>
     </div>
     
     <hr>
@@ -217,12 +369,12 @@ function echoInfo($arr, $key){
                 
                 var id = $(this).attr('id');
                 var rel = $(this).attr('rel').split(',');
-                var lang = rel[0];
+                var fileType = rel[0];
                 var max_file = rel[1];
                 
                 if(max_file > 10) max_file = 10;
                 
-                var container = $('#file_uploaded_'+lang);
+                var container = $('#file_uploaded_'+fileType);
                 if($('.prev-file', container).size() > 0) container.slideDown();
                 
                 $('#'+id).uploadifive({
@@ -233,7 +385,7 @@ function echoInfo($arr, $key){
                         'dir' : 'charter_user',
                         'root_bo' : '<?php echo DOCBASE; ?>admin/',
                         'exts' : '<?php echo serialize(array_keys($allowable_file_exts)); ?>',
-                        'lang' : lang
+                        'fileType' : fileType
                     },
                     'buttonText'     : '<i class="fa fa-folder-open"></i> 选择上传图片',
                     'fileTypeDesc'     : 'Files',
@@ -241,10 +393,9 @@ function echoInfo($arr, $key){
                     'multi'            : (max_file > 1),
                     'queueSizeLimit': max_file,
                     'uploadLimit'     : max_file,
-                    'queueID'        : 'file_upload_'+lang+'-queue',
-                    'uploadScript'     : '<?php echo DOCBASE; ?>admin/includes/uploadifive/uploader/uploadifive.php',
+                    'queueID'        : 'file_upload_'+fileType+'-queue',
+                    'uploadScript'     : '<?php echo DOCBASE; ?>admin/includes/uploadifive/uploader/charteruploadifive.php',
                     'onUploadComplete' : function(file, data, response){
-                        
                         data = data.split('|');
                         
                         if($('.prev-file', container).size() == 0) container.slideDown();
