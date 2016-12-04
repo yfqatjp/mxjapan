@@ -167,16 +167,16 @@ if($db !== false){
                 foreach($fields as $tableName => $fields_table){
                     
                     foreach($fields_table['fields'] as $fieldName => $field){
-                        $fieldName = $tableName."_".$fieldName."_";
-                        $fieldName .= (MULTILINGUAL && !$field->isMultilingual()) ? DEFAULT_LANG : $id_lang;
+                        //$fieldName = $tableName."_".$fieldName."_";
+                        //$fieldName .= (MULTILINGUAL && !$field->isMultilingual()) ? DEFAULT_LANG : $id_lang;
                         
                         if(isset($_POST[$fieldName])){
                             
-                            foreach($_POST[$fieldName] as $index => $value){
-                        
+                        	$index = 0;
+                        	$value = $_POST[$fieldName];
                                 switch($field->getType()){
                                     case "date" :
-                                        $date = isset($_POST[$fieldName][$index]['date']) ? $_POST[$fieldName][$index]['date'] : "";
+                                        $date = isset($_POST[$fieldName]['date']) ? $_POST[$fieldName]['date'] : "";
                                         if(!empty($date)) $date = strtotime($date." 00:00:00");
                                         if(is_numeric($date) && $date !== false)
                                             $field->setValue($date, $index, $id_lang);
@@ -184,9 +184,9 @@ if($db !== false){
                                             $field->setValue(NULL, $index, $id_lang);
                                     break;
                                     case "datetime" :
-                                        $date = isset($_POST[$fieldName][$index]['date']) ? $_POST[$fieldName][$index]['date'] : "";
-                                        $hour = isset($_POST[$fieldName][$index]['hour']) ? $_POST[$fieldName][$index]['hour'] : "";
-                                        $minute = isset($_POST[$fieldName][$index]['minute']) ? $_POST[$fieldName][$index]['minute'] : 0;
+                                        $date = isset($_POST[$fieldName]['date']) ? $_POST[$fieldName]['date'] : "";
+                                        $hour = isset($_POST[$fieldName]['hour']) ? $_POST[$fieldName]['hour'] : "";
+                                        $minute = isset($_POST[$fieldName]['minute']) ? $_POST[$fieldName]['minute'] : 0;
                                         if(!empty($date) && is_numeric($hour) && is_numeric($minute)) $date = strtotime($date." ".$hour.":".$minute.":00");
                                         if(is_numeric($date) && $date !== false)
                                             $field->setValue($date, $index, $id_lang);
@@ -200,20 +200,19 @@ if($db !== false){
                                     break;
                                     case "checkbox" :
                                     case "multiselect" :
-                                        $value = isset($_POST[$fieldName][$index]) ? implode(",", $_POST[$fieldName][$index]) : "";
+                                        $value = isset($_POST[$fieldName]) ? implode(",", $_POST[$fieldName]) : "";
                                         $field->setValue($value, $index, $id_lang);
                                     break;
                                     case "alias" :
-                                        $value = text_format($_POST[$fieldName][$index]);
+                                        $value = text_format($_POST[$fieldName]);
                                         $field->setValue($value, $index, $id_lang);
                                     break;
                                     default :
-                                        $value = isset($_POST[$fieldName][$index]) ? $_POST[$fieldName][$index] : "";
+                                        $value = isset($_POST[$fieldName]) ? $_POST[$fieldName] : "";
                                         $field->setValue($value, $index, $id_lang);
                                     break;
                                 }
                             }
-                        }
                     }
                 }
             }
