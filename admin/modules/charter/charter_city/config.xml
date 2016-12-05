@@ -15,7 +15,7 @@
 		<field multi="1" label="城市名称" name="name" type="text" required="1" unique="1" validation="none"/>
 	</form>
     <roles>
-        <user type="administrator" permissions="edit,publish,add"/>
+        <user type="administrator" permissions="all"/>
         <user type="manager" permissions="no_access"/>
         <user type="editor" permissions="no_access"/>
     </roles>

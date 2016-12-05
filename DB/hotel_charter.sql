@@ -448,7 +448,7 @@ CREATE TABLE `pm_charter_user` (
   `add_date` int(11) DEFAULT NULL,
   `edit_date` int(11) DEFAULT NULL,
   `checked_date` int(11) DEFAULT NULL,
-  `checked` int(11) DEFAULT '1',
+  `checked` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -466,3 +466,8 @@ CREATE TABLE `pm_charter_user_file` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- 2016/11/27 追加  End
+
+
+-- 2016/12/05 追加  Start
+ALTER TABLE `pm_charter_user`
+CHANGE COLUMN `checked_date` `publish_date`  int(11) NULL DEFAULT NULL AFTER `edit_date`;

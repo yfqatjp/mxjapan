@@ -77,5 +77,6 @@
         <user type="administrator" permissions="all"/>
         <user type="manager" permissions="no_access"/>
         <user type="editor" permissions="no_access"/>
+        <user type="charter" permissions="edit,upload"/>
     </roles>
 </module>

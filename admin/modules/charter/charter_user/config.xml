@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module title="美溪车主" name="charter_user" multi="0" library="0" dashboard="1" icon="car" ranking="0" home="0" main="0" validation="1" dates="0" release="1" index="33">
+	<!-- resizing
+	[0] 1 single image
+	[1] 1x big, 1x medium, 1x small -->
+	<medias max="0" resizing="0">
+		<big maxw="1920" maxh="1440"/>
+		<medium maxw="600" maxh="600"/>
+		<small maxw="400" maxh="400"/>
+	</medias>
+	<list order="user_name">
+		<col label="姓名" name="user_name" type="none"/>
+		<col label="在当地年限" name="drive_year" type="none"/>
+		<col label="手机号码" name="mobile" type="none"/>
+		<col label="支付宝" name="alipay" type="none"/>
+		<col label="身份" name="identity" type="none"/>
+	</list>
+	<form>
+		<field multi="1" label="姓名" name="user_name" type="text" required="0" unique="0" validation="none"/>
+		<field multi="1" label="在当地年限" name="drive_year" type="text" required="0" unique="0" validation="none"/>
+		<field multi="1" label="手机号码" name="mobile" type="text" required="0" unique="0" validation="none"/>
+		<field multi="1" label="支付宝账号" name="alipay" type="text" required="0" unique="0" validation="none"/>
+		<field multi="1" label="您在当地的身份" name="identity" type="text" required="0" unique="0" validation="none"/>
+		<field multi="1" label="请用几句话形容自己" name="self_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+		<field multi="1" label="朋友如何评价您" name="friend_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+		<field multi="1" label="您为什么来到这座城市" name="why_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+		<field multi="1" label="特色服务" name="service_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+	</form>
+    <roles>
+        <user type="administrator" permissions="publish,edit"/>
+        <user type="manager" permissions="publish,edit"/>
+        <user type="editor" permissions="no_access"/>
+        <user type="charter" permissions="no_access"/>
+    </roles>
+</module>

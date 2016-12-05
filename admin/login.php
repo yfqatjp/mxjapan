@@ -9,9 +9,9 @@ $action = (isset($_GET['action'])) ? $_GET['action'] : "";
 if($db !== false && isset($_POST['login'])){
     $user = htmlentities($_POST['user'], ENT_COMPAT, "UTF-8");
     $password = $_POST['password'];
-    
+
     if(check_token("/".ADMIN_FOLDER."/login.php", "login", "post")){
-        
+
         $result_user = $db->query("SELECT * FROM pm_user WHERE login = ".$db->quote($user)." AND pass = '".md5($password)."' AND checked = 1");
         if($result_user !== false && $db->last_row_count() > 0){
             $row = $result_user->fetch();
@@ -19,6 +19,16 @@ if($db !== false && isset($_POST['login'])){
             $_SESSION['user']['login'] = $user;
             $_SESSION['user']['email'] = $row['email'];
             $_SESSION['user']['type'] = $row['type'];
+
+            // Add by Jeff 是否是美溪车主登录的判断 Start
+            if ($row['type'] == "registered") {
+            	//
+            	$result_charter = $db->query("SELECT * FROM pm_charter_user WHERE user_id = ".$db->quote($row['id'])." AND checked = 1");
+            	if($result_charter !== false && $db->last_row_count() > 0){
+            		$_SESSION['user']['type'] = "charter";
+            	}
+            }
+            // Add by Jeff 是否是美溪车主登录的判断 End
             header("Location: index.php");
             exit();
         }else
