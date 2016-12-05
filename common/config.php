@@ -8,7 +8,7 @@ define("LANG_ENABLED", "0");
 define("ENABLE_COOKIES_NOTICE", "0");
 define("MAINTENANCE_MODE", "0");
 define("MAINTENANCE_MSG", "<h1><i class=\"fa fa-rocket\"></i> Coming soon...</h1><p>We are sorry, our website is down for maintenance.</p>");
-define("TEMPLATE", "default");
+define("TEMPLATE", "release");
 define("OWNER", "美溪车友传媒俱乐部");
 define("EMAIL", "contact@meixinpo.com");
 define("ADDRESS", "東京都世田谷区玉川2-15-12");
