@@ -1,8 +1,8 @@
 <?php
-// $today = time();
+$today = time();
 if(isset($db) && $db !== false){
-    $result_notice = $db->query("SELECT * FROM pm_notice WHERE lang = ".LANG_ID." AND checked = 1 ORDER BY rank LIMIT 0, 5");
-// 	$result_notice = $db->query("SELECT * FROM pm_notice WHERE lang = ".LANG_ID." AND checked = 1 AND unpublish_date >= ".$today."ORDER BY rank LIMIT 0, 5");
+//     $result_notice = $db->query("SELECT * FROM pm_notice WHERE lang = ".LANG_ID." AND checked = 1 ORDER BY rank LIMIT 0, 5");
+	$result_notice = $db->query("SELECT * FROM pm_notice WHERE lang = ".LANG_ID." AND checked = 1 AND unpublish_date > ".$today." ORDER BY rank, level desc, expiration_date desc");
 
     if($result_notice !== false){
 ?>
