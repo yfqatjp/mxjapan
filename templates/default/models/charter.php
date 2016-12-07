@@ -119,13 +119,13 @@ $arrCharterOwnerFile[3] = array();
 if (isset($arrCharter["id_user"])) {
 	$arrCharterOwner = $db->query("SELECT * FROM pm_user WHERE id = ".$arrCharter["id_user"]);
 	if($arrCharterOwner !== false){
-		$arrCharterOwner = $result->fetch(PDO::FETCH_ASSOC);
+		$arrCharterOwner = $arrCharterOwner->fetch(PDO::FETCH_ASSOC);
 	}
 
 	// 车主详细情报
 	$queryResult = $db->query("SELECT * FROM pm_charter_user WHERE user_id = ".$arrCharter["id_user"]);
 	if($queryResult !== false){
-		$arrCharterOwnerInfo = $result->fetch(PDO::FETCH_ASSOC);
+		$arrCharterOwnerInfo = $queryResult->fetch(PDO::FETCH_ASSOC);
 
 		//
 		$query_file = "SELECT * FROM pm_charter_user_file WHERE user_id = ".$db->quote($arrCharter["id_user"]);
@@ -135,8 +135,8 @@ if (isset($arrCharter["id_user"])) {
 		if ($result_file != null && count($result_file) > 0) {
 			foreach ($result_file as $file_row) {
 				$type = $file_row["type"];
-				if (!array_key_exists($type, $arrResultFile)) {
-					$arrResultFile[$type] = array();
+				if (!array_key_exists($type, $arrCharterOwnerFile)) {
+					$arrCharterOwnerFile[$type] = array();
 				}
 				$arrCharterOwnerFile[$type][] = $file_row;
 			}
@@ -158,6 +158,14 @@ if($result !== false){
 
 // 安全考虑
 $token = $hotelApp->getToken();
+
+function echoInfo($arr, $key){
+	if (isset($arr[$key])) {
+		return $arr[$key];
+	} else {
+		return "";
+	}
+}
 
 //
 require(SYSBASE."templates/".TEMPLATE."/common/header.php");
@@ -411,18 +419,41 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
                 <aside class="col-md-4 mb20">
                     <div class="boxed">
                         <div >
-                            <h3 itemprop="name"><?php echo $arrCharter['title']; ?></h3>
-                            <address>
-                                <p>
-                                    <i class="fa fa-map-marker"></i> <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?php echo $arrCharter['destination']; ?></span><br>
-	                                <?php if($arrCharterOwner['mobile'] != "") : ?><i class="fa fa-phone"></i> <span itemprop="telephone" dir="ltr"><?php echo $arrCharterOwner['mobile']; ?></span><br><?php endif; ?>
-	                                <?php if($arrCharterOwner['email'] != "") : ?><i class="fa fa-envelope"></i> <a itemprop="email" dir="ltr" href="mailto:<?php echo $arrCharterOwner['email']; ?>"><?php echo $arrCharterOwner['email']; ?></a><?php endif; ?>
-                                </p>
-                            </address>
+                            <h3 itemprop="name"><?php echo echoInfo($arrCharterOwnerInfo, "user_name");?></h3>
+                            
                         </div>
-
-
+						<?php if (count($arrCharterOwnerFile[3]) > 0 ) {?>
+                            <div class="owl-carousel owlWrapper" data-items="1" data-autoplay="true" data-dots="true" data-nav="false" data-rtl="<?php echo (RTL_DIR) ? "true" : "false"; ?>">
+                                <?php
+                                
+                                foreach($arrCharterOwnerFile[3] as $row_file){
+                                
+                                	$filename = $row_file['file'];
+                                	$id_file = $row_file['id'];
+                                	$type = $row_file['type'];
+                                	$userId = $row_file['user_id'];
+                                	$file_path = "medias/charter_user/".$userId."/".$id_file."/".$filename;
+                                	
+                                    if(is_file($file_path)){ ?>
+                                    <img src="<?php echo DOCBASE.$file_path; ?>" class="img-responsive" style="max-height:200px;">
+                                   <?php
+                                    }
+                                } ?>
+                            </div>
+						<?php } ?>
+						
+						<div >
+                            <h3 itemprop="name">联系方式：<?php echo echoInfo($arrCharterOwnerInfo, "mobile");?></h3>
+                            <h3 itemprop="name">自我评价：<?php echo echoInfo($arrCharterOwnerInfo, "self_comment");?></h3>
+                            <h3 itemprop="name">驾龄：<?php echo echoInfo($arrCharterOwnerInfo, "drive_year");?></h3>
+                        </div>
+						
                         <!-- TODO::路线设定 -->
+                        
+                        
+                        
+                        
+                        
                     </div>
                 </aside>
             </div>

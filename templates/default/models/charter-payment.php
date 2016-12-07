@@ -13,12 +13,11 @@ $msg_error = "";
 $msg_success = "";
 $field_notice = array();
 
+$payment_type = "";
 // 支付方法
-$payment_arr = array_map("trim", explode(",", PAYMENT_TYPE));
-if(count($payment_arr) == 1){
-    $payment_type = PAYMENT_TYPE;
-    $handle = true;
-}elseif(isset($_POST['payment_type'])){
+//$payment_arr = array_map("trim", explode(",", PAYMENT_TYPE));
+$payment_arr = array("alipay");
+if(isset($_POST['payment_type'])){
     $payment_type = $_POST['payment_type'];
     $handle = true;
 }else{
@@ -53,6 +52,8 @@ if($handle && (!isset($_SESSION['charter_booking']['id']) || is_null($_SESSION['
         break;
         case "arrival": $data['payment_method'] = "On arrival";
         break;
+        case "alipay": $data['payment_method'] = "alipay";
+        break;
         case "paypal": $data['payment_method'] = "PayPal";
         break;
         case "cards": $data['payment_method'] = "Credit card (2Checkout.com)";
@@ -63,7 +64,7 @@ if($handle && (!isset($_SESSION['charter_booking']['id']) || is_null($_SESSION['
     // 预定订单插入
     $bookingId = $hotelApp->insertCharterBooking($data);
     if ($bookingId > 0) {
-    	if($payment_type == "check" || $payment_type == "arrival"){
+    	if($payment_type == "check" || $payment_type == "alipay"){
     	
     		
     	}
@@ -95,22 +96,7 @@ require(getFromTemplate("common/header.php", false)); ?>
             <div class="alert alert-success" style="display:none;"></div>
             <div class="alert alert-danger" style="display:none;"></div>
             
-            <div class="row mb30" id="booking-breadcrumb">
-                <div class="col-sm-2">
-                    <a href="<?php echo DOCBASE.$sys_pages['charter']['alias']; ?>">
-                        <div class="breadcrumb-item done">
-                            <i class="fa fa-info-circle"></i>
-                            <span><?php echo $detailTitle; ?></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-2">
-                    <div class="breadcrumb-item active">
-                        <i class="fa fa-credit-card"></i>
-                        <span><?php echo $sys_pages['payment']['name']; ?></span>
-                    </div>
-                </div>
-            </div>
+
             
             <?php echo $page['text']; ?>
             
@@ -172,8 +158,8 @@ require(getFromTemplate("common/header.php", false)); ?>
                     <form method="post" action="<?php echo DOCBASE.$sys_pages['charter-payment']['alias']; ?>">
                         <?php
                         if(!isset($_POST['payment_type'])){
-                            $payments = array_map("trim", explode(",", PAYMENT_TYPE));
-                            if(count($payments) > 1){ ?>
+                            $payments = $payment_arr;
+                            if(count($payments) >= 1){ ?>
                                 <div class="mb10">
                                     <?php echo $texts['CHOOSE_PAYMENT']; ?>
                                 </div>
@@ -197,6 +183,10 @@ require(getFromTemplate("common/header.php", false)); ?>
                                                 <i class="fa fa-building"></i><br><?php echo $texts['PAYMENT_ARRIVAL']; ?>
                                                 <?php
                                             break;
+                                            case "alipay": ?>
+												<img src="/plugins/ALIDIRECTPAY/img/alipay_logo.png" height="30px">
+												<?php
+											break;
                                         } ?>
                                     </button>
                                     <?php

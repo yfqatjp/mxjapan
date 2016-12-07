@@ -10,6 +10,7 @@ if(isset($_POST['uniqid']) && isset($_POST['timestamp']) && isset($_POST['dir'])
     $verifyToken = md5("sessid_".$_POST['uniqid'].$_POST['timestamp']);
                 
     if(!empty($_FILES) && $_POST['token'] == $verifyToken){
+    	
         $dir = $_POST['dir'];
         $path = "../../../../medias/".$dir."/tmp";
         $root_bo = $_POST['root_bo'];
