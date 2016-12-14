@@ -2,6 +2,7 @@
 define("ADMIN", true);
 require_once("../common/lib.php");
 require_once("../common/define.php");
+
 define("TITLE_ELEMENT", $texts['DASHBOARD']);
 
 if(!isset($_SESSION['user'])){
@@ -75,10 +76,10 @@ require_once("includes/fn_module.php"); ?>
                                         <div class="panel panel-primary">
                                             <div class="panel-heading">
                                                 <div class="row">
-                                                    <div class="col-xs-3">
+                                                    <div class="col-xs-4">
                                                         <h3><?php echo $title; ?></h3>
                                                     </div>
-                                                    <div class="col-xs-9 text-right">
+                                                    <div class="col-xs-8 text-right">
                                                         <div class="huge"><i class="fa fa-<?php echo $module->getIcon(); ?>"></i> <?php echo $count; ?></div>
                                                         <?php
                                                         if($last_date != ""){
