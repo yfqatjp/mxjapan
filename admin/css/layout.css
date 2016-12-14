@@ -25,7 +25,7 @@ body.white {
 #loginWrapper .img-responsive {
     margin: 0 auto;
     position: absolute;
-    top: 20px;
+    top: 50px;
     transform: translate(-50%, -50%);
     left: 50%;
     width: 200px;
