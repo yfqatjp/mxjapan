@@ -28,7 +28,7 @@
 	</form>
     <roles>
         <user type="administrator" permissions="publish,edit"/>
-        <user type="manager" permissions="publish,edit"/>
+        <user type="manager" permissions="no_access"/>
         <user type="editor" permissions="no_access"/>
         <user type="charter" permissions="no_access"/>
     </roles>
