@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module title="包车座型" name="charter_class" multi="1" library="0" dashboard="0" icon="leaf" ranking="1" home="0" main="0" validation="1" dates="1" release="0" index="40">
+	<!-- resizing
+	[0] 1 single image
+	[1] 1x big, 1x medium, 1x small -->
+	<medias max="0" resizing="0">
+		<big maxw="32" maxh="32"/>
+		<medium maxw="400" maxh="300"/>
+		<small maxw="200" maxh="150"/>
+	</medias>
+	<list order="rank">
+		<col label="座型名称" name="title" type="none"/>
+	</list>
+	<form>
+		<field multi="1" label="座型名称" name="title" type="text" required="1" unique="1" validation="none"/>
+		<field multi="1" label="说明" name="note" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+	</form>
+    <roles>
+        <user type="administrator" permissions="all"/>
+        <user type="manager" permissions="all"/>
+        <user type="editor" permissions="no_access"/>
+    </roles>
+</module>

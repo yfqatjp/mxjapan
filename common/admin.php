@@ -69,6 +69,72 @@ class Admin extends Hotel {
     		}
     	}
     }
+    
+    public function getCharterClass($charterId) {
+    	
+    	// 
+    	$arrCharterClass = array();
+    	if ($charterId > 0) {
+    		$result1 = $this->db->query("SELECT * FROM pm_charter_classes WHERE charter_id = ".$charterId);
+    		if($result1 !== false){
+    			// Datas of the module
+    			foreach($result1 as $row){
+    				$arrCharterClass[$row["class_id"]] = array();
+    				$arrCharterClass[$row["class_id"]]["charter_id"] = $row["charter_id"];
+    				$arrCharterClass[$row["class_id"]]["class_id"] = $row["class_id"];
+    				$arrCharterClass[$row["class_id"]]["price"] = $row["price"];
+    			}
+    		}
+    	}
+    	$arrClass = array();
+    	$result = $this->db->query("SELECT * FROM pm_charter_class WHERE checked = 1 order by rank ASC ");
+    	if($result !== false){
+    		// Datas of the module
+    		foreach($result as $row){
+    			$arrClassT = array();
+    			$arrClassT["title"] = $row["title"];
+    			$arrClassT["class_id"] = $row["id"];
+    			if (array_key_exists($row["id"], $arrCharterClass)) {
+    				$arrClassT["price"] = $arrCharterClass[$row["id"]]["price"];
+    				$arrClassT["checked"] = "1";
+    			} else {
+    				$arrClassT["checked"] = "0";
+    				$arrClassT["price"] = "";
+    			}
+    			$arrClassT["msg"] = "";
+    			$arrClass[$row["id"]] = $arrClassT;
+    		}
+    	}
+    	return $arrClass;
+    }
+    
+    public function updateCharterClass($id, $arrClasses) {
+    	if ($id > 0) {
+    		// 先删除
+    		$this->db->query("DELETE FROM pm_charter_classes WHERE charter_id = ".$id);
+    		
+    		$error = false;
+    		// 在登录
+    		foreach($arrClasses as $rowClass) {
+    			if ($rowClass["checked"] == "1") {
+    				$arrData = array();
+    				$arrData["charter_id"] = $id;
+    				$arrData["class_id"] = $rowClass["class_id"];
+    				$arrData["price"] = $rowClass["price"];
+    				$result = db_prepareInsert($this->db, "pm_charter_classes", $arrData);
+    				if($result->execute() !== false){
+    					
+    				} else {
+    					$error = true;
+    				}
+    			}
+    		}
+    		
+    		if ($error) {
+    			$this->db->query("DELETE FROM pm_charter_classes WHERE charter_id = ".$id);
+    		}
+    	}
+    }
 }
 // 前台的应用
 $hotelApp = new Admin($db);

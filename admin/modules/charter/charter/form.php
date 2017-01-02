@@ -85,6 +85,10 @@ if(is_null($fields)) $fields = array();
 $hotelApp->beforeAction($fields, $id);
 /* @jeff 包车服务  end */
 
+//
+$arrClass = $hotelApp->getCharterClass($id);
+$checkCharterClass = true;
+$requiredCharterClassMsg = "";
 // Getting datas in the database
 if($db !== false){
     $result = $db->query("SELECT * FROM pm_".MODULE." WHERE id = ".$id);
@@ -262,7 +266,30 @@ if($db !== false){
             }
             if(isset($_POST['id_user'])) $id_user = $_POST['id_user'];
             
-            if(checkFields($db, $fields, $id)){
+            
+            //
+            $checkCharterClass = true;
+            $requiredCharterClassMsg = "";
+            if (isset($_POST["class_id"]) && count($_POST["class_id"]) > 0) {
+            	
+            	foreach($_POST["class_id"] as $classId) {
+            		$arrClass[$classId]["checked"] = "1";
+            		if (isset($_POST["price_".$classId])) {
+            			$price = $_POST["price_".$classId];
+            			if(!is_numeric($price) || empty($price)){
+            				$checkCharterClass = false;
+            				$arrClass[$classId]["msg"] = $texts["NUMERIC_EXPECTED"];
+            			}
+            			$arrClass[$classId]["price"] = $price;
+            		}
+            	}
+            } else {
+            	$checkCharterClass = false;
+            	$requiredCharterClassMsg = $texts["REQUIRED_FIELD"];
+            }
+            
+            
+            if(checkFields($db, $fields, $id) && $checkCharterClass){
                 
                 for($i = 0; $i < $total_lang; $i++){
                     
@@ -360,6 +387,9 @@ if($db !== false){
                                 }
                             }
                         }
+                        
+                        // 车座的规格插入
+                        $hotelApp->updateCharterClass($id, $arrClass);
                     }
                 }
             }else
@@ -703,6 +733,39 @@ $csrf_token = get_token("form"); ?>
                                                 }
                                             }
                                             
+                                            if (count($arrClass) > 0) {
+                                            ?>
+                                            
+                                            <div class="row mb10">
+                                            	<label class="col-md-2 control-label">包车座型<span class="red">*</span></label>
+	                                            <div class="col-md-8 <?php if (!empty($requiredCharterClassMsg)) { echo 'has-error';}?>">
+	                                            	<?php 
+	                                            	foreach($arrClass as $rowClass) {
+	                                            	?>
+	                                            	<div  class="row <?php if (!empty($rowClass["msg"])) {?> has-error <?php } ?>">
+		                                                 <div class="col-md-3 form-inline">
+		                                                 	<input type="checkbox" class="form-control" name="class_id[]" id="class_<?php echo $rowClass["class_id"]?>" <?php if ($rowClass['checked'] == "1") { ?> checked <?php } ?>
+		                                                 	value = "<?php echo $rowClass['class_id'];?>"/>&nbsp;<label for="class_<?php echo $rowClass["class_id"]?>"><?php echo $rowClass['title'];?></label>
+		                                                 </div>
+		                                                 <div class="col-md-4 form-inline">
+		                                                 	单价：<input type="text" class="form-control" name="price_<?php echo $rowClass["class_id"]?>" value = "<?php echo $rowClass["price"]?>" style="text-align:right;width:120px;"/>&nbsp;元
+		                                                 	<?php if (!empty($rowClass["msg"])) {?>
+		                                                 	<p class="help-block"><?php echo $rowClass["msg"];?></p>
+		                                                 	<?php } ?>
+		                                                 </div>
+	                                                 </div>
+	                                                 
+	                                                 <?php 
+	                                            	}
+	                                                 ?>
+	                                                 <?php if (!empty($requiredCharterClassMsg)) {?>
+                                                 	<p class="help-block"><?php echo $requiredCharterClassMsg;?></p>
+                                                 	<?php } ?>
+												</div>
+												
+											</div>                                                      
+                                            <?php
+                                            }
                                             if($id_lang == DEFAULT_LANG || $id_lang == 0){
                                                 if(in_array("publish", $permissions) || in_array("all", $permissions)){
                                                     if(RELEASE){ ?>
