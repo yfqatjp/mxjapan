@@ -529,7 +529,6 @@ CREATE TABLE `pm_charter_user` (
   `why_comment` text COMMENT '您为什么来到这座城市',
   `service_comment` text COMMENT '您可以提供什么样的特色服务',
   `checked_comment` text COMMENT '审批不通过的理由',
-  `id_user` int(11) DEFAULT NULL,
   `add_date` int(11) DEFAULT NULL,
   `edit_date` int(11) DEFAULT NULL,
   `checked` int(11) DEFAULT '0',
