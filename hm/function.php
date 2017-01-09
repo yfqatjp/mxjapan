@@ -1,4 +1,4 @@
-<?
+<?php
 function time_tran($the_time)
 {
     $now_time = date("Y-m-d H:i:s", time());

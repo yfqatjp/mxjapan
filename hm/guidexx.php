@@ -522,8 +522,7 @@ $('#top').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);retur
 </script>
 
 <!-- 产品图片 --> 
-<script src="js/slider.photo.js"></script> 
-<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1253179997'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1253179997' type='text/javascript'%3E%3C/script%3E"));document.getElementById('cnzz_stat_icon_1253179997').style.display = 'none';</script> 
+<script src="js/slider.photo.js"></script>
 <!-- jQuery Easing --> 
 <script src="js/jquery.easing.1.3.js"></script> 
 <!-- Bootstrap --> 

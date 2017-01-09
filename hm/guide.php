@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?
+?><!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -56,23 +57,23 @@ body{ background:#f7f7f7;}
 <body>
 <div class="sehun"></div>
 <header id="fh5co-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
-      <nav role="navigation" class="navshow">
-        <ul>
-          <li><a href="index.html">首页</a></li>
-          <li class="navs"><a href="guide.html">车导服务</a></li>
-          <li><a href="list_list.html">民宿</a></li>
-          <li><a href="medical.html">医疗</a></li>
-          <li><a href="gallery.html">旅游图库</a></li>
-          <li><a href="realestate.html">不动产服务</a></li>
-          <li><a href="about.html">关于我们</a></li>
-          <li class="cta"><a href="signin.html">登录</a></li>
-        </ul>
-      </nav>
+    <div class="container">
+        <div class="header-inner">
+            <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
+            <nav role="navigation" class="navshow">
+                <ul>
+                    <?php
+                    $rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND `main` = 1 AND `id_parent` IS NULL ORDER BY rank");
+                    while ($row = $rs->fetch()) {
+                        ?>
+                        <li<?php if ($navid == $row['id']) { ?> class="navs"<?php } ?>><a
+                                href="<?php echo $row['url'] ?>"><?php echo $row['name'] ?></a></li>
+                    <?php } ?>
+                    <li class="cta"><a href="signin.html">登录</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
-  </div>
 </header>
 <div class="container"> </div>
 <aside id="fh5co-hero" class="js-fullheight">

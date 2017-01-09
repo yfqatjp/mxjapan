@@ -82,7 +82,7 @@ $row2 = $rs2->fetch();
 <header id="fh5co-header" role="banner">
     <div class="container">
         <div class="header-inner">
-            <div class="logo"><a href="index.php"><img src="images/logo.png"></a></div>
+            <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
             <nav role="navigation" class="navshow">
                 <ul>
                     <?php
@@ -92,7 +92,7 @@ $row2 = $rs2->fetch();
                         <li<?php if ($navid == $row['id']) { ?> class="navs"<?php } ?>><a
                                 href="<?php echo $row['url'] ?>"><?php echo $row['name'] ?></a></li>
                     <?php } ?>
-                    <li class="cta"><a href="signin.php">登录</a></li>
+                    <li class="cta"><a href="signin.html">登录</a></li>
                 </ul>
             </nav>
         </div>
@@ -108,11 +108,11 @@ $row2 = $rs2->fetch();
             $i = 1;
             while ($row = $rs->fetch()) {
                 ?>
-                <li><img src="<?
-                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by id asc");
+                <li><img src="<?php
+                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by lang asc");
                     $row1 = $rs1->fetch();
-                    if (is_file("images/" . $row1['file'])) {
-                        echo "/hm/images/" . $row1['file'];
+                    if (is_file($_SERVER['DOCUMENT_ROOT']."/images/" . $row1['file'])) {
+                        echo "/images/" . $row1['file'];
                     } else {
                         echo "/medias/slide/big/" . $row1['id'] . "/" . $row1['file'];
                     } ?>">
@@ -141,11 +141,11 @@ $row2 = $rs2->fetch();
             $i = 1;
             while ($row = $rs->fetch()) {
                 ?>
-                <li><img src="<?
-                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by id desc");
+                <li><img src="<?php
+                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by lang desc");
                     $row1 = $rs1->fetch();
-                    if (is_file("images/" . $row1['file'])) {
-                        echo "/hm/images/" . $row1['file'];
+                    if (is_file($_SERVER['DOCUMENT_ROOT']."/images/" . $row1['file'])) {
+                        echo "/images/" . $row1['file'];
                     } else {
                         echo "/medias/slide/big/" . $row1['id'] . "/" . $row1['file'];
                     } ?>">
@@ -180,8 +180,8 @@ $row2 = $rs2->fetch();
                 <div class="services">
                     <div class="midd"><img src="images/1_03.jpg"></div>
                     <div class="desc">
-                        <h3><a href="list_list.php">民宿 体験</a></h3>
-                        <p class="midd_1"><a href="list_list.php">世界的な広がりを見せる「個人宅宿泊」であり、「交流や生活文化体験」を求める観光客のための宿泊施設。</a>
+                        <h3><a href="list_list.html">民宿 体験</a></h3>
+                        <p class="midd_1"><a href="list_list.html">世界的な広がりを見せる「個人宅宿泊」であり、「交流や生活文化体験」を求める観光客のための宿泊施設。</a>
                         </p>
                     </div>
                 </div>
@@ -190,8 +190,8 @@ $row2 = $rs2->fetch();
                 <div class="services">
                     <div class="midd"><img src="images/1_04.jpg"></div>
                     <div class="desc">
-                        <h3><a href="guide.php">租車 自驾</a></h3>
-                        <p class="midd_1"><a href="guide.php">家用車で近場から遠隔地まで自分たちのペースで動きやすく、公共の交通機関で行くのが難しい場所にも寄れる。</a>
+                        <h3><a href="guide.html">租車 自驾</a></h3>
+                        <p class="midd_1"><a href="guide.html">家用車で近場から遠隔地まで自分たちのペースで動きやすく、公共の交通機関で行くのが難しい場所にも寄れる。</a>
                         </p>
                     </div>
                 </div>
@@ -209,8 +209,8 @@ $row2 = $rs2->fetch();
                 <div class="services">
                     <div class="midd"><img src="images/1_12.jpg"></div>
                     <div class="desc">
-                        <h3><a href="medical.php">医疗 技术</a></h3>
-                        <p><a href="medical.php">世界的な広がりを見せる「個人宅宿泊」であり、「交流や生活文化体験」を求める観光客のための宿泊施設。</a></p>
+                        <h3><a href="medical.html">医疗 技术</a></h3>
+                        <p><a href="medical.html">世界的な広がりを見せる「個人宅宿泊」であり、「交流や生活文化体験」を求める観光客のための宿泊施設。</a></p>
                     </div>
                 </div>
             </div>
@@ -218,8 +218,8 @@ $row2 = $rs2->fetch();
                 <div class="services">
                     <div class="midd"><img src="images/1_14.jpg"></div>
                     <div class="desc">
-                        <h3><a href="gallery.php">旅游 图库</a></h3>
-                        <p><a href="gallery.php">家用車で近場から遠隔地まで自分たちのペースで動きやすく、公共の交通機関で行くのが難しい場所にも寄れる。</a></p>
+                        <h3><a href="gallery.html">旅游 图库</a></h3>
+                        <p><a href="gallery.html">家用車で近場から遠隔地まで自分たちのペースで動きやすく、公共の交通機関で行くのが難しい場所にも寄れる。</a></p>
                     </div>
                 </div>
             </div>
@@ -227,23 +227,23 @@ $row2 = $rs2->fetch();
                 <div class="services">
                     <div class="midd"><img src="images/1_13.jpg"></div>
                     <div class="desc">
-                        <h3><a href="realestate.php">不动产 服务</a></h3>
-                        <p><a href="realestate.php">海外でのショッピングと言えば、免税店。日本でのお買い物をお楽しみに。認定店舗数400店！</a></p>
+                        <h3><a href="realestate.html">不动产 服务</a></h3>
+                        <p><a href="realestate.html">海外でのショッピングと言えば、免税店。日本でのお買い物をお楽しみに。認定店舗数400店！</a></p>
                     </div>
                 </div>
             </div>
             <div class="sehun_1 yin">
-                <li><a href="list_list.php"><img src="images/user_4_09.png"><span>民宿 体験</span></a></li>
-                <li><a href="guide.php"><img src="images/user_4_06.png"><span>租車 自驾</span></a></li>
+                <li><a href="list_list.html"><img src="images/user_4_09.png"><span>民宿 体験</span></a></li>
+                <li><a href="guide.html"><img src="images/user_4_06.png"><span>租車 自驾</span></a></li>
                 <li><a href="#"><img src="images/user_4_03.png"><span>免税 购物</span></a></li>
-                <li><a href="medical.php"><img src="images/user_4_15.png"><span>医疗 技术</span></a></li>
-                <li><a href="gallery.php"><img src="images/user_4_17.png"><span>旅游 图库</span></a></li>
-                <li><a href="realestate.php"><img src="images/user_4_20.png"><span>不动产 服务</span></a></li>
+                <li><a href="medical.html"><img src="images/user_4_15.png"><span>医疗 技术</span></a></li>
+                <li><a href="gallery.html"><img src="images/user_4_17.png"><span>旅游 图库</span></a></li>
+                <li><a href="realestate.html"><img src="images/user_4_20.png"><span>不动产 服务</span></a></li>
             </div>
         </div>
     </div>
 </div>
-<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">企业网站模板</a></div>
+
 <div id="fh5co-work-section" class="fh5co-light-grey-section">
     <div class="container">
         <div class="row">
@@ -336,7 +336,7 @@ $row2 = $rs2->fetch();
             while ($row = $rs->fetch()) {
 
                 ?>
-                <div class="col-md-4 animate-box"><a href="list.php" class="item-grid text-center">
+                <div class="col-md-4 animate-box"><a href="list.html" class="item-grid text-center">
                         <div class="image"><img
                                 src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id']);
                                 $row1 = $rs1->fetch();
@@ -351,7 +351,7 @@ $row2 = $rs2->fetch();
             <?php } ?>
             <div class="clear"></div>
             <div class="col-md-12 text-center animate-box">
-                <p><a href="list_list.php" class="btn btn-primary">了解更多</a></p>
+                <p><a href="list_list.html" class="btn btn-primary">了解更多</a></p>
             </div>
         </div>
     </div>
@@ -459,7 +459,7 @@ $row2 = $rs2->fetch();
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.php" class="item-grid">
+            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
                     <div class="image"><img src="images/6_09.png"></div>
                     <div class="v-align">
                         <div class="v-align-middle">
@@ -471,7 +471,7 @@ $row2 = $rs2->fetch();
                         </div>
                     </div>
                 </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.php" class="item-grid">
+            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
                     <div class="image"><img src="images/6_09.png"></div>
                     <div class="v-align">
                         <div class="v-align-middle">
@@ -483,7 +483,7 @@ $row2 = $rs2->fetch();
                         </div>
                     </div>
                 </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.php" class="item-grid">
+            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
                     <div class="image"><img src="images/6_09.png"></div>
                     <div class="v-align">
                         <div class="v-align-middle">
@@ -495,7 +495,7 @@ $row2 = $rs2->fetch();
                         </div>
                     </div>
                 </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.php" class="item-grid">
+            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
                     <div class="image"><img src="images/6_09.png"></div>
                     <div class="v-align">
                         <div class="v-align-middle">
@@ -508,7 +508,7 @@ $row2 = $rs2->fetch();
                     </div>
                 </a></div>
             <div class="col-md-12 text-center animate-box">
-                <p><a href="gallery.php" class="btn btn-primary">了解更多</a></p>
+                <p><a href="gallery.html" class="btn btn-primary">了解更多</a></p>
             </div>
         </div>
     </div>
@@ -529,28 +529,28 @@ $row2 = $rs2->fetch();
                         <h2 class="pricing-plan">民宿房间数</h2>
                         <div class="price">750<sup class="currency">+</sup></div>
                         <p class="midd_9">石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二这里文字自己填入，暂时用别的文字顶替一下</p>
-                        <a href="list_list.php" class="btn btn-select-plan btn-sm">了解民宿</a></div>
+                        <a href="list_list.html" class="btn btn-select-plan btn-sm">了解民宿</a></div>
                 </div>
                 <div class="col-md-3 animate-box">
                     <div class="price-box midd_8">
                         <h2 class="pricing-plan">各地租车数</h2>
                         <div class="price">11000<sup class="currency">+</sup></div>
                         <p class="midd_9">石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二这里文字自己填入，暂时用别的文字顶替一下</p>
-                        <a href="guide.php" class="btn btn-select-plan btn-sm">车导服务</a></div>
+                        <a href="guide.html" class="btn btn-select-plan btn-sm">车导服务</a></div>
                 </div>
                 <div class="col-md-3 animate-box">
                     <div class="price-box popular midd_8">
                         <h2 class="pricing-plan">免税商家数</h2>
                         <div class="price">5000<sup class="currency">+</sup></div>
                         <p class="midd_9">石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二这里文字自己填入，暂时用别的文字顶替一下</p>
-                        <a href="realestate.php" class="btn btn-select-plan btn-sm">不动产服务</a></div>
+                        <a href="realestate.html" class="btn btn-select-plan btn-sm">不动产服务</a></div>
                 </div>
                 <div class="col-md-3 animate-box">
                     <div class="price-box midd_8">
                         <h2 class="pricing-plan">每日情报数</h2>
                         <div class="price">300<sup class="currency">+</sup></div>
                         <p class="midd_9">石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二这里文字自己填入，暂时用别的文字顶替一下</p>
-                        <a href="about.php" class="btn btn-select-plan btn-sm">了解我们</a></div>
+                        <a href="about.html" class="btn btn-select-plan btn-sm">了解我们</a></div>
                 </div>
             </div>
         </div>
@@ -561,7 +561,7 @@ $row2 = $rs2->fetch();
         <div class="midd_10 col-sm-push-0 col-xs-push-0">
             <h3>关于我们</h3>
             <p>美溪传媒車友倶楽部成立于2016年8月1日，是在日本东京投资注册的独立法人公司。<br>公司专致于提供日本境内旅游业务，为外国游客提供餐饮和娱乐服务，</p>
-            <p><a href="about.php" class="btn btn-primary btn-outline btn-sm">查看更多</a></p>
+            <p><a href="about.html" class="btn btn-primary btn-outline btn-sm">查看更多</a></p>
         </div>
         <div class="col-md-6 col-md-push-1 col-sm-12 col-sm-push-0 col-xs-12 col-xs-push-0">
             <ul class="float">
@@ -728,9 +728,6 @@ $row2 = $rs2->fetch();
     <?php $i++;}?>
     }
     ;
-    if (GetCookie('sousuosss')) {
-        var sss = GetCookie('sousuosss');
-    }
 </script>
 </body>
 </html>

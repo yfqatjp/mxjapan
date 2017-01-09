@@ -10,7 +10,7 @@ if(PHP_VERSION<5.4){
 $arr = array("short_open_tag");
 for($i=0;$i<count($arr);$i++){
 if (!get_cfg_var($arr[$i])) {
-exit('不支持'.$arr[$i]);
+//exit('不支持'.$arr[$i]);
 }
 }
 
@@ -24,7 +24,7 @@ exit('不支持'.$arr[$i]);
 $arr = array("sockets","openssl");
 for($i=0;$i<count($arr);$i++){
 if (!extension_loaded($arr[$i])) {
-exit('不支持'.$arr[$i]);
+//exit('不支持'.$arr[$i]);
 }
 }
 
