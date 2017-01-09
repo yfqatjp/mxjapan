@@ -16,90 +16,13 @@ $row2 = $rs2->fetch();
 <html class="no-js">
 <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?php echo $row['title'] ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>"/>
-    <meta itemprop="name" content="<?php echo $row['title_tag'] ?>">
-    <meta itemprop="description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>">
-
-    <!-- Facebook and Twitter integration -->
-    <meta property="og:title" content="<?php echo $row['title_tag'] ?>"/>
-    <meta property="og:url" content="<?php echo url(1) ?>"/>
-    <meta property="og:site_name" content="<?php echo constant("SITE_TITLE"); ?>"/>
-    <meta property="og:description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>"/>
-    <?php
-    if (isset($row2['file'])) { ?>
-        <meta name="og:image" content="<?php echo $row2['file'] ?>">
-        <?php
-    } ?>
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@publisher_handle">
-    <meta name="twitter:title" content="<?php echo $row['title_tag'] ?>">
-    <meta name="twitter:description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>">
-    <meta name="twitter:creator" content="@author_handle">
-    <?php
-    if (isset($row2['file'])) { ?>
-        <meta name="twitter:image:src" content="<?php echo $row2['file'] ?>">
-        <?php
-    } ?>
-
-    <link rel="icon" type="image/png" href="/templates/default/images/favicon.png">
-
-
-    <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
-
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- Icomoon Icon Fonts-->
-    <link rel="stylesheet" href="css/icomoon.css">
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Flexslider  -->
-    <link rel="stylesheet" href="css/flexslider.css">
-    <!-- Owl Carousel  -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <!-- Theme style  -->
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- Modernizr JS -->
-    <script src="js/modernizr-2.6.2.min.js"></script>
-    <!-- FOR IE9 below -->
-    <!--[if lt IE 9]>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- 选择日期 -->
-    <link rel="stylesheet" href="css/rendezvous.css">
-
+    <?php require_once 'top.php'; ?>
 </head>
 <body>
 <div class="sehun"></div>
 
-<header id="fh5co-header" role="banner">
-    <div class="container">
-        <div class="header-inner">
-            <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
-            <nav role="navigation" class="navshow">
-                <ul>
-                    <?php
-                    $rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND `main` = 1 AND `id_parent` IS NULL ORDER BY rank");
-                    while ($row = $rs->fetch()) {
-                        ?>
-                        <li<?php if ($navid == $row['id']) { ?> class="navs"<?php } ?>><a
-                                href="<?php echo $row['url'] ?>"><?php echo $row['name'] ?></a></li>
-                    <?php } ?>
-                    <li class="cta"><a href="signin.html">登录</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</header>
+<?php require_once 'head.php';?>
 
-<div class="container"></div>
 <aside id="fh5co-hero" class="js-fullheight yincang">
     <div class="flexslider js-fullheight">
         <ul class="slides">
@@ -109,7 +32,7 @@ $row2 = $rs2->fetch();
             while ($row = $rs->fetch()) {
                 ?>
                 <li><img src="<?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by lang asc");
+                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by id asc");
                     $row1 = $rs1->fetch();
                     if (is_file($_SERVER['DOCUMENT_ROOT']."/images/" . $row1['file'])) {
                         echo "/images/" . $row1['file'];
@@ -142,7 +65,7 @@ $row2 = $rs2->fetch();
             while ($row = $rs->fetch()) {
                 ?>
                 <li><img src="<?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by lang desc");
+                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by id desc");
                     $row1 = $rs1->fetch();
                     if (is_file($_SERVER['DOCUMENT_ROOT']."/images/" . $row1['file'])) {
                         echo "/images/" . $row1['file'];
@@ -556,40 +479,8 @@ $row2 = $rs2->fetch();
         </div>
     </div>
 </div>
-<footer id="fh5co-footer" role="contentinfo">
-    <div class="container">
-        <div class="midd_10 col-sm-push-0 col-xs-push-0">
-            <h3>关于我们</h3>
-            <p>美溪传媒車友倶楽部成立于2016年8月1日，是在日本东京投资注册的独立法人公司。<br>公司专致于提供日本境内旅游业务，为外国游客提供餐饮和娱乐服务，</p>
-            <p><a href="about.html" class="btn btn-primary btn-outline btn-sm">查看更多</a></p>
-        </div>
-        <div class="col-md-6 col-md-push-1 col-sm-12 col-sm-push-0 col-xs-12 col-xs-push-0">
-            <ul class="float">
-                <h3>联系方式</h3>
-                <span><?php echo constant("SITE_TITLE");?></span>
-                <li><a href="#"><img src="images/6_03.png"><?php echo constant("ADDRESS");?></a></li>
-                <li><a href="#"><img src="images/6_07.png"><?php echo constant("PHONE");?></a></li>
-                <li><a href="#"><img src="images/6_10.png"><?php echo constant("MOBILE");?></a></li>
-                <li><a href="#"><img src="images/6_13.png"><?php echo constant("FAX");?></a></li>
-                <li><a href="#"><img src="images/6_17.png"><?php echo constant("EMAIL");?></a></li>
-            </ul>
-            <div class="midd_65"><h3>微信公众号</h3><img src="<?php echo constant("OWNER");?>"></div>
-        </div>
-        <div class="clear"></div>
-        <div class="midd_11">
-            © 2016 美溪车友传媒俱乐部 All rights reserved
-        </div>
-    </div>
-</footer>
 
-<!-- 返回顶部 -->
-<div id="top"><img src="images/top.png"></div>
-<script>
-    $('#top').click(function () {
-        $('html,body').animate({scrollTop: '0px'}, 800);
-        return false;
-    });
-</script>
+<?php require_once 'foot.php'; ?>
 <!-- jQuery -->
 
 <!-- jQuery Easing -->

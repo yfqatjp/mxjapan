@@ -17,6 +17,11 @@
 	</list>
 	<form>
 		<field multi="1" label="医院名称" name="title" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="推荐指数" name="num" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="地址" name="addres" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="电话号码" name="phone" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="院长" name="yuan" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="邮件" name="mail" type="text" required="1" unique="0" validation="none"/>
 		<field multi="1" label="诊疗科目" name="departments" type="text" required="1" unique="0" validation="none"/>
 		<field multi="1" label="病床数" name="beds" type="text" required="1" unique="0" validation="none"/>
 		<field multi="1" label="成立日" name="establishmentday" type="text" required="1" unique="0" validation="none"/>
