@@ -7,5 +7,7 @@ order deny,allow
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteRule ^(.*?)_x(.*?).html /hm/$1.php?id=$2 [L]
+    RewriteRule ^(.*?)_(.*?).html /hm/$1.php?page=$2 [L]
     RewriteRule ^(.*?).html /hm/$1.php [L]
 </IfModule>

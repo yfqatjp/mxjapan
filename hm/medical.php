@@ -62,7 +62,7 @@ while ($row = $rs->fetch()) {
             <div class="image"><img
                     src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE id_item = " . $row['id'] . " ");
                     $row1 = $rs1->fetch();
-                    echo "/medias/hospital/medium/" . $row1['id'] . "/" . $row1['file'] ?>"></div>
+                    echo "/medias/hospital/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="100%"></div>
             <div class="midd_92">
                 <div class="midd_20"><?php echo $row['title'] ?></div>
                 <div class="midd_21"><span>推荐指数</span><?php for ($i = 1; $i <= $row['num']; $i++) { ?><img
