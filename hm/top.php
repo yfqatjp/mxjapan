@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title><?php echo $row['title'] ?></title>
+<title><?php echo $row['name'] ?> <?php echo constant("SITE_TITLE"); ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>"/>
 <meta itemprop="name" content="<?php echo $row['title_tag'] ?>">

@@ -11,8 +11,12 @@
                         ?>
                         <li<?php if ($navid == $row['id']) { ?> class="navs"<?php } ?>><a
                                 href="<?php echo $row['url'] ?>"><?php echo $row['name'] ?></a></li>
-                    <?php } ?>
+                    <?php }
+                    if($_SESSION['userid']==""){?>
                     <li class="cta"><a href="signin.html">登录</a></li>
+                    <?php }else{?>
+                        <li class="cta1"><a href="/user/">进入个人中心</a></li>
+                    <?php }?>
                 </ul>
             </nav>
         </div>

@@ -54,7 +54,7 @@ $row = $rs->fetch(); ?>
                         ?>
                         <li><a href="javascript:;"><img
                                     src="<?php echo "/medias/hospital/medium/" . $row1['id'] . "/" . $row1['file'] ?>"<?php if ($i == 1){ ?>
-                                    style="display: inline;<?php } ?>"></a></li>
+                                    style="display: inline;"<?php } ?>></a></li>
                         <?php
                         $i++;
                     }

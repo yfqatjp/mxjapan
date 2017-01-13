@@ -47,14 +47,14 @@ $row2 = $rs2->fetch();
 <?php
 $perNumber = 6;
 $page = @$_GET['page'];
-$count = $pdo->query("SELECT * FROM pm_hospital WHERE lang = 2");
+$count = $pdo->query("SELECT * FROM pm_hospital WHERE lang = 2 AND checked = 1");
 $totalNumber = $count->rowCount();
 $totalPage = ceil($totalNumber / $perNumber);
 if (!isset($page)) {
     $page = 1;
 }
 $startCount = ($page - 1) * $perNumber;
-$rs = $pdo->query("SELECT * FROM pm_hospital where lang = 2 limit $startCount,$perNumber");
+$rs = $pdo->query("SELECT * FROM pm_hospital where lang = 2 AND checked = 1 limit $startCount,$perNumber");
 while ($row = $rs->fetch()) {
     ?>
     <!-- 内容 -->

@@ -1,5 +1,5 @@
 <?php require_once 'coon.php';
-$navid = 2;
+$navid = 9;
 $rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND id = " . $navid);
 $row = $rs->fetch();
 
@@ -16,61 +16,9 @@ $row2 = $rs2->fetch();
 <html class="no-js">
 <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?php echo $row['title'] ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>"/>
-    <meta itemprop="name" content="<?php echo $row['title_tag'] ?>">
-    <meta itemprop="description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>">
-
-    <!-- Facebook and Twitter integration -->
-    <meta property="og:title" content="<?php echo $row['title_tag'] ?>"/>
-    <meta property="og:url" content="<?php echo url(1) ?>"/>
-    <meta property="og:site_name" content="<?php echo constant("SITE_TITLE"); ?>"/>
-    <meta property="og:description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>"/>
-    <?php
-    if (isset($row2['file'])) { ?>
-        <meta name="og:image" content="<?php echo $row2['file'] ?>">
-        <?php
-    } ?>
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@publisher_handle">
-    <meta name="twitter:title" content="<?php echo $row['title_tag'] ?>">
-    <meta name="twitter:description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>">
-    <meta name="twitter:creator" content="@author_handle">
-    <?php
-    if (isset($row2['file'])) { ?>
-        <meta name="twitter:image:src" content="<?php echo $row2['file'] ?>">
-        <?php
-    } ?>
-
-    <link rel="icon" type="image/png" href="/templates/default/images/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
-
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- Icomoon Icon Fonts-->
-    <link rel="stylesheet" href="css/icomoon.css">
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Flexslider  -->
-    <link rel="stylesheet" href="css/flexslider.css">
-    <!-- Owl Carousel  -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <!-- Theme style  -->
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- Modernizr JS -->
-    <script src="js/modernizr-2.6.2.min.js"></script>
-    <!-- FOR IE9 below -->
-    <!--[if lt IE 9]>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
-    <!-- 选择日期 -->
-    <link rel="stylesheet" href="css/rendezvous.css">
+    <?php require_once 'top.php'; ?>
+    <script type="text/javascript"
+            src="https://www.google.com/maps/api/js?key=AIzaSyDTRl1x8xftFpAmxhl76bzStKmA8aNGCYY&sensor=false"></script>
     <!-- 评价 -->
     <script type="text/javascript">
         function rate(obj, oEvent) {
@@ -88,7 +36,7 @@ $row2 = $rs2->fetch();
                     var inputid = this.parentNode.previousSibling
                     inputid.value = this._num + 1;
                 }
-            }//欢迎来到站长 特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+            }
             if (target.tagName == "IMG") {
                 for (var j = 0; j < imgArray.length; j++) {
                     if (j <= target._num) {
@@ -115,25 +63,10 @@ $row2 = $rs2->fetch();
 <body>
 <div class="sehun"></div>
 
-<header id="fh5co-header" role="banner">
-    <div class="container">
-        <div class="header-inner">
-            <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
-            <nav role="navigation" class="navshow">
-                <ul>
-                    <li><a href="index.html">首页</a></li>
-                    <li><a href="guide.html">车导服务</a></li>
-                    <li class="navs"><a href="list_list.html">民宿</a></li>
-                    <li><a href="medical.html">医疗</a></li>
-                    <li><a href="gallery.html">旅游图库</a></li>
-                    <li><a href="realestate.html">不动产服务</a></li>
-                    <li><a href="about.html">关于我们</a></li>
-                    <li class="cta"><a href="signin.html">登录</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</header>
+<?php require_once 'head.php';
+$rs = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $_GET['id']);
+$row = $rs->fetch(); ?>
+
 <aside id="fh5co-hero">
     <div style="background: url(images/7_02.png) no-repeat; background-position:center center; height:222px;">
         <div class="overlay-gradient"></div>
@@ -149,79 +82,108 @@ $row2 = $rs2->fetch();
     </div>
 </aside>
 <div class="midd_25">
-    <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="#">民宿</a> > <a
-            href="list.html">东京丽思卡尔顿</a></div>
+    <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="/list2.html">民宿</a> > <a
+            href="#"><?php echo $row['title'] ?></a></div>
 </div>
 <div id="fh5co-work-section" class="fh5co-light-grey-section" style="padding:0;">
     <div class="container">
         <div class="midd_27">
             <div class="left midd_52">
                 <div id="originalpic">
-                    <li><a href="javascript:;"><img src="images/11_07.png" style="display: inline;"></a></li>
-                    <li><a href="javascript:;"><img src="images/11_07.png"></a></li>
-                    <li><a href="javascript:;"><img src="images/11_07.png"></a></li>
-                    <li><a href="javascript:;"><img src="images/11_07.png"></a></li>
-                    <li><a href="javascript:;"><img src="images/11_07.png"></a></li>
+                    <?php
+                    $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ");
+                    $i = 1;
+                    while ($row1 = $rs1->fetch()) {
+                        ?>
+                        <li><a href="javascript:;"><img
+                                    src="/medias/hotel/medium/<?php echo $row1['id'] ?>/<?php echo $row1['file'] ?>" <?php if ($i == 1) { ?>
+                                    style="display: inline;"<?php } ?>></a></li>
+                        <?php
+                        $i++;
+                    }
+                    ?>
                     <a id="aPrev"
-                       style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/prev.cur), auto; height: 600px;"></a>
+                       style="cursor: url(/images//prev.cur), auto; height: 600px;"></a>
                     <a id="aNext"
-                       style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/next.cur), auto; height: 600px;"></a>
+                       style="cursor: url(/images//next.cur), auto; height: 600px;"></a>
                 </div>
                 <div class="thumbpic"><a href="javascript:;" class="bntprev"></a>
                     <div id="piclist">
                         <ul>
-                            <li class="hover"><a href="javascript:;"><img src="images/11_104.png"></a></li>
-                            <li><a href="javascript:;"><img src="images/11_106.png"></a></li>
-                            <li><a href="javascript:;"><img src="images/11_108.png"></a></li>
-                            <li><a href="javascript:;"><img src="images/11_110.png"></a></li>
-                            <li><a href="javascript:;"><img src="images/11_112.png"></a></li>
+                            <?php
+                            $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ");
+                            $i = 1;
+                            while ($row1 = $rs1->fetch()) {
+                                ?>
+                                <li<?php if ($i == 1){ ?> class="hover"<?php } ?>"><a href="javascript:;"><img src="/medias/hotel/medium/<?php echo $row1['id']?>/<?php echo $row1['file']?>" width="120" height="86"></a></li>
+                                <?php } ?>
                         </ul>
                     </div>
                     <a href="javascript:;" class="bntnext"></a></div>
             </div>
             <div class="midd_28">
-                <div class="midd_29">东京丽思卡尔顿</div>
-                <div class="midd_48"><span>和大自然的没融为一体</span> <span><img src="images/11_10.png"><img
-                            src="images/11_10.png"><img src="images/11_10.png"><img src="images/11_10.png"><img
-                            src="images/11_10.png"></span></div>
+                <div class="midd_29"><?php echo $row['title'] ?></div>
+                <div class="midd_48"><span><?php echo $row['subtitle'] ?></span>
+                    <span><?php for ($i = 1; $i <= $row['num']; $i++) { ?><img
+                            src="images/10_10.png"><?php } ?></span></div>
                 <ul class="midd_49">
-                    <li><a href="#"><img src="images/11_14.png">東京都世田谷区玉川2-15-12</a></li>
-                    <li><a href="#"><img src="images/11_17.png">090-0000-0000</a></li>
-                    <li><a href="#"><img src="images/11_19.png">mei@163.com</a></li>
+                    <li><a href="#"><img src="images/11_14.png"><?php echo $row['address'] ?></a></li>
+                    <li><a href="#"><img src="images/11_17.png"><?php echo $row['phone'] ?></a></li>
+                    <li><a href="#"><img src="images/11_19.png"><?php echo $row['email'] ?></a></li>
                 </ul>
                 <div class="midd_50">
-                    <div class="midd_51"><span class="midd_53">5.0</span><span>/</span>分<br>
+                    <div class="midd_51"><span class="midd_53"><?php
+                            $rs1 = $pdo->query("SELECT avg(rank) FROM pm_hotel_pl WHERE id_item = " . $row['id']);
+                            $row1 = $rs1->fetch();
+                            echo round($row1[0], 1) ?></span><span>/</span>分<br>
                         顾客评分
                     </div>
-                    <div class="midd_54"><span class="midd_55">156</span><span>/</span>次<br>
+                    <div class="midd_54"><span class="midd_55"><?php echo $rs1->rowCount(); ?></span><span>/</span>次<br>
                         评论数量
                     </div>
                     <div class="clear"></div>
                 </div>
-                <div class="midd_56"><span>设施：</span> <img src="images/13_03.png"></div>
+                <div class="midd_56"><span>设施：</span> <?php
+                    $icon = explode(',', $row['facilities']);
+                    $ico = count($icon);
+                    for ($i = 0; $i < $ico; $i++) {
+                        $rs1 = $pdo->query("SELECT * FROM pm_facility_file WHERE id_item = " . $icon[$i]);
+                        $row1 = $rs1->fetch();
+                        ?><img
+                        src="/medias/facility/big/<?php echo $row1['rank'] ?>/<?php echo $row1['file'] ?>"
+                        style="margin-bottom: 5px;margin-right: 5px;"><?php } ?></div>
             </div>
             <div class="clear"></div>
         </div>
         <div class="midd_27">
             <div class="midd_30">酒店介绍</div>
             <p class="midd_31">
-                第一家丽思·卡尔顿酒店于1927年在波士顿建立，该酒店已经出售给泰姬陵酒店度假村管理公司。纽约的丽思·卡尔顿酒店繁华的曼哈顿地区第四十六街和麦迪逊大道的交汇处。佛罗里达州的那不勒斯市（Naples,
-                Florida）是唯一一个丽思·卡尔顿酒店在同一条马路上的城市。丽思卡尔顿酒店管理集团还在美国及其周边地区提供部分房屋所有权的服务，将之命名为丽思卡尔顿俱乐部。这些不动产位于科罗拉多、维尔京群岛以及旧金山。1998年，万豪酒店国际集团收购了丽思·卡尔顿酒店集团公司的全部股份。</p>
-            <p class="midd_31">
-                丽思·卡尔顿作为全球首屈一指的奢华酒店品牌，从19世纪创建以来，一直遵从着经典的风格，成为名门、政要下榻的必选酒店。因为极度高贵奢华，她一向被称为“全世界的屋顶”，尤其是她的座右铭“我们以绅士淑女的态度为绅士淑女们忠诚服务”更是在业界被传为经典。不管在哪个城市，只要有丽思酒店，一定是国家政要和社会名流下榻的首选。巴黎的丽思更是全欧洲最豪华神秘的酒店，威尔士亲王、瑞典、葡萄牙、西班牙的国王都曾经在这里入住或就餐。戴安娜王妃遭遇车祸前的最后一顿美好的晚餐也是在那里享用。可可·夏奈尔甚至说：“每当我梦见死后在天堂的生活时，梦中的场景总是发生在丽思酒店。”</p>
+                <?php echo $row['descr'] ?></p>
             <div class="midd_30">房屋选择</div>
-            <div class="midd_32"><a href="list.html">
-                    <div class="midd_33"><img src="images/11_128.png"></div>
-                    <div class="midd_34">
-                        <div class="midd_35">双人大床房</div>
-                        <div class="midd_36">和大自然的没融为一体</div>
-                        <div class="midd_36">最大人数：大人*2、小孩*5</div>
-                    </div>
-                    <div class="midd_37"><span>￥</span><span class="midd_38">526</span> / 每晚</div>
-                </a>
-                <div class="midd_39">预定</div>
-                <div class="clear"></div>
-            </div>
+            <?php
+            $rs2 = $pdo->query("SELECT * FROM pm_room WHERE lang = 2 AND checked = 1 AND id_hotel = " . $_GET['id']);
+            while ($row2 = $rs2->fetch()) {
+                ?>
+                <div class="midd_32"><a>
+                        <div class="midd_33"><img
+                                src="<?php
+                                $rs1 = $pdo->query("SELECT * FROM pm_room_file WHERE id_item = " . $row2['id']);
+                                $row1 = $rs1->fetch();
+                                echo "/medias/room/medium/" . $row1['id'] . "/" . $row1['file'] ?>"></div>
+                        <div class="midd_34">
+                            <div class="midd_35"><?php echo $row2['title'] ?></div>
+                            <div class="midd_36"><?php echo $row2['subtitle'] ?></div>
+                            <div class="midd_36">最大人数：大人*<?php echo $row2['max_adults'] ?>
+                                、小孩*<?php echo $row2['max_children'] ?></div>
+                        </div>
+                        <div class="midd_37"><span>￥</span><span class="midd_38"><?php echo $row2['price'] ?></span> /
+                            每晚
+                        </div>
+                    </a>
+                    <div class="midd_39" date-id="<?php echo $row2['id']?>">预定</div>
+                    <div class="clear"></div>
+                </div>
+            <?php } ?>
             <div class="tanchuang">
                 <div class="midd_57"><img src="images/14_03.png"></div>
                 <div class="midd_58">在线预约</div>
@@ -306,8 +268,8 @@ $row2 = $rs2->fetch();
                         min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
                         max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
                     });
-                </script>
-                <script>$(function () {
+
+                    $(function () {
                         $(".midd_39").click(function () {
                             $(".tanchuang,.tanchuang1").slideToggle();
                         });
@@ -318,44 +280,9 @@ $row2 = $rs2->fetch();
                 </script>
             </div>
             <div class="tanchuang1"></div>
-            <div class="midd_32"><a href="list.html">
-                    <div class="midd_33"><img src="images/11_128.png"></div>
-                    <div class="midd_34">
-                        <div class="midd_35">双人大床房</div>
-                        <div class="midd_36">和大自然的没融为一体</div>
-                        <div class="midd_36">最大人数：大人*2、小孩*5</div>
-                    </div>
-                    <div class="midd_37"><span>￥</span><span class="midd_38">526</span> / 每晚</div>
-                </a>
-                <div class="midd_39">预定</div>
-                <div class="clear"></div>
-            </div>
-            <div class="midd_32"><a href="list.html">
-                    <div class="midd_33"><img src="images/11_128.png"></div>
-                    <div class="midd_34">
-                        <div class="midd_35">双人大床房</div>
-                        <div class="midd_36">和大自然的没融为一体</div>
-                        <div class="midd_36">最大人数：大人*2、小孩*5</div>
-                    </div>
-                    <div class="midd_37"><span>￥</span><span class="midd_38">526</span> / 每晚</div>
-                </a>
-                <div class="midd_39">预定</div>
-                <div class="clear"></div>
-            </div>
-            <div class="midd_32"><a href="list.html">
-                    <div class="midd_33"><img src="images/11_128.png"></div>
-                    <div class="midd_34">
-                        <div class="midd_35">双人大床房</div>
-                        <div class="midd_36">和大自然的没融为一体</div>
-                        <div class="midd_36">最大人数：大人*2、小孩*5</div>
-                    </div>
-                    <div class="midd_37"><span>￥</span><span class="midd_38">526</span> / 每晚</div>
-                </a>
-                <div class="midd_39">预定</div>
-                <div class="clear"></div>
-            </div>
+
             <div class="midd_30">地图</div>
-            <img src="images/11_131.png" style="margin-top:10px; margin-bottom:22px;">
+            <div id="mainMap" style="width: 1100px;height: 480px;"></div>
             <div class="midd_30">网友评论</div>
             <div class="midd_40">
                 <div class="left">整体评分：<span>4.7</span>/分</div>
@@ -467,40 +394,8 @@ $row2 = $rs2->fetch();
         </div>
     </div>
 </div>
-<footer id="fh5co-footer" role="contentinfo">
-    <div class="container">
-        <div class="midd_10 col-sm-push-0 col-xs-push-0">
-            <h3>关于我们</h3>
-            <p>美溪传媒車友倶楽部成立于2016年8月1日，是在日本东京投资注册的独立法人公司。<br>公司专致于提供日本境内旅游业务，为外国游客提供餐饮和娱乐服务，</p>
-            <p><a href="#" class="btn btn-primary btn-outline with-arrow btn-sm">联系我们<i
-                        class="icon-arrow-right"></i></a></p>
-        </div>
-        <div class="col-md-6 col-md-push-1 col-sm-12 col-sm-push-0 col-xs-12 col-xs-push-0">
-            <ul class="float">
-                <h3>联系方式</h3>
-                <span>美溪车友传媒俱乐部</span>
-                <li><a href="#"><img src="images/6_03.png">東京都世田谷区玉川2-15-12</a></li>
-                <li><a href="#"><img src="images/6_07.png">090-0000-0000</a></li>
-                <li><a href="#"><img src="images/6_10.png">090-0000-0000</a></li>
-                <li><a href="#"><img src="images/6_13.png">090-0000-0000</a></li>
-                <li><a href="#"><img src="images/6_17.png">contact@meixinpo.com</a></li>
-            </ul>
-            <div class="midd_65"><h3>微信公众号</h3><img src="images/17_03.jpg"></div>
-        </div>
-        <div class="clear"></div>
-        <div class="midd_11">
-            © 2016 美溪车友传媒俱乐部 All rights reserved
-        </div>
-    </div>
-</footer>
-<!-- 返回顶部 -->
-<div id="top"><img src="images/top.png"></div>
-<script>
-    $('#top').click(function () {
-        $('html,body').animate({scrollTop: '0px'}, 800);
-        return false;
-    });
-</script>
+
+<?php require_once 'foot.php'; ?>
 
 <!-- 产品图片 -->
 <script src="js/slider.photo.js"></script>
@@ -524,6 +419,33 @@ $row2 = $rs2->fetch();
         $(".sehun").click(function () {
             $(".navshow").slideToggle();
         });
+    });
+    var googleMapOperation = function () {
+        //设置四个位置，用于展示
+        var points = [
+            new google.maps.LatLng(<?php echo $row['lat']?>, <?php echo $row['lng']?>)
+        ];
+        var myOptions = {
+            zoom: 17,
+            center: new google.maps.LatLng(<?php echo $row['lat']?>, <?php echo $row['lng']?>),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        //添加map
+        gmap = new google.maps.Map(document.getElementById("mainMap"),
+            myOptions);
+        markers = [];
+        for (var i = 0; i < points.length; i++) {
+            var gmarker = new google.maps.Marker({
+                position: points[i],
+                map: gmap,
+            });
+            markers.push(gmarker);
+        }
+        //调用函数实现功能要求
+        setVeiwPort();
+    };
+    $(function () {
+        googleMapOperation();
     });
 </script>
 </body>

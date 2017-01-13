@@ -19,7 +19,7 @@
         </div>
         <div class="clear"></div>
         <div class="midd_11">
-            © 2016 美溪车友传媒俱乐部 All rights reserved
+            © <?php echo date('Y');?> <?php echo constant("SITE_TITLE");?> All rights reserved
         </div>
     </div>
 </footer>
