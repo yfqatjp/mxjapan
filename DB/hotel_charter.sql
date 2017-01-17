@@ -551,3 +551,7 @@ CREATE TABLE `pm_charter_user_file` (
   `type` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+--
+UPDATE `pm_page` SET `name`='车导服务',url = 'guide.php' WHERE `id`='5' AND (`lang`='2');
