@@ -3,7 +3,7 @@
     <div class="flexslider js-fullheight">
         <ul class="slides">
             <?php
-            $rs = $pdo->query("SELECT * FROM pm_slide WHERE lang = 2 and checked = 1 ");
+            $rs = $pdo->query("SELECT * FROM pm_slide WHERE lang = 2 and checked = 1 and id_page =".$navid);
             $i = 1;
             while ($row = $rs->fetch()) {
                 ?>

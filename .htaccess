@@ -8,6 +8,7 @@ order deny,allow
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteRule ^do /hm/do.php [L]
+    RewriteRule ^guide_grid.html /hm/guide_grid.php [L]
     RewriteRule ^list2_(.*?)_(.*?)_(.*?)_(.*?)_(.*?)_(.*?)_(.*?)_(.*?)_(.*?).html /hm/list2.php?page=$1&ren=$2&jia=$3&sou=$4&list=$5&text=$6&lid=$7&ont=$8&onf=$9 [L]
     RewriteRule ^(.*?)_x(.*?).html /hm/$1.php?id=$2 [L]
     RewriteRule ^(.*?)_(.*?).html /hm/$1.php?page=$2 [L]
