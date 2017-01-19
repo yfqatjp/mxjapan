@@ -26,6 +26,8 @@
 		<field multi="1" label="维护费" name="maintenancecost" type="text" required="1" unique="0" validation="none"/>
 		<field multi="1" label="设备" name="facility" type="text" required="1" unique="0" validation="none"/>
 		<field multi="1" label="地址" name="adress" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="价格" name="num" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="推荐指数" name="jiage" type="text" required="1" unique="0" validation="none"/>
 		<field multi="1" label="简介" name="text" type="textarea" editor="1" required="0" unique="0" validation="none"/>
         <field multi="0" label="User" name="id_user" type="select" required="1" unique="0" validation="none" roles="administrator">
 			<options table="pm_user" fieldlabel="login" fieldvalue="id" order="login"/>
