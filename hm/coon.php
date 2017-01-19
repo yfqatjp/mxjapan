@@ -1,5 +1,5 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/common/config.php';
-error_reporting(0);
+error_reporting(E_ALL);
 header("Content-type: text/html; charset=utf-8"); 
 date_default_timezone_set('Asia/Shanghai');
 

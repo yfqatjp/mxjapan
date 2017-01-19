@@ -1,211 +1,180 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<?php require_once 'coon.php';
+$navid = 10;
+$rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND id = " . $navid);
+$row = $rs->fetch();
+
+$rs2 = $pdo->query("SELECT * FROM pm_article_file WHERE checked = 1 AND lang = 2 AND type = 'image' AND file != '' ORDER BY rank LIMIT 1");
+$row2 = $rs2->fetch();
+?><!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>美溪民宿</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
-<meta name="keywords" content="free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-
-<!-- Facebook and Twitter integration -->
-<meta property="og:title" content=""/>
-<meta property="og:image" content=""/>
-<meta property="og:url" content=""/>
-<meta property="og:site_name" content=""/>
-<meta property="og:description" content=""/>
-<meta name="twitter:title" content="" />
-<meta name="twitter:image" content="" />
-<meta name="twitter:url" content="" />
-<meta name="twitter:card" content="" />
-
-<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-<link rel="shortcut icon" href="favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
-
-<!-- Animate.css -->
-<link rel="stylesheet" href="css/animate.css">
-<!-- Icomoon Icon Fonts-->
-<link rel="stylesheet" href="css/icomoon.css">
-<!-- Bootstrap  -->
-<link rel="stylesheet" href="css/bootstrap.css">
-<!-- Flexslider  -->
-<link rel="stylesheet" href="css/flexslider.css">
-<!-- Owl Carousel  -->
-<link rel="stylesheet" href="css/owl.carousel.min.css">
-<link rel="stylesheet" href="css/owl.theme.default.min.css">
-<!-- Theme style  -->
-<link rel="stylesheet" href="css/style.css">
-
-<!-- Modernizr JS -->
-<script src="js/modernizr-2.6.2.min.js"></script>
-<!-- FOR IE9 below -->
-<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
-<script src="js/jquery.min.js"></script>
-<style>
-body{ background:#f7f7f7;}
-</style>
+    <?php require_once 'top.php'; ?>
+    <style>
+        body {
+            background: #f7f7f7;
+        }
+    </style>
 </head>
 <body>
 <div class="sehun"></div>
-<header id="fh5co-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
-      <nav role="navigation" class="navshow">
-        <ul>
-          <li><a href="index.html">首页</a></li>
-          <li><a href="guide.html">车导服务</a></li>
-          <li><a href="list_list.html">民宿</a></li>
-          <li><a href="medical.html">医疗</a></li>
-          <li><a href="gallery.html">旅游图库</a></li>
-          <li class="navs"><a href="realestate.html">不动产服务</a></li>
-          <li><a href="about.html">关于我们</a></li>
-          <li class="cta"><a href="signin.html">登录</a></li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</header>
+<?php require_once 'head.php';
+$rs = $pdo->query("SELECT * FROM pm_realestate WHERE lang = 2 AND id = " . $_GET['id']);
+$row = $rs->fetch(); ?>
 <aside id="fh5co-hero">
-  <div style="background: url(images/realestate.jpg) no-repeat; background-position:center center; height:222px;">
-    <div class="overlay-gradient"></div>
-    <div class="container" style="height:222px;">
-      <div class="col-md-offset-1 text-center js-fullheight slider-text">
-        <div class="slider-text-inner midd_230s">
-          <h2>不动产服务</h2>
-          <p><span>城市中心养生名宅</span></p>
+    <div style="background: url(images/realestate.jpg) no-repeat; background-position:center center; height:222px;">
+        <div class="overlay-gradient"></div>
+        <div class="container" style="height:222px;">
+            <div class="col-md-offset-1 text-center js-fullheight slider-text">
+                <div class="slider-text-inner midd_230s">
+                    <h2>不动产服务</h2>
+                    <p><span>城市中心养生名宅</span></p>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="clear"></div>
     </div>
-    <div class="clear"></div>
-  </div>
 </aside>
 
 <div class="midd_25">
-  <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="realestate.html">不动产服务</a> > <a href="realestatexx.html">順天堂大学医学部附属順天堂医院</a></div>
+    <div class="midd_26"><img src="images/11_03.png"><a href="/index.html">首页</a> > <a href="/realestate.html">不动产服务</a> >
+        <a href="realestatexx_x<?php echo $_GET['id'] ?>.html"><?php echo $row['title']; ?></a></div>
 </div>
 
 <div id="fh5co-work-section" class="fh5co-light-grey-section" style="padding:0;">
-  <div class="container">
-	<div class="midd_27">
-      <div class="left midd_52">
-        <div id="originalpic">
-          <li><a href="javascript:;"><img src="images/medical_2_03.jpg" style="display: inline;"></a></li>
-          <li><a href="javascript:;"><img src="images/medical_2_03.jpg"></a></li>
-          <li><a href="javascript:;"><img src="images/medical_2_03.jpg"></a></li>
-          <li><a href="javascript:;"><img src="images/medical_2_03.jpg"></a></li>
-          <li><a href="javascript:;"><img src="images/medical_2_03.jpg"></a></li>
-          <a id="aPrev" style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/prev.cur), auto; height: 600px;"></a> <a id="aNext" style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/next.cur), auto; height: 600px;"></a> </div>
-        <div class="thumbpic"> <a href="javascript:;" class="bntprev"></a>
-          <div id="piclist">
-            <ul>
-              <li class="hover"><a href="javascript:;"><img src="images/medical_2_07.jpg"></a></li>
-              <li><a href="javascript:;"><img src="images/medical_2_07.jpg"></a></li>
-              <li><a href="javascript:;"><img src="images/medical_2_07.jpg"></a></li>
-              <li><a href="javascript:;"><img src="images/medical_2_07.jpg"></a></li>
-              <li><a href="javascript:;"><img src="images/medical_2_07.jpg"></a></li>
-            </ul>
-          </div>
-          <a href="javascript:;" class="bntnext"></a> </div>
-      </div>
-      <div class="midd_28">
-        <div class="midd_29">花园小区 102 室</div>
-        <div class="midd_48">
-          <div class="left"><div style="color:#e83744;">￥</div><h1>1560</h1>/ 万日元</div>
-          <div class="right"><span style="float:left;
-        font-size:14px; margin-right:5px;">推荐指数</span> <span><img src="images/11_10.png"><img src="images/11_10.png"><img src="images/11_10.png"><img src="images/11_10.png"><img src="images/11_10.png"></span></div>
-        <div class="clear"></div></div>
-        <ul class="midd_49s">
-          <li><span>房龄：</span><div class="right">1982年建</div></li>
-          <li><span>面积：</span><div class="right">66.56㎡ 3LDK</div></li>
-          <li><span>所在层：</span><div class="right">3层 / 共6层</div></li>
-          <li><span>交通：</span><div class="right">地铁、东京站、走路五分钟</div></li>
-          <li><span>建筑结构：</span><div class="right">鐵骨水泥結構</div></li>
-          <li><span>管理费：</span><div class="right">8000日元 / 月</div></li>
-          <li><span>维护费：</span><div class="right">8000日元 / 月</div></li>
-          <li><span>设备：</span><div class="right"><div class="midd_132">车站5分钟内</div><div class="midd_132">车站5分钟内</div><div class="midd_132">车站5分钟内</div><div class="midd_132">车站5分钟内</div><div class="midd_132">车站5分钟内</div><div class="midd_132">车站5分钟内</div></div></li>
-        <div class="clear"></div>
-        </ul>
-        <ul class="midd_49">
-          <li><a href="#"><img src="images/11_14.png">東京都世田谷区玉川2-15-12</a></li>
-        </ul>
-      </div>
-      <div class="clear"></div>
-    </div>
-    <div class="midd_27">
-      <div class="midd_30">物件介绍</div>
-      <p class="midd_93">介绍一处东京中央区筑底的物件，此物件靠近银座，周边有4条地铁可以利用，可以说交通生活是非常方便，而且地理位置也属于东京中心，面积65平米，2房1厅，价格才300万RMB，房型方正，朝向好，而且是新装修的</p>
-      <img src="images/medical_2_11.jpg">
-    </div>
-  </div>
-<div class="clear"></div>
-</div>
-
-<!-- 底部 -->
-<footer id="fh5co-footer" role="contentinfo">
-  <div class="container">
-    <div class="midd_10 col-sm-push-0 col-xs-push-0">
-      <h3>关于我们</h3>
-      <p>美溪传媒車友倶楽部成立于2016年8月1日，是在日本东京投资注册的独立法人公司。<br>
-        公司专致于提供日本境内旅游业务，为外国游客提供餐饮和娱乐服务，</p>
-      <p><a href="#" class="btn btn-primary btn-outline with-arrow btn-sm">联系我们<i class="icon-arrow-right"></i></a></p>
-    </div>
-    <div class="col-md-6 col-md-push-1 col-sm-12 col-sm-push-0 col-xs-12 col-xs-push-0">
-      <ul class="float">
-        <h3>联系方式</h3>
-        <span>美溪车友传媒俱乐部</span>
-        <li><a href="#"><img src="images/6_03.png">東京都世田谷区玉川2-15-12</a></li>
-        <li><a href="#"><img src="images/6_07.png">090-0000-0000</a></li>
-        <li><a href="#"><img src="images/6_10.png">090-0000-0000</a></li>
-        <li><a href="#"><img src="images/6_13.png">090-0000-0000</a></li>
-        <li><a href="#"><img src="images/6_17.png">contact@meixinpo.com</a></li>
-      </ul>
-      <div class="midd_65">
-        <h3>微信公众号</h3>
-        <img src="images/17_03.jpg"></div>
+    <div class="container">
+        <div class="midd_27">
+            <div class="left midd_52">
+                <div id="originalpic">
+                    <?php
+                    $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE lang = 2 and id_item = " . $row['id'] . " ");
+                    $i = 1;
+                    while ($row1 = $rs1->fetch()) {
+                        ?>
+                        <li><a href="javascript:;"><img
+                                    src="<?php echo "/medias/realestate/medium/" . $row1['id'] . "/" . $row1['file'] ?>"<?php if ($i == 1){ ?>
+                                    style="display: inline;"<?php } ?>></a></li>
+                        <?php
+                        $i++;
+                    }
+                    ?>
+                    <a id="aPrev"
+                       style="cursor: url(/images/prev.cur), auto; height: 600px;"></a>
+                    <a id="aNext"
+                       style="cursor: url(/images/next.cur), auto; height: 600px;"></a>
+                </div>
+                <div class="thumbpic"><a href="javascript:;" class="bntprev"></a>
+                    <div id="piclist">
+                        <ul>
+                            <?php
+                            $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE lang = 2 and id_item = " . $row['id'] . " ");
+                            $i = 1;
+                            while ($row1 = $rs1->fetch()) {
+                                ?>
+                                <li<?php if ($i == 1){ ?> class="hover"<?php } ?>"><a href="javascript:;"><img
+                                            src="<?php echo "/medias/realestate/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="120" height="86"></a></li>
+                                <?php
+                                $i++;
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                    <a href="javascript:;" class="bntnext"></a></div>
+            </div>
+            <div class="midd_28">
+                <div class="midd_29"><?php echo $row['title'] ?></div>
+                <div class="midd_48">
+                    <div class="left">
+                        <div style="color:#e83744;">￥</div>
+                        <h1><?php echo $row['jiage'] ?></h1>/ 万日元
+                    </div>
+                    <div class="right"><span style="float:left;
+        font-size:14px; margin-right:5px;">推荐指数</span> <span><?php for ($i = 1; $i <= $row['num']; $i++) { ?><img
+                        src="images/10_10.png"><?php } ?></span></div>
+                    <div class="clear"></div>
+                </div>
+                <ul class="midd_49s">
+                    <li><span>房龄：</span>
+                        <div class="right"><?php echo $row['age'] ?></div>
+                    </li>
+                    <li><span>面积：</span>
+                        <div class="right"><?php echo $row['dimension'] ?></div>
+                    </li>
+                    <li><span>所在层：</span>
+                        <div class="right"><?php echo $row['level'] ?></div>
+                    </li>
+                    <li><span>交通：</span>
+                        <div class="right"><?php echo $row['transportation'] ?></div>
+                    </li>
+                    <li><span>建筑结构：</span>
+                        <div class="right"><?php echo $row['construction'] ?></div>
+                    </li>
+                    <li><span>管理费：</span>
+                        <div class="right"><?php echo $row['managementcost'] ?></div>
+                    </li>
+                    <li><span>维护费：</span>
+                        <div class="right"><?php echo $row['maintenancecost'] ?></div>
+                    </li>
+                    <li><span>设备：</span>
+                        <div class="right">
+                           <?php
+                            $facility = explode("|", $row['facility']);
+                            for ($i = 0; $i < count($facility); $i++) {
+                                ?>
+                                <div class="midd_132"><?php echo $facility[$i] ?></div>
+                            <?php } ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                </ul>
+                <ul class="midd_49">
+                    <li><a href="#"><img src="images/11_14.png"><?php echo $row['adress'] ?></a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="midd_27">
+            <div class="midd_30">物件介绍</div>
+            <p class="midd_93">
+                <?php echo $row['text'] ?>
+        </div>
     </div>
     <div class="clear"></div>
-    <div class="midd_11"> © 2016 美溪车友传媒俱乐部 All rights reserved </div>
-  </div>
-</footer>
-<!-- 返回顶部 -->
-<div id="top"><img src="images/top.png"></div>
-<script>
-$('#top').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);return false;});
-</script>
+</div>
 
-<!-- 产品图片 --> 
-<script src="js/slider.photo.js"></script> 
+<?php require_once 'foot.php'; ?>
 
-<!-- jQuery Easing --> 
-<script src="js/jquery.easing.1.3.js"></script> 
-<!-- Bootstrap --> 
-<script src="js/bootstrap.min.js"></script> 
-<!-- Waypoints --> 
-<script src="js/jquery.waypoints.min.js"></script> 
-<!-- Owl Carousel --> 
-<script src="js/owl.carousel.min.js"></script> 
-<!-- Flexslider --> 
-<script src="js/jquery.flexslider-min.js"></script> 
+<!-- 产品图片 -->
+<script src="js/slider.photo.js"></script>
 
-<!-- MAIN JS --> 
+<!-- jQuery Easing -->
+<script src="js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<script src="js/bootstrap.min.js"></script>
+<!-- Waypoints -->
+<script src="js/jquery.waypoints.min.js"></script>
+<!-- Owl Carousel -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- Flexslider -->
+<script src="js/jquery.flexslider-min.js"></script>
+
+<!-- MAIN JS -->
 <script src="js/main.js"></script>
 
 <!-- 导航 -->
 <script>
-$(function(){
-  $(".sehun").click(function(){
-	$(".navshow").slideToggle();
-  });	
-});
+    $(function () {
+        $(".sehun").click(function () {
+            $(".navshow").slideToggle();
+        });
+    });
 </script>
 </body>
 </html>

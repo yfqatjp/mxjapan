@@ -63,7 +63,7 @@ body{ background:#f7f7f7;}
         <ul>
           <li><a href="index.html">首页</a></li>
           <li><a href="guide.html">车导服务</a></li>
-          <li><a href="list_list.html">民宿</a></li>
+          <li><a href="list2.html">民宿</a></li>
           <li><a href="medical.html">医疗</a></li>
           <li><a href="gallery.html">旅游图库</a></li>
           <li><a href="realestate.html">不动产服务</a></li>

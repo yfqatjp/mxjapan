@@ -1,24 +1,25 @@
 <?php require_once 'coon.php';
 $navid = 9;
+$_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
 $rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND id = " . $navid);
 $row = $rs->fetch();
 
 $rs2 = $pdo->query("SELECT * FROM pm_article_file WHERE checked = 1 AND lang = 2 AND type = 'image' AND file != '' ORDER BY rank LIMIT 1");
 $row2 = $rs2->fetch();
 
-if ($_GET['page'] == "") {
+if (@$_GET['page'] == "") {
     $_GET['page'] = 1;
 }
-if ($_GET['ren'] == "") {
+if (@$_GET['ren'] == "") {
     $_GET['ren'] = 0;
 }
-if ($_GET['jia'] == "") {
+if (@$_GET['jia'] == "") {
     $_GET['jia'] = 0;
 }
-if ($_GET['sou'] == "") {
+if (@$_GET['sou'] == "") {
     $_GET['sou'] = 0;
 }
-if ($_GET['list'] == "") {
+if (@$_GET['list'] == "") {
     $_GET['list'] = 0;
 }
 ?><!DOCTYPE html>
@@ -34,7 +35,7 @@ if ($_GET['list'] == "") {
 <head>
     <?php require_once 'top.php'; ?>
     <script type="text/javascript"
-            src="https://www.google.com/maps/api/js?key=AIzaSyDTRl1x8xftFpAmxhl76bzStKmA8aNGCYY&sensor=false"></script>
+            src="http://maps.google.cn/maps/api/js?key=AIzaSyDTRl1x8xftFpAmxhl76bzStKmA8aNGCYY&sensor=false"></script>
 </head>
 <body>
 <div class="sehun"></div>
@@ -62,11 +63,12 @@ if ($_GET['list'] == "") {
 <div id="fh5co-work-section" class="fh5co-light-grey-section">
     <div class="container">
         <form name="search_form" method="post" action="do?ss=list">
+            <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
             <div class="midd_2" style="margin-bottom:0;">
                 <input name="text" class="text" type="hidden">
                 <div id="pt1" class="select">
-                    <a class="midd-sj-5" id="s0"><?php if ($_GET['text'] == "") { ?>请选择地区<?php } else {
-                            echo $_GET['text'];
+                    <a class="midd-sj-5" id="s0"><?php if (@$_GET['text'] == "") { ?>请选择地区<?php } else {
+                            echo @$_GET['text'];
                         } ?></a>
                     <div id="pt2" class="part">
                         <a id="s1" href="javascript:void(0);">全部</a>
@@ -83,9 +85,9 @@ if ($_GET['list'] == "") {
                 <input name="lid" class="lid" type="hidden" value="1">
                 <div id="qt1" class="select">
                     <a class="midd-sj-6" id="q0"><?php
-                        if ($_GET['lid'] == "2") {
+                        if (@$_GET['lid'] == "2") {
                             echo "酒店";
-                        } elseif ($_GET['lid'] == "1") {
+                        } elseif (@$_GET['lid'] == "1") {
                             echo "民宿";
                         } else {
                             echo "类型";
@@ -105,12 +107,12 @@ if ($_GET['list'] == "") {
                 </div>
                 <div class="midd_12">
                     <input name="ont" class="rendezvous-input-date" id="start"
-                           value="<?php if ($_GET['ont'] == "") { ?>入住日期<?php } else {
-                               echo $_GET['ont'];
+                           value="<?php if (@$_GET['ont'] == "") { ?>入住日期<?php } else {
+                               echo @$_GET['ont'];
                            } ?>">
-                    <input name="ont" class="rendezvous-input-date" id="end"
-                           value="<?php if ($_GET['offt'] == "") { ?>退房日期<?php } else {
-                               echo $_GET['ont'];
+                    <input name="offt" class="rendezvous-input-date" id="end"
+                           value="<?php if (@$_GET['offt'] == "") { ?>退房日期<?php } else {
+                               echo @$_GET['ont'];
                            } ?>">
                 </div>
                 <!-- 选择日期 -->
@@ -157,60 +159,62 @@ if ($_GET['list'] == "") {
         </form>
         <div class="midd_13">
             <div class="left">
-                <a href="list2_<?php echo $_GET['page'] ?>_<?php if ($_GET['ren'] == 0) { ?>1<?php } elseif ($_GET['ren'] == 1) { ?>2<?php } else { ?>0<?php } ?>_0_0_<?= $_GET['list'] ?>_<?= $_GET['text'] ?>_<?php echo $_GET['lid'] ?>_<?php echo $_GET['ont'] ?>_<?php echo $_GET['offt'] ?>.html#fh5co-work-section"><?php if ($_GET['ren'] != 0){ ?>
+                <a href="list2_<?php echo @$_GET['page'] ?>_<?php if (@$_GET['ren'] == 0) { ?>1<?php } elseif (@$_GET['ren'] == 1) { ?>2<?php } else { ?>0<?php } ?>_0_0_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html#fh5co-work-section"><?php if (@$_GET['ren'] != 0){ ?>
                     <span><?php } ?>人气</span><img
-                        src="images/9_<?php if ($_GET['ren'] == 1) { ?>08<?php } elseif ($_GET['ren'] == 2) { ?>082<?php } else { ?>10<?php } ?>.png"></a>
-                <a href="list2_<?php echo $_GET['page'] ?>_0_<?php if ($_GET['jia'] == 0) { ?>1<?php } elseif ($_GET['jia'] == 1) { ?>2<?php } else { ?>0<?php } ?>_0_<?php echo $_GET['list'] ?>_<?php echo $_GET['text'] ?>_<?php echo $_GET['lid'] ?>_<?php echo $_GET['ont'] ?>_<?php echo $_GET['offt'] ?>.html#fh5co-work-section"><?php if ($_GET['jia'] != 0){ ?>
+                        src="images/9_<?php if (@$_GET['ren'] == 1) { ?>08<?php } elseif (@$_GET['ren'] == 2) { ?>082<?php } else { ?>10<?php } ?>.png"></a>
+                <a href="list2_<?php echo @$_GET['page'] ?>_0_<?php if (@$_GET['jia'] == 0) { ?>1<?php } elseif (@$_GET['jia'] == 1) { ?>2<?php } else { ?>0<?php } ?>_0_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html#fh5co-work-section"><?php if (@$_GET['jia'] != 0){ ?>
                     <span><?php } ?>价格</span><img
-                        src="images/9_<?php if ($_GET['jia'] == 1) { ?>08<?php } elseif ($_GET['jia'] == 2) { ?>082<?php } else { ?>10<?php } ?>.png"></a>
-                <a href="list2_<?php echo $_GET['page'] ?>_0_0_<?php if ($_GET['sou'] == 0) { ?>1<?php } elseif ($_GET['sou'] == 1) { ?>2<?php } else { ?>0<?php } ?>_<?php echo $_GET['list'] ?>_<?php echo $_GET['text'] ?>_<?php echo $_GET['lid'] ?>_<?php echo $_GET['ont'] ?>_<?php echo $_GET['offt'] ?>.html#fh5co-work-section"><?php if ($_GET['sou'] != 0){ ?>
+                        src="images/9_<?php if (@$_GET['jia'] == 1) { ?>08<?php } elseif (@$_GET['jia'] == 2) { ?>082<?php } else { ?>10<?php } ?>.png"></a>
+                <a href="list2_<?php echo @$_GET['page'] ?>_0_0_<?php if (@$_GET['sou'] == 0) { ?>1<?php } elseif (@$_GET['sou'] == 1) { ?>2<?php } else { ?>0<?php } ?>_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html#fh5co-work-section"><?php if (@$_GET['sou'] != 0){ ?>
                     <span><?php } ?>销量</span><img
-                        src="images/9_<?php if ($_GET['sou'] == 1) { ?>08<?php } elseif ($_GET['sou'] == 2) { ?>082<?php } else { ?>10<?php } ?>.png"></a>
+                        src="images/9_<?php if (@$_GET['sou'] == 1) { ?>08<?php } elseif (@$_GET['sou'] == 2) { ?>082<?php } else { ?>10<?php } ?>.png"></a>
             </div>
             <div class="right">
-                <a href="list2_<?php echo $_GET['page'] ?>_<?php echo $_GET['ren'] ?>_<?php echo $_GET['jia'] ?>_<?php echo $_GET['sou'] ?>_2_<?php echo $_GET['text'] ?>_<?php echo $_GET['lid'] ?>_<?php echo $_GET['ont'] ?>_<?php echo $_GET['offt'] ?>.html#fh5co-work-section"><img
-                        src="images/8_<?php if ($_GET['list'] == "2") { ?>04<?php } else { ?>03<?php } ?>.png"><br><?php if ($_GET['list'] == 2){ ?>
+                <a href="list2_<?php echo @$_GET['page'] ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_2_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html#fh5co-work-section"><img
+                        src="images/8_<?php if (@$_GET['list'] == "2") { ?>04<?php } else { ?>03<?php } ?>.png"><br><?php if (@$_GET['list'] == 2){ ?>
                     <span><?php } ?>地图</a>
-                <a href="list2_<?php echo $_GET['page'] ?>_<?php echo $_GET['ren'] ?>_<?php echo $_GET['jia'] ?>_<?php echo $_GET['sou'] ?>_1_<?php echo $_GET['text'] ?>_<?php echo $_GET['lid'] ?>_<?php echo $_GET['ont'] ?>_<?php echo $_GET['offt'] ?>.html#fh5co-work-section"><img
-                        src="images/7_<?php if ($_GET['list'] == "1") { ?>06<?php } else { ?>07<?php } ?>.png"><br><?php if ($_GET['list'] == 1){ ?>
+                <a href="list2_<?php echo @$_GET['page'] ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_1_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html#fh5co-work-section"><img
+                        src="images/7_<?php if (@$_GET['list'] == "1") { ?>06<?php } else { ?>07<?php } ?>.png"><br><?php if (@$_GET['list'] == 1){ ?>
                     <span><?php } ?>网格</a>
-                <a href="list2_<?php echo $_GET['page'] ?>_<?php echo $_GET['ren'] ?>_<?php echo $_GET['jia'] ?>_<?php echo $_GET['sou'] ?>_0_<?php echo $_GET['text'] ?>_<?php echo $_GET['lid'] ?>_<?php echo $_GET['ont'] ?>_<?php echo $_GET['offt'] ?>.html#fh5co-work-section"><img
-                        src="images/10_<?php if ($_GET['list'] == "0") { ?>03<?php } else { ?>04<?php } ?>.png"><br><?php if ($_GET['list'] == 0){ ?>
+                <a href="list2_<?php echo @$_GET['page'] ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_0_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html#fh5co-work-section"><img
+                        src="images/10_<?php if (@$_GET['list'] == "0") { ?>03<?php } else { ?>04<?php } ?>.png"><br><?php if (@$_GET['list'] == 0){ ?>
                     <span><?php } ?>列表</span></a>
             </div>
             <div class="clear"></div>
         </div>
         <?php
-        if ($_GET['text'] != "") {
-            $sql .= " and address like '%" . $_GET['text'] . "%'";
+        $sql = "";
+        if (@$_GET['text'] != "") {
+            $sql .= " and a.address like '%" . $_GET['text'] . "%'";
         }
-        if ($_GET['lid'] != "") {
-            $sql .= " and lid = " . $_GET['lid'] . "";
+        if (@$_GET['lid'] != "") {
+            $sql .= " and a.lid = " . $_GET['lid'] . "";
         }
-        if ($_GET['ont'] != "") {
-            $sql .= " and (ont >= " . $_GET['ont'] . " or ont is null)";
+        if (@$_GET['ont'] != "") {
+            $sql .= " and (b.start_lock >= " . $_GET['ont'] . " or b.start_lock is null)";
         }
-        if ($_GET['offt'] != "") {
-            $sql .= " and (onff <= " . $_GET['onff'] . " or onff is null)";
+        if (@$_GET['offt'] != "") {
+            $sql .= " and (b.end_lock <= " . $_GET['onff'] . " or b.end_lock is null)";
         }
-        if ($_GET['ren'] == 1) {
-            $sql .= " order by ren asc";
-        } else if ($_GET['ren'] == 1) {
-            $sql .= " order by ren desc";
+        if (@$_GET['ren'] == 1) {
+            $sql .= " order by a.ren asc";
+        } else if (@$_GET['ren'] == 1) {
+            $sql .= " order by a.ren desc";
         }
-        if ($_GET['jia'] == 1) {
-            $sql .= " order by jia asc";
-        } else if ($_GET['jia'] == 1) {
-            $sql .= " order by jia desc";
+        if (@$_GET['jia'] == 1) {
+            $sql .= " order by a.jia asc";
+        } else if (@$_GET['jia'] == 1) {
+            $sql .= " order by a.jia desc";
         }
-        if ($_GET['sou'] == 1) {
-            $sql .= " order by sou asc";
-        } else if ($_GET['sou'] == 1) {
-            $sql .= " order by sou desc";
+        if (@$_GET['sou'] == 1) {
+            $sql .= " order by a.sou asc";
+        } else if (@$_GET['sou'] == 1) {
+            $sql .= " order by a.sou desc";
         }
         $perNumber = 6;
         $page = @$_GET['page'];
-        $count = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND checked = 1" . @$sql);
+        $count = $pdo->query("SELECT a.* FROM pm_hotel AS a LEFT JOIN pm_room AS b ON a.id = b.id_hotel WHERE a.lang = 2 AND a.checked = 1" . @$sql . " GROUP BY id ");
+        //GROUP BY id 
         $totalNumber = $count->rowCount();
         $totalPage = ceil($totalNumber / $perNumber);
         if (!isset($page)) {
@@ -221,9 +225,9 @@ if ($_GET['list'] == "") {
             <div class="midd_15">找到相关结果约<span><?php echo number_format($totalNumber) ?></span>个</div>
         <?php }
         $map = 0;
-        $rs = $pdo->query("SELECT * FROM pm_hotel where lang = 2 AND checked = 1 " . @$sql . " limit $startCount,$perNumber");
+        $rs = $pdo->query("SELECT a.* FROM pm_hotel as a LEFT JOIN pm_room as b on a.id = b.id_hotel where a.lang = 2 AND a.checked = 1 " . @$sql . " GROUP BY id  limit $startCount,$perNumber");
         while ($row = $rs->fetch()) {
-            if ($_GET['list'] == 0) {
+            if (@$_GET['list'] == 0) {
                 ?>
                 <div class="midd_18"><a href="list_x<?php echo $row['id'] ?>.html">
                         <div class="image2"><img
@@ -237,8 +241,10 @@ if ($_GET['list'] == "") {
                         </div>
                         <div class="midd_19">
                             <div class="midd_20"><?php echo $row['title'] ?></div>
-                            <div class="midd_21"><span><?php echo $row['subtitle']?></span><?php for ($i = 1; $i <= $row['num']; $i++) { ?><img
-                                    src="images/10_10.png"><?php } ?></div>
+                            <div class="midd_21">
+                                <span><?php echo $row['subtitle'] ?></span><?php for ($i = 1; $i <= $row['num']; $i++) { ?>
+                                    <img
+                                        src="images/10_10.png"><?php } ?></div>
                             <div class="clear"></div>
                             <div class="midd_22">
                                 <?php echo strtrunc(strip_tags($row['descr']), 370) ?>
@@ -249,7 +255,7 @@ if ($_GET['list'] == "") {
                         </div>
                         <div class="clear"></div>
                     </a></div>
-            <?php } else if ($_GET['list'] == 1) {
+            <?php } else if (@$_GET['list'] == 1) {
                 ?>
                 <div class="col-md-4 animate-box"><a href="list_x<?php echo $row['id'] ?>.html"
                                                      class="item-grid text-center">
@@ -282,7 +288,7 @@ if ($_GET['list'] == "") {
                 <a href="list2_<?php echo $page - 1 ?>.html">上一页</a>
                 <?php
             }
-            if ($page == $totalPage) {
+            if ($page == $totalPage && $page == 1) {
                 echo "<a class='number'>1</a>";
             } else {
                 if ($page - 2 > 0) {
@@ -302,10 +308,12 @@ if ($_GET['list'] == "") {
                     } else {
                         $total = $totalPage;
                     }
+                } else {
+                    $total = $totalPage;
                 }
                 for ($i = $page; $i <= @$total; $i++) {
                     if ($page == $i) {
-                        echo '<span>' . $i . '</span>';
+                        echo '<a class="number">' . $i . '</a>';
                     } else { ?>
                         <a href="list2_<?php echo $i ?>.html"><?php echo $i ?></a>
                         <?php
@@ -524,53 +532,72 @@ if ($_GET['list'] == "") {
     }
     ;
 
-    var googleMapOperation = function () {
-        //设置四个位置，用于展示
-        var points = [
-            <?php
-            $rs = $pdo->query("SELECT * FROM pm_hotel where lang = 2 AND checked = 1 " . @$sql . " limit $startCount,$perNumber");
-            $i = 1;
-            while ($row = $rs->fetch()) {
-            if ($lat == "") {
-                $lat = $row['lat'];
-                $lng = $row['lng'];
-            }?>
-            new google.maps.LatLng(<?php echo $row['lat']?>, <?php echo $row['lng']?>)<?php if($rs->rowCount() != $i){?>,<?php }?>
-            <?php $i++;}?>
-        ];
-        <?php if ($lat != "") {?>
+    var map = null;
+
+    function initialize() {
+
+        map = new google.maps.Map(document.getElementById('mainMap'), myOptions);
+        <?php
+        $rs = $pdo->query("SELECT a.* FROM pm_hotel as a LEFT JOIN pm_room as b on a.id = b.id_hotel " . @$sql . " GROUP BY id  limit $startCount,$perNumber");
+        $i = 1;
+        while ($row = $rs->fetch()) {
+        if (@$lat == "") {
+            $lat = $row['lat'];
+            $lng = $row['lng'];
+        }
+        $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id']);
+        $row1 = $rs1->fetch();?>
+        addSite(map, <?php echo $row['lat']?>, <?php echo $row['lng']?>, '/medias/hotel/medium/<?php echo $row1['id']?>/<?php echo $row1['file']?>', '<?php echo $row['title']?>', '<?php echo $row['subtitle']?>', '<?php for ($i = 1; $i <= $row['num']; $i++) { ?><img src="images/10_10.png"><?php }?>', '<?php echo $row['id']?>');
+        <?php $i++;}?>
+
         var myOptions = {
-            zoom: 8,
+            zoom: 17,
             center: new google.maps.LatLng(<?php echo $lat?>, <?php echo $lng?>),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        //添加map
-        gmap = new google.maps.Map(document.getElementById("mainMap"),
-            myOptions);
-        markers = [];
-        for (var i = 0; i < points.length; i++) {
-            var gmarker = new google.maps.Marker({
-                position: points[i],
-                map: gmap,
-            });
-            markers.push(gmarker);
-        }
-        //调用函数实现功能要求
-        setVeiwPort();
-        <?php }?>
-    };
-    //展示最佳视野的函数
-    var setVeiwPort = function () {
+
+    }
+
+
+    var prev_infowindow = null;
+
+    function addSite(map, lat, lng, img, title, sub, num, id) {
+        var pt = new google.maps.LatLng(lat, lng);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: pt,
+            title: title
+        });
+        var infowindow = new google.maps.InfoWindow({
+            content: "<a href='list_x" + id + ".html'><img width='250' src='" + img + "'><br><b style='font-size:15px;margin-top:10px;display:block'>" + title + "</b></a>" + sub + " " + num
+        });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            if (prev_infowindow != null) prev_infowindow.close();
+            prev_infowindow = infowindow;
+            infowindow.open(map, marker);
+        });
+
+
+        var LatLngList = new Array(<?php
+                $rs = $pdo->query("SELECT a.* FROM pm_hotel as a LEFT JOIN pm_room as b on a.id = b.id_hotel " . @$sql . " GROUP BY id limit $startCount,$perNumber");
+                $i = 1;
+                while ($row = $rs->fetch()) {
+                ?>new google.maps.LatLng(<?php echo $row['lat']?>, <?php echo $row['lng']?>)<?php if($i != $rs->rowCount()){?>, <?php }$i++;
+            }?>);
+
         var bounds = new google.maps.LatLngBounds();
-        //读取标注点的位置坐标，加入LatLngBounds
-        for (var i = 0; i < markers.length; i++) {
-            bounds.extend(markers[i].getPosition());
+
+        for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+            bounds.extend(LatLngList[i]);
         }
-        //调整map，使其适应LatLngBounds,实现展示最佳视野的功能
-        gmap.fitBounds(bounds);
-    };
-    $(function () {
-        googleMapOperation();
+
+        map.fitBounds(bounds);
+
+    }
+
+    $(document).ready(function () {
+        initialize();
     });
 
 </script>

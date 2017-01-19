@@ -44,6 +44,7 @@ $row2 = $rs2->fetch();
     </div>
 </aside>
 
+<!-- 内容 -->
 <?php
 $perNumber = 6;
 $page = @$_GET['page'];
@@ -57,7 +58,6 @@ $startCount = ($page - 1) * $perNumber;
 $rs = $pdo->query("SELECT * FROM pm_hospital where lang = 2 AND checked = 1 limit $startCount,$perNumber");
 while ($row = $rs->fetch()) {
     ?>
-    <!-- 内容 -->
     <div class="midd_auto midd_fff midd_top20 midd_91"><a href="medicalxx_x<?= $row['id'] ?>.html">
             <div class="image"><img
                     src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE id_item = " . $row['id'] . " ");
@@ -88,7 +88,7 @@ while ($row = $rs->fetch()) {
         <a href="medical_<?php echo $page - 1 ?>.html">上一页</a>
         <?php
     }
-    if ($page == $totalPage) {
+    if ($page == $totalPage&& $page == 1) {
         echo "<a class='number'>1</a>";
     } else {
         if ($page - 2 > 0) {
@@ -108,17 +108,19 @@ while ($row = $rs->fetch()) {
             } else {
                 $total = $totalPage;
             }
+        } else {
+            $total = $totalPage;
         }
         for ($i = $page; $i <= @$total; $i++) {
             if ($page == $i) {
-                echo '<span>' . $i . '</span>';
+                echo '<a class="number">' . $i . '</a>';
             } else { ?>
                 <a href="medical_<?= $i ?>.html"><?= $i ?></a>
                 <?php
             }
         }
     }
-    if ($page + 1 < $totalPage) {
+    if ($page + 1 <= $totalPage) {
         ?>
         <a href="medical_<?= $page + 1 ?>.html">下一页</a>
     <?php } ?>

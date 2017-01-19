@@ -70,9 +70,12 @@ $_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
             <input type="password" name="pass" data-validation-engine="validate[required]" class="input_7"
                    placeholder="请输入密码">
             <input type="submit" name="button" class="input_8" value="登录">
-            <div class="midd_63"><img src="images/signin_2_07.png"><a href="#"><img src="images/signin_1_17.png"></a><a
-                    href="#"><img src="images/signin_1_19.png"></a></div>
-            <div class="midd_64"><a href="index.html">返回首页</a><span>|</span><a href="register.html">立即登录</a></div>
+
+            <div class="midd_63"><img src="images/signin_2_07.png"><a
+                    href="https://open.weixin.qq.com/connect/qrconnect?appid= &redirect_uri=/login/wx&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect"><img
+                        src="images/signin_1_17.png"></a><a
+                    href="/login/qq"><img src="images/signin_1_19.png"></a></div>
+            <div class="midd_64"><a href="index.html">返回首页</a><span>|</span><a href="register.html">立即注册</a></div>
             <div class="clear"></div>
         </form>
     </div>

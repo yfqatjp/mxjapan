@@ -103,8 +103,8 @@ $row2 = $rs2->fetch();
                 <div class="services">
                     <div class="midd"><img src="images/1_03.jpg"></div>
                     <div class="desc">
-                        <h3><a href="list_list.html">民宿 体験</a></h3>
-                        <p class="midd_1"><a href="list_list.html">世界的な広がりを見せる「個人宅宿泊」であり、「交流や生活文化体験」を求める観光客のための宿泊施設。</a>
+                        <h3><a href="list2.html">民宿 体験</a></h3>
+                        <p class="midd_1"><a href="list2.html">世界的な広がりを見せる「個人宅宿泊」であり、「交流や生活文化体験」を求める観光客のための宿泊施設。</a>
                         </p>
                     </div>
                 </div>
@@ -156,7 +156,7 @@ $row2 = $rs2->fetch();
                 </div>
             </div>
             <div class="sehun_1 yin">
-                <li><a href="list_list.html"><img src="images/user_4_09.png"><span>民宿 体験</span></a></li>
+                <li><a href="list2.html"><img src="images/user_4_09.png"><span>民宿 体験</span></a></li>
                 <li><a href="guide.html"><img src="images/user_4_06.png"><span>租車 自驾</span></a></li>
                 <li><a href="#"><img src="images/user_4_03.png"><span>免税 购物</span></a></li>
                 <li><a href="medical.html"><img src="images/user_4_15.png"><span>医疗 技术</span></a></li>
@@ -274,7 +274,7 @@ $row2 = $rs2->fetch();
             <?php } ?>
             <div class="clear"></div>
             <div class="col-md-12 text-center animate-box">
-                <p><a href="list_list.html" class="btn btn-primary">了解更多</a></p>
+                <p><a href="list2.html" class="btn btn-primary">了解更多</a></p>
             </div>
         </div>
     </div>
@@ -452,7 +452,7 @@ $row2 = $rs2->fetch();
                         <h2 class="pricing-plan">民宿房间数</h2>
                         <div class="price">750<sup class="currency">+</sup></div>
                         <p class="midd_9">石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二这里文字自己填入，暂时用别的文字顶替一下</p>
-                        <a href="list_list.html" class="btn btn-select-plan btn-sm">了解民宿</a></div>
+                        <a href="list2.html" class="btn btn-select-plan btn-sm">了解民宿</a></div>
                 </div>
                 <div class="col-md-3 animate-box">
                     <div class="price-box midd_8">

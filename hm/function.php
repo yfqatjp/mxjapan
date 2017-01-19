@@ -312,11 +312,6 @@ function Alert($showType, $str, $url)
     if ($showType == 1) {
         echo "window.history.go(-1); ";
     } elseif ($showType == 2) {
-        if (strstr($url, '?') == "") {
-            $url .= "?str=" . rand(100, 999);
-        } else {
-            $url .= "&str=" . rand(100, 999);
-        }
         echo "parent.window.location.href='" . $url . "';";
     } elseif ($showType == 5) {
         echo "window.location.href='" . $url . "'; ";

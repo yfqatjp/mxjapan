@@ -70,9 +70,9 @@ $_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
             <input type="password" name="rpass" data-validation-engine="validate[required,equals[pass]]" class="input_7" placeholder="请确认密码*">
             <input type="text" name="phone" data-validation-engine="validate[required]" class="input_9" placeholder="请确认手机号码*">
             <input type="text" name="name" data-validation-engine="validate[required]" class="input_10" placeholder="真实姓名*">
-            <input type="submit" name="button" class="input_8" value="登录">
-            <div class="midd_63"><img src="images/signin_2_07.png"><a href="#"><img src="images/signin_1_17.png"></a><a
-                    href="#"><img src="images/signin_1_19.png"></a></div>
+            <input type="submit" name="button" class="input_8" value="注册">
+            <div class="midd_63"><img src="images/signin_2_07.png"><a href="https://open.weixin.qq.com/connect/qrconnect?appid= &redirect_uri=/login/wx&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect" onmousemove="$('.wx').show()" onmouseout="$('.wx').hide();"><img src="images/signin_1_17.png"></a><a
+                    href="/login/qq"><img src="images/signin_1_19.png"></a></div>
             <div class="midd_64"><a href="index.html">返回首页</a><span>|</span><a href="signin.html">立即登录</a></div>
             <div class="clear"></div>
         </form>
