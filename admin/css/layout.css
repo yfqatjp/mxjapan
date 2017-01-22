@@ -25,8 +25,10 @@ body.white {
 #loginWrapper .img-responsive {
     margin: 0 auto;
     position: absolute;
-    top: 0;
-    left: 20px;
+    top: 50px;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    width: 200px;
 }
 #login {
     background: #f2f2f2;

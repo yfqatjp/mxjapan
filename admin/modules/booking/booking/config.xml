@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module title="Bookings" name="booking" multi="0" library="0" dashboard="1" icon="calendar-check-o" ranking="0" home="0" main="0" validation="0" dates="1" release="0" index="13">
+<module title="预定" name="booking" multi="0" library="0" dashboard="1" icon="calendar-check-o" ranking="0" home="0" main="0" validation="0" dates="1" release="0" index="13">
 	<!-- resizing
 	[0] 1 single image
 	[1] 1x big, 1x medium, 1x small -->
@@ -75,7 +75,7 @@
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>
-        <user type="manager" permissions="no_access"/>
+        <user type="manager" permissions="all"/>
         <user type="editor" permissions="no_access"/>
     </roles>
 </module>

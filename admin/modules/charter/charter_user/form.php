@@ -3,7 +3,7 @@
  * Template of the module form
  */
 debug_backtrace() || die ("Direct access not permitted");
-
+ 
 // Item ID
 if(isset($_GET['id']) && is_numeric($_GET['id'])) $id = $_GET['id'];
 elseif(isset($_POST['id']) && is_numeric($_POST['id'])) $id = $_POST['id'];
@@ -85,23 +85,22 @@ if(is_null($fields)) $fields = array();
 $hotelApp->beforeAction($fields, $id);
 /* @jeff 包车服务  end */
 
-$userId = 0;
 // Getting datas in the database
 if($db !== false){
     $result = $db->query("SELECT * FROM pm_".MODULE." WHERE id = ".$id);
     if($result !== false){
-
+        
         // Datas of the module
-
+            
         foreach($result as $row){
-
+            
             $id_lang = (MULTILINGUAL) ? $row['lang'] : 0;
-
+            
             foreach($fields[MODULE]['fields'] as $fieldName => $field){
                 if($field->getType() != "separator")
                     $field->setValue($row[$fieldName], 0, $id_lang);
             }
-
+            
             if($id_lang == DEFAULT_LANG || $id_lang == 0){
                 if(HOME) $home = $row['home'];
                 if(VALIDATION) $checked = $row['checked'];
@@ -119,26 +118,22 @@ if($db !== false){
                     }
                 }
             }
-
-            if (isset($row["user_id"])) {
-            	$userId = $row["user_id"];
-            }
         }
     }
-
+    
     // Datas of the module's tables
-
+        
     foreach($fields as $tableName => $fields_table){
-
+        
         if($tableName != MODULE){
-
+        
             $result = $db->query("SELECT * FROM pm_".$tableName." WHERE ".$fields_table['table']['fieldRef']." = ".$id);
             if($result !== false){
-
+                
                 foreach($result as $i => $row){
-
+                    
                     $id_lang = (MULTILINGUAL) ? $row['lang'] : 0;
-
+                
                     foreach($fields_table['fields'] as $fieldName => $field){
                         if($field->getType() != "separator")
                             $field->setValue($row[$fieldName], $i, $id_lang);
@@ -147,28 +142,28 @@ if($db !== false){
             }
         }
     }
-
+    
     // Insersion / update
     if(in_array("add", $permissions) || in_array("edit", $permissions) || in_array("all", $permissions)){
         if((($action == "add") || ($action == "edit")) && check_token($referer, "form", "post")){
-
+            
             $files = array();
-
+                    
             // Getting POST values
             for($i = 0; $i < $total_lang; $i++){
-
+                
                 $id_lang = (MULTILINGUAL) ? $langs[$i]['id'] : 0;
-
+                
                 foreach($fields as $tableName => $fields_table){
-
+                    
                     foreach($fields_table['fields'] as $fieldName => $field){
                         $fieldName = $tableName."_".$fieldName."_";
                         $fieldName .= (MULTILINGUAL && !$field->isMultilingual()) ? DEFAULT_LANG : $id_lang;
-
+                        
                         if(isset($_POST[$fieldName])){
-
+                            
                             foreach($_POST[$fieldName] as $index => $value){
-
+                        
                                 switch($field->getType()){
                                     case "date" :
                                         $date = isset($_POST[$fieldName][$index]['date']) ? $_POST[$fieldName][$index]['date'] : "";
@@ -212,21 +207,21 @@ if($db !== false){
                     }
                 }
             }
-
+            
             // Remove row if (all fields = empty) and if (tableName != MODULE)
-
+            
             foreach($fields as $tableName => $fields_table){
                 if($tableName != MODULE){
                     $numRows = getNumMaxRows($fields, $tableName);
                     for($index = 0; $index < $numRows; $index++){
-
+                        
                         $empty = true;
                         $id_row = 0;
                         if(isset($_POST[$tableName."_id_".DEFAULT_LANG][$index]))
                             $id_row = $_POST[$tableName."_id_".DEFAULT_LANG][$index];
-
+                            
                         if($id_row == 0 || $id_row == ""){
-
+                        
                             foreach($fields_table['fields'] as $fieldName => $field){
                                 $value = $field->getValue(false, $index);
                                 if(!empty($value)) $empty = false;
@@ -240,7 +235,7 @@ if($db !== false){
                     }
                 }
             }
-
+            
             if(VALIDATION && isset($_POST['checked']) && is_numeric($_POST['checked'])) $checked = $_POST['checked'];
             if(HOME && isset($_POST['home']) && is_numeric($_POST['home'])) $home = $_POST['home'];
             if(DATES && (!is_numeric($add_date) || $add_date == 0)) $add_date = time();
@@ -254,7 +249,7 @@ if($db !== false){
                     $publish_date = mktime($hour, $minute, 0, $month, $day, $year);
                 else
                     $publish_date = NULL;
-
+                    
                 $day = (isset($_POST['unpublish_date_day'])) ? $_POST['unpublish_date_day'] : "";
                 $month = (isset($_POST['unpublish_date_month'])) ? $_POST['unpublish_date_month'] : "";
                 $year = (isset($_POST['unpublish_date_year'])) ? $_POST['unpublish_date_year'] : "";
@@ -266,15 +261,15 @@ if($db !== false){
                     $unpublish_date = NULL;
             }
             if(isset($_POST['id_user'])) $id_user = $_POST['id_user'];
-
+            
             if(checkFields($db, $fields, $id)){
-
+                
                 for($i = 0; $i < $total_lang; $i++){
-
+                    
                     $id_lang = (MULTILINGUAL) ? $langs[$i]['id'] : 0;
-
+                    
                     // Add / Edit item in the table of the module
-
+                    
                     $data = array();
                     $data['id'] = $id;
                     $data['lang'] = $id_lang;
@@ -286,74 +281,74 @@ if($db !== false){
                     $data['publish_date'] = $publish_date;
                     $data['unpublish_date'] = $unpublish_date;
                     $data['id_user'] = $id_user;
-
+                        
                     foreach($fields[MODULE]['fields'] as $fieldName => $field)
                         $data[$fieldName] = $field->getValue(false, 0, $id_lang);
-
+                    
                     if($action == "add" && (in_array("add", $permissions) || in_array("all", $permissions))){
-
+                            
                         $result_insert = db_prepareInsert($db, "pm_".MODULE, $data);
-
+                        
                         add_item($db, MODULE, $result_insert, $id_lang);
 
                     }elseif($action == "edit" && (in_array("edit", $permissions) || in_array("all", $permissions))){
-
+                        
                         $query_exist = "SELECT * FROM pm_".MODULE." WHERE id = ".$id;
                         if(MULTILINGUAL) $query_exist .= " AND lang = ".$id_lang;
                         $result_exist = $db->query($query_exist);
-
+                        
                         $data['rank'] = $old_rank;
-
+                        
                         if($result_exist !== false){
                             if($db->last_row_count() > 0){
-
+                                    
                                 $result_update = db_prepareUpdate($db, "pm_".MODULE, $data);
-
+                                
                                 edit_item($db, MODULE, $result_update, $id, $id_lang);
                             }else{
                                 $result_insert = db_prepareInsert($db, "pm_".MODULE, $data);
-
+                                
                                 add_item($db, MODULE, $result_insert, $id_lang);
                             }
                         }
                     }
-
+                    
                     // Add / Edit items in other tables
                     if(empty($_SESSION['msg_error']) && $id > 0){
-
+                    
                         foreach($fields as $tableName => $fields_table){
                             if($tableName != MODULE){
                                 $numRows = getNumMaxRows($fields, $tableName);
                                 for($index = 0; $index < $numRows; $index++){
-
+                                    
                                     $id_row = $fields_table['fields']['id']->getValue(false, $index, $id_lang);
-
+                                    
                                     $data = array();
                                     $data['lang'] = $id_lang;
                                     $data[$fields_table['table']['fieldRef']] = $id;
-
+                                        
                                     foreach($fields_table['fields'] as $fieldName => $field)
                                         $data[$fieldName] = $field->getValue(false, $index, $id_lang);
-
+                                    
                                     if($id_row == 0 && (in_array("add", $permissions) || in_array("all", $permissions))){
-
+                                            
                                         $result_insert = db_prepareInsert($db, "pm_".$tableName, $data);
                                         if($result_insert->execute() !== false){
                                             $fields_table['fields']['id']->setValue($db->lastInsertId(), $index, $id_lang);
                                         }
 
                                     }elseif($id_row > 0 && (in_array("edit", $permissions) || in_array("all", $permissions))){
-
+                                        
                                         $query_exist = "SELECT * FROM pm_".$tableName." WHERE id = ".$id_row;
                                         if(MULTILINGUAL) $query_exist .= " AND lang = ".$id_lang;
                                         $result_exist = $db->query($query_exist);
-
+                                        
                                         if($result_exist !== false){
                                             if($db->last_row_count() > 0){
-
+                                                    
                                                 $result_update = db_prepareUpdate($db, "pm_".$tableName, $data);
                                                 $result_update->execute();
-
+                                                
                                             }else{
                                                 $result_insert = db_prepareInsert($db, "pm_".$tableName, $data);
                                                 if($result_insert->execute() !== false){
@@ -381,37 +376,37 @@ if($db !== false){
         // Row deletion
         if($action == "delete_row" && $id_row > 0 && isset($_GET['table']) && isset($_GET['fieldref']) && check_token($referer, "form", "get"))
             delete_row($db, $id, $id_row, "pm_".$_GET['table'], $_GET['fieldref']);
-
+            
         // File deletion
         if($action == "delete_file" && $id_file > 0 && check_token($referer, "form", "get"))
             delete_file($db, $id_file);
-
+            
         if($action == "delete_multi_file" && isset($_POST['multiple_file']) && check_token($referer, "form", "get"))
             delete_multi_file($db, $_POST['multiple_file'], $id);
-
+            
         // File activation/deactivation
         if($action == "check_file" && $id_file > 0 && check_token($referer, "form", "get"))
             check($db, "pm_".MODULE."_file", $id_file, 1);
 
         if($action == "uncheck_file" && $id_file > 0 && check_token($referer, "form", "get"))
             check($db, "pm_".MODULE."_file", $id_file, 2);
-
+            
         if($action == "check_multi_file" && isset($_POST['multiple_file']) && check_token($referer, "form", "get"))
             check_multi($db, "pm_".MODULE."_file", 1, $_POST['multiple_file']);
-
+            
         if($action == "uncheck_multi_file" && isset($_POST['multiple_file']) && check_token($referer, "form", "get"))
             check_multi($db, "pm_".MODULE."_file", 2, $_POST['multiple_file']);
-
+            
         // Files displayed in homepage
         if($action == "display_home_file" && $id_file > 0 && check_token($referer, "form", "get"))
             display_home($db, "pm_".MODULE."_file", $id_file, 1);
 
         if($action == "remove_home_file" && $id_file > 0 && check_token($referer, "form", "get"))
             display_home($db, "pm_".MODULE."_file", $id_file, 0);
-
+            
         if($action == "display_home_multi_file" && isset($_POST['multiple_file']) && check_token($referer, "form", "get"))
             display_home_multi($db, "pm_".MODULE."_file", 1, $_POST['multiple_file']);
-
+            
         if($action == "remove_home_multi_file" && isset($_POST['multiple_file']) && check_token($referer, "form", "get"))
             display_home_multi($db, "pm_".MODULE."_file", 0, $_POST['multiple_file']);
     }
@@ -427,7 +422,7 @@ if($action == "download" && isset($_GET['type'])){
             $result_file = $db->query($query_file);
             if($result_file !== false && $db->last_row_count() > 0){
                 $file = $result_file->fetchColumn(0);
-
+                
                 if($type == "image"){
                     if(is_file(SYSBASE."medias/".MODULE."/big/".$id_file."/".$file))
                         $filepath = SYSBASE."medias/".MODULE."/big/".$id_file."/".$file;
@@ -464,11 +459,11 @@ $csrf_token = get_token("form"); ?>
     <div id="wrapper">
         <?php
         include(SYSBASE.ADMIN_FOLDER."/includes/inc_top.php");
-
+        
         if(!in_array("no_access", $permissions)){
             include(SYSBASE.ADMIN_FOLDER."/includes/inc_library.php"); ?>
             <form id="form" class="form-horizontal" role="form" action="index.php?view=form" method="post" enctype="multipart/form-data">
-                <div id="page-wrapper" style="padding-top:80px;">
+                <div id="page-wrapper">
                     <div class="page-header">
                         <div class="container-fluid">
                             <div class="row">
@@ -533,7 +528,7 @@ $csrf_token = get_token("form"); ?>
                                     for($i = 0; $i < $total_lang; $i++){
                                         $id_lang = $langs[$i]['id'];
                                         $title_lang = $langs[$i]['title']; ?>
-
+                                    
                                         <li<?php if(DEFAULT_LANG == $id_lang) echo " class=\"active\""; ?>>
                                             <a data-toggle="tab" href="#lang_<?php echo $id_lang; ?>">
                                                 <?php
@@ -542,7 +537,7 @@ $csrf_token = get_token("form"); ?>
                                                     $row_img_lang = $result_img_lang->fetch();
                                                     $id_img_lang = $row_img_lang[0];
                                                     $file_img_lang = $row_img_lang[1];
-
+                                                    
                                                     if(is_file(SYSBASE."medias/lang/big/".$id_img_lang."/".$file_img_lang))
                                                         echo "<img src=\"".DOCBASE."medias/lang/big/".$id_img_lang."/".$file_img_lang."\" alt=\"\" border=\"0\"> ";
                                                 } ?>
@@ -561,17 +556,17 @@ $csrf_token = get_token("form"); ?>
                                 <div class="tab-content">
                                     <?php
                                     for($i = 0; $i < $total_lang; $i++){
-
+                                        
                                         $id_lang = (MULTILINGUAL) ? $langs[$i]['id'] : 0; ?>
-
+                                        
                                         <div id="lang_<?php echo $id_lang; ?>" class="<?php if(MULTILINGUAL) echo "tab-pane fade"; if(DEFAULT_LANG == $id_lang) echo " in active"; ?>">
-
+                                        
                                             <?php
                                             // Display fields
-
+                                            
                                             foreach($fields as $tableName => $fields_table){
                                                 if($tableName != MODULE){ ?>
-
+                                                
                                                     <div class="row mb10">
                                                         <label class="col-lg-2 control-label text-left">
                                                             <?php
@@ -653,15 +648,15 @@ $csrf_token = get_token("form"); ?>
                                                     </div>
                                                     <?php
                                                 }else{
-
+                                                
                                                     foreach($fields_table['fields'] as $fieldName => $field){
-
+                                                    
                                                         if($id_lang == DEFAULT_LANG || $field->isMultilingual() || $id_lang == 0){
-
+                                                            
                                                             $type = $field->getType();
                                                             $notice = $field->getNotice();
                                                             $comment = $field->getComment();
-
+                                                            
                                                             if($type == "separator"){ ?>
                                                                 <div class="row mb10">
                                                                     <div class="col-lg-12">
@@ -672,7 +667,7 @@ $csrf_token = get_token("form"); ?>
                                                                 <?php
                                                             }else{
                                                                 $class = getClassAttr($type, $field->getValidation(), $notice, $id_lang); ?>
-
+                                                                
                                                                 <div class="row mb10">
                                                                     <label class="col-lg-2 control-label">
                                                                         <?php
@@ -707,7 +702,7 @@ $csrf_token = get_token("form"); ?>
                                                     }
                                                 }
                                             }
-
+                                            
                                             if($id_lang == DEFAULT_LANG || $id_lang == 0){
                                                 if(in_array("publish", $permissions) || in_array("all", $permissions)){
                                                     if(RELEASE){ ?>
@@ -728,7 +723,7 @@ $csrf_token = get_token("form"); ?>
                                                                     $hour = "";
                                                                     $minute = "";
                                                                 } ?>
-
+                                                                
                                                                 <select name="publish_date_year" class="form-control">
                                                                     <option value="">-</option>
                                                                     <?php
@@ -737,7 +732,7 @@ $csrf_token = get_token("form"); ?>
                                                                         echo "<option value=\"".$y."\"".$selected.">".$y."</option>\n";
                                                                     } ?>
                                                                 </select>&nbsp;/&nbsp;
-
+                                                                
                                                                 <select name="publish_date_month" class="form-control">
                                                                     <option value="">-</option>
                                                                     <?php
@@ -746,7 +741,7 @@ $csrf_token = get_token("form"); ?>
                                                                         echo "<option value=\"".$n."\"".$selected.">".$n."</option>\n";
                                                                     } ?>
                                                                 </select>&nbsp;/&nbsp;
-
+                                                                
                                                                 <select name="publish_date_day" class="form-control">
                                                                     <option value="">-</option>
                                                                     <?php
@@ -755,7 +750,7 @@ $csrf_token = get_token("form"); ?>
                                                                         echo "<option value=\"".$d."\"".$selected.">".$d."</option>\n";
                                                                     } ?>
                                                                 </select>
-
+                                                                
                                                                 &nbsp;at&nbsp;
                                                                 <select name="publish_date_hour" class="form-control">
                                                                     <option value="">-</option>
@@ -765,7 +760,7 @@ $csrf_token = get_token("form"); ?>
                                                                         echo "<option value=\"".$h."\"".$selected.">".$h."</option>\n";
                                                                     } ?>
                                                                 </select>&nbsp;:&nbsp;
-
+                                                                
                                                                 <select name="publish_date_minute" class="form-control">
                                                                     <option value="">-</option>
                                                                     <?php
@@ -776,7 +771,71 @@ $csrf_token = get_token("form"); ?>
                                                                 </select>
                                                             </div>
                                                         </div>
-
+                                                        <div class="row mb10">
+                                                            <label class="col-md-2 control-label"><?php echo $texts['UNPUBLISH_DATE']; ?></label>
+                                                            <div class="col-md-6 form-inline">
+                                                                <?php
+                                                                if(is_numeric($unpublish_date)){
+                                                                    $day = date("j", $unpublish_date);
+                                                                    $month = date("n", $unpublish_date);
+                                                                    $year = date("Y", $unpublish_date);
+                                                                    $hour = date("H", $unpublish_date);
+                                                                    $minute = date("i", $unpublish_date);
+                                                                }else{
+                                                                    $day = "";
+                                                                    $month = "";
+                                                                    $year = "";
+                                                                    $hour = "";
+                                                                    $minute = "";
+                                                                } ?>
+                                                                
+                                                                <select name="unpublish_date_year" class="form-control">
+                                                                    <option value="">-</option>
+                                                                    <?php
+                                                                    for($y = date("Y") + 4; $y >= date("Y"); $y--){
+                                                                        $selected = ($y == $year) ? " selected=\"selected\"" : "";
+                                                                        echo "<option value=\"".$y."\"".$selected.">".$y."</option>\n";
+                                                                    } ?>
+                                                                </select>&nbsp;/&nbsp;
+                                                                
+                                                                <select name="unpublish_date_month" class="form-control">
+                                                                    <option value="">-</option>
+                                                                    <?php
+                                                                    for($n = 1; $n <= 12; $n++){
+                                                                        $selected = ($n == $month) ? " selected=\"selected\"" : "";
+                                                                        echo "<option value=\"".$n."\"".$selected.">".$n."</option>\n";
+                                                                    } ?>
+                                                                </select>&nbsp;/&nbsp;
+                                                                
+                                                                <select name="unpublish_date_day" class="form-control">
+                                                                    <option value="">-</option>
+                                                                    <?php
+                                                                    for($d = 1; $d <= 31; $d++){
+                                                                        $selected = ($d == $day) ? " selected=\"selected\"" : "";
+                                                                        echo "<option value=\"".$d."\"".$selected.">".$d."</option>\n";
+                                                                    } ?>
+                                                                </select>
+                                                                
+                                                                &nbsp;at&nbsp;
+                                                                <select name="unpublish_date_hour" class="form-control">
+                                                                    <option value="">-</option>
+                                                                    <?php
+                                                                    for($h = 0; $h <= 23; $h++){
+                                                                        $selected = ($h == $hour) ? " selected=\"selected\"" : "";
+                                                                        echo "<option value=\"".$h."\"".$selected.">".$h."</option>\n";
+                                                                    } ?>
+                                                                </select>&nbsp;:&nbsp;
+                                                                
+                                                                <select name="unpublish_date_minute" class="form-control">
+                                                                    <option value="">-</option>
+                                                                    <?php
+                                                                    for($m = 0; $m <= 59; $m++){
+                                                                        $selected = ($m == $minute) ? " selected=\"selected\"" : "";
+                                                                        echo "<option value=\"".$m."\"".$selected.">".$m."</option>\n";
+                                                                    } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                         <?php
                                                     }
                                                     if(VALIDATION){ ?>
@@ -794,7 +853,7 @@ $csrf_token = get_token("form"); ?>
                                                                 </label>
                                                             </div>
                                                         </div>
-
+                                                        
                                                         <?php
                                                     }
                                                     if(HOME){ ?>
@@ -809,7 +868,7 @@ $csrf_token = get_token("form"); ?>
                                                                 </label>
                                                             </div>
                                                         </div>
-
+                                                        
                                                         <?php
                                                     }
                                                 }
@@ -840,89 +899,8 @@ $csrf_token = get_token("form"); ?>
                                                     <?php
                                                 }
                                             }
-											// 客户上传的图片信息
-                                            $query_file = "SELECT * FROM pm_".MODULE."_file WHERE user_id = ".$userId." AND file != ''";
-                                            $query_file .= " ORDER BY type asc, id asc ";
-                                            $result_file = $db->query($query_file);
-
-                                            $arrFileTitle = array();
-                                            $arrFileTitle[1] = "驾驶证";
-                                            $arrFileTitle[2] = "护照，中国身份证，居住证，学生证,领队证或者导游证（最多5张）";
-                                            $arrFileTitle[3] = "个人照，风景，美食，游客合影";
-                                            //
-                                            $arrResultFile = array();
-                                            $arrResultFile[1] = array();
-                                            $arrResultFile[2] = array();
-                                            $arrResultFile[3] = array();
-                                            if ($result_file != null && count($result_file) > 0) {
-                                            	foreach ($result_file as $file_row) {
-                                            		$type = $file_row["type"];
-                                            		if (!array_key_exists($type, $arrResultFile)) {
-                                            			$arrResultFile[$type] = array();
-                                            		}
-                                            		$arrResultFile[$type][] = $file_row;
-                                            	}
-                                            }
-
-                                            foreach($arrResultFile as $fileType => $typeRowfiles){
-                                            	if(count($typeRowfiles) > 0) {
-                                            ?>
-												<fieldset class="medias-gallery mt20">
-													<legend class="form-inline">
-														<span><?php echo $arrFileTitle[$fileType];?></span>
-													</legend>
-                                                        <ul class="files-list" id="files_list_<?php echo $fileType; ?>">
-                                                            <?php
-                                                            foreach($typeRowfiles as $row_file){
-
-                                                                $filename = $row_file['file'];
-                                                                $id_file = $row_file['id'];
-                                                                $type = $row_file['type'];
-
-
-                                                                $file_path = "medias/charter_user/".$userId."/".$id_file."/".$filename;
-
-                                                                $dim = @getimagesize(SYSBASE.$file_path);
-                                                                if(is_array($dim)){
-                                                                	$w = $dim[0];
-                                                                	$h = $dim[1];
-                                                                }else{
-                                                                	$w = 0;
-                                                                	$h = 0;
-                                                                }
-
-
-                                                                if(is_file(SYSBASE.$file_path)){
-
-                                                                    $ext = strtolower(ltrim(strrchr($filename, "."), "."));
-                                                                    $filesize = "";
-                                                                    $weight = filesize(SYSBASE.$file_path);
-                                                                    $filesize = $w." x ".$h." | ";
-                                                                    $filesize .= fileSizeConvert($weight); ?>
-
-                                                                    <li id="file_<?php echo $id_file; ?>">
-                                                                        <div class="prev-file">
-                                                                            <img src="<?php echo DOCBASE.$file_path; ?>" alt="" border="0">
-                                                                        </div>
-                                                                        <div class="infos-file">
-                                                                            <span class="filename"><?php echo strtrunc(substr($filename, 0, strrpos($filename, ".")), 23, "..", true).".".$ext; ?></span><br>
-                                                                            <span class="filesize"><?php echo $filesize; ?></span>
-                                                                        </div>
-                                                                    </li>
-                                                                    <?php
-                                                                }
-                                                            } ?>
-                                                        </ul>
-
-                                                    <div style="clear:left;"></div>
-                                                </fieldset>
-                                                        <?php
-                                            	}
-                                            } ?>
-
-                                            <?php
                                             if(NB_FILES > 0){ ?>
-
+                                            
                                                 <fieldset class="medias-gallery mt20">
                                                     <?php
                                                     $query_file = "SELECT * FROM pm_".MODULE."_file WHERE id_item = ".$id." AND file != ''";
@@ -930,25 +908,25 @@ $csrf_token = get_token("form"); ?>
                                                     $query_file .= " ORDER BY rank";
                                                     $result_file = $db->query($query_file);
                                                     if($result_file != false){
-
+                                                        
                                                         $nb_file = $db->last_row_count();
-
+                                                        
                                                         $uploaded = $nb_file;
                                                         if(!empty($_SESSION['msg_error']) && empty($_SESSION['msg_success'])){
                                                             $files = browse_files(SYSBASE."medias/".MODULE."/tmp/".$_SESSION['token']."/".$id_lang);
                                                             $uploaded += count($files);
                                                         }
-
+                                                        
                                                         $max_file = NB_FILES-$uploaded; ?>
-
+                                                        
                                                         <legend class="form-inline">
                                                             <?php
                                                             echo "<span>".mb_strtoupper($texts['MEDIAS'], "UTF-8")."</span>";
-
+                                                            
                                                             if($id_lang == DEFAULT_LANG || FILE_MULTI || $id_lang == 0){
-
+                                                            
                                                                 echo "&nbsp;&nbsp;".$uploaded."/".NB_FILES." - ".$max_file." ".$texts['REMAINING'];
-
+                                                            
                                                                 if($upload_allowed){
                                                                     if($nb_file > 0){
                                                                         if(in_array("edit", $permissions) || in_array("all", $permissions)){ ?>
@@ -970,13 +948,13 @@ $csrf_token = get_token("form"); ?>
                                                                 }
                                                             } ?>
                                                         </legend>
-
+                                                        
                                                         <?php
                                                         if(in_array("upload", $permissions) || in_array("all", $permissions)){ ?>
                                                             <div id="file_upload_<?php echo $id_lang; ?>-queue" class="uploadify-queue"></div>
                                                             <?php
                                                         } ?>
-
+                                                        
                                                         <div class="uploaded clearfix alert alert-success" id="file_uploaded_<?php echo $id_lang; ?>">
                                                             <p><?php echo $texts['FILES_READY_UPLOAD']; ?></p>
                                                             <?php
@@ -985,9 +963,9 @@ $csrf_token = get_token("form"); ?>
                                                                     <div class="prev-file">
                                                                         <?php
                                                                         if($file[4] == 0 && $file[5] == 0 && array_key_exists($file[2], $allowable_file_exts)){
-
+                                                    
                                                                             $icon_file = $allowable_file_exts[$file[2]]; ?>
-
+                                                        
                                                                             <img src="<?php echo DOCBASE.ADMIN_FOLDER; ?>/images/<?php echo $icon_file; ?>" alt=""><br>
                                                                             <?php
                                                                             echo substr($file[1], 0, 15).((count($file[1]) >= 15) ? "..." : ".").$file[2]."<br>".$file[3];
@@ -1004,39 +982,39 @@ $csrf_token = get_token("form"); ?>
                                                         <ul class="files-list<?php if($id_lang == DEFAULT_LANG || FILE_MULTI || $id_lang == 0) echo " sortable"; ?>" id="files_list_<?php echo $id_lang; ?>">
                                                             <?php
                                                             foreach($result_file as $row_file){
-
+                                                            
                                                                 $filename = $row_file['file'];
                                                                 $id_file = $row_file['id'];
                                                                 $checked = $row_file['checked'];
                                                                 $home = $row_file['home'];
                                                                 $type = $row_file['type'];
-
+                                                                
                                                                 $label_file = htmlentities($row_file['label'], ENT_QUOTES, "UTF-8");
-
+                                                        
                                                                 $fieldname = "file_".$id_file."_".$id_lang;
-
+                                                                
                                                                 if($type == "other")
-
+                                                                
                                                                     $file_path = "medias/".MODULE."/other/".$id_file."/".$filename;
-
+                                                                
                                                                 elseif($type == "image"){
-
+                                                                
                                                                     $big_path = "medias/".MODULE."/big/".$id_file."/".$filename;
                                                                     $medium_path = "medias/".MODULE."/medium/".$id_file."/".$filename;
                                                                     $small_path = "medias/".MODULE."/small/".$id_file."/".$filename;
-
+                                                                    
                                                                     if(RESIZING == 0 && is_file(SYSBASE.$big_path)) $preview_path = $big_path;
                                                                     elseif(RESIZING == 1 && is_file(SYSBASE.$medium_path)) $preview_path = $medium_path;
                                                                     elseif(is_file(SYSBASE.$small_path)) $preview_path = $small_path;
                                                                     elseif(is_file(SYSBASE.$medium_path)) $preview_path = $medium_path;
                                                                     elseif(is_file(SYSBASE.$big_path)) $preview_path = $big_path;
                                                                     else $preview_path = "";
-
+                                                                                
                                                                     if(is_file(SYSBASE.$big_path)) $zoom_path = $big_path;
                                                                     elseif(is_file(SYSBASE.$medium_path)) $zoom_path = $medium_path;
                                                                     elseif(is_file(SYSBASE.$small_path)) $zoom_path = $small_path;
                                                                     else $zoom_path = "";
-
+                                                                    
                                                                     $dim = @getimagesize(SYSBASE.$zoom_path);
                                                                     if(is_array($dim)){
                                                                         $w = $dim[0];
@@ -1046,12 +1024,12 @@ $csrf_token = get_token("form"); ?>
                                                                         $h = 0;
                                                                     }
                                                                 }
-
+                                                                
                                                                 if(($type == "other" && is_file(SYSBASE.$file_path)) || ($type == "image" && is_file(SYSBASE.$preview_path) && is_file(SYSBASE.$zoom_path))){
-
+                                                                    
                                                                     $ext = strtolower(ltrim(strrchr($filename, "."), "."));
                                                                     $filesize = "";
-
+                                                                
                                                                     if($type == "other"){
                                                                         $weight = filesize(SYSBASE.$file_path);
                                                                         $preview_path = (isset($allowable_file_exts[$ext])) ? "common/images/".$allowable_file_exts[$ext] : "";
@@ -1059,9 +1037,9 @@ $csrf_token = get_token("form"); ?>
                                                                         $weight = filesize(SYSBASE.$zoom_path);
                                                                         $filesize = $w." x ".$h." | ";
                                                                     }
-
+                                                                        
                                                                     $filesize .= fileSizeConvert($weight); ?>
-
+                                                                    
                                                                     <li id="file_<?php echo $id_file; ?>">
                                                                         <div class="prev-file">
                                                                             <img src="<?php echo DOCBASE.$preview_path; ?>" alt="" border="0">
@@ -1098,8 +1076,8 @@ $csrf_token = get_token("form"); ?>
                                                                                     <?php
                                                                                 }
                                                                             } ?>
-                                                                            <a href="index.php?view=form&action=download&file=<?php echo $id_file; ?>&id=<?php echo $id; ?>&type=<?php echo $type; ?>"><i class="fa fa-download"></i></a>
-
+                                                                            <a href="index.php?view=form&action=download&file=<?php echo $id_file; ?>&id=<?php echo $id; ?>&type=<?php echo $type; ?>"><i class="fa fa-download"></i></a>    
+                                                                                
                                                                             <input type="checkbox" name="multiple_file[]" value="<?php echo $id_file; ?>"/>
                                                                         </div>
                                                                         <div class="infos-file">
@@ -1107,12 +1085,12 @@ $csrf_token = get_token("form"); ?>
                                                                             <span class="filename"><?php echo strtrunc(substr($filename, 0, strrpos($filename, ".")), 23, "..", true).".".$ext; ?></span><br>
                                                                             <span class="filesize"><?php echo $filesize; ?></span>
                                                                         </div>
-                                                                    </li>
+                                                                    </li>    
                                                                     <?php
                                                                 }
                                                             } ?>
                                                         </ul>
-
+                                                        
                                                         <?php
                                                     } ?>
                                                     <div style="clear:left;"></div>

@@ -74,7 +74,7 @@ $csrf_token = get_token("login"); ?>
             <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
             <div class="col-sm-3 col-md-4"></div>
             <div class="col-sm-6 col-md-4" id="loginWrapper">
-                <img src="images/logo-admin.png" class="img-responsive">
+                <img src="images/logo.png" class="img-responsive">
                 <div id="login">
                     <div class="alert-container">
                         <div class="alert alert-success alert-dismissable"></div>

@@ -17,7 +17,6 @@ function getModules($dir, $modules = array())
 {
     global $indexes;
     $realdir = SYSBASE.$dir;
-
     $rep = opendir($realdir) or die("Error directory opening: ".$realdir);
     
     while($entry = @readdir($rep)){

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module title="Rooms" name="room" multi="1" library="0" dashboard="1" icon="hotel" ranking="1" home="1" main="0" validation="1" dates="0" release="0" index="15">
+<module title="房间" name="room" multi="1" library="0" dashboard="1" icon="hotel" ranking="1" home="1" main="0" validation="1" dates="0" release="0" index="15">
 	<!-- resizing
 	[0] 1 single image
 	[1] 1x big, 1x medium, 1x small -->
@@ -17,48 +17,48 @@
 		<col label="Hotel" name="id_hotel" table="pm_hotel" fieldvalue="title" fieldref="id"/>
 	</list>
 	<form>
-		<field multi="1" label="Title" name="title" type="text" required="1" unique="0" validation="none"/>
-		<field multi="1" label="Subtitle" name="subtitle" type="text" required="0" unique="0" validation="none"/>
+		<field multi="1" label="名称" name="title" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="副标题" name="subtitle" type="text" required="0" unique="0" validation="none"/>
 		<field multi="1" label="Alias" name="alias" type="alias" required="1" unique="1" validation="none"/>
-		<field multi="0" label="Max children" name="max_children" type="select" required="1" unique="0" validation="numeric">
+		<field multi="0" label="最大入住小孩数" name="max_children" type="select" required="1" unique="0" validation="numeric">
             <options>
                 <min>0</min>
                 <max>20</max>
             </options>
         </field>
-		<field multi="0" label="Max adults" name="max_adults" type="select" required="1" unique="0" validation="numeric">
+		<field multi="0" label="最大入住成人数" name="max_adults" type="select" required="1" unique="0" validation="numeric">
             <options>
                 <min>1</min>
                 <max>20</max>
             </options>
         </field>
-		<field multi="0" label="Max people" name="max_people" type="select" required="1" unique="0" validation="numeric">
+		<field multi="0" label="最大入住人数" name="max_people" type="select" required="1" unique="0" validation="numeric">
             <options>
                 <min>1</min>
                 <max>20</max>
             </options>
         </field>
-		<field multi="0" label="Min people" name="min_people" type="select" required="1" unique="0" validation="numeric">
+		<field multi="0" label="最小入住人数" name="min_people" type="select" required="1" unique="0" validation="numeric">
             <options>
                 <min>1</min>
                 <max>20</max>
             </options>
         </field>
-		<field multi="1" label="Description" name="descr" type="textarea" editor="1" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Facilities" name="facilities" type="multiselect" required="0" unique="0" validation="none">
+		<field multi="1" label="描述" name="descr" type="textarea" editor="1" required="0" unique="0" validation="none"/>
+        <field multi="0" label="设备" name="facilities" type="multiselect" required="0" unique="0" validation="none">
             <options table="pm_facility" fieldlabel="name" fieldvalue="id" order="name"></options>
         </field>
-        <field multi="0" label="Hotel" name="id_hotel" type="select" required="1" unique="0" validation="none">
+        <field multi="0" label="所属宾馆" name="id_hotel" type="select" required="1" unique="0" validation="none">
             <options table="pm_hotel" fieldlabel="title" fieldvalue="id" order="title"></options>
         </field>
 		<field multi="0" label="Availabilities" name="stock" type="text" required="0" unique="0" validation="numeric"/>
-		<field multi="0" label="Price/night" name="price" type="text" required="1" unique="0" validation="numeric" comment="{currency} (default price)"/>
-        <field multi="0" label="Start of maintenance" name="start_lock" type="date" required="0" unique="0" validation="none"/>
-        <field multi="0" label="End of maintenance" name="end_lock" type="date" required="0" unique="0" validation="none"/>
+		<field multi="0" label="价格/每晚" name="price" type="text" required="1" unique="0" validation="numeric" comment=""/>
+        <field multi="0" label="维护开始日" name="start_lock" type="date" required="0" unique="0" validation="none" comment="维护日期宾馆不接受预订"/>
+        <field multi="0" label="维护终了日" name="end_lock" type="date" required="0" unique="0" validation="none"/>
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>
-        <user type="manager" permissions="no_access"/>
+        <user type="manager" permissions="all"/>
         <user type="editor" permissions="no_access"/>
         <user type="hotel" permissions="add,edit,upload"/>
     </roles>
