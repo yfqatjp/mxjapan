@@ -471,3 +471,87 @@ CREATE TABLE `pm_charter_user_file` (
 -- 2016/12/05 追加  Start
 ALTER TABLE `pm_charter_user`
 CHANGE COLUMN `checked_date` `publish_date`  int(11) NULL DEFAULT NULL AFTER `edit_date`;
+
+
+------------------------------------------------------------------------------------------------------------------
+/*Table structure for table `pm_charter_class` */
+DROP TABLE IF EXISTS `pm_charter_class`;
+CREATE TABLE `pm_charter_class` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lang` int(11) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `note` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `checked` int(11) DEFAULT '0',
+  `rank` int(11) DEFAULT '0',
+  `add_date` int(11) DEFAULT NULL,
+  `edit_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`,`lang`),
+  KEY `charter_class_lang_fkey` (`lang`),
+  CONSTRAINT `charter_class_lang_fkey` FOREIGN KEY (`lang`) REFERENCES `pm_lang` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `pm_charter`
+ADD COLUMN `comment_count`  int(11) NULL DEFAULT 0 COMMENT '评论数' AFTER `edit_date`,
+ADD COLUMN `like_count`  int(11) NULL DEFAULT 0 COMMENT '赞的个数' AFTER `comment_count`,
+ADD COLUMN `book_count`  int(11) NULL DEFAULT 0 COMMENT '预约个数' AFTER `like_count`,
+ADD COLUMN `score_count`  int(11) NULL DEFAULT 0 COMMENT '顾客评分' AFTER `book_count`;
+
+ALTER TABLE `pm_charter`
+ADD COLUMN `default_charter`  int(11) NULL DEFAULT 0 COMMENT '默认车主' AFTER `score_count`;
+
+ALTER TABLE `pm_charter`
+DROP COLUMN `phone`;
+
+
+/*Table structure for table `pm_charter_class` */
+DROP TABLE IF EXISTS `pm_charter_classes`;
+CREATE TABLE `pm_charter_classes` (
+  `charter_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  `price` float DEFAULT NULL,
+  PRIMARY KEY (`charter_id`,`class_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `pm_charter_user`;
+CREATE TABLE `pm_charter_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `user_name` varchar(250) DEFAULT NULL COMMENT '姓名',
+  `drive_year` varchar(250) DEFAULT NULL COMMENT '在当地年限',
+  `mobile` varchar(250) DEFAULT NULL COMMENT '手机号码',
+  `alipay` varchar(250) DEFAULT NULL COMMENT '支付宝账号',
+  `identity` varchar(250) DEFAULT NULL COMMENT '您在当地的身份',
+  `self_comment` text COMMENT '请用几句话形容自己',
+  `friend_comment` text COMMENT '朋友如何评价您',
+  `why_comment` text COMMENT '您为什么来到这座城市',
+  `service_comment` text COMMENT '您可以提供什么样的特色服务',
+  `checked_comment` text COMMENT '审批不通过的理由',
+  `add_date` int(11) DEFAULT NULL,
+  `edit_date` int(11) DEFAULT NULL,
+  `checked` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
+-- Table structure for `pm_charter_file`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_charter_user_file`;
+CREATE TABLE `pm_charter_user_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_item` int(11) NOT NULL,
+  `home` int(11) DEFAULT '0',
+  `checked` int(11) DEFAULT '1',
+  `rank` int(11) DEFAULT '0',
+  `file` varchar(250) DEFAULT NULL,
+  `label` varchar(250) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+--
+UPDATE `pm_page` SET `name`='车导服务',url = 'guide.html' WHERE `id`='5' AND (`lang`='2');
