@@ -11,10 +11,13 @@ $arrCharter = array();
 $arrCharterInfo = array();
 // 车主信息
 $arrCharterOwner = array();
+// 车主信息
+$arrCharterOwnerInfo = array();
+
 // 包车路线
 $arrCharterLines = array();
 
-// 包车服务的ID 
+// 包车服务的ID
 $charterId = 0;
 
 $result = $db->query("SELECT * FROM pm_charter WHERE checked = 1 AND lang = ".LANG_ID." AND alias = ".$db->quote($article_alias));
@@ -89,7 +92,7 @@ if (count($arrFeeName) > 0 ) {
 	if (isset($arrCharterInfo["fee_item"]) && !empty($arrCharterInfo["fee_item"])) {
 		$arrFeeItem = explode(",", $arrCharterInfo["fee_item"]);
 	}
-	
+
 	foreach($arrFeeName as $feeId => $feeName) {
 		if (array_key_exists($feeId, $arrFeeItem)) {
 			$haveFeeName .= $feeName.",";
@@ -107,14 +110,39 @@ if (isset($arrCharter["charter_type"]) && $arrCharter["charter_type"] == "2") {
 	$arrCharterLines = $db->query("SELECT * FROM pm_charter_line WHERE id_charter = ".$charterId);
 }
 
+// 车主的上传的图片
+$arrCharterOwnerFile = array();
+$arrCharterOwnerFile[1] = array();
+$arrCharterOwnerFile[2] = array();
+$arrCharterOwnerFile[3] = array();
 // 取得车主信息
 if (isset($arrCharter["id_user"])) {
 	$arrCharterOwner = $db->query("SELECT * FROM pm_user WHERE id = ".$arrCharter["id_user"]);
 	if($arrCharterOwner !== false){
-		$arrCharterOwner = $result->fetch(PDO::FETCH_ASSOC);
+		$arrCharterOwner = $arrCharterOwner->fetch(PDO::FETCH_ASSOC);
+	}
+
+	// 车主详细情报
+	$queryResult = $db->query("SELECT * FROM pm_charter_user WHERE user_id = ".$arrCharter["id_user"]);
+	if($queryResult !== false){
+		$arrCharterOwnerInfo = $queryResult->fetch(PDO::FETCH_ASSOC);
+
+		//
+		$query_file = "SELECT * FROM pm_charter_user_file WHERE user_id = ".$db->quote($arrCharter["id_user"]);
+		$query_file .= " ORDER BY type asc, id asc ";
+		$result_file = $db->query($query_file);
+
+		if ($result_file != null && count($result_file) > 0) {
+			foreach ($result_file as $file_row) {
+				$type = $file_row["type"];
+				if (!array_key_exists($type, $arrCharterOwnerFile)) {
+					$arrCharterOwnerFile[$type] = array();
+				}
+				$arrCharterOwnerFile[$type][] = $file_row;
+			}
+		}
 	}
 }
-
 
 //
 $arrCharterGuaranteed = array();
@@ -131,28 +159,36 @@ if($result !== false){
 // 安全考虑
 $token = $hotelApp->getToken();
 
-// 
-require(SYSBASE."templates/".TEMPLATE."/common/header.php"); 
+function echoInfo($arr, $key){
+	if (isset($arr[$key])) {
+		return $arr[$key];
+	} else {
+		return "";
+	}
+}
+
+//
+require(SYSBASE."templates/".TEMPLATE."/common/header.php");
 
 ?>
 
 <section id="page">
-    
+
     <?php include(getFromTemplate("common/page_header.php", false)); ?>
-    
+
     <div id="content" class="pb30">
-    
+
         <div class="container" >
             <div class="alert alert-success" style="display:none;"></div>
             <div class="alert alert-danger" style="display:none;"><?php echo $msg_error;?></div>
         </div>
-    
+
     	<form method="post" action="<?php echo DOCBASE.$sys_pages['charter-booking']['alias']; ?>">
-    	
+
     	<input type="hidden" name="charter_id" value="<?php echo $arrCharter['id']; ?>" />
     	<input type="hidden" name="charter_alias" value="<?php echo $arrCharter['alias']; ?>" />
     	<input type="hidden" name="<?php echo $hotelApp->token_name; ?>" value="<?php echo $token; ?>" />
-    	
+
         <article class="container pt20">
             <div class="row">
                 <div class="col-md-8 mb20">
@@ -186,16 +222,16 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
                                 <?php
                                 $result_file = $db->query("SELECT * FROM pm_charter_file WHERE id_item = ".$charterId." AND checked = 1 AND lang = ".DEFAULT_LANG." AND type = 'image' AND file != '' ORDER BY rank");
                                 if($result_file !== false){
-                                    
+
                                     foreach($result_file as $i => $row){
-                                    
+
                                         $file_id = $row['id'];
                                         $filename = $row['file'];
                                         $label = $row['label'];
-                                        
+
                                         $realpath = SYSBASE."medias/charter/big/".$file_id."/".$filename;
                                         $thumbpath = DOCBASE."medias/charter/big/".$file_id."/".$filename;
-                                        
+
                                         if(is_file($realpath)){ ?>
                                             <img alt="<?php echo $label; ?>" src="<?php echo $thumbpath; ?>" class="img-responsive" style="max-height:600px;"/>
                                             <?php
@@ -205,8 +241,8 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
                             </div>
                         </div>
                     </div>
-                    
-                    
+
+
                     <div class="tabbable booking-details-tabbable">
                     	<ul class="nav nav-tabs" id="myTab">
                             <li class="active"><a href="#tab-1" data-toggle="tab"><i class="fa fa-camera"></i>图文详情</a>
@@ -214,18 +250,18 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
                             <li><a href="#guaranteed-tab" data-toggle="tab"><i class="fa fa-legal"></i>交易保障</a>
                             </li>
                         </ul>
-                    
+
                     	<div class="tab-content">
                     		<div class="tab-pane fade in active" id="tab-1">
 			                    <div class="row mb10">
 			                        <div class="col-md-12" itemprop="description">
-										<?php 
+										<?php
 			                            echo $arrCharter['descr'];
 			                            ?>
 			                        </div>
 			                    </div>
 			    				<!--  -->
-			    				<?php 
+			    				<?php
 			    				if ($arrCharterInfo != null && count($arrCharterInfo) > 0) {
 			    					if (isset($arrCharterItem[1])) {
 			    						$realpath = SYSBASE."medias/charter_item/big/".$arrCharterItem[1]["file_id"]."/".$arrCharterItem[1]["file"];
@@ -237,11 +273,11 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
 										    <h3 class="mb10">
 										    <?php if(is_file($realpath)) {?>
 										    <img src="<?php echo $thumbpath; ?>" alt="" style="width:25px;">
-										    <?php 
+										    <?php
 			    							}
 										    echo $arrCharterItem[1]["name"]; ?>
-										    </h3>                        
-					                        
+										    </h3>
+
 					                        <section class="clearfix">
 						                        <div class="media row">
 									                <div class="col-sm-3">汽车品牌:</div>
@@ -274,31 +310,31 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
 										    </section>
 									    </div>
 				                    </div>
-								<?php 
+								<?php
 			    					}
-			    					
+
 			    					if (isset($arrCharterItem[2])) {
 			    						$realpath = SYSBASE."medias/charter_item/big/".$arrCharterItem[2]["file_id"]."/".$arrCharterItem[2]["file"];
 			    						$thumbpath = DOCBASE."medias/charter_item/big/".$arrCharterItem[2]["file_id"]."/".$arrCharterItem[2]["file"];
 			    				?>
-			                    
+
 			                    <div class="row">
 				                        <div class="col-md-12">
 											<!-- Comments -->
 										    <h3 class="mb10">
 										    <?php if(is_file($realpath)) {?>
 										    <img src="<?php echo $thumbpath; ?>" alt="" style="width:25px;">
-										    <?php 
+										    <?php
 			    							}
 										    echo $arrCharterItem[2]["name"]; ?>
-										    </h3>                        
-					                        
+										    </h3>
+
 					                        <section class="clearfix">
 						                        <div class="media row">
 									                <div class="col-sm-3">包含:</div>
 									                <div class="text-right col-sm-8"><?php echo $haveFeeName; ?></div>
 									            </div>
-									            
+
 									            <div class="media row">
 									                <div class="col-sm-3">不包含:</div>
 									                <div class="text-right col-sm-8"><?php echo $notHaveFeeName; ?></div>
@@ -306,7 +342,7 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
 										    </section>
 									    </div>
 				                    </div>
-								<?php 
+								<?php
 			    					}
 			    					if (count($arrCharterItem) >= 3) {
 			    						for ($i = 3; $i <= count($arrCharterItem); $i++ ) {
@@ -319,31 +355,31 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
 										    <h3 class="mb10">
 										    <?php if(is_file($realpath)) {?>
 										    <img src="<?php echo $thumbpath; ?>" alt="" class="">
-										    <?php 
+										    <?php
 			    							}
 										    echo $arrCharterItem[$i]["name"]; ?>
-										    </h3> 
-									</div> 
+										    </h3>
+									</div>
 			    					<div class="col-md-12" itemprop="description">
-			                            <?php 
+			                            <?php
 			                            $notekey = 'note'.($i-2);
-			                            echo $arrCharterInfo[$notekey]; 
+			                            echo $arrCharterInfo[$notekey];
 			                            ?>
 			                        </div>
 			                    </div>
-			                      <?php 
+			                      <?php
 			    						}
 			    					}
 			    				}
 			    				?>
 			    			</div><!-- tab1 -->
-			    			
+
 			    			<div class="tab-pane fade" id="guaranteed-tab">
-			    				<?php 
+			    				<?php
 			    					if ($arrCharterGuaranteed != null && count($arrCharterGuaranteed) > 0) {
-			    						
+
 			    						foreach($arrCharterGuaranteed as $key => $guaranteedInfo) {
-			    					
+
 			    						$realpath = SYSBASE."medias/charter_guaranteed/big/".$guaranteedInfo["file_id"]."/".$guaranteedInfo["file"];
 			    						$thumbpath = DOCBASE."medias/charter_guaranteed/big/".$guaranteedInfo["file_id"]."/".$guaranteedInfo["file"];
 			    						?>
@@ -352,58 +388,72 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
                                     		<div class="col-md-12" itemprop="description">
                                     			<?php echo $guaranteedInfo["content"]; ?>
                                     		</div>
-                                    	<?php 
+                                    	<?php
 			    							}
 			    							?>
 			    						<div class="col-md-12">
 			    							<?php if(is_file($realpath)) {?>
 										    	<img src="<?php echo $thumbpath; ?>" alt="" class="">
-										    <?php 
+										    <?php
 			    							}
 			    							?>
 			    						</div>
 			    					</div>
-			    					 <?php 
+			    					 <?php
 			    					}
 			    				}
 			    				?>
                             </div>
-                                
+
 	    				</div> <!-- tab-content end -->
     				</div> <!-- tabbable end -->
-    				
+
                     <div class="row">
     					<div class="col-md-12">
 							<button type="submit" name="confirm_booking" class="btn btn-primary btn-lg pull-right"><?php echo $texts['CONFIRM_BOOKING']; ?> <i class="fa fa-angle-right"></i></button>
 						</div>
                     </div>
-                    
+
                 </div>
-                
-                
-                
-                
+
                 <aside class="col-md-4 mb20">
                     <div class="boxed">
-                        <div itemscope itemtype="http://schema.org/Corporation">
-                            <h3 itemprop="name"><?php echo $arrCharter['title']; ?></h3>
-                            <address>
-                                <p>
-                                    <i class="fa fa-map-marker"></i> <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?php echo $arrCharter['destination']; ?></span><br>
-	                                <?php if($arrCharterOwner['mobile'] != "") : ?><i class="fa fa-phone"></i> <span itemprop="telephone" dir="ltr"><?php echo $arrCharterOwner['mobile']; ?></span><br><?php endif; ?>
-	                                <?php if($arrCharterOwner['email'] != "") : ?><i class="fa fa-envelope"></i> <a itemprop="email" dir="ltr" href="mailto:<?php echo $arrCharterOwner['email']; ?>"><?php echo $arrCharterOwner['email']; ?></a><?php endif; ?>
-                                </p>
-                            </address>
+                        <div >
+                            <h3 itemprop="name"><?php echo echoInfo($arrCharterOwnerInfo, "user_name");?></h3>
+                            
                         </div>
-                        <script type="text/javascript">
-                            var locations = [
-                                ['<?php echo $arrCharter['title']; ?>', '<?php echo $arrCharter['destination']; ?>', '<?php echo $arrCharter['lat']; ?>', '<?php echo $arrCharter['lng']; ?>']
-                            ];
-                        </script>
-                        
-                        <div id="mapWrapper" class="mb10" data-marker="<?php echo getFromTemplate("images/marker.png"); ?>" data-api_key="<?php echo GMAPS_API_KEY; ?>"></div>
-                        
+						<?php if (count($arrCharterOwnerFile[3]) > 0 ) {?>
+                            <div class="owl-carousel owlWrapper" data-items="1" data-autoplay="true" data-dots="true" data-nav="false" data-rtl="<?php echo (RTL_DIR) ? "true" : "false"; ?>">
+                                <?php
+                                
+                                foreach($arrCharterOwnerFile[3] as $row_file){
+                                
+                                	$filename = $row_file['file'];
+                                	$id_file = $row_file['id'];
+                                	$type = $row_file['type'];
+                                	$userId = $row_file['user_id'];
+                                	$file_path = "medias/charter_user/".$userId."/".$id_file."/".$filename;
+                                	
+                                    if(is_file($file_path)){ ?>
+                                    <img src="<?php echo DOCBASE.$file_path; ?>" class="img-responsive" style="max-height:200px;">
+                                   <?php
+                                    }
+                                } ?>
+                            </div>
+						<?php } ?>
+						
+						<div >
+                            <h3 itemprop="name">联系方式：<?php echo echoInfo($arrCharterOwnerInfo, "mobile");?></h3>
+                            <h3 itemprop="name">自我评价：<?php echo echoInfo($arrCharterOwnerInfo, "self_comment");?></h3>
+                            <h3 itemprop="name">驾龄：<?php echo echoInfo($arrCharterOwnerInfo, "drive_year");?></h3>
+                        </div>
+						
                         <!-- TODO::路线设定 -->
+                        
+                        
+                        
+                        
+                        
                     </div>
                 </aside>
             </div>
@@ -413,12 +463,12 @@ require(SYSBASE."templates/".TEMPLATE."/common/header.php");
 </section>
 
     <script>
-      <?php 
+      <?php
       	if (!empty($msg_error)) {
       ?>
 		$(".alert-danger").show();
-      <?php 
+      <?php
 		}
       ?>
     </script>
-    
+

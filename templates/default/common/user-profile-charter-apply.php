@@ -168,7 +168,7 @@ function echoInfo($arr, $key){
 ?>
 
 <div class="row">
-	<form method="post" action="?" class="ajax-form form">
+	<form method="post" action="?" class="ajax-form form" enctype="multipart/form-data">
 	<input type="hidden" name="action" value="save" />
     <div class="form-group form-group-icon-left <?php echo checkHasError($arrMsg, "user_name");?>">
         <label class='control-label'>姓名 *</label>
