@@ -1,178 +1,93 @@
-<!--#include file = "../../DBConn/com.asp"-->
-<%
-Dim objHttp, str, Item_name, Item_number, Payment_status, Payment_amount
-Dim Payment_currency, Txn_id, Receiver_email, Payer_email
-Dim business, quantity, invoice, custom, tax, option_name1
-Dim option_selection1, option_name2, option_selection2, num_cart_items
-Dim pending_reason, payment_date, mc_gross, mc_fee, mc_currency
-Dim settle_amount, settle_currency, exchange_rate, txn_type
-Dim first_name, last_name, address_name, address_street, address_city
-Dim address_state, address_zip, address_country, address_status
-Dim payer_id, payer_status, payment_type, notify_version
-Dim verify_sign
-Dim subscr_date, period1, period2, period3, amount1, amount2, amount3
-Dim recurring, reattempt, retry_at, recur_times, username, password, subscr_id
- 
-'read post from PayPal system and add 'cmd'
-str = Request.Form & "&cmd=_notify-validate"
- 
-'post back to PayPal system to validate
-'set objHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
-'set objHttp = Server.CreateObject("Msxml2.ServerXMLHTTP.4.0")
-set objHttp = Server.CreateObject("Microsoft.XMLHTTP")
-'objHttp.open "POST", "https://www.sandbox.paypal.com/cgi-bin/webscr", false
-objHttp.open "POST", "https://www.paypal.com/cgi-bin/webscr", false
-objHttp.setRequestHeader "Content-type", "application/x-www-form-urlencoded"
-objHttp.Send str
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/hm/coon.php';
 
-'assign posted variables to database
-Item_name = Request.Form("item_name")
-Item_number = Request.Form("item_number")
-Txn_id = Request.Form("txn_id")
-Receiver_email = Request.Form("receiver_email")
-Payer_email = Request.Form("payer_email")
-Payment_amount = Request.Form("mc_gross")
-payment_status = Request.Form("payment_status")
-Payment_currency = Request.Form("mc_currency")
-first_name = Request.Form("first_name")
-last_name = Request.Form("last_name")
-payer_status = Request.Form("payer_status")
-txn_id = Request.Form("txn_id")
-address_street = Request.Form("address_street")
-address_city = Request.Form("address_city")
-address_state = Request.Form("address_state")
-address_zip = Request.Form("address_zip")
-address_country = Request.Form("address_country")
-mc_gross = Request.Form("mc_gross")
-mc_fee = Request.Form("mc_fee")
-mc_currency = Request.Form("mc_currency")
-business = Request.Form("business")
+//    if (function_exists('get_magic_quotes_gpc')) $get_magic_quotes_exists = true;
+//    foreach ($_POST as $key => $value) {
+//        if ($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
+//            $value = urlencode(stripslashes($value));
+//        } else {
+//            $value = urlencode($value);
+//        }
+//        $req .= "&$key=$value";
+//    }
+//    $ch = curl_init('https://www.paypal.com/cgi-bin/webscr');
+//    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+//    curl_setopt($ch, CURLOPT_POST, 1);
+//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//    curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
+//    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+//    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+//    curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+//    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+//    $res = curl_exec($ch);
+//    if (strcmp($res, "VERIFIED") == 0) {
+//        return true;
+//    } else if (strcmp($res, "INVALID") == 0) {
+//
+//    }
 
-'Check notification validation
-if (objHttp.status <> 200 ) then
-'HTTP error handling
-elseif payment_status = "Refunded" then
-'//更改订单状态
-sql = "update web_orders set rejectStatus=5,dealStatus=5 where orderNum = '"&item_number&"'"
-conn.execute sql
-Response.end
 
-elseif (objHttp.responseText = "VERIFIED") then
-set rs0 = server.CreateObject("adodb.recordset")
-sql = "select * from Web_Orders where orderNum = '"&Item_number&"'"
-rs0.open sql,conn,1,1
-if rs0("Logistics") = 0 then
-sql = "update Web_funds set ed = 3 where orderNum like '"&Item_number&"')"'卖家入账
-conn.execute sql
+$req = 'cmd=_notify-validate';
 
-sql = "update Web_Member set points = points + "&rs0("dealPrice")&" where id = "&rs0("uid")&""
-conn.execute sql
-else
-'//更改订单状态
-sql = "update web_orders set returnNum = '"&Txn_id&"',buyEmail='"&Payer_email&"',dealStatus=1,payDate=Date() where orderNum = '"&Item_number&"'"
-conn.execute sql
+foreach ($_POST as $key => $value) {
+    $value = urlencode(stripslashes($value));
+    $req .= "&$key=$value";
+}
 
-set rs = server.CreateObject("adodb.recordset")
-sql = "select * from Web_cart where orderNum like '"&Item_number&"'"
-rs.open sql,conn,1,1
-do while not rs.eof
+$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
+$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
 
-sql = "select * from Web_product where id = "&rs("pid")&""
-call openRS1(sql,1)
+$fp = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30);
 
-zong = ccur(rs("jiage"))*ccur(rs("shu"))+ccur(rs("freight"))
 
-sql = "INSERT INTO Web_funds (uid,jiage,ed,tid,orderNum) VALUES ("&rs("uid")&","&zong&",1,1,'"&Item_number&"')"'买家支出
-conn.execute sql
+$item_name = @$_POST['item_name'];
+$item_number = @$_POST['item_number'];
+$payment_status = @$_POST['payment_status'];
+$payment_amount = @$_POST['mc_gross'];
+$payment_currency = @$_POST['mc_currency'];
+$txn_id = @$_POST['txn_id'];
+$receiver_email = @$_POST['receiver_email'];
+$payer_email = @$_POST['payer_email'];
+$mc_gross = @$_POST['mc_gross'];
+$custom = @$_POST['custom'];
 
-sql = "INSERT INTO Web_funds (uid,jiage,ed,tid,orderNum) VALUES ("&usershop(rs1("uid"),3)&","&zong&",0,0,'"&Item_number&"')"'卖家入账
-conn.execute sql
+if (!$fp) {
 
-sql = "update Web_Member set dongjie = dongjie + "&zong&" where id = "&usershop(rs1("uid"),3)&""
-conn.execute sql
-rs.MoveNext
-loop
+} else {
+    fputs($fp, $header . $req);
+    while (!feof($fp)) {
+        $res = fgets($fp, 1024);
+        if (strcmp($res, "VERIFIED") == 0) {
 
-sql = "delete FROM Web_buy where uid = "&session("userID")&""
-conn.execute sql
-end if
-'check that Payment_status=Completed
-'check that Txn_id has not been previously processed
-'check that Receiver_email is your Primary PayPal email
-'check that Payment_amount/Payment_currency are correct
-'process payment
-elseif (objHttp.responseText = "INVALID") then
-'log for manual investigation
+            $rs = $pdo->query("SELECT * FROM pm_gwc WHERE tai = 0 AND onum LIKE '" . $item_number . "'");
+            if ($rs->rowCount() > 0) {
+                $row = $rs->fetch();
 
- 
-response.write ("PayPal's response to this IPN was: ") & "<b>" & objHttp.responseText & "</b><p>"
-response.write ("<hr>") & "<br>"
- 
-response.write ("Item Name: ") & item_name & "<br>"
-response.write ("Item Number: ") & item_number & "<br>"
-response.write ("Payment Status: ") & payment_status & "<br>"
-response.write ("MC Gross: ") & mc_gross & "<br>"
-response.write ("MC Currency: ") & mc_currency & "<br>"
-response.write ("TXN ID: ") & txn_id & "<br>"
-response.write ("Receiver Email: ") & receiver_email & "<br>"
-response.write ("Payer Email: ") & payer_email & "<br>"
-response.write ("Business: ") & business & "<br>"
-response.write ("Quantity: ") & quantity & "<br>"
-response.write ("Invoice: ") & invoice & "<br>"
-response.write ("Custom: ") & custom & "<br>"
-response.write ("Tax: ") & tax & "<br>"
-response.write ("Option Name1: ") & option_name1 & "<br>"
-response.write ("Option Selection1: ") & option_selection1 & "<br>"
-response.write ("Option Name2: ") & option_name2 & "<br>"
-response.write ("Option Selection2: ") & option_selection2 & "<br>"
-response.write ("Num Cart Items: ") & num_cart_items & "<br>"
-response.write ("Pending Reason: ") & pending_reason & "<br>"
-response.write ("Payment Date: ") & payment_date & "<br>"
-response.write ("MC Gross: ") & mc_gross & "<br>"
-response.write ("MC Fee: ") & mc_fee & "<br>"
-response.write ("MC Currency: ") & mc_currency  & "<br>"
-response.write ("Settle Amount: ") & settle_amount & "<br>"
-response.write ("Settle Currency: ") & settle_currency & "<br>"
-response.write ("Exchange Rate: ") & exchange_rate & "<br>"
-response.write ("TXN Type: ") & txn_type & "<br>"
-response.write ("First Name: ") & first_name & "<br>"
-response.write ("Last Name: ") & last_name & "<br>"
-response.write ("Address Name: ") & address_name & "<br>"
-response.write ("Address Street: ") & address_street & "<br>"
-response.write ("Address City: ") & address_city & "<br>"
-response.write ("Address State: ") & address_state & "<br>"
-response.write ("Address Zip: ") & address_zip & "<br>"
-response.write ("Address Country: ") & address_country & "<br>"
-response.write ("Address Status ") & address_status & "<br>"
-response.write ("Payer Email: ") & payer_email & "<br>"
-response.write ("Payer ID: ") & payer_id & "<br>"
-response.write ("Payer Status: ") & payer_status & "<br>"
-response.write ("Payer Type: ") & payment_type & "<br>"
-response.write ("Notify Version: ") & notify_version & "<br>"
-response.write ("Verify Sign: ") & verify_sign & "<p></p>"
-response.write ("<hr>") & "<br>"
+                $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $row['hotels']);
+                $row1 = $rs1->fetch();
 
-response.write ("<b>Subscription Variables/Values</b><br>")
+                $rs4 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row['room'] . " ORDER BY id DESC");
+                $row4 = $rs4->fetch();
 
- 
-response.write ("Subscr Date: ") & subscr_date & "<br>"
-response.write ("Period1: ") & period1 & "<br>"
-response.write ("Period2: ") & period2 & "<br>"
-response.write ("Period3: ") & period3 & "<br>"
-response.write ("Amount1: ") & amount1 & "<br>"
-response.write ("Amount2: ") & amount2 & "<br>"
-response.write ("Amount3: ") & amount3 & "<br>"
-response.write ("Recurring ") & recurring & "<br>"
-response.write ("Reattempt ") & reattempt & "<br>"
-response.write ("Retry At ") & retry_at & "<br>"
-response.write ("Recur Times ") & recur_times & "<br>"
-response.write ("Username ") & username & "<br>"
-response.write ("Password ") & password & "<br>"
-response.write ("Subscr ID ") & subscr_id & "<br>"
+                $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
+                if ($day <= 0) {
+                    $day = 1;
+                }
 
-else
-'error
-end if
-set objHttp = nothing
-%>
+                $rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row['uid']);
+                $row5 = $rs5->fetch();
 
+                $rs = $pdo->exec("INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $row4['price'] * $day . "','" . $row5['phone'] . "','支付宝支付',4,'中国','" . $item_number . "' FROM pm_gwc WHERE onum LIKE '" . $o . "'");
+
+                $rs0 = $pdo->exec("UPDATE pm_gwc SET pay=1,tai = 3,paytime=now(),paynum='" . $txn_id . "' WHERE id = " . $row['id'] . " ");
+
+            }
+            echo "success";
+
+        } else if (strcmp($res, "INVALID") == 0) {
+            echo "fail";
+        }
+    }
+    fclose($fp);
+}

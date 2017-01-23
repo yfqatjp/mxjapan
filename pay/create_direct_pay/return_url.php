@@ -48,12 +48,28 @@ require_once("lib/alipay_notify.class.php");
             //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
             //如果有做过处理，不执行商户的业务程序
             $rs = $pdo->query("SELECT * FROM pm_gwc WHERE tai = 0 AND onum LIKE '" . $out_trade_no . "'");
-        if ($rs->rowCount() > 0) {
-            $row = $rs->fetch();
+            if ($rs->rowCount() > 0) {
+                $row = $rs->fetch();
 
-            $rs0 = $pdo->exec("UPDATE pm_gwc SET pay=1,tai = 3,paytime=now(),paynum='" . $trade_no . "' WHERE id = " . $row['id'] . " ");
+                $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $row['hotels']);
+                $row1 = $rs1->fetch();
 
-        }
+                $rs4 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row['room'] . " ORDER BY id DESC");
+                $row4 = $rs4->fetch();
+
+                $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
+                if ($day <= 0) {
+                    $day = 1;
+                }
+
+                $rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row['uid']);
+                $row5 = $rs5->fetch();
+
+                $rs = $pdo->exec("INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $row4['price'] * $day . "','" . $row5['phone'] . "','支付宝支付',4,'中国','" . $out_trade_no . "' FROM pm_gwc WHERE onum LIKE '" . $o . "'");
+
+                $rs0 = $pdo->exec("UPDATE pm_gwc SET pay=1,tai = 3,paytime=now(),paynum='" . $trade_no . "' WHERE id = " . $row['id'] . " ");
+
+            }
         } else {
             echo "trade_status=" . $_GET['trade_status'];
         }
@@ -72,21 +88,21 @@ require_once("lib/alipay_notify.class.php");
     <title>支付宝即时到账交易接口</title>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript">
-    function countDown(secs,surl){
-     //alert(surl);
-     var jumpTo = document.getElementById('jumpTo');
-     jumpTo.innerHTML=secs;
-     if(--secs>0){
-         setTimeout("countDown("+secs+",'"+surl+"')",1000);
-         }
-     else{
-         location.href=surl;
-         }
-     }
+        function countDown(secs, surl) {
+            //alert(surl);
+            var jumpTo = document.getElementById('jumpTo');
+            jumpTo.innerHTML = secs;
+            if (--secs > 0) {
+                setTimeout("countDown(" + secs + ",'" + surl + "')", 1000);
+            }
+            else {
+                location.href = surl;
+            }
+        }
 
     </script>
 </head>
 <body><span id="jumpTo" style="display: none"></span>
-<script type="text/javascript">countDown(1,'/dida-zfcg.php?o=<?=@$out_trade_no?>');</script>
+<script type="text/javascript">countDown(1, '/dida-zfcg.php?o=<?=@$out_trade_no?>');</script>
 </body>
 </html>

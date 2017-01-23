@@ -56,6 +56,22 @@ if ($verify_result) {//验证成功
         if ($rs->rowCount() > 0) {
             $row = $rs->fetch();
 
+            $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $row['hotels']);
+            $row1 = $rs1->fetch();
+
+            $rs4 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row['room'] . " ORDER BY id DESC");
+            $row4 = $rs4->fetch();
+
+            $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
+            if ($day <= 0) {
+                $day = 1;
+            }
+
+            $rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row['uid']);
+            $row5 = $rs5->fetch();
+
+            $rs = $pdo->exec("INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $row4['price'] * $day . "','" . $row5['phone'] . "','支付宝支付',4,'中国','" . $out_trade_no . "' FROM pm_gwc WHERE onum LIKE '" . $o . "'");
+
             $rs0 = $pdo->exec("UPDATE pm_gwc SET pay=1,tai = 3,paytime=now(),paynum='" . $trade_no . "' WHERE id = " . $row['id'] . " ");
 
         }

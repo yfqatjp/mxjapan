@@ -24,8 +24,8 @@ $txt = "内部信息库";
 ?>
 
 
-<div class="midd_26"><img src="../images/11_03.png"><a href="../index.html">首页</a> > <a href="user.html">个人中心</a> > <a
-        href="2-2txsz.html">内部信息库</a></div>
+<div class="midd_26"><img src="../images/11_03.png"><a href="/index.html">首页</a> > <a href="index.html">个人中心</a> > <a
+        href="nbxxk.html">内部信息库</a></div>
 
 <div class="midd_auto user">
     <!-- 左侧导航 -->
@@ -35,126 +35,117 @@ $txt = "内部信息库";
     <!-- 右侧 -->
     <div class="user_4">
         <div class="midd_68"><span>内部信息库</span></div>
-        <div class="user_18">
-            <input type="submit" name="button" class="input_15" value="搜索">
-            <input type="text" name="textfield" class="input_16" placeholder="输入查找关键字">
-            <select name="select" class="input_17">
-                <option>请选择类别</option>
-            </select>
-            <div class="clear"></div>
-        </div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
+        <form name="search_form" method="post" action="/do?gg=post">
+            <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
+            <div class="user_18">
+                <input type="submit" class="input_15" value="搜索">
+                <input type="text" name="text" class="input_16" value="<?php echo @$_GET['text']?>" placeholder="输入查找关键字">
+                <select name="lid" class="input_17">
+                    <option value="">请选择类别</option>
+                    <?php
+                    $rs = $pdo->query("SELECT * FROM pm_category ORDER BY id DESC");
+                    while ($row = $rs->fetch()) {
+                        ?>
+                        <option value="<?php echo $row['id'] ?>"<?php if($row['id']==@$_GET['lid']){?> selected="selected"<?php }?>><?php echo $row['category'] ?></option>
+                    <?php } ?>
+                </select>
                 <div class="clear"></div>
-            </a></div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
-                <div class="clear"></div>
-            </a></div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
-                <div class="clear"></div>
-            </a></div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
-                <div class="clear"></div>
-            </a></div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
-                <div class="clear"></div>
-            </a></div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
-                <div class="clear"></div>
-            </a></div>
+            </div>
+        </form>
+
+        <?php
+        $sql = "";
+        if (@$_GET['text'] != "") {
+            $sql .= " and title like '%" . $_GET['text'] . "%'";
+        }
+        if (@$_GET['lid'] != "") {
+            $sql .= " and category = " . $_GET['lid'] . "";
+        }
+        $perNumber = 6;
+        $page = @$_GET['page'];
+        $count = $pdo->query("SELECT * FROM pm_notice WHERE lang = 2 AND checked = 1 " . $sql);
+        //GROUP BY id
+        $totalNumber = $count->rowCount();
+        $totalPage = ceil($totalNumber / $perNumber);
+        if (!isset($page)) {
+            $page = 1;
+        }
+        $startCount = ($page - 1) * $perNumber;
+        $rs = $pdo->query("SELECT * FROM pm_notice WHERE lang = 2 AND checked = 1 " . $sql . " ORDER BY id DESC limit $startCount,$perNumber");
+        while ($row = $rs->fetch()) {
+            ?>
+            <div class="user_10"><a href="nbxxkxx_x<?php echo $row['id'] ?>.html">
+                    <div class="left" style="width: 25%; height: 100px;overflow: hidden;"><img
+                            src="<?php $rs1 = $pdo->query("SELECT * FROM pm_notice_file WHERE id_item = " . $row['id'] . " ORDER BY rank DESC");
+                            $row1 = $rs1->fetch();
+                            echo "/medias/notice/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="100%"></div>
+                    <div class="user_11" style="width: 72%;margin-left:3%">
+                        <h2><?php echo $row['title'] ?></h2>
+                        <h3>
+                            <?php echo strtrunc(strip_tags($row['text']), 370); ?></h3>
+                        <span>类别：<?php
+                            $rs1 = $pdo->query("SELECT * FROM pm_category WHERE id = " . $row['category']);
+                            $row1 = $rs1->fetch();
+                            echo $row1['category'];
+                            ?>&nbsp; |&nbsp; 发布日期：<?php echo date("Y-m-d", $row['add_date']); ?></span>
+                    </div>
+                    <div class="clear"></div>
+                </a></div>
+
+        <?php } ?>
+
         <div id='pagina'>
-            <a href='?tab=0&page=1'>上一页</a>
-            <a href='?tab=0&page=1' class='number'>1</a>
-            <a href='?tab=0&page=2'>2</a>
-            <a href='?tab=0&page=3'>3</a>
-            <a href='?tab=0&page=4'>4</a>
-            <a href='?tab=0&page=5'>5</a>
-            <a href='?tab=0&page=6'>6</a> &nbsp;
-            ... <a href='?tab=0&page=22'>22</a>
-            <a href='?tab=0&page=2'>下一页</a>
+            <?php
+            if ($page - 1 > 0) {
+                ?>
+                <a href="/user/nbxxk_<?php echo $page - 1 ?>__.html">上一页</a>
+                <?php
+            }
+            if ($page == $totalPage && $page == 1) {
+                echo "<a class='number'>1</a>";
+            } else {
+                if ($page - 2 > 0) {
+                    ?>
+                    <a href="/user/nbxxk_<?php echo $page - 2 ?>__.html"><?php echo $page - 2 ?></a>
+                    <?php
+                }
+                if ($page - 1 > 0) {
+                    ?>
+                    <a href="/user/nbxxk_<?php echo $page - 1 ?>__.html"><?php echo $page - 1 ?></a>
+                    <?php
+                }
+
+                if ($totalPage > 5) {
+                    if ($totalPage - 2 >= $page) {
+                        $total = $page + 2;
+                    } else {
+                        $total = $totalPage;
+                    }
+                } else {
+                    $total = $totalPage;
+                }
+                for ($i = $page;
+                     $i <= @$total;
+                     $i++) {
+                    if ($page == $i) {
+                        echo '<a class="number">' . $i . '</a>';
+                    } else { ?>
+                        <a href="/user/nbxxk_<?php echo $i ?>__.html"><?php echo $i ?></a>
+                        <?php
+                    }
+                }
+            }
+            if ($page + 1 < $totalPage) {
+                ?>
+                <a href="/user/nbxxk_<?php echo $page + 1 ?>__.html">下一页</a>
+            <?php } ?>
         </div>
     </div>
     <div class="clear"></div>
 </div>
 
-<!-- 底部 -->
-<footer id="fh5co-footer" role="contentinfo" class="midd_top20">
-    <div class="container">
-        <div class="midd_10 col-sm-push-0 col-xs-push-0">
-            <h3>关于我们</h3>
-            <p>美溪传媒車友倶楽部成立于2016年8月1日，是在日本东京投资注册的独立法人公司。<br>公司专致于提供日本境内旅游业务，为外国游客提供餐饮和娱乐服务，</p>
-            <p><a href="#" class="btn btn-primary btn-outline with-arrow btn-sm">联系我们<i
-                        class="icon-arrow-right"></i></a></p>
-        </div>
-        <div class="col-md-6 col-md-push-1 col-sm-12 col-sm-push-0 col-xs-12 col-xs-push-0">
-            <ul class="float">
-                <h3>联系方式</h3>
-                <span>美溪车友传媒俱乐部</span>
-                <li><a href="#"><img src="../images/6_03.png">東京都世田谷区玉川2-15-12</a></li>
-                <li><a href="#"><img src="../images/6_07.png">090-0000-0000</a></li>
-                <li><a href="#"><img src="../images/6_10.png">090-0000-0000</a></li>
-                <li><a href="#"><img src="../images/6_13.png">090-0000-0000</a></li>
-                <li><a href="#"><img src="../images/6_17.png">contact@meixinpo.com</a></li>
-            </ul>
-            <div class="midd_65"><h3>微信公众号</h3><img src="../images/17_03.jpg"></div>
-        </div>
-        <div class="clear"></div>
-        <div class="midd_11">
-            © 2016 美溪车友传媒俱乐部 All rights reserved
-        </div>
-    </div>
-</footer>
-
-<!-- 返回顶部 -->
-<div id="top"><img src="../images/top.png"></div>
-<script>
-    $('#top').click(function () {
-        $('html,body').animate({scrollTop: '0px'}, 800);
-        return false;
-    });
-</script>
-<!-- jQuery -->
+<div class="midd_top20"></div>
+<?php require_once '../foot.php'; ?>
 
 <!-- jQuery Easing -->
 <script src="../js/jquery.easing.1.3.js"></script>

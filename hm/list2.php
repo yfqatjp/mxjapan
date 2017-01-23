@@ -35,7 +35,7 @@ if (@$_GET['list'] == "") {
 <head>
     <?php require_once 'top.php'; ?>
     <script type="text/javascript"
-            src="http://maps.google.cn/maps/api/js?key=<?php echo constant("GMAPS_API_KEY")?>&sensor=false"></script>
+            src="http://maps.google.cn/maps/api/js?key=<?php echo constant("GMAPS_API_KEY") ?>&sensor=false"></script>
 </head>
 <body>
 <div class="sehun"></div>
@@ -188,7 +188,9 @@ if (@$_GET['list'] == "") {
             $sql .= " and a.address like '%" . $_GET['text'] . "%'";
         }
         if (@$_GET['lid'] != "") {
-            $sql .= " and a.lid = " . $_GET['lid'] . "";
+            if (@$_GET['lid'] > 0) {
+                $sql .= " and a.lid = " . $_GET['lid'] . "";
+            }
         }
         if (@$_GET['ont'] != "") {
             $sql .= " and (b.start_lock >= " . $_GET['ont'] . " or b.start_lock is null)";
@@ -213,7 +215,7 @@ if (@$_GET['list'] == "") {
         }
         $perNumber = 6;
         $page = @$_GET['page'];
-        $count = $pdo->query("SELECT a.* FROM pm_hotel AS a LEFT JOIN pm_room AS b ON a.id = b.id_hotel WHERE a.lang = 2 AND a.checked = 1" . @$sql . " GROUP BY id desc");
+        $count = $pdo->query("SELECT a.* FROM pm_hotel AS a LEFT JOIN pm_room AS b ON a.id = b.id_hotel WHERE a.lang = 2 AND a.checked = 1" . @$sql . " GROUP BY id DESC");
         //GROUP BY id 
         $totalNumber = $count->rowCount();
         $totalPage = ceil($totalNumber / $perNumber);
@@ -231,7 +233,7 @@ if (@$_GET['list'] == "") {
                 ?>
                 <div class="midd_18"><a href="list_x<?php echo $row['id'] ?>.html">
                         <div class="image2"><img
-                                src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id']." order by rank desc");
+                                src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id'] . " ORDER BY rank DESC");
                                 $row1 = $rs1->fetch();
                                 echo "/medias/hotel/medium/" . $row1['id'] . "/" . $row1['file'] ?>">
                             <div class="midd_16s">
@@ -285,7 +287,7 @@ if (@$_GET['list'] == "") {
             <?php
             if ($page - 1 > 0) {
                 ?>
-                <a href="list2_<?php echo $page - 1 ?>.html">上一页</a>
+                <a href="list2_<?php echo $page - 1 ?>_0_0_0_1__0__.html">上一页</a>
                 <?php
             }
             if ($page == $totalPage && $page == 1) {
@@ -293,12 +295,12 @@ if (@$_GET['list'] == "") {
             } else {
                 if ($page - 2 > 0) {
                     ?>
-                    <a href="list2_<?php echo $page - 2 ?>.html"><?php echo $page - 2 ?></a>
+                    <a href="list2_<?php echo $page - 2 ?>_0_0_0_1__0__.html"><?php echo $page - 2 ?></a>
                     <?php
                 }
                 if ($page - 1 > 0) {
                     ?>
-                    <a href="list2_<?php echo $page - 1 ?>.html"><?php echo $page - 1 ?></a>
+                    <a href="list2_<?php echo $page - 1 ?>_0_0_0_1__0__.html"><?php echo $page - 1 ?></a>
                     <?php
                 }
 
@@ -315,14 +317,14 @@ if (@$_GET['list'] == "") {
                     if ($page == $i) {
                         echo '<a class="number">' . $i . '</a>';
                     } else { ?>
-                        <a href="list2_<?php echo $i ?>.html"><?php echo $i ?></a>
+                        <a href="list2_<?php echo $i ?>_0_0_0_1__0__.html"><?php echo $i ?></a>
                         <?php
                     }
                 }
             }
             if ($page + 1 < $totalPage) {
                 ?>
-                <a href="list2_<?php echo $page + 1 ?>.html">下一页</a>
+                <a href="list2_<?php echo $page + 1 ?>_0_0_0_1__0__.html">下一页</a>
             <?php } ?>
         </div>
     </div>
