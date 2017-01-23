@@ -54,7 +54,7 @@ $row = $rs->fetch(); ?>
             <div class="left midd_52">
                 <div id="originalpic">
                     <?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE lang = 2 and id_item = " . $row['id'] . " ");
+                    $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank desc");
                     $i = 1;
                     while ($row1 = $rs1->fetch()) {
                         ?>
@@ -74,11 +74,11 @@ $row = $rs->fetch(); ?>
                     <div id="piclist">
                         <ul>
                             <?php
-                            $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE lang = 2 and id_item = " . $row['id'] . " ");
+                            $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank desc");
                             $i = 1;
                             while ($row1 = $rs1->fetch()) {
                                 ?>
-                                <li<?php if ($i == 1){ ?> class="hover"<?php } ?>"><a href="javascript:;"><img
+                                <li<?php if ($i == 1){ ?> class="hover"<?php } ?>><a href="javascript:;"><img
                                             src="<?php echo "/medias/realestate/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="120" height="86"></a></li>
                                 <?php
                                 $i++;

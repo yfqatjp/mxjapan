@@ -35,7 +35,7 @@ if (@$_GET['list'] == "") {
 <head>
     <?php require_once 'top.php'; ?>
     <script type="text/javascript"
-            src="http://maps.google.cn/maps/api/js?key=AIzaSyDTRl1x8xftFpAmxhl76bzStKmA8aNGCYY&sensor=false"></script>
+            src="http://maps.google.cn/maps/api/js?key=<?php echo constant("GMAPS_API_KEY")?>&sensor=false"></script>
 </head>
 <body>
 <div class="sehun"></div>
@@ -112,7 +112,7 @@ if (@$_GET['list'] == "") {
                            } ?>">
                     <input name="offt" class="rendezvous-input-date" id="end"
                            value="<?php if (@$_GET['offt'] == "") { ?>退房日期<?php } else {
-                               echo @$_GET['ont'];
+                               echo @$_GET['offt'];
                            } ?>">
                 </div>
                 <!-- 选择日期 -->
@@ -194,7 +194,7 @@ if (@$_GET['list'] == "") {
             $sql .= " and (b.start_lock >= " . $_GET['ont'] . " or b.start_lock is null)";
         }
         if (@$_GET['offt'] != "") {
-            $sql .= " and (b.end_lock <= " . $_GET['onff'] . " or b.end_lock is null)";
+            $sql .= " and (b.end_lock <= " . $_GET['offt'] . " or b.end_lock is null)";
         }
         if (@$_GET['ren'] == 1) {
             $sql .= " order by a.ren asc";
@@ -213,7 +213,7 @@ if (@$_GET['list'] == "") {
         }
         $perNumber = 6;
         $page = @$_GET['page'];
-        $count = $pdo->query("SELECT a.* FROM pm_hotel AS a LEFT JOIN pm_room AS b ON a.id = b.id_hotel WHERE a.lang = 2 AND a.checked = 1" . @$sql . " GROUP BY id ");
+        $count = $pdo->query("SELECT a.* FROM pm_hotel AS a LEFT JOIN pm_room AS b ON a.id = b.id_hotel WHERE a.lang = 2 AND a.checked = 1" . @$sql . " GROUP BY id desc");
         //GROUP BY id 
         $totalNumber = $count->rowCount();
         $totalPage = ceil($totalNumber / $perNumber);
@@ -225,13 +225,13 @@ if (@$_GET['list'] == "") {
             <div class="midd_15">找到相关结果约<span><?php echo number_format($totalNumber) ?></span>个</div>
         <?php }
         $map = 0;
-        $rs = $pdo->query("SELECT a.* FROM pm_hotel as a LEFT JOIN pm_room as b on a.id = b.id_hotel where a.lang = 2 AND a.checked = 1 " . @$sql . " GROUP BY id  limit $startCount,$perNumber");
+        $rs = $pdo->query("SELECT a.* FROM pm_hotel as a LEFT JOIN pm_room as b on a.id = b.id_hotel where a.lang = 2 AND a.checked = 1 " . @$sql . " GROUP BY id desc limit $startCount,$perNumber");
         while ($row = $rs->fetch()) {
             if (@$_GET['list'] == 0) {
                 ?>
                 <div class="midd_18"><a href="list_x<?php echo $row['id'] ?>.html">
                         <div class="image2"><img
-                                src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id']);
+                                src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id']." order by rank desc");
                                 $row1 = $rs1->fetch();
                                 echo "/medias/hotel/medium/" . $row1['id'] . "/" . $row1['file'] ?>">
                             <div class="midd_16s">

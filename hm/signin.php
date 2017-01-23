@@ -64,6 +64,7 @@ $_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
     <div class="midd_61">
         <form action="do?id=dl" method="post" name="form" id="form">
             <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
+            <input type="hidden" name="lid" value="<?php echo @$_GET['page'] ?>">
             <div class="midd_62"><img src="images/signin_1_03.png"><span>用户登录</span></div>
             <input type="text" name="mail" data-validation-engine="validate[required],custom[email]" class="input_6"
                    placeholder="邮箱">

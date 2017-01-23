@@ -45,18 +45,18 @@ $txt = "酒店订单";
             <?php
             $perNumber = 6;
             $page = @$_GET['page'];
-            $count = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " ");
+            $count = $pdo->query("SELECT * FROM pm_gwc AS a LEFT JOIN pm_booking AS b ON a.onum = b.trans WHERE b.id IS NOT NULL AND a.uid = " . $_SESSION['userid'] . " ");
             $totalNumber = $count->rowCount();
             $totalPage = ceil($totalNumber / $perNumber);
             if (!isset($page)) {
                 $page = 1;
             }
             $startCount = ($page - 1) * $perNumber;
-            $rs = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " limit $startCount,$perNumber");
+            $rs = $pdo->query("SELECT *,a.room as aroom FROM pm_gwc AS a LEFT JOIN pm_booking AS b ON a.onum = b.trans WHERE b.id IS NOT NULL AND a.uid = " . $_SESSION['userid'] . " limit $startCount,$perNumber");
             while ($row = $rs->fetch()) {
                 $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE id = " . $row['hotels'] . " AND lang = 2");
                 $row1 = $rs1->fetch();
-                $rs2 = $pdo->query("SELECT * FROM pm_room WHERE id = " . $row['room'] . " AND lang = 2");
+                $rs2 = $pdo->query("SELECT * FROM pm_room WHERE id = " . $row['aroom'] . " AND lang = 2");
                 $row2 = $rs2->fetch();
                 ?>
                 <tr>

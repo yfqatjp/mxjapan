@@ -4,7 +4,7 @@ if (@$_SESSION['userid'] == "") {
     header("Location: /signin.html");
     exit;
 }
-$rs = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " AND onum IS NULL and tai = 0");
+$rs = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " AND onum IS NULL AND tai = 0");
 if ($rs->rowCount() == 0) {
     header("Location: /user/jddd.html");
     exit;
@@ -83,22 +83,35 @@ if ($rs->rowCount() == 0) {
     <form name="form" id="form" method="post" action="do?pay=post">
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="midd_69">
             <tr class="midd_70">
-                <td width="32%" style="padding-left:10px;">商品</td>
-                <td width="14%" align="center">成人</td>
-                <td width="14%" align="center">儿童</td>
+                <td width="20%" style="padding-left:10px;">商品</td>
+                <td width="10%" align="center">成人</td>
+                <td width="10%" align="center">儿童</td>
+                <td width="10%" align="center">入驻日</td>
+                <td width="10%" align="center">退房日</td>
                 <td width="20%" align="center">备注</td>
                 <td width="20%" align="center">小计</td>
             </tr>
             <?php
             $jia = 0;
             $id = 0;
+            $yy = 0;
             $rs = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " AND onum IS NULL");
             while ($row = $rs->fetch()) {
                 $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE id = " . $row['hotels'] . " AND lang = 2");
                 $row1 = $rs1->fetch();
                 $rs2 = $pdo->query("SELECT * FROM pm_room WHERE id = " . $row['room'] . " AND lang = 2");
                 $row2 = $rs2->fetch();
-                $jia = $jia + $row2['price']; ?>
+
+                $rs4 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row2['id'] . " ORDER BY id DESC");
+                $row4 = $rs4->fetch();
+                if ($rs4->rowCount() > 0) {
+                    $yy++;
+                }
+                $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
+                if ($day <= 0) {
+                    $day = 1;
+                }
+                $jia = $jia + $row4['price'] * $day; ?>
                 <tr>
                     <td style="padding-left:10px;"><img
                             src="<?php $rs3 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row1['id']);
@@ -107,32 +120,41 @@ if ($rs->rowCount() == 0) {
                         <p><span><?php echo $row1['title'] ?></span><br><?php echo $row2['title'] ?></p></td>
                     <td align="center"><?php echo $row['adults'] ?>人</td>
                     <td align="center"><?php echo $row['children'] ?>人</td>
+                    <td align="center"><?php echo date('Y-m-d', strtotime($row['ont'])) ?></td>
+                    <td align="center"><?php echo date('Y-m-d', strtotime($row['offt'])) ?></td>
                     <td align="center"><?php echo $row['text'] ?></td>
-                    <td align="center"><span><?php echo $row2['price'] ?>元</span></td>
+                    <td align="center"><span><?php
+                            if ($row4['price'] == 0) {
+                                echo '预约咨询';
+                            } else {
+                                echo $row4['price'] * $day . "元";
+                            } ?></span></td>
                 </tr>
                 <?php
                 $id = $row['id'];
             }
             $_SESSION['wxjia'] = $jia;
             $_SESSION['wxid'] = $id;
-            $rs = $pdo->query("SELECT * FROM pm_user WHERE id = " . $_SESSION['userid']);
-            $row = $rs->fetch(); ?>
+            $rs1 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $_SESSION['userid']);
+            $row1 = $rs1->fetch(); ?>
         </table>
         <div class="midd_68"><span>支付方式</span></div>
         <div class="midd_73">
             <div class="midd_71 active" onclick="$('.pay').html('客服致电确认预约信息').val(0);$('.zf').hide();$('.zf2').show();">
                 <h1>只预约</h1>
                 <span>客服致电确认预约信息</span></div>
-            <div class="midd_71 sehun_2"
-                 onclick="$('.pay').html('支付方式：支付宝支付').val(1);$('.zf').hide();$('.zf2').show();"><img
-                    src="images/18_07.png">
-            </div>
-            <div class="midd_71" onclick="$('.pay').html('支付方式：微信支付').val(2);$('.zf').show();$('.zf2').hide();"><img
-                    src="images/18_09.png"></div>
-            <div class="midd_71 sehun_2"
-                 onclick="$('.pay').html('支付方式：PayPal支付').val(3);$('.zf').hide();$('.zf2').show();"><img
-                    src="images/18_11.png">
-            </div>
+            <?php if ($yy == $rs->rowCount()) { ?>
+                <div class="midd_71 sehun_2"
+                     onclick="$('.pay').html('支付方式：支付宝支付').val(1);$('.zf').hide();$('.zf2').show();"><img
+                        src="images/18_07.png">
+                </div>
+                <div class="midd_71" onclick="$('.pay').html('支付方式：微信支付').val(2);$('.zf').show();$('.zf2').hide();"><img
+                        src="images/18_09.png"></div>
+                <div class="midd_71 sehun_2"
+                     onclick="$('.pay').html('支付方式：PayPal支付').val(3);$('.zf').hide();$('.zf2').show();"><img
+                        src="images/18_11.png">
+                </div>
+            <?php } ?>
             <div class="clear"></div>
         </div>
         <script type="text/javascript">
@@ -146,11 +168,13 @@ if ($rs->rowCount() == 0) {
         </script>
         <div class="midd_74">
             <ul>
-                <li>客户姓名：<?php echo $row['name'] ?></li>
-                <li>客户电话：<?php echo $row['phone'] ?></li>
+                <li>客户姓名：<?php echo $row1['name'] ?></li>
+                <li>客户电话：<?php echo $row1['phone'] ?></li>
                 <li class="pay">客服致电确认预约信息</li>
             </ul>
-            <div class="midd_75">订单金额：<span>￥<?php echo $jia ?></span></div>
+            <?php if ($yy == $rs->rowCount()) { ?>
+                <div class="midd_75">订单金额：<span>￥<?php echo $jia ?></span></div>
+            <?php } ?>
             <div class="clear"></div>
         </div>
         <input type="hidden" name="pay" class="pay" value="0">

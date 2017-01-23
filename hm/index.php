@@ -1,5 +1,6 @@
 ﻿<?php require_once 'coon.php';
 $navid = 1;
+$_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
 $rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND id = " . $navid);
 $row = $rs->fetch();
 
@@ -21,7 +22,7 @@ $row2 = $rs2->fetch();
 <body>
 <div class="sehun"></div>
 
-<?php require_once 'head.php';?>
+<?php require_once 'head.php'; ?>
 
 <aside id="fh5co-hero" class="js-fullheight yincang">
     <div class="flexslider js-fullheight">
@@ -32,9 +33,9 @@ $row2 = $rs2->fetch();
             while ($row = $rs->fetch()) {
                 ?>
                 <li><img src="<?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by id asc");
+                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id'] . " ORDER BY id ASC");
                     $row1 = $rs1->fetch();
-                    if (is_file($_SERVER['DOCUMENT_ROOT']."/images/" . $row1['file'])) {
+                    if (is_file($_SERVER['DOCUMENT_ROOT'] . "/images/" . $row1['file'])) {
                         echo "/images/" . $row1['file'];
                     } else {
                         echo "/medias/slide/big/" . $row1['id'] . "/" . $row1['file'];
@@ -58,16 +59,16 @@ $row2 = $rs2->fetch();
 
 <aside id="fh5co-hero" class="js-fullheight yin">
     <div class="flexslider js-fullheight">
-      <ul class="slides">
-        <?php
+        <ul class="slides">
+            <?php
             $rs = $pdo->query("SELECT * FROM pm_slide WHERE lang = 2");
             $i = 1;
             while ($row = $rs->fetch()) {
                 ?>
                 <li><img src="<?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by id desc");
+                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id'] . " ORDER BY id DESC");
                     $row1 = $rs1->fetch();
-                    if (is_file($_SERVER['DOCUMENT_ROOT']."/images/" . $row1['file'])) {
+                    if (is_file($_SERVER['DOCUMENT_ROOT'] . "/images/" . $row1['file'])) {
                         echo "/images/" . $row1['file'];
                     } else {
                         echo "/medias/slide/big/" . $row1['id'] . "/" . $row1['file'];
@@ -86,9 +87,9 @@ $row2 = $rs2->fetch();
                 </li>
                 <?php $i++;
             } ?>
-      </ul>
+        </ul>
     </div>
-  </aside>
+</aside>
 
 
 <div id="fh5co-services-section">
@@ -174,7 +175,8 @@ $row2 = $rs2->fetch();
                 <h2>特色民宿 ＆ 星级酒店</h2>
             </div>
         </div>
-        <form name=search_form onSubmit="return bottomForm(this);" method="post">
+        <form name="search_form" method="post" action="do?ss=list">
+            <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
             <div class="midd_2">
                 <div id="pt1" class="select">
                     <a class="midd-sj-4" id="s0">请选择地区</a>
@@ -190,9 +192,16 @@ $row2 = $rs2->fetch();
                         } ?>
                     </div>
                 </div>
+                <input name="lid" class="lid" type="hidden" value="1">
                 <div class="midd_66">
-                    <div class="rendezvous-input-date" id="start">入住日期</div>
-                    <div class="rendezvous-input-date" id="end">退房日期</div>
+                    <input name="ont" class="rendezvous-input-date" id="start"
+                           value="<?php if (@$_GET['ont'] == "") { ?>入住日期<?php } else {
+                               echo @$_GET['ont'];
+                           } ?>">
+                    <input name="offt" class="rendezvous-input-date" id="end"
+                           value="<?php if (@$_GET['offt'] == "") { ?>退房日期<?php } else {
+                               echo @$_GET['ont'];
+                           } ?>">
                 </div>
                 <!-- 选择日期 -->
                 <script src="js/jquery.min.js"></script>
@@ -255,15 +264,16 @@ $row2 = $rs2->fetch();
         </form>
         <div class="row">
             <?php
-            $rs = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND checked = 1 and home = 1 ORDER BY rank LIMIT 0,6");
+            $rs = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND checked = 1 AND home = 1 ORDER BY id DESC LIMIT 0,6");
             while ($row = $rs->fetch()) {
-
                 ?>
-                <div class="col-md-4 animate-box"><a href="list.html" class="item-grid text-center">
+                <div class="col-md-4 animate-box"><a href="list_x<?php echo $row['id'] ?>.html"
+                                                     class="item-grid text-center">
                         <div class="image" style="max-height: 240px;overflow: hidden;"><img
                                 src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id']);
                                 $row1 = $rs1->fetch();
-                                echo "/medias/hotel/medium/" . $row1['id'] . "/" . $row1['file'] ?>" style="width: 100%"></div>
+                                echo "/medias/hotel/medium/" . $row1['id'] . "/" . $row1['file'] ?>"
+                                style="width: 100%"></div>
                         <div class="v-align">
                             <div class="v-align-middle">
                                 <h3 class="title"><?php echo $row['title'] ?></h3>

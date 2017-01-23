@@ -49,19 +49,19 @@ $row2 = $rs2->fetch();
 <?php
 $perNumber = 6;
 $page = @$_GET['page'];
-$count = $pdo->query("SELECT * FROM pm_realestate WHERE lang = 2 AND checked = 1");
+$count = $pdo->query("SELECT * FROM pm_realestate WHERE lang = 2 AND checked = 1 order by id desc");
 $totalNumber = $count->rowCount();
 $totalPage = ceil($totalNumber / $perNumber);
 if (!isset($page)) {
     $page = 1;
 }
 $startCount = ($page - 1) * $perNumber;
-$rs = $pdo->query("SELECT * FROM pm_realestate where lang = 2 AND checked = 1 limit $startCount,$perNumber");
+$rs = $pdo->query("SELECT * FROM pm_realestate where lang = 2 AND checked = 1 order by id desc limit $startCount,$perNumber");
 while ($row = $rs->fetch()) {
     ?>
     <div class="midd_auto midd_fff midd_top20 midd_91"><a href="realestatexx_x<?php echo $row['id'] ?>.html">
             <div class="image"><img
-                    src="<?php $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE id_item = " . $row['id'] . " ");
+                    src="<?php $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE id_item = " . $row['id'] . " order by rank desc");
                     $row1 = $rs1->fetch();
                     echo "/medias/realestate/medium/" . $row1['id'] . "/" . $row1['file'] ?>"></div>
             <div class="midd_92">

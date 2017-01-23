@@ -5,7 +5,7 @@ if (@$_GET['ss'] == "list") {
     } else {
         $offt = $_POST['offt'];
     }
-    if ($_POST['ont'] == "退房日期") {
+    if ($_POST['ont'] == "入住日期") {
         $ont = "";
     } else {
         $ont = $_POST['ont'];
@@ -21,19 +21,24 @@ if (@$_GET['yy'] == "post") {
         exit;
     }
 
-    $rs = $pdo->query("SELECT * FROM pm_user WHERE ( name is not null or phone is not null) AND id = " . $_SESSION['userid']);
+    $rs = $pdo->query("SELECT * FROM pm_user WHERE ( name IS NOT NULL OR phone IS NOT NULL) AND id = " . $_SESSION['userid']);
     if ($rs->rowCount() == 0) {
         exit(Alert(2, "未设置姓名和电话", "/user/grxx.html"));
     }
 
     $rs = $pdo->query("DELETE FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " AND onum IS NULL");
 
-    $rs = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $_POST['room']);
+    $rs = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $_POST['hotels']);
+    if ($rs->rowCount() == 0) {
+        exit(Alert(2, "酒店未找到", "/"));
+    }
+
+    $rs = $pdo->query("SELECT * FROM pm_room WHERE lang = 2 AND id = " . $_POST['room']);
     if ($rs->rowCount() == 0) {
         exit(Alert(2, "房间未找到", "/"));
     }
 
-    $rs = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " and onum is null AND room = " . $_POST['room']);
+    $rs = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " AND onum IS NULL AND room = " . $_POST['room']);
     if ($rs->rowCount() == 0) {
         $rs = $pdo->exec("INSERT INTO pm_gwc (`room`,`hotels`,`text`,`uid`,`userip`,`ont`,`offt`,`adults`,`children`,dtime) VALUES ('" . $_POST['room'] . "','" . $_POST['hotels'] . "','" . $_POST['text'] . "','" . $_SESSION['userid'] . "','" . $userip . "','" . $_POST['ont'] . "','" . $_POST['offt'] . "','" . $_POST['yuy'] . "','" . $_POST['yuy2'] . "',now())");
     }
@@ -48,14 +53,32 @@ if (@$_GET['pay'] == "post") {
     }
     $o = date('Ymdhis', time()) . rand(1000, 9999);
     $rs = $pdo->exec("UPDATE pm_gwc SET onum = '" . $o . "' WHERE id = " . $_POST['lid']);
+    $rs = $pdo->query("SELECT * FROM pm_gwc WHERE onum LIKE '" . $o . "'");
+    $row = $rs->fetch();
+
+    $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $row['hotels']);
+    $row1 = $rs1->fetch();
+
+    $rs4 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row['room'] . " ORDER BY id DESC");
+    $row4 = $rs4->fetch();
+
+    $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
+    if ($day <= 0) {
+        $day = 1;
+    }
+
+    $rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $_SESSION['userid']);
+    $row5 = $rs5->fetch();
+
     if ($_POST['pay'] == 0) {
+        $rs = $pdo->exec("INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $row4['price'] * $day . "','" . $row5['phone'] . "','只预约',1,'中国','" . $o . "' FROM pm_gwc WHERE onum LIKE '" . $o . "'");
         $rs = $pdo->exec("UPDATE pm_gwc SET pay = 0,tai = 2,yytime = now() WHERE onum = '" . $o . "'");
         exit(Alert(2, "预约成功,请等待客服致电确认预约信息", "/user/jddd.html"));
-    } elseif ($_POST['pay'] == 1) {
+    } elseif ($_POST['pay'] == 1 && $rs4->rowCount() > 0) {
         header("Location: /pay/create_direct_pay/alipayapi.php?o=" . $o);
-    } elseif ($_POST['pay'] == 2) {
+    } elseif ($_POST['pay'] == 2 && $rs4->rowCount() > 0) {
         header("Location: /pay/WxpayAPI_php_v3/example/native.php");
-    } elseif ($_POST['pay'] == 3) {
+    } elseif ($_POST['pay'] == 3 && $rs4->rowCount() > 0) {
         header("Location: /pay/paypal/alipayto.php?o=" . $o);
     }
     exit;
@@ -152,7 +175,11 @@ if (@$_GET['id'] == 'dl') {
     } else {
         $_SESSION['username'] = $row['xname'];
     }
-    exit(alert(2, "登录成功", "/user/"));
+    if (@$_POST['lid'] == "") {
+        exit(alert(2, "登录成功", "/user/"));
+    } else {
+        exit(alert(2, "登录成功", "/list_x" . $_POST['lid'] . ".html#pl"));
+    }
 
 }
 

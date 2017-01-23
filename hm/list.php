@@ -19,7 +19,7 @@ $row2 = $rs2->fetch();
 <head>
     <?php require_once 'top.php'; ?>
     <script type="text/javascript"
-            src="http://www.google.cn/maps/api/js?key=AIzaSyDTRl1x8xftFpAmxhl76bzStKmA8aNGCYY&sensor=false"></script>
+            src="http://www.google.cn/maps/api/js?key=<?php echo constant("GMAPS_API_KEY") ?>&sensor=false"></script>
     <!-- 评价 -->
     <script type="text/javascript">
         function rate(obj, oEvent) {
@@ -93,7 +93,7 @@ $row = $rs->fetch(); ?>
             <div class="left midd_52">
                 <div id="originalpic">
                     <?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ");
+                    $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank DESC");
                     $i = 1;
                     while ($row1 = $rs1->fetch()) {
                         ?>
@@ -113,12 +113,18 @@ $row = $rs->fetch(); ?>
                     <div id="piclist">
                         <ul>
                             <?php
-                            $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ");
+                            $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank DESC");
                             $i = 1;
                             while ($row1 = $rs1->fetch()) {
                                 ?>
-                                <li<?php if ($i == 1){ $img = "/medias/hotel/medium/".$row1['id']."/".$row1['file'];?> class="hover"<?php } ?>"><a href="javascript:;"><img src="/medias/hotel/medium/<?php echo $row1['id']?>/<?php echo $row1['file']?>" width="120" height="86"></a></li>
-                                <?php } ?>
+                                <li<?php if ($i == 1) {
+                                    $img = "/medias/hotel/medium/" . $row1['id'] . "/" . $row1['file']; ?> class="hover"<?php } ?>>
+                                    <a href="javascript:;"><img
+                                            src="/medias/hotel/medium/<?php echo $row1['id'] ?>/<?php echo $row1['file'] ?>"
+                                            width="120" height="86"></a></li>
+                                <?php
+                                $i++;
+                            } ?>
                         </ul>
                     </div>
                     <a href="javascript:;" class="bntnext"></a></div>
@@ -153,7 +159,7 @@ $row = $rs->fetch(); ?>
                         $rs1 = $pdo->query("SELECT * FROM pm_facility_file WHERE id_item = " . $icon[$i]);
                         $row1 = $rs1->fetch();
                         ?><img
-                        src="/medias/facility/big/<?php echo $row1['rank'] ?>/<?php echo $row1['file'] ?>"
+                        src="/medias/facility/big/<?php echo $row1['id'] ?>/<?php echo $row1['file'] ?>"
                         style="margin-bottom: 5px;margin-right: 5px;"><?php } ?></div>
             </div>
             <div class="clear"></div>
@@ -179,8 +185,13 @@ $row = $rs->fetch(); ?>
                             <div class="midd_36">最大人数：大人*<?php echo $row2['max_adults'] ?>
                                 、小孩*<?php echo $row2['max_children'] ?></div>
                         </div>
-                        <div class="midd_37"><span>￥</span><span class="midd_38"><?php echo $row2['price'] ?></span> /
-                            每晚
+                        <div class="midd_37"><span class="midd_38"><?php $rs3 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row2['id'] . " ORDER BY id DESC");
+                                if ($rs3->rowCount() > 0) {
+                                    $row3 = $rs3->fetch();
+                                    echo "￥".$row3['price']."</span>/每晚";
+                                }else{
+                                    echo '预约咨询</span>';
+                                } ?>
                         </div>
                     </a>
                     <div class="midd_39"
@@ -279,10 +290,10 @@ $row = $rs->fetch(); ?>
                     });
 
                     function yd(a, b, c) {
-                        for (i = 1; i < b; i++) {
+                        for (i = 1; i <= b; i++) {
                             document.form.yuy.options[document.form.yuy.length] = new Option(i + '人', i);
                         }
-                        for (i = 1; i < c; i++) {
+                        for (i = 1; i <= c; i++) {
                             document.form.yuy2.options[document.form.yuy2.length] = new Option(i + '人', i);
                         }
                         $(".room").val(a);
@@ -325,13 +336,13 @@ $row = $rs->fetch(); ?>
                 $page = 1;
             }
             $startCount = ($page - 1) * $perNumber;
-            $rs1 = $pdo->query("SELECT * FROM pm_hotel_pl WHERE id_item = " . $row['id'] . " limit $startCount,$perNumber");
+            $rs1 = $pdo->query("SELECT * FROM pm_hotel_pl WHERE id_item = " . $row['id'] . " order by id desc limit $startCount,$perNumber");
             while ($row1 = $rs1->fetch()) {
                 $rs2 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row1['uid'] . " ");
                 $row2 = $rs2->fetch();
                 ?>
                 <div class="midd_41">
-                    <div class="midd_42"><img src="<?php echo $row2['ico'] ?>"><span><?php
+                    <div class="midd_42"><img src="<?php echo $row2['ico'] ?>" onerror="this.src='/images/default.jpg'"><span><?php
                             if ($row2['xname'] == "") {
                                 echo $row2['name'];
                             } else {
@@ -406,7 +417,8 @@ $row = $rs->fetch(); ?>
                     <input type="hidden" class="plid" name="xx" value="5">
                     <div class="right">
                         <?php if (@$_SESSION['userid'] == "") { ?>
-                            <a class="midd_39s" style="margin-top:0;">登录</a>
+                            <a class="midd_39s" style="margin-top:0;"
+                               href="/signin_<?php echo @$_GET['id'] ?>.html">登录</a>
                         <?php } else { ?>
                             <input type="submit" name="button" class="midd_39s" style="margin-top:0;" value="确认评价">
                         <?php } ?>
@@ -419,7 +431,7 @@ $row = $rs->fetch(); ?>
         <div class="midd_27">
             <div class="midd_46">推荐民宿</div>
             <?php
-            $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND checked = 1 ORDER BY rand()");
+            $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND checked = 1 ORDER BY rand() LIMIT 0,4");
             $i = 0;
             while ($row1 = $rs1->fetch()) {
                 ?>
