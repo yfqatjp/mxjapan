@@ -75,7 +75,6 @@ $txt = "密码修改";
 
 <div class="midd_top20"></div>
 <?php require_once '../foot.php'; ?>
-<!-- jQuery -->
 
 <!-- jQuery Easing -->
 <script src="../js/jquery.easing.1.3.js"></script>

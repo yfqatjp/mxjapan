@@ -3,7 +3,6 @@ if (@$_SESSION['userid'] == "") {
     header("Location: /signin.html");
     exit;
 }
-$_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
 $txt = "酒店订单";
 ?><!DOCTYPE html>
 <!--[if lt IE 7]>
@@ -124,7 +123,6 @@ $txt = "酒店订单";
 
 <div class="midd_top20"></div>
 <?php require_once '../foot.php'; ?>
-<!-- jQuery -->
 
 <!-- jQuery Easing -->
 <script src="../js/jquery.easing.1.3.js"></script>

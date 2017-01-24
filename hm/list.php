@@ -61,6 +61,21 @@ $row2 = $rs2->fetch();
             }
         }
     </script>
+    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/js/validationEngine.jquery.css"/>
+    <script type="text/javascript" src="/js/jquery.validationEngine-zh_CN.js"></script>
+    <script type="text/javascript" src="/js/jquery.validationEngine.js"></script>
+    <script>
+        $(function () {
+            if ($('#form').size() > 0) {
+                jQuery('#form').validationEngine({
+                    showOneMessage: true,
+                    addPromptClass: "formError-white",
+                    promptPosition: 'topLeft'
+                })
+            }
+        })
+    </script>
 </head>
 <body>
 <div class="sehun"></div>
@@ -185,11 +200,12 @@ $row = $rs->fetch(); ?>
                             <div class="midd_36">最大人数：大人*<?php echo $row2['max_adults'] ?>
                                 、小孩*<?php echo $row2['max_children'] ?></div>
                         </div>
-                        <div class="midd_37"><span class="midd_38"><?php $rs3 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row2['id'] . " ORDER BY id DESC");
+                        <div class="midd_37"><span
+                                class="midd_38"><?php $rs3 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row2['id'] . " ORDER BY id DESC");
                                 if ($rs3->rowCount() > 0) {
                                     $row3 = $rs3->fetch();
-                                    echo "￥".$row3['price']."</span>/每晚";
-                                }else{
+                                    echo "￥" . $row3['price'] . "</span>/每晚";
+                                } else {
                                     echo '预约咨询</span>';
                                 } ?>
                         </div>
@@ -209,13 +225,15 @@ $row = $rs->fetch(); ?>
                     <div class="midd_58">在线预约</div>
                     <div class="midd_59"><span>入住日期：</span>
                         <div class="midd_60">
-                            <input name="ont" class="rendezvous-input-date" id="start">
+                            <input name="ont" class="rendezvous-input-date" data-validation-engine="validate[required]"
+                                   id="start">
                         </div>
                         <div class="clear"></div>
                     </div>
                     <div class="midd_59"><span>退房日期：</span>
                         <div class="midd_60">
-                            <input name="offt" class="rendezvous-input-date" id="end">
+                            <input name="offt" class="rendezvous-input-date" data-validation-engine="validate[required]"
+                                   id="end">
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -236,7 +254,6 @@ $row = $rs->fetch(); ?>
                     <input type="submit" name="button" class="input_5" value="立即预约">
                 </form>
                 <!-- 选择日期 -->
-                <script src="js/jquery.min.js"></script>
                 <script type="text/javascript" src="js/laydate.js"></script>
                 <script type="text/javascript">
                     !function () {

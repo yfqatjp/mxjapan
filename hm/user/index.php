@@ -22,11 +22,11 @@ $txt = "用户中心";
 <?php require_once '../head.php';
 ?>
 
-<div class="midd_26"><img src="../images/11_03.png"><a href="/index.html">首页</a> > <a href="user.html">个人中心</a></div>
+<div class="midd_26"><img src="../images/11_03.png"><a href="/index.html">首页</a> > <a href="index.html">个人中心</a></div>
 
 <div class="midd_auto user">
     <!-- 左侧导航 -->
-    <?php require_once 'left.php';?>
+    <?php require_once 'left.php'; ?>
     <!-- 右侧 -->
     <div class="user_4">
         <div class="user_5">
@@ -38,45 +38,36 @@ $txt = "用户中心";
         </div>
         <div class="midd_107 midd_top20">
             <div class="left">内部信息库</div>
-            <div class="right"><a href="3-1nbxxk.html">查看更多>></a></div>
+            <div class="right"><a href="nbxxk.html">查看更多>></a></div>
         </div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
-                <div class="clear"></div>
-            </a></div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
-                <div class="clear"></div>
-            </a></div>
-        <div class="user_10"><a href="3-1nbxxkxx.html">
-                <div class="left"><img src="../images/user_20.jpg"></div>
-                <div class="user_11">
-                    <h2>一路向北 “十面霾伏”的城市都是一个样</h2>
-                    <h3>
-                        面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。面对今年冬天以来最为严重的区域性重污染天气，北京、天津、河北等地的数十个城市拉响了“警报”，142万平方公里国土遭“十面霾伏”。</h3>
-                    <span>类别：旅游&nbsp; |&nbsp; 发布日期：2016-02-03</span>
-                </div>
-                <div class="clear"></div>
-            </a></div>
+        <?php $rs = $pdo->query("SELECT * FROM pm_notice WHERE lang = 2 AND checked = 1 ORDER BY id DESC LIMIT 0,6");
+        while ($row = $rs->fetch()) {
+            ?>
+            <div class="user_10"><a href="nbxxkxx_x<?php echo $row['id']?>.html">
+                    <div class="left" style="width: 25%; height: 100px;overflow: hidden;"><img
+                            src="<?php $rs1 = $pdo->query("SELECT * FROM pm_notice_file WHERE id_item = " . $row['id'] . " ORDER BY rank DESC");
+                            $row1 = $rs1->fetch();
+                            echo "/medias/notice/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="100%"></div>
+                    <div class="user_11" style="width: 72%;margin-left:3%">
+                        <h2><?php echo $row['title'] ?></h2>
+                        <h3>
+                            <?php echo strtrunc(strip_tags($row['text']),370); ?></h3>
+                        <span>类别：<?php
+                            $rs1 = $pdo->query("SELECT * FROM pm_category WHERE id = " . $row['category']);
+                            $row1 = $rs1->fetch();
+                            echo $row1['category'];
+                            ?>&nbsp; |&nbsp; 发布日期：<?php echo date("Y-m-d",$row['add_date']);?></span>
+                    </div>
+                    <div class="clear"></div>
+                </a></div>
+
+        <?php } ?>
     </div>
     <div class="clear"></div>
 </div>
 
 <div class="midd_top20"></div>
 <?php require_once '../foot.php'; ?>
-<!-- jQuery -->
 
 <!-- jQuery Easing -->
 <script src="../js/jquery.easing.1.3.js"></script>

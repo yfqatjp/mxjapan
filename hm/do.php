@@ -10,9 +10,28 @@ if (@$_GET['ss'] == "list") {
     } else {
         $ont = $_POST['ont'];
     }
-    header("Location: /list2_1_0_0_0_1_" . urlencode($_POST['text']) . "_" . ($_POST['lid'] - 1) . "_" . $ont . "_" . $offt . ".html#fh5co-work-section");
+    if ($_POST['page'] == "") {
+        $page = 1;
+    } else {
+        $page = $_POST['page'];
+    }
+    header("Location: /list2_" . $page . "_0_0_0_1_" . urlencode($_POST['text']) . "_" . ($_POST['lid'] - 1) . "_" . $ont . "_" . $offt . ".html#fh5co-work-section");
     //echo ("Location: /list2_1_0_0_0_1_".urlencode($_POST['text'])."_".($_POST['lid']-1)."_".$_POST['ont']."_".$_POST['offt'].".html#fh5co-work-section");
     exit;
+}
+
+if (@$_GET['gg'] == "post") {
+    if (@$_SESSION['userid'] == "") {
+        header("Location: /signin.html");
+        exit;
+    }
+    if ($_POST['page'] == "") {
+        $page = 1;
+    } else {
+        $page = $_POST['page'];
+    }
+
+    header("Location: /user/nbxxk_" . $page . "_" . $_POST['lid'] . "_" . urlencode($_POST['text']) . ".html");
 }
 
 if (@$_GET['yy'] == "post") {

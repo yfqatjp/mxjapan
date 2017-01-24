@@ -16,7 +16,6 @@ $txt = "头像设置";
 <!--<![endif]-->
 <head>
     <?php require_once 'top.php'; ?>
-    <script src="/js/jquery.js"></script>
     <script>
         $(function () {
             if ($('#form').length > 0) {
@@ -120,7 +119,6 @@ $txt = "头像设置";
 
 <div class="midd_top20"></div>
 <?php require_once '../foot.php'; ?>
-<!-- jQuery -->
 
 <!-- jQuery Easing -->
 <script src="../js/jquery.easing.1.3.js"></script>
