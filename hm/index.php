@@ -269,11 +269,11 @@ $row2 = $rs2->fetch();
                 ?>
                 <div class="col-md-4 animate-box"><a href="list_x<?php echo $row['id'] ?>.html"
                                                      class="item-grid text-center">
-                        <div class="image" style="max-height: 240px;overflow: hidden;"><img
+                        <div class="image" style="height: 240px;overflow: hidden;"><img
                                 src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id']);
                                 $row1 = $rs1->fetch();
                                 echo "/medias/hotel/medium/" . $row1['id'] . "/" . $row1['file'] ?>"
-                                style="width: 100%"></div>
+                                style="height:240px;"></div>
                         <div class="v-align">
                             <div class="v-align-middle">
                                 <h3 class="title"><?php echo $row['title'] ?></h3>

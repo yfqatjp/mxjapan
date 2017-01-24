@@ -15,7 +15,7 @@ if (@$_GET['ss'] == "list") {
     } else {
         $page = $_POST['page'];
     }
-    header("Location: /list2_" . $page . "_0_0_0_1_" . urlencode($_POST['text']) . "_" . ($_POST['lid'] - 1) . "_" . $ont . "_" . $offt . ".html#fh5co-work-section");
+    header("Location: /list2_" . $page . "_0_0_0_0_" . urlencode($_POST['text']) . "_" . ($_POST['lid'] - 1) . "_" . $ont . "_" . $offt . ".html#fh5co-work-section");
     //echo ("Location: /list2_1_0_0_0_1_".urlencode($_POST['text'])."_".($_POST['lid']-1)."_".$_POST['ont']."_".$_POST['offt'].".html#fh5co-work-section");
     exit;
 }
@@ -33,6 +33,39 @@ if (@$_GET['gg'] == "post") {
 
     header("Location: /user/nbxxk_" . $page . "_" . $_POST['lid'] . "_" . urlencode($_POST['text']) . ".html");
 }
+
+
+$sta = 0;
+
+if (@$_SESSION['time']) {
+    if (time() - $_SESSION['time'] < 60) {
+        if ($_SESSION['sub_num'] <= 3) {
+            $sta = 1;
+        }
+    } else {
+        $_SESSION['time'] = time();
+        $_SESSION['sub_num'] = 0;
+        $sta = 1;
+    }
+} else {
+    $_SESSION['time'] = time();
+    $_SESSION['sub_num'] = 0;
+    $sta = 1;
+}
+
+if ($sta) {
+    $_SESSION['sub_num'] = $_SESSION['sub_num'] + 1;
+} else {
+    //exit(Alert(3,"每分钟只能提交六次",""));
+}
+
+if (@$_POST['formcode'] == "") {
+    exit(header("Location: /"));
+}
+if ($_POST['formcode'] != $_SESSION['formcode']) {
+    exit(Alert(2, "表单认证失败", "/"));
+}
+$_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
 
 if (@$_GET['yy'] == "post") {
     if (@$_SESSION['userid'] == "") {
@@ -61,7 +94,8 @@ if (@$_GET['yy'] == "post") {
     if ($rs->rowCount() == 0) {
         $rs = $pdo->exec("INSERT INTO pm_gwc (`room`,`hotels`,`text`,`uid`,`userip`,`ont`,`offt`,`adults`,`children`,dtime) VALUES ('" . $_POST['room'] . "','" . $_POST['hotels'] . "','" . $_POST['text'] . "','" . $_SESSION['userid'] . "','" . $userip . "','" . $_POST['ont'] . "','" . $_POST['offt'] . "','" . $_POST['yuy'] . "','" . $_POST['yuy2'] . "',now())");
     }
-    header("Location: /payment.html");
+    echo "<script>parent.window.location.href='/payment.html'</script>";
+    //header("Location: /payment.html");
     exit;
 }
 
@@ -103,37 +137,6 @@ if (@$_GET['pay'] == "post") {
     exit;
 }
 
-$sta = 0;
-
-if (@$_SESSION['time']) {
-    if (time() - $_SESSION['time'] < 60) {
-        if ($_SESSION['sub_num'] <= 3) {
-            $sta = 1;
-        }
-    } else {
-        $_SESSION['time'] = time();
-        $_SESSION['sub_num'] = 0;
-        $sta = 1;
-    }
-} else {
-    $_SESSION['time'] = time();
-    $_SESSION['sub_num'] = 0;
-    $sta = 1;
-}
-
-if ($sta) {
-    $_SESSION['sub_num'] = $_SESSION['sub_num'] + 1;
-} else {
-    //exit(Alert(3,"每分钟只能提交六次",""));
-}
-
-if (@$_POST['formcode'] == "") {
-    exit(header("Location: /"));
-}
-if ($_POST['formcode'] != $_SESSION['formcode']) {
-    exit(Alert(2, "表单认证失败", "/"));
-}
-$_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
 if (@$_GET['id'] == 'reg') {
 
     $rs = $pdo->query("SELECT * FROM pm_user WHERE email LIKE '" . $_POST['mail'] . "'");

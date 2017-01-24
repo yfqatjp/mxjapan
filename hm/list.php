@@ -211,119 +211,22 @@ $row = $rs->fetch(); ?>
                         </div>
                     </a>
                     <div class="midd_39"
-                         onclick="yd(<?php echo $row2['id'] ?>,<?php echo $row2['max_adults'] ?>,<?php echo $row2['max_children'] ?>)">
+                         onclick="yd(<?php echo $row2['id'] ?>,<?php echo $row2['max_adults'] ?>,<?php echo $row2['max_children'] ?>,'<?php echo $row2['start_lock'] ?>','<?php echo $row2['end_lock'] ?>',<?php echo $_GET['id'] ?>)">
                         预定
                     </div>
                     <div class="clear"></div>
                 </div>
             <?php } ?>
+            <script type="text/javascript">
+                function yd(a, b, c, d, e,f) {
+                    $('#g_iframe').attr('src','/room_'+a+'_'+b+'_'+c+'_'+d+'_'+e+'_'+f+'.html');
+                    $(".tanchuang,.tanchuang1").slideToggle();
+                }
+                ;
+            </script>
             <div class="tanchuang">
-                <form name="form" id="form" method="post" action="do?yy=post">
-                    <input name="room" class="room" type="hidden">
-                    <input name="hotels" value="<?php echo $_GET['id'] ?>" type="hidden">
-                    <div class="midd_57"><img src="images/14_03.png"></div>
-                    <div class="midd_58">在线预约</div>
-                    <div class="midd_59"><span>入住日期：</span>
-                        <div class="midd_60">
-                            <input name="ont" class="rendezvous-input-date" data-validation-engine="validate[required]"
-                                   id="start">
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="midd_59"><span>退房日期：</span>
-                        <div class="midd_60">
-                            <input name="offt" class="rendezvous-input-date" data-validation-engine="validate[required]"
-                                   id="end">
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="midd_59"><span>成人：</span>
-                        <select name="yuy" id="yuy" class="input_3 adults">
-                        </select>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="midd_59"><span>儿童（0-5岁）：</span>
-                        <select name="yuy2" id="yuy2" class="input_3 children">
-                        </select>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="midd_59"><span>备注：</span>
-                        <textarea name="text" class="input_4"></textarea>
-                        <div class="clear"></div>
-                    </div>
-                    <input type="submit" name="button" class="input_5" value="立即预约">
-                </form>
-                <!-- 选择日期 -->
-                <script type="text/javascript" src="js/laydate.js"></script>
-                <script type="text/javascript">
-                    !function () {
-                        laydate.skin('dahong');//切换皮肤，请查看skins下面皮肤库
-                        laydate({elem: '#demo'});//绑定元素
-                    }();
-
-                    //日期范围限制
-                    var start = {
-                        elem: '#start',
-                        format: 'YYYY-MM-DD',
-                        min: laydate.now(), //设定最小日期为当前日期
-                        max: '2099-06-16', //最大日期
-                        istime: true,
-                        istoday: false,
-                        choose: function (datas) {
-                            end.min = datas; //开始日选好后，重置结束日的最小日期
-                            end.start = datas //将结束日的初始值设定为开始日
-                        }
-                    };
-
-                    var end = {
-                        elem: '#end',
-                        format: 'YYYY-MM-DD',
-                        min: laydate.now(),
-                        max: '2099-06-16',
-                        istime: true,
-                        istoday: false,
-                        choose: function (datas) {
-                            start.max = datas; //结束日选好后，充值开始日的最大日期
-                        }
-                    };
-                    laydate(start);
-                    laydate(end);
-
-                    //自定义日期格式
-                    laydate({
-                        elem: '#test1',
-                        format: 'YYYY年MM月DD日',
-                        festival: true, //显示节日
-                        choose: function (datas) { //选择日期完毕的回调
-                            alert('得到：' + datas);
-                        }
-                    });
-
-                    //日期范围限定在昨天到明天
-                    laydate({
-                        elem: '#hello3',
-                        min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
-                        max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
-                    });
-
-                    function yd(a, b, c) {
-                        for (i = 1; i <= b; i++) {
-                            document.form.yuy.options[document.form.yuy.length] = new Option(i + '人', i);
-                        }
-                        for (i = 1; i <= c; i++) {
-                            document.form.yuy2.options[document.form.yuy2.length] = new Option(i + '人', i);
-                        }
-                        $(".room").val(a);
-                        $(".tanchuang,.tanchuang1").slideToggle();
-                    }
-                    ;
-
-                    $(function () {
-                        $(".midd_57").click(function () {
-                            $(".tanchuang,.tanchuang1").slideToggle();
-                        });
-                    });
-                </script>
+                <iframe name="contentFrame" id="g_iframe" class="g-iframe" scrolling="auto" frameborder="0"
+                        src="about:blank" style=" height: 100%;min-width: 100%"></iframe>
             </div>
             <div class="tanchuang1"></div>
 

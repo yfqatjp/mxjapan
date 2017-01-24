@@ -81,6 +81,7 @@ if ($rs->rowCount() == 0) {
 <div class="midd_67">
     <div class="midd_68"><span>预定信息</span></div>
     <form name="form" id="form" method="post" action="do?pay=post">
+        <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="midd_69">
             <tr class="midd_70">
                 <td width="20%" style="padding-left:10px;">商品</td>
