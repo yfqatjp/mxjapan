@@ -72,7 +72,7 @@ $row = $rs->fetch(); ?>
                             $i = 1;
                             while ($row1 = $rs1->fetch()) {
                                 ?>
-                                <li<?php if ($i == 1){ ?> class="hover"<?php } ?>"><a href="javascript:;"><img
+                                <li<?php if ($i == 1){ ?> class="hover"<?php } ?>><a href="javascript:;"><img
                                             src="<?php echo "/medias/hospital/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="120" height="86"></a></li>
                                 <?php
                                 $i++;
