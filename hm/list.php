@@ -108,7 +108,7 @@ $row = $rs->fetch(); ?>
             <div class="left midd_52">
                 <div id="originalpic">
                     <?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank DESC");
+                    $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank aSC");
                     $i = 1;
                     while ($row1 = $rs1->fetch()) {
                         ?>
@@ -128,7 +128,7 @@ $row = $rs->fetch(); ?>
                     <div id="piclist">
                         <ul>
                             <?php
-                            $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank DESC");
+                            $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank aSC");
                             $i = 1;
                             while ($row1 = $rs1->fetch()) {
                                 ?>
@@ -175,7 +175,12 @@ $row = $rs->fetch(); ?>
                         $row1 = $rs1->fetch();
                         ?><img
                         src="/medias/facility/big/<?php echo $row1['id'] ?>/<?php echo $row1['file'] ?>"
-                        style="margin-bottom: 5px;margin-right: 5px;"><?php } ?></div>
+                        style="margin-bottom: 5px;margin-right: 5px;" title="<?php
+                        $rs2 = $pdo->query("SELECT * FROM pm_facility WHERE id = " . $icon[$i]);
+                        if ($rs2->rowCount() > 0) {
+                            $row2 = $rs2->fetch();
+                            echo $row2['name'];
+                        } ?>"><?php } ?></div>
             </div>
             <div class="clear"></div>
         </div>
@@ -218,8 +223,8 @@ $row = $rs->fetch(); ?>
                 </div>
             <?php } ?>
             <script type="text/javascript">
-                function yd(a, b, c, d, e,f) {
-                    $('#g_iframe').attr('src','/room_'+a+'_'+b+'_'+c+'_'+d+'_'+e+'_'+f+'.html');
+                function yd(a, b, c, d, e, f) {
+                    $('#g_iframe').attr('src', '/room_' + a + '_' + b + '_' + c + '_' + d + '_' + e + '_' + f + '.html');
                     $(".tanchuang,.tanchuang1").slideToggle();
                 }
                 ;

@@ -48,7 +48,7 @@ $row = $rs->fetch(); ?>
             <div class="left midd_52">
                 <div id="originalpic">
                     <?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank desc");
+                    $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank asc");
                     $i = 1;
                     while ($row1 = $rs1->fetch()) {
                         ?>
@@ -68,7 +68,7 @@ $row = $rs->fetch(); ?>
                     <div id="piclist">
                         <ul>
                             <?php
-                            $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank desc");
+                            $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank asc");
                             $i = 1;
                             while ($row1 = $rs1->fetch()) {
                                 ?>

@@ -58,7 +58,7 @@ $row = $rs->fetch();
         <div class="flexslider131">
             <ul class="slides">
                 <?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_notice_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank DESC");
+                    $rs1 = $pdo->query("SELECT * FROM pm_notice_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank aSC");
                     $i = 1;
                     while ($row1 = $rs1->fetch()) {
                         ?>
