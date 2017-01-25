@@ -64,12 +64,15 @@ $txt = "酒店订单";
                             $row3 = $rs3->fetch();
                             echo "/medias/hotel/medium/" . $row3['id'] . "/" . $row3['file'] ?>" width="80" height="67">
                         <h2><?php echo $row1['title'] ?></h2><br>
-                        <h3><?php echo $row2['title'] ?><br/>备注：<?php echo $row['text'] ?></h3></td>
+                        <h3><?php echo $row2['title'] ?><br/>入住日：<?php echo date('Y-m-d', $row['from_date']) ?>
+                            <br/>退房日：<?php echo date('Y-m-d', $row['to_date']) ?><br/>备注：<?php echo $row['text'] ?></h3>
+                    </td>
                     <td align="center" class="user_15"><?php echo $row2['price'] ?>元</td>
                     <td align="center"><?php echo $row['dtime'] ?></td>
-                    <td align="center"<?php if ($row['tai'] == 0){ ?> class="user_15">
-                        等待付款<?php } else if ($row['tai'] == 1) { ?>>预约确认<?php } else if ($row['tai'] == 2) { ?>>预约等待中<?php } else if ($row['tai'] == 3) { ?>>已付款<?php } else if ($row['tai'] == 5) { ?>>已完成<?php } ?></td>
-                    <td align="center"><?php if ($row['tai'] == 0) { ?><a href="/payment.html">立即付款</a><?php } ?></td>
+                    <td align="center"<?php if ($row['status'] == 0){ ?> class="user_15">
+                        等待付款<?php } else if ($row['status'] == 2) { ?>>取消<?php } else if ($row['status'] == 1) { ?>>预约等待中<?php } else if ($row['status'] == 4) { ?>>已付款<?php } else if ($row['status'] == 3) { ?>>拒绝付款<?php } else if ($row['status'] == 5) { ?>>确认预约<?php } ?></td>
+                    <td align="center"><?php if ($row['status'] == 0) { ?><a href="/payment.html">立即付款</a><?php } ?>
+                    </td>
                 </tr>
             <?php } ?>
         </table>
@@ -137,7 +140,6 @@ $txt = "酒店订单";
 
 <!-- MAIN JS -->
 <script src="../js/main.js"></script>
-
 
 <!-- 导航 -->
 <script>
