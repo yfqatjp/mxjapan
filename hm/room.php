@@ -67,7 +67,7 @@ if (@$_GET['d'] != "" && @$_GET['e'] != "") {
 
     $dis .= getDateFromRange($_GET['d'], $_GET['e']);
 }
-$rs = $pdo->query("SELECT *,a.room AS aroom FROM pm_gwc AS a LEFT JOIN pm_booking AS b ON a.onum = b.trans WHERE b.id IS NOT NULL AND (b.status = 4 OR b.status = 5) ");
+$rs = $pdo->query("SELECT *,a.room AS aroom FROM pm_gwc AS a LEFT JOIN pm_booking AS b ON a.onum = b.trans WHERE b.id IS NOT NULL AND (b.`status` = 4 OR b.`status` = 5) ");
 while ($row = $rs->fetch()) {
     if ($dis != "") {
         $dis .= ",";
