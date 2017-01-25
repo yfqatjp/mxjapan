@@ -47,24 +47,24 @@ $row2 = $rs2->fetch();
 <body>
 <?php
 $dis = "";
-if (@$_GET['d'] != "" && @$_GET['e'] != "") {
-    function getDateFromRange($startdate, $enddate)
-    {
 
-        $stimestamp = $startdate;
-        $etimestamp = $enddate;
+function getDateFromRange($startdate, $enddate)
+{
 
-        $days = ($etimestamp - $stimestamp) / 86400 + 1;
+    $stimestamp = $startdate;
+    $etimestamp = $enddate;
 
-        $date = "[" . date('m,d,Y', $stimestamp + (86400 * 0)) . "]";
-        for ($i = 1; $i < $days; $i++) {
-            $date .= ",[" . date('m,d,Y', $stimestamp + (86400 * $i)) . "]";
-        }
+    $days = ($etimestamp - $stimestamp) / 86400 + 1;
 
-        return $date;
+    $date = "[" . date('m,d,Y', $stimestamp) . "]";
+    for ($i = 1; $i < $days; $i++) {
+        $date .= ",[" . date('m,d,Y', $stimestamp + (86400 * $i)) . "]";
     }
 
+    return $date;
+}
 
+if (@$_GET['d'] != "" && @$_GET['e'] != "") {
     $dis .= getDateFromRange($_GET['d'], $_GET['e']);
 }
 $rs = $pdo->query("SELECT *,a.room AS aroom FROM pm_gwc AS a LEFT JOIN pm_booking AS b ON a.onum = b.trans WHERE b.id IS NOT NULL AND (b.`status` = 4 OR b.`status` = 5) ");
