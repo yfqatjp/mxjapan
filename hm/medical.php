@@ -60,7 +60,7 @@ while ($row = $rs->fetch()) {
     ?>
     <div class="midd_auto midd_fff midd_top20 midd_91"><a href="medicalxx_x<?= $row['id'] ?>.html">
             <div class="image"><img
-                    src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE id_item = " . $row['id'] . " order by rank desc");
+                    src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE id_item = " . $row['id'] . " order by rank asc");
                     $row1 = $rs1->fetch();
                     echo "/medias/hospital/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="100%"></div>
             <div class="midd_92">

@@ -61,7 +61,7 @@ while ($row = $rs->fetch()) {
     ?>
     <div class="midd_auto midd_fff midd_top20 midd_91"><a href="realestatexx_x<?php echo $row['id'] ?>.html">
             <div class="image"><img
-                    src="<?php $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE id_item = " . $row['id'] . " order by rank desc");
+                    src="<?php $rs1 = $pdo->query("SELECT * FROM pm_realestate_file WHERE id_item = " . $row['id'] . " order by rank asc");
                     $row1 = $rs1->fetch();
                     echo "/medias/realestate/medium/" . $row1['id'] . "/" . $row1['file'] ?>"></div>
             <div class="midd_92">

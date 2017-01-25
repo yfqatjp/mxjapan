@@ -233,7 +233,7 @@ if (@$_GET['list'] == "") {
                 ?>
                 <div class="midd_18"><a href="list_x<?php echo $row['id'] ?>.html">
                         <div class="image2"><img
-                                src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id'] . " ORDER BY rank DESC");
+                                src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row['id'] . " ORDER BY rank aSC");
                                 $row1 = $rs1->fetch();
                                 echo "/medias/hotel/medium/" . $row1['id'] . "/" . $row1['file'] ?>">
                             <div class="midd_16s">
