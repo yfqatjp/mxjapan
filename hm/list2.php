@@ -287,7 +287,7 @@ if (@$_GET['list'] == "") {
             <?php
             if ($page - 1 > 0) {
                 ?>
-                <a href="list2_<?php echo $page - 1 ?>_0_0_0_1__0__.html">上一页</a>
+                <a href="list2_<?php echo $page - 1 ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html">上一页</a>
                 <?php
             }
             if ($page == $totalPage && $page == 1) {
@@ -295,12 +295,12 @@ if (@$_GET['list'] == "") {
             } else {
                 if ($page - 2 > 0) {
                     ?>
-                    <a href="list2_<?php echo $page - 2 ?>_0_0_0_1__0__.html"><?php echo $page - 2 ?></a>
+                    <a href="list2_<?php echo $page - 2 ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html"><?php echo $page - 2 ?></a>
                     <?php
                 }
                 if ($page - 1 > 0) {
                     ?>
-                    <a href="list2_<?php echo $page - 1 ?>_0_0_0_1__0__.html"><?php echo $page - 1 ?></a>
+                    <a href="list2_<?php echo $page - 1 ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html"><?php echo $page - 1 ?></a>
                     <?php
                 }
 
@@ -317,14 +317,14 @@ if (@$_GET['list'] == "") {
                     if ($page == $i) {
                         echo '<a class="number">' . $i . '</a>';
                     } else { ?>
-                        <a href="list2_<?php echo $i ?>_0_0_0_1__0__.html"><?php echo $i ?></a>
+                        <a href="list2_<?php echo $i ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html"><?php echo $i ?></a>
                         <?php
                     }
                 }
             }
             if ($page + 1 < $totalPage) {
                 ?>
-                <a href="list2_<?php echo $page + 1 ?>_0_0_0_1__0__.html">下一页</a>
+                <a href="list2_<?php echo $page + 1 ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html">下一页</a>
             <?php } ?>
         </div>
     </div>
