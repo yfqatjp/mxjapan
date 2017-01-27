@@ -28,42 +28,55 @@
 		<col label="Total" name="total" type="price"/>
 	</list>
 	<form>
-        <field multi="0" label="Room" name="id_room" type="select" required="1" unique="0" validation="none">
+        <field multi="0" label="房间" name="id_room" type="select" required="1" unique="0" validation="none">
             <options table="pm_room" fieldlabel="title" fieldvalue="id" order="title"></options>
         </field>
         <field multi="0" label="Room (full name)" name="room" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Check in" name="from_date" type="date" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Check out" name="to_date" type="date" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Nights" name="nights" type="text" required="1" unique="0" validation="numeric"/>
-        <field multi="0" label="Adults" name="adults" type="text" required="1" unique="0" validation="numeric"/>
-        <field multi="0" label="Children" name="children" type="text" required="0" unique="0" validation="numeric"/>
-        <field multi="0" label="Amount" name="amount" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
+        <field multi="0" label="入住日" name="from_date" type="date" required="1" unique="0" validation="none"/>
+        <field multi="0" label="退房日" name="to_date" type="date" required="1" unique="0" validation="none"/>
+        <field multi="0" label="天数" name="nights" type="text" required="1" unique="0" validation="numeric"/>
+        <field multi="0" label="大人" name="adults" type="text" required="1" unique="0" validation="numeric"/>
+        <field multi="0" label="小孩" name="children" type="text" required="0" unique="0" validation="numeric"/>
+        <field multi="0" label="单价" name="amount" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
+       <!-- 
         <field multi="0" label="Tourist tax" name="tourist_tax" type="text" required="1" unique="0" validation="numeric" comment="{currency}"/>
-        <field multi="0" label="Total" name="total" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
+        -->
+        <field multi="0" label="总价" name="total" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
+       <!-- 
         <field multi="0" label="Down payment" name="down_payment" type="text" required="0" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
+          
         <field multi="0" label="Services" name="extra_services" type="text" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Firstname" name="firstname" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Lastname" name="lastname" type="text" required="1" unique="0" validation="none"/>
+         -->
+         
+        <field multi="0" label="顾客名" name="firstname" type="text" required="1" unique="0" validation="none"/>
+        <!-- 
+        <field multi="0" label="顾客名" name="lastname" type="text" required="1" unique="0" validation="none"/>
+        -->
+        
+       <!--  
         <field multi="0" label="Email" name="email" type="text" required="1" unique="0" validation="none"/>
         <field multi="0" label="Company" name="company" type="text" required="0" unique="0" validation="none"/>
         <field multi="0" label="Address" name="address" type="text" required="1" unique="0" validation="none"/>
         <field multi="0" label="Postcode" name="postcode" type="text" required="1" unique="0" validation="none"/>
         <field multi="0" label="City" name="city" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Phone" name="phone" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Mobile" name="mobile" type="text" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Country" name="country" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Comments" name="comments" type="textarea" editor="0" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Status" name="status" type="select" required="1" unique="0" validation="none">
+       -->
+        <field multi="0" label="电话" name="phone" type="text" required="1" unique="0" validation="none"/>
+        <field multi="0" label="手机" name="mobile" type="text" required="0" unique="0" validation="none"/>
+        <field multi="0" label="国家" name="country" type="text" required="1" unique="0" validation="none"/>
+        <field multi="0" label="留言" name="comments" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+        <field multi="0" label="状态" name="status" type="select" required="1" unique="0" validation="none">
             <options>
-                <option value="1">Awaiting</option>
-                <option value="2">Cancelled</option>
-                <option value="3">Rejected payment</option>
-                <option value="4">Payed</option>
+                <option value="1">等待支付</option>
+                <option value="2">取消</option>
+                <option value="3">拒绝支付</option>
+                <option value="4">已支付</option>
             </options>
         </field>
-        <field multi="0" label="Payment method" name="payment_method" type="text" required="0" unique="0" validation="none"/>
+        <field multi="0" label="支付方法" name="payment_method" type="text" required="0" unique="0" validation="none"/>
+       
         <field multi="0" label="Transaction ID" name="trans" type="text" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Payment date" name="payment_date" type="datetime" required="0" unique="0" validation="none"/>
+        <field multi="0" label="支付日期" name="payment_date" type="datetime" required="0" unique="0" validation="none"/>
+        <!--
         <table label="Activities" name="booking_activity" fieldref="id_booking">
             <field multi="0" label="Title" name="title" type="text" required="1" unique="0" validation="none"/>
             <field multi="0" label="Adults" name="adults" type="text" required="0" unique="0" validation="numeric"/>
@@ -72,6 +85,7 @@
             <field multi="0" label="Date" name="date" type="datetime" required="1" unique="0" validation="none"/>
             <field multi="0" label="Amount" name="amount" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
         </table>
+        -->
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>

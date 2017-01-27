@@ -446,6 +446,7 @@ $row2 = $rs2->fetch();
         </div>
     </div>
 </div>
+<!-- 
 <div id="fh5co-pricing-section">
     <div class="container">
         <div class="row">
@@ -489,7 +490,7 @@ $row2 = $rs2->fetch();
         </div>
     </div>
 </div>
-
+ -->
 <?php require_once 'foot.php'; ?>
 <!-- jQuery -->
 

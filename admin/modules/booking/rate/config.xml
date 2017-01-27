@@ -24,16 +24,21 @@
 		<col label="Room" name="id_room" table="pm_room" fieldvalue="title" fieldref="id"/>
 		<col label="Start date" name="start_date" type="date"/>
 		<col label="End date" name="end_date" type="date"/>
+		<!--
 		<col label="Package" name="type"/>
 		<col label="Min stay" name="min_stay"/>
+		-->
 		<col label="Price" name="price" type="price"/>
 	</list>
 	<form>
+	
         <field multi="0" label="房间名" name="id_room" type="select" required="1" unique="0" validation="none">
             <options table="pm_room" fieldlabel="id - title | subtitle" fieldvalue="id" order="title"></options>
         </field>
+        
         <field multi="0" label="开始日" name="start_date" type="date" required="1" unique="0" validation="none"/>
         <field multi="0" label="终了日" name="end_date" type="date" required="1" unique="0" validation="none"/>
+         <!--
         <field multi="0" label="入住日" name="day_start" type="select" required="0" unique="0" validation="none" comment="Optional day for check in">
             <options>
                 <option value="0">-</option>
@@ -58,6 +63,9 @@
                 <option value="7">星期日</option>
             </options>  
         </field>
+        -->
+        
+         <!--
         <field multi="0" label="套餐" name="type" type="select" required="1" unique="0" validation="none">
             <options>
                 <option value="night">一晚</option>
@@ -67,7 +75,11 @@
                 <option value="week-end">周末</option>
             </options>
         </field>
+        -->
+        
         <field multi="0" label="价格 / 每晚" name="price" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
+        
+        <!--
         <field multi="0" label="Num. people" name="people" type="text" required="0" unique="0" validation="numeric" comment="Number of guests included in the price"/>
         <field multi="0" label="Price / extra child / night" name="child_price" type="text" required="0" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
         <field multi="0" label="Price / extra adult / night" name="price_sup" type="text" required="0" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
@@ -75,6 +87,7 @@
         <field multi="0" label="Discount rate" name="discount" type="text" required="0" unique="0" validation="numeric" comment="% - Applied to the amount except the fixed supplement"/>
         <field multi="0" label="VAT rate" name="vat_rate" type="text" required="1" unique="0" validation="numeric" comment="%"/>
         <field multi="0" label="Minimum stay" name="min_stay" type="text" required="0" unique="0" validation="numeric" comment="Number of nights"/>
+	    -->
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>
