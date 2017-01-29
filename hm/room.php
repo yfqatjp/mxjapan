@@ -79,8 +79,8 @@ $dis .= "";
 
 <form name="form" id="form" method="post" action="do?yy=post">
     <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
-    <input name="room" class="room" value="<?php echo $_GET['f'] ?>" type="hidden">
-    <input name="hotels" value="<?php echo $_GET['a'] ?>" type="hidden">
+    <input name="room" class="room" value="<?php echo $_GET['a'] ?>" type="hidden">
+    <input name="hotels" value="<?php echo $_GET['f'] ?>" type="hidden">
     <div class="midd_57"><img src="images/14_03.png"></div>
     <div class="midd_58">在线预约</div>
     <span id="room">
