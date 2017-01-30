@@ -224,8 +224,16 @@ $row = $rs->fetch(); ?>
             <?php } ?>
             <script type="text/javascript">
                 function yd(a, b, c, d, e, f) {
-                    $('#g_iframe').attr('src', '/room_' + a + '_' + b + '_' + c + '_' + d + '_' + e + '_' + f + '.html');
-                    $(".tanchuang,.tanchuang1").slideToggle();
+                    
+                    <?php 
+                     if (@$_SESSION['userid'] == "") {
+                    ?>
+                      self.location.href="/signin.html"
+                    <?php 
+                     }
+                    ?>
+                     $('#g_iframe').attr('src', '/room_' + a + '_' + b + '_' + c + '_' + d + '_' + e + '_' + f + '.html');
+                     $(".tanchuang,.tanchuang1").slideToggle();
                 }
                 ;
             </script>
