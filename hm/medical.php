@@ -48,14 +48,14 @@ $row2 = $rs2->fetch();
 <?php
 $perNumber = 6;
 $page = @$_GET['page'];
-$count = $pdo->query("SELECT * FROM pm_hospital WHERE lang = 2 AND checked = 1 ORDER BY id desc");
+$count = $pdo->query("SELECT * FROM pm_hospital WHERE lang = 2 AND checked = 1 ORDER by rank");
 $totalNumber = $count->rowCount();
 $totalPage = ceil($totalNumber / $perNumber);
 if (!isset($page)) {
     $page = 1;
 }
 $startCount = ($page - 1) * $perNumber;
-$rs = $pdo->query("SELECT * FROM pm_hospital where lang = 2 AND checked = 1 order by id desc limit $startCount,$perNumber");
+$rs = $pdo->query("SELECT * FROM pm_hospital where lang = 2 AND checked = 1 order by rank limit $startCount,$perNumber");
 while ($row = $rs->fetch()) {
     ?>
     <div class="midd_auto midd_fff midd_top20 midd_91"><a href="medicalxx_x<?= $row['id'] ?>.html">
