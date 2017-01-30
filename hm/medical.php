@@ -69,7 +69,7 @@ while ($row = $rs->fetch()) {
                         src="images/10_10.png"><?php } ?></div>
                 <div class="clear"></div>
                 <div class="midd_22">
-                    <?php echo strtrunc(strip_tags($row['text']), 550) ?>
+                    <?php echo strtrunc(strip_tags($row['text']), 550)  ?>
                 </div>
                 <div class="midd_21"><img src="images/10_14.png"><span
                         class="midd_23"><?php echo $row['addres'] ?></span>
