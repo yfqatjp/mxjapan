@@ -163,7 +163,7 @@ $dis .= "";
     for (i = 1; i <= <?php echo $_GET['b']?>; i++) {
         document.form.yuy.options[document.form.yuy.length] = new Option(i + '人', i);
     }
-    for (i = 1; i <= <?php echo $_GET['c'] ?>; i++) {
+    for (i = 0; i <= <?php echo $_GET['c'] ?>; i++) {
         document.form.yuy2.options[document.form.yuy2.length] = new Option(i + '人', i);
     }
 
