@@ -22,7 +22,7 @@ $row = $rs->fetch();
     <input type="hidden" name="shipping" value="0">
     <input type="hidden" name="cancel_return" value="http://<?php echo $_SERVER['HTTP_HOST'] ?>">
     <input type="hidden" name="return" value="http://<?php echo $_SERVER['HTTP_HOST'] ?>/user/jddd.html">
-    <input type="hidden" name="notify_url" value="http://<?php echo $_SERVER['HTTP_HOST'] ?>/pay/paypal/notifyurl.php">
+    <input type="hidden" name="notify_url" value="http://<?php echo $_SERVER['HTTP_HOST'] ?>/pay/paypal/NotifyUrl.php">
 </form>
 <script language="javascript">
     payForm.submit();

@@ -26,6 +26,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/hm/coon.php';
 //
 //    }
 
+$file = fopen("logo.txt","w+");
 
 $req = 'cmd=_notify-validate';
 
@@ -63,7 +64,7 @@ $message = $message . $receiver_email .'\n';
 $message = $message . $mc_gross .'\n';
 $message = $message . $custom .'\n';
 
-$file = fopen("logo.txt","w+");
+
 fwrite($file,"paypal back" . $message);
 
 fclose($file);
