@@ -1,31 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hm/coon.php';
 
-//    if (function_exists('get_magic_quotes_gpc')) $get_magic_quotes_exists = true;
-//    foreach ($_POST as $key => $value) {
-//        if ($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
-//            $value = urlencode(stripslashes($value));
-//        } else {
-//            $value = urlencode($value);
-//        }
-//        $req .= "&$key=$value";
-//    }
-//    $ch = curl_init('https://www.paypal.com/cgi-bin/webscr');
-//    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-//    curl_setopt($ch, CURLOPT_POST, 1);
-//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//    curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
-//    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-//    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-//    curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-//    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
-//    $res = curl_exec($ch);
-//    if (strcmp($res, "VERIFIED") == 0) {
-//        return true;
-//    } else if (strcmp($res, "INVALID") == 0) {
-//
-//    }
-
 $file = fopen("logo.txt","w+");
 
 $req = 'cmd=_notify-validate';
@@ -54,59 +29,81 @@ $mc_gross = @$_POST['mc_gross'];
 $custom = @$_POST['custom'];
 
 
-$message = $item_name .'\n';
-$message = $message . $item_number .'\n';
-$message = $message . $payment_status .'\n';
-$message = $message . $payment_amount .'\n';
-$message = $message . $payment_currency .'\n';
-$message = $message . $txn_id .'\n';
-$message = $message . $receiver_email .'\n';
-$message = $message . $mc_gross .'\n';
-$message = $message . $custom .'\n';
+$message = $item_name ."\n";
+$message = $message . $item_number ."\n";
+$message = $message . $payment_status ."\n";
+$message = $message . $payment_amount ."\n";
+$message = $message . $payment_currency ."\n";
+$message = $message . $txn_id ."\n";
+$message = $message . $receiver_email ."\n";
+$message = $message . $mc_gross ."\n";
+$message = $message . $custom ."\n";
 
 
-fwrite($file,"paypal back" . $message);
-
-fclose($file);
+fwrite($file,$message);
 
 
 
-if (!$fp) {
 
-} else {
-    fputs($fp, $header . $req);
+
+if($fp !== false){
+	
+    fputs($fp, $header.$req);
     while (!feof($fp)) {
         $res = fgets($fp, 1024);
-        if (strcmp($res, "VERIFIED") == 0) {
+        if (strcmp($res, "VERIFIED") !== false) {
 
-            $rs = $pdo->query("SELECT * FROM pm_gwc WHERE tai = 0 AND onum LIKE '" . $item_number . "'");
+        	$sql = "SELECT * FROM pm_gwc WHERE tai = 0 AND onum LIKE '" . $item_number . "'";
+            $rs = $pdo->query($sql);
+
+            $message =   $sql ."\n";
+            
             if ($rs->rowCount() > 0) {
                 $row = $rs->fetch();
 
-                $rs1 = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $row['hotels']);
+                $sql = "SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $row['hotels'];
+                $rs1 = $pdo->query($sql);
+                
                 $row1 = $rs1->fetch();
 
-                $rs4 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row['room'] . " ORDER BY id DESC");
+                $message = $message .  $sql ."\n";
+                
+                
+                $sql = "SELECT * FROM pm_rate WHERE id_room = " . $row['room'] . " ORDER BY id DESC";
+                $rs4 = $pdo->query($sql);
                 $row4 = $rs4->fetch();
 
+                $message = $message . $sql ."\n";                
+                
                 $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
                 if ($day <= 0) {
                     $day = 1;
                 }
 
                 $rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row['uid']);
+                
                 $row5 = $rs5->fetch();
 
-                $rs = $pdo->exec("INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $row4['price'] * $day . "','" . $row5['phone'] . "','支付宝支付',4,'中国','" . $item_number . "' FROM pm_gwc WHERE onum LIKE '" . $o . "'");
-
+                $sql = "INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $row4['price'] * $day . "','" . $row5['phone'] . "','paypal',4,'中国','" . $item_number . "' FROM pm_gwc WHERE onum LIKE '" . $item_number . "'";
+                
+                $rs = $pdo->exec($sql);
+                
+                $message = $message . $sql ."\n";
+                
                 $rs0 = $pdo->exec("UPDATE pm_gwc SET pay=1,tai = 3,paytime=now(),paynum='" . $txn_id . "' WHERE id = " . $row['id'] . " ");
-
             }
+            fwrite($file,$message);
+            
             echo "success";
 
-        } else if (strcmp($res, "INVALID") == 0) {
+        } else{
+        	fwrite($file,"\n"."fail");
+        	
             echo "fail";
         }
     }
     fclose($fp);
+    
+    
+    fclose($file);
 }

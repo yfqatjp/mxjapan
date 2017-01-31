@@ -112,7 +112,12 @@ if ($rs->rowCount() == 0) {
                 if ($day <= 0) {
                     $day = 1;
                 }
-                $jia = $jia + $row4['price'] * $day; ?>
+                $jia = $jia + $row4['price'] * $day; 
+                
+              //  $rs0 = $pdo->exec("UPDATE pm_gwc SET pay=1,tai = 3,paytime=now(),paynum='" . $txn_id . "' WHERE id = " . $row['id'] . " ");
+                
+                ?>
+                                
                 <tr>
                     <td style="padding-left:10px;"><img
                             src="<?php $rs3 = $pdo->query("SELECT * FROM pm_hotel_file WHERE id_item = " . $row1['id']);

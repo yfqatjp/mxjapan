@@ -105,7 +105,7 @@ if (@$_GET['pay'] == "post") {
         exit;
     }
     $o = date('Ymdhis', time()) . rand(1000, 9999);
-    $rs = $pdo->exec("UPDATE pm_gwc SET onum = '" . $o . "' WHERE id = " . $_POST['lid']);
+    $rs = $pdo->exec("UPDATE pm_gwc SET    price  = " . $_POST['price'] . " , onum = '" . $o . "' WHERE id = " . $_POST['lid']);
     $rs = $pdo->query("SELECT * FROM pm_gwc WHERE onum LIKE '" . $o . "'");
     $row = $rs->fetch();
 
