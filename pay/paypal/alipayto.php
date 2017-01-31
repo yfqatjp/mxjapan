@@ -13,7 +13,7 @@ $row = $rs->fetch();
     <input type="hidden" name="cmd" value="_xclick">
     <input type="hidden" name="charset" value="utf-8">
     <input type="hidden" name="item_number" value="<?php echo $o ?>">
-    <input type="hidden" name="business" value="yuefuquan-facilitator@gmail.com">
+    <input type="hidden" name="business" value="yuefuquan-facilitator-1@gmail.com">
     <input type="hidden" name="item_name" value="订单ID:<?php echo $o ?>">
     <input type="hidden" name="currency_code" value="JPY">
    <!-- <input type="hidden" name="amount" value="<?php echo $row['price'] ?>"> --> 
@@ -22,7 +22,7 @@ $row = $rs->fetch();
     <input type="hidden" name="shipping" value="0">
     <input type="hidden" name="cancel_return" value="http://<?php echo $_SERVER['HTTP_HOST'] ?>">
     <input type="hidden" name="return" value="http://<?php echo $_SERVER['HTTP_HOST'] ?>/user/jddd.html">
-    <input type="hidden" name="notify_url" value="http://<?php echo $_SERVER['HTTP_HOST'] ?>/pay/paypal/NotifyUrl.php">
+    <input type="hidden" name="notify_url" value="http://<?php echo $_SERVER['HTTP_HOST'] ?>/pay/paypal/notifyurl.php">
 </form>
 <script language="javascript">
     payForm.submit();
