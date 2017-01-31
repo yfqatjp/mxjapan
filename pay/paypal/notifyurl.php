@@ -52,6 +52,24 @@ $payer_email = @$_POST['payer_email'];
 $mc_gross = @$_POST['mc_gross'];
 $custom = @$_POST['custom'];
 
+
+$message = $item_name .'\n';
+$message = $message . $item_number .'\n';
+$message = $message . $payment_status .'\n';
+$message = $message . $payment_amount .'\n';
+$message = $message . $payment_currency .'\n';
+$message = $message . $txn_id .'\n';
+$message = $message . $receiver_email .'\n';
+$message = $message . $mc_gross .'\n';
+$message = $message . $custom .'\n';
+
+$file = fopen("logo.txt","w+");
+fwrite($file,"paypal back" . $message);
+
+fclose($file);
+
+
+
 if (!$fp) {
 
 } else {
