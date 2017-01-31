@@ -8,5 +8,5 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	// config.filebrowserBrowseUrl = './../../includes/inc_library.php';
-	config.filebrowserUploadUrl = '../../includes/uploadifive/uploader/uploadifive.php'
+	config.filebrowserUploadUrl = '../../includes/upload.php'
 };
