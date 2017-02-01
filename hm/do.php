@@ -176,11 +176,11 @@ if (@$_GET['id'] == 'mm') {
 
     $rs = $pdo->exec("UPDATE pm_user SET `pass` = '" . md5($_POST['rpass']) . "' WHERE id = " . $_SESSION['userid']);
 
-    $_SESSION['userid'] = "";
-    $_SESSION['uservip'] = "";
-    $_SESSION['username'] = "";
+   // $_SESSION['userid'] = "";
+      $_SESSION['uservip'] = "";
+   // $_SESSION['username'] = "";
 
-    exit(alert(2, "修改成功", "/signin.html"));
+    exit(alert(2, "修改成功", "/user/mmxx.html"));
 }
 
 if (@$_GET['id'] == 'dl') {
@@ -198,9 +198,11 @@ if (@$_GET['id'] == 'dl') {
         $_SESSION['username'] = $row['xname'];
     }
     if (@$_POST['lid'] == "") {
-        exit(alert(2, "登录成功", "/user/"));
+        //exit(alert(2, "登录成功", "/user/"));
+        header("Location: /user/");
     } else {
-        exit(alert(2, "登录成功", "/list_x" . $_POST['lid'] . ".html#pl"));
+      //  exit(alert(2, "登录成功", "/list_x" . $_POST['lid'] . ".html#pl"));
+    	header("Location: "."/list_x" . $_POST['lid'] . ".html#pl");
     }
 
 }
@@ -212,6 +214,7 @@ if (@$_GET['pl'] == 'post') {
     }
 
     $rs = $pdo->exec("INSERT INTO pm_hotel_pl (`rank`,`text`,`uid`,`userip`,`dtime`,`lang`,id_item) VALUES ('" . $_POST['xx'] . "','" . $_POST['text'] . "','" . $_SESSION['userid'] . "','" . $userip . "',now(),'2'," . $_POST['lid'] . ")");
-    exit(alert(2, "评论成功", "/list_x" . $_POST['lid'] . ".html#pl"));
+   // exit(alert(2, "评论成功", "/list_x" . $_POST['lid'] . ".html#pl"));
+    header("Location: "."/list_x" . $_POST['lid'] . ".html#pl");
 
 }
