@@ -37,11 +37,11 @@
         <field multi="0" label="天数" name="nights" type="text" required="1" unique="0" validation="numeric"/>
         <field multi="0" label="大人" name="adults" type="text" required="1" unique="0" validation="numeric"/>
         <field multi="0" label="小孩" name="children" type="text" required="0" unique="0" validation="numeric"/>
-        <field multi="0" label="单价" name="amount" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
+        <field multi="0" label="单价" name="amount" type="text" required="1" unique="0" validation="numeric" comment=""/>
        <!-- 
         <field multi="0" label="Tourist tax" name="tourist_tax" type="text" required="1" unique="0" validation="numeric" comment="{currency}"/>
         -->
-        <field multi="0" label="总价" name="total" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
+        <field multi="0" label="总价" name="total" type="text" required="1" unique="0" validation="numeric" comment=""/>
        <!-- 
         <field multi="0" label="Down payment" name="down_payment" type="text" required="0" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
           

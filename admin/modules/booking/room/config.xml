@@ -52,7 +52,11 @@
             <options table="pm_hotel" fieldlabel="title" fieldvalue="id" order="title"></options>
         </field>
 		<field multi="0" label="Availabilities" name="stock" type="text" required="0" unique="0" validation="numeric"/>
+		
+		<!-- 
 		<field multi="0" label="价格/每晚" name="price" type="text" required="1" unique="0" validation="numeric" comment=""/>
+        -->
+        
         <field multi="0" label="维护开始日" name="start_lock" type="date" required="0" unique="0" validation="none" comment="维护日期宾馆不接受预订"/>
         <field multi="0" label="维护终了日" name="end_lock" type="date" required="0" unique="0" validation="none"/>
 	</form>
