@@ -91,8 +91,8 @@
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>
-        <user type="manager" permissions="all"/>
+        <user type="manager" permissions="no_access"/>
         <user type="editor" permissions="no_access"/>
-        <user type="hotel" permissions="add,edit,upload"/>
+        <user type="hotel" permissions="no_access"/>
     </roles>
 </module>
