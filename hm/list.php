@@ -206,13 +206,17 @@ $row = $rs->fetch(); ?>
                                 、小孩*<?php echo $row2['max_children'] ?></div>
                         </div>
                         <div class="midd_37"><span
-                                class="midd_38"><?php $rs3 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row2['id'] . " ORDER BY id DESC");
+                                class="midd_38"><?php 
+                                /*$rs3 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row2['id'] . " ORDER BY id DESC");
                                 if ($rs3->rowCount() > 0) {
                                     $row3 = $rs3->fetch();
                                     echo "￥" . $row3['price'] . "</span>/每晚";
                                 } else {
                                     echo '预约咨询</span>';
-                                } ?>
+                                }*/
+                                echo "￥" . $row2['price'] . "</span>/每晚";
+                                
+                                ?>
                         </div>
                     </a>
                     <div class="midd_39"

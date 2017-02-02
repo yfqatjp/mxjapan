@@ -103,16 +103,21 @@ if ($rs->rowCount() == 0) {
                 $rs2 = $pdo->query("SELECT * FROM pm_room WHERE id = " . $row['room'] . " AND lang = 2");
                 $row2 = $rs2->fetch();
 
+                /*
                 $rs4 = $pdo->query("SELECT * FROM pm_rate WHERE id_room = " . $row2['id'] . " ORDER BY id DESC");
                 $row4 = $rs4->fetch();
                 if ($rs4->rowCount() > 0) {
                     $yy++;
                 }
+                */
+                
                 $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
                 if ($day <= 0) {
                     $day = 1;
                 }
-                $jia = $jia + $row4['price'] * $day; 
+                
+               // $jia = $jia + $row4['price'] * $day; 
+                $jia = $jia + $row2['price'] * $day;
                 
               //  $rs0 = $pdo->exec("UPDATE pm_gwc SET pay=1,tai = 3,paytime=now(),paynum='" . $txn_id . "' WHERE id = " . $row['id'] . " ");
                 
@@ -130,10 +135,10 @@ if ($rs->rowCount() == 0) {
                     <td align="center"><?php echo date('Y-m-d', strtotime($row['offt'])) ?></td>
                     <td align="center"><?php echo $row['text'] ?></td>
                     <td align="center"><span><?php
-                            if ($row4['price'] == 0) {
+                            if ($row2['price'] == 0) {
                                 echo '预约咨询';
                             } else {
-                                echo $row4['price'] * $day . "元";
+                                echo $row2['price'] * $day . "元";
                             } ?></span></td>
                 </tr>
                 <?php
@@ -149,7 +154,7 @@ if ($rs->rowCount() == 0) {
             <div class="midd_71 active" onclick="$('.pay').html('客服致电确认预约信息').val(0);$('.zf').hide();$('.zf2').show();">
                 <h1>只预约</h1>
                 <span>客服致电确认预约信息</span></div>
-            <?php if ($yy == $rs->rowCount()) { ?>
+            <?php if ($row2['price'] > 0) { ?>
                 <div class="midd_71 sehun_2"
                      onclick="$('.pay').html('支付方式：支付宝支付').val(1);$('.zf').hide();$('.zf2').show();"><img
                         src="images/18_07.png">

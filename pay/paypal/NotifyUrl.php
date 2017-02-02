@@ -68,10 +68,12 @@ if($fp !== false){
 
                 $message = $message .  $sql ."\n";
                 
-                
+                /*
                 $sql = "SELECT * FROM pm_rate WHERE id_room = " . $row['room'] . " ORDER BY id DESC";
                 $rs4 = $pdo->query($sql);
                 $row4 = $rs4->fetch();
+                */
+
 
                 $message = $message . $sql ."\n";                
                 
@@ -84,7 +86,7 @@ if($fp !== false){
                 
                 $row5 = $rs5->fetch();
 
-                $sql = "INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $row4['price'] * $day . "','" . $row5['phone'] . "','paypal',4,'中国','" . $item_number . "' FROM pm_gwc WHERE onum LIKE '" . $item_number . "'";
+                $sql = "INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $payment_amount . "','" . $row5['phone'] . "','paypal',4,'中国','" . $item_number . "' FROM pm_gwc WHERE onum LIKE '" . $item_number . "'";
                 
                 $rs = $pdo->exec($sql);
                 
