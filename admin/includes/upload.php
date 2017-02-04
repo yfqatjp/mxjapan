@@ -5,13 +5,12 @@ if(!isset($_SESSION['user'])){
     header("Location: login.php");
     exit();
 }
-require_once("fn_module.php"); ?>
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Example: File Upload</title>
-    <?php include("inc_header_common.php"); ?>
 </head>
 <body>
 <?php
@@ -20,18 +19,21 @@ $funcNum = $_GET['CKEditorFuncNum'] ;
 // Optional: instance name (might be used to load a specific configuration file or anything else).
 $CKEditor = $_GET['CKEditor'] ;
 // Optional: might be used to provide localized messages.
-$langCode = $_GET['langCode'] ;
+$langCode = '0' ;
 // Optional: compare it with the value of `ckCsrfToken` sent in a cookie to protect your server side uploader against CSRF.
 // Available since CKEditor 4.5.6.
-$token = $_POST['ckCsrfToken'] ;
-$dir = "media";
-$path = "../../medias/".$dir."/tmp";
+$token = $_SESSION['token'];
+$dir = $_SESSION['module_referer'];
 $uniqid = uniqid();
+$path = "../../medias/".$dir."/tmp";
+$path1 = "medias/".$dir."/tmp";
 if(!empty($_FILES)){
+    $now = new DateTime();
+    $a = md5("sessid_".$uniqid.$_POST['timestamp']);
     // upload folder for a session
     if(!is_dir($path."/".$token)) mkdir($path."/".$token, 0777);
     chmod($path."/".$token, 0777);
-    if(!is_dir($path."/".$token."/".$langCode)) mkdir($path."/".$token."/".$lang, 0777);
+    if(!is_dir($path."/".$token."/".$langCode)) mkdir($path."/".$token."/".$langCode, 0777);
     chmod($path."/".$token."/".$langCode, 0777);
     if(!is_dir($path."/".$token."/".$langCode."/".$uniqid)) mkdir($path."/".$token."/".$langCode."/".$uniqid, 0777);
     chmod($path."/".$token."/".$langCode."/".$uniqid, 0777);
@@ -53,12 +55,13 @@ if(!empty($_FILES)){
     $filename = strtolower($filename);
     $filename = utf8_encode($filename).$ext;
     $targetFile = $path."/".$token."/".$langCode."/".$uniqid."/".$filename;
+    $path1 = $path1."/".$token."/".$langCode."/".$uniqid."/".$filename;
 
     move_uploaded_file($tempFile, $targetFile);
 }
 
 // Check the $_FILES array and save the file. Assign the correct path to a variable ($url).
-$url = $targetFile;
+$url = "/".$path1;
 // Usually you will only assign something here if the file could not be uploaded.
 // $message = 'The uploaded file has been renamed';
 
