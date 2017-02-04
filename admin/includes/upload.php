@@ -19,7 +19,7 @@ $funcNum = $_GET['CKEditorFuncNum'] ;
 // Optional: instance name (might be used to load a specific configuration file or anything else).
 $CKEditor = $_GET['CKEditor'] ;
 // Optional: might be used to provide localized messages.
-$langCode = '0' ;
+$langCode = '2' ;
 // Optional: compare it with the value of `ckCsrfToken` sent in a cookie to protect your server side uploader against CSRF.
 // Available since CKEditor 4.5.6.
 $token = $_SESSION['token'];
