@@ -224,7 +224,7 @@ class HmWeb extends Hotel {
     				} else {
     					$arrResult[$key]["image_url"] = "";
     				}
-    				$arrResult[$key]["image_label"] = $arrRows["label"];
+    				$arrResult[$key]["image_label"] = $arrRows["title"];
     			} else {
     				$arrResult[$key]["image_url"] = "";
     				$arrResult[$key]["image_label"] = "";
@@ -246,6 +246,50 @@ class HmWeb extends Hotel {
     		}
     		return 0;
     	}
+    }
+    
+    public function getSelectOptions() {
+    	return array("1" => "1人","2" => "2人","3" => "3人","4" => "4人",
+    			"5" => "5人","6" => "6人","7" => "7人","8" => "8人","9" => "9人","10" => "10人");
+    }
+    
+    
+    public function findCharterSetting() {
+    	//
+    	$arrSetting = array();
+    	// sql
+    	$sql = "SELECT * FROM pm_charter_guaranteed WHERE  checked = 1 AND lang = ".$this->defaultLang." ORDER BY rank ";
+    	
+    	// 检索的结果
+    	$arrResult = $this->findAll($sql);
+    	// 图片的sql
+    	$charterFileSql = "SELECT * FROM pm_charter_guaranteed_file WHERE id_item = ? AND checked = 1 AND lang = ".$this->defaultLang." AND type = 'image' AND file != '' ORDER BY rank ";
+    	foreach($arrResult as $setting) {
+    		$arrData = array();
+    		$arrData["name"] = $setting["name"];
+    		$arrData["content"] = $setting["content"];
+    		
+    		// 一览的图片设定
+    		$arrCharterFileResult = $this->findAll($charterFileSql, array($setting["id"]));
+    		if ($arrCharterFileResult != null && count($arrCharterFileResult) > 0) {
+    			$arrImages = array();
+    			foreach($arrCharterFileResult as $row) {
+	    			$file_id = $row['id'];
+	    			$filename = $row['file'];
+	    			$realpath = $_SERVER['DOCUMENT_ROOT']."/medias/charter_guaranteed/big/".$file_id."/".$filename;
+	    			$thumbpath = "/medias/charter_guaranteed/big/".$file_id."/".$filename;
+	    			if (is_file($realpath)) {
+	    				$arrImages[] = $thumbpath;
+	    			}
+    			}
+    			$arrData["images"] = $arrImages;
+    		} else {
+    			$arrData["images"] = array();
+    		}
+    		
+    		$arrSetting[] = $arrData;
+    	}
+    	return $arrSetting;
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////

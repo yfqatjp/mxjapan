@@ -152,10 +152,6 @@ foreach($charterList as $i => $arrCharter){
 	$charter_title = $arrCharter['title'];
 
 	
-	$min_price = 0;
-	if ($charter_price > 0) {
-		$min_price = $charter_price;
-	}
 ?>
 <div class="midd_auto midd_fff midd_top20 midd_80">
   <div class="midd_81">

@@ -1,4 +1,93 @@
-<!DOCTYPE html>
+<?php 
+
+require_once 'coon.php';
+
+$navid = 5;
+
+$rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND id = " . $navid);
+$row = $rs->fetch();
+
+$rs2 = $pdo->query("SELECT * FROM pm_article_file WHERE checked = 1 AND lang = 2 AND type = 'image' AND file != '' ORDER BY rank LIMIT 1");
+$row2 = $rs2->fetch();
+
+//
+require_once $_SERVER['DOCUMENT_ROOT'] . '/common/HmWeb.php';
+
+// 车导ID
+$charterId = $hmWeb->query("id", 0);
+
+// 车导情报
+$charterSql = "SELECT * FROM `pm_charter` WHERE `lang` = '2' AND id = ? ";
+
+// 取得车导情报
+$arrCharter = $hmWeb->findOne($charterSql, array($charterId));
+
+// 车导情报取不到的时候，跳转到一览画面
+if ($arrCharter == null || count($arrCharter) == 0) {
+	// 非法请求
+	header("Location: guide.html");
+	exit();
+}
+
+// 图片的sql
+$charterFileSql = "SELECT * FROM pm_charter_file WHERE id_item = ? AND checked = 1 AND lang = ".$hmWeb->defaultLang." AND type = 'image' AND file != '' ORDER BY rank ";
+
+$arrCharterImages = array();
+// 一览的图片设定
+$arrCharterFileResult = $hmWeb->findAll($charterFileSql, array($charterId));
+if ($arrCharterFileResult != null && count($arrCharterFileResult) > 0) {
+	foreach($arrCharterFileResult as $arrImageResult) {
+		$arrImages = array();
+		$file_id = $arrImageResult['id'];
+		$filename = $arrImageResult['file'];
+		$realpath = $_SERVER['DOCUMENT_ROOT']."/medias/charter/small/".$file_id."/".$filename;
+		$thumbpath = "/medias/charter/small/".$file_id."/".$filename;
+		if (is_file($realpath)) {
+			$arrImages["small_image"] = $thumbpath;
+		} else {
+			$arrImages["small_image"] = "";
+		}
+		
+		$realpath = $_SERVER['DOCUMENT_ROOT']."/medias/charter/big/".$file_id."/".$filename;
+		$thumbpath = "/medias/charter/big/".$file_id."/".$filename;
+		if (is_file($realpath)) {
+			$arrImages["big_image"] = $thumbpath;
+		} else {
+			$arrImages["big_image"] = "";
+		}
+		$arrImages["image_label"] = $arrImageResult["label"];
+		$arrCharterImages[] = $arrImages;
+	}
+}
+
+// 设定的座位
+$charterClassesSql = "SELECT T1.price, T1.class_id, T2.title
+    				FROM pm_charter_classes T1
+    				INNER JOIN pm_charter_class T2 ON ( T1.class_id = T2.id and T2.lang = ".$hmWeb->defaultLang." )
+    				WHERE T1.charter_id = ? ORDER BY T1.price DESC ";
+// 取得包车规格
+$arrCharterClassResult = $hmWeb->findAll($charterClassesSql, array($charterId));
+if ($arrCharterClassResult != null) {
+	$arrCharter["classes"] = $arrCharterClassResult;
+} else {
+	$arrCharter["classes"] = array();
+}
+
+$arrOptions = $hmWeb->getSelectOptions();
+
+$choiceClassId = 0;
+$choiceClassPrice = 0;
+if (count($arrCharter["classes"]) > 0) {
+	$choiceClassId = $arrCharter["classes"][0]["class_id"];
+	$choiceClassPrice = $arrCharter["classes"][0]["price"];
+}
+
+// 设置
+$arrSetting = $hmWeb->findCharterSetting();
+
+$settingIndex = 4;
+
+?><!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -6,49 +95,7 @@
 <html class="no-js">
 <!--<![endif]-->
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>美溪民宿</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
-<meta name="keywords" content="free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-
-<!-- Facebook and Twitter integration -->
-<meta property="og:title" content=""/>
-<meta property="og:image" content=""/>
-<meta property="og:url" content=""/>
-<meta property="og:site_name" content=""/>
-<meta property="og:description" content=""/>
-<meta name="twitter:title" content="" />
-<meta name="twitter:image" content="" />
-<meta name="twitter:url" content="" />
-<meta name="twitter:card" content="" />
-
-<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-<link rel="shortcut icon" href="favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700" rel="stylesheet">
-
-<!-- Animate.css -->
-<link rel="stylesheet" href="css/animate.css">
-<!-- Icomoon Icon Fonts-->
-<link rel="stylesheet" href="css/icomoon.css">
-<!-- Bootstrap  -->
-<link rel="stylesheet" href="css/bootstrap.css">
-<!-- Flexslider  -->
-<link rel="stylesheet" href="css/flexslider.css">
-<!-- Owl Carousel  -->
-<link rel="stylesheet" href="css/owl.carousel.min.css">
-<link rel="stylesheet" href="css/owl.theme.default.min.css">
-<!-- Theme style  -->
-<link rel="stylesheet" href="css/style.css">
-
-<!-- Modernizr JS -->
-<script src="js/modernizr-2.6.2.min.js"></script>
-<!-- FOR IE9 below -->
-<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
-<script src="js/jquery.min.js"></script>
+<?php require_once 'top.php'; ?>
 <style>
 body {
 	background: #f7f7f7;
@@ -97,29 +144,13 @@ if(target.tagName=="IMG"){
 </script>
 </head>
 <body>
-<div class="sehun"></div>
-<header id="fh5co-header" role="banner">
-  <div class="container">
-    <div class="header-inner">
-      <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
-      <nav role="navigation" class="navshow">
-        <ul>
-          <li><a href="index.html">首页</a></li>
-          <li class="navs"><a href="guide.html">车导服务</a></li>
-          <li><a href="list2.html">民宿</a></li>
-          <li><a href="medical.html">医疗</a></li>
-          <li><a href="gallery.html">旅游图库</a></li>
-          <li><a href="realestate.html">不动产服务</a></li>
-          <li><a href="about.html">关于我们</a></li>
-          <li class="cta"><a href="signin.html">登录</a></li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</header>
+
+<!--  -->
+<?php require_once 'head.php';?>
+
 <div class="container"> </div>
 <aside id="fh5co-hero">
-  <div style="background: url(images/guide.jpg) no-repeat; background-position:center center; height:222px;">
+  <div style="background: url(/images/guide.jpg) no-repeat; background-position:center center; height:222px;">
     <div class="overlay-gradient"></div>
     <div class="container" style="height:222px;">
       <div class="col-md-offset-1 text-center js-fullheight slider-text">
@@ -133,56 +164,125 @@ if(target.tagName=="IMG"){
   </div>
 </aside>
 
+
 <div class="midd_25">
-  <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="guide.html">车导服务 </a> > <a href="guidexx.html">京都专车私导服务</a></div>
+  <div class="midd_26"><img src="/images/11_03.png"><a href="index.html">首页</a> > 
+  <a href="guide.html">车导服务 </a> > 
+  <a href="guidexx.html?id=<?php echo $charterId;?>"><?php echo $hmWeb->t("title", $arrCharter);?></a></div>
 </div>
+
 
 <div id="fh5co-work-section" class="fh5co-light-grey-section" style="padding:0;">
   <div class="container">
     <div class="midd_27">
+    
       <div class="left midd_52">
+      	<?php 
+      	if (count($arrCharterImages) > 0) {
+      		
+      	?>
         <div id="originalpic">
+        	<?php 
+	      	foreach($arrCharterImages as $index => $arrImageData) {
+	      		
+	      	?>
+	          <li><a href="javascript:;"><img src="<?php echo $arrImageData["big_image"];?>" <?php if ($index == 0) { echo 'style="display: inline;"';}?> ></a></li>
+			<?php 
+	      	}
+	      	?>
+          <a id="aPrev" style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/prev.cur), auto; height: 600px;"></a> 
+          <a id="aNext" style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/next.cur), auto; height: 600px;"></a> 
+        </div>
+        <div class="thumbpic"> <a href="javascript:;" class="bntprev"></a>
+          <div id="piclist">
+            <ul>
+			<?php 
+	      	foreach($arrCharterImages as $index => $arrImageData) {
+	      		
+	      	?>
+	          <li <?php if ($index == 0) { echo 'class="hover"';}?> >
+	          <a href="javascript:;"><img src="<?php echo $arrImageData["small_image"];?>"  ></a>
+	          </li>
+			<?php 
+	      	}
+	      	?>
+            </ul>
+          </div>
+          <a href="javascript:;" class="bntnext"></a> 
+      	</div>
+      	
+		<?php 
+      	} else {
+      	?>
+      	
+		<div id="originalpic">
           <li><a href="javascript:;"><img src="images/guide_4_03.png" style="display: inline;"></a></li>
-          <li><a href="javascript:;"><img src="images/guide_4_03.png"></a></li>
-          <li><a href="javascript:;"><img src="images/guide_4_03.png"></a></li>
-          <li><a href="javascript:;"><img src="images/guide_4_03.png"></a></li>
-          <li><a href="javascript:;"><img src="images/guide_4_03.png"></a></li>
-          <a id="aPrev" style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/prev.cur), auto; height: 600px;"></a> <a id="aNext" style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/next.cur), auto; height: 600px;"></a> </div>
+          <a id="aPrev" style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/prev.cur), auto; height: 600px;"></a> 
+          <a id="aNext" style="cursor: url(http://img.suofeiya.com.cn/themes/default/images/next.cur), auto; height: 600px;"></a> 
+        </div>
         <div class="thumbpic"> <a href="javascript:;" class="bntprev"></a>
           <div id="piclist">
             <ul>
               <li class="hover"><a href="javascript:;"><img src="images/guide_4_07.png"></a></li>
-              <li><a href="javascript:;"><img src="images/guide_4_07.png"></a></li>
-              <li><a href="javascript:;"><img src="images/guide_4_07.png"></a></li>
-              <li><a href="javascript:;"><img src="images/guide_4_07.png"></a></li>
-              <li><a href="javascript:;"><img src="images/guide_4_07.png"></a></li>
             </ul>
           </div>
-          <a href="javascript:;" class="bntnext"></a> </div>
+          <a href="javascript:;" class="bntnext"></a> 
+      	</div>
+		<?php 
+      	}
+      	?>
+      	
       </div>
+      
       <div class="midd_28">
-        <div class="midd_29">京都专车私导服务</div>
-        <div class="midd_48"> <span class="midd_102">东京安缦是东京这座传统与现代化首都一座具有里程碑意义的酒店，既散发都市活力气息，又不乏宁静。酒店坐落在大手町金融区，可轻松往返东京车站与热闹繁华的日本桥区。</span> </div>
-        <div class="midd_103"><span>￥</span><h1>1560</h1> / 车<div class="clear"></div></div>
+        <div class="midd_29"><?php echo $hmWeb->t("title", $arrCharter);?></div>
+        <div class="midd_48">
+        <span class="midd_102"><?php echo $hmWeb->t("descr", $arrCharter);?></span> </div>
+        <div class="midd_103"><span>￥</span><h1 id="choice_class_price"><?php echo $choiceClassPrice;?></h1> / 车<div class="clear"></div></div>
         <div class="midd_104">
-          <a href="javascript:void(0);" class="active">舒适5座</a>
-          <a href="javascript:void(0);">舒适7座</a>
-          <a href="javascript:void(0);">商务10座</a>
-          <a href="javascript:void(0);">豪华5座</a>
-          <a href="javascript:void(0);">豪华7座</a>
+        
+         <?php foreach($arrCharter['classes'] as $classesList) {?>
+	     <a href="javascript:void(0);" <?php if ($classesList["class_id"] == $choiceClassId) {echo 'class="active"';} ?> 
+	      data-price="<?php echo $classesList["price"];?>" 
+	      data-classId="<?php echo $classesList["class_id"];?>">
+	      <?php echo $classesList["title"];?>
+	      </a>
+	     <?php } ?>
         <div class="clear"></div>
         </div>
         <div class="midd_127"><div class="rendezvous-input-date" id="start">选择预定日期</div></div>
         <div class="midd_115">
           <select name="select" class="input_11">
-          <option>成人/人</option></select>
-          <select name="select" class="input_11" style="margin-right:0;"><option>儿童（0~5岁）/人</option></select>
+          <option value="0">成人/人</option>
+          <?php 
+          foreach($arrOptions as $k => $v) {
+          ?>
+          <option value="<?php echo $k;?>"><?php echo $v;?></option>
+          <?php 
+          }
+          ?>
+          </select>
+          <select name="select" class="input_11" style="margin-right:0;">
+          <option value="0">儿童（0~5岁）/人</option>
+          <?php 
+          foreach($arrOptions as $k => $v) {
+          ?>
+          <option value="<?php echo $k;?>"><?php echo $v;?></option>
+          <?php 
+          }
+          ?>
+          </select>
         <div class="clear"></div>
         </div>
         <input type="submit" name="button" class="input_12" value="立即预约" onclick="window.location='payment.html';">
+        
         <div class="midd_128">
-          <span style="color:#e83744;">244</span>人预约 | <img src="images/guide_1_06.jpg"><span style="color:#e83744;">244</span>/人点赞 | 顾客评分：<span style="color:#104787;">5.0</span>分 | 评论数：<span style="color:#104787;">156</span>次
+          <span style="color:#e83744;"><?php echo $arrCharter['book_count'];?></span>人预约 | 
+          <img src="images/guide_1_06.jpg"><span style="color:#e83744;"><?php echo $arrCharter['like_count'];?></span>/人点赞 | 顾客评分：
+          <span style="color:#104787;"><?php echo $arrCharter['score_count'];?></span>分 | 评论数：
+          <span style="color:#104787;"><?php echo $arrCharter['comment_count'];?></span>次
         </div>
+        
         <!-- 选择日期 --> 
         <script type="text/javascript" src="js/laydate.js"></script> 
         <script type="text/javascript">
@@ -242,6 +342,9 @@ jQuery(function(){
 	list.click(function(){
 		list.removeClass('active');
 		jQuery(this).addClass('active');
+
+		var price = jQuery(this).data("price");
+		$("#choice_class_price").html(price);
 	});
 });
 </script>
@@ -249,14 +352,16 @@ jQuery(function(){
       <div class="clear"></div>
     </div>
     
-      <div class="midd_105">
+	<div class="midd_105">
       <a href="#q1" class="midd_106">线路详细</a>
       <a href="#q2">服务流程</a>
       <a href="#q3">车辆信息</a>
-      <a href="#q4">服务标准</a>
-      <a href="#q5">注意事项</a>
-      <a href="#q6">用户评价</a>
-    </div>
+      <?php foreach($arrSetting as $index => $setting) {
+      	echo '<a href="#q'.($settingIndex + $index).'">'.$setting["name"].'</a>';
+      }?>
+      <a href="#q<?php echo $settingIndex + count($arrSetting);?>">用户评价</a>
+	</div>
+	
     <div class="midd_27" style="margin-top:0;">
       <a name="q1"></a>
       <div class="midd_107">线路详细</div>
@@ -299,102 +404,49 @@ jQuery(function(){
         <img src="images/guide_4_15.png">
       <div class="clear"></div>
       </div>
+      
+      <!-- 服务流程 -->
       <a name="q2"></a>
-      <div class="midd_107 midd_top20">服务流程</div>
-      <div class="midd_115">
-        <div class="midd_112"><img src="images/guide_4_22.png"><span>选择旅行日期</span></div>
-        <div class="midd_112"><img src="images/guide_4_25.png"><span>完成支付订单</span></div>
-        <div class="midd_112"><img src="images/guide_4_28.png"><span>等待客服联系</span></div>
-        <div class="midd_112"><img src="images/guide_4_30.png"><span>核实订单信息</span></div>
-        <div class="midd_113"><img src="images/guide_4_32.png"><span>体验精彩旅程</span></div>
-        <div class="midd_114"><h1>服<br>务<br>提<br>醒</h1><span>我们会提前1-2天按照订单上的联系方式跟您取得联系并确认集合时间和地点，凭预定时预留姓名与订单手机号与司机核实使用。</span></div>
-      <div class="clear"></div>
-      </div>
+	  <?php require_once 'include/services_rules.php';?>
+	  
+	  <!-- 车辆信息 -->
       <a name="q3"></a>
-      <div class="midd_107 midd_top20">车辆信息</div>
-      <div class="midd_115">
-        <div class="midd_116">
-          <img src="images/guide_5_03.jpg">
-          <span><h1>舒适5座</h1><h2>丰田普锐斯或同级</h2></span>
-          <div class="midd_117">
-            <div class="left"><div class="midd_117">建 议<br>乘 坐</div><div class="midd_118"><i><b>4</b> /人</i></div></div>
-            <div class="right">
-              <div class="midd_119"><div class="midd_120">建议大行李箱</div><div class="midd_121"><i><b>1</b> /件</i></div></div>
-              <div class="midd_119"><div class="midd_120">建议小行李箱</div><div class="midd_121"><i><b>1</b> /件</i></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="midd_116" style="margin-right:0;">
-          <img src="images/guide_5_05.jpg">
-          <span><h1>舒适7座</h1><h2>丰田埃尔法或同级</h2></span>
-          <div class="midd_117">
-            <div class="left"><div class="midd_117">建 议<br>乘 坐</div><div class="midd_118"><i><b>6</b> /人</i></div></div>
-            <div class="right">
-              <div class="midd_119"><div class="midd_120">建议大行李箱</div><div class="midd_121"><i><b>4</b> /件</i></div></div>
-              <div class="midd_119"><div class="midd_120">建议小行李箱</div><div class="midd_121"><i><b>2</b> /件</i></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="midd_116">
-          <img src="images/guide_5_10.jpg">
-          <span><h1>商务10座</h1><h2>丰田海狮或同级</h2></span>
-          <div class="midd_117">
-            <div class="left"><div class="midd_117">建 议<br>乘 坐</div><div class="midd_118"><i><b>10</b> /人</i></div></div>
-            <div class="right">
-              <div class="midd_119"><div class="midd_120">建议大行李箱</div><div class="midd_121"><i><b>6</b> /件</i></div></div>
-              <div class="midd_119"><div class="midd_120">建议小行李箱</div><div class="midd_121"><i><b>4</b> /件</i></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="midd_116" style="margin-right:0;">
-          <img src="images/guide_5_12.jpg">
-          <span><h1>豪华5座</h1><h2>宾利欧陆或同级</h2></span>
-          <div class="midd_117">
-            <div class="left"><div class="midd_117">建 议<br>乘 坐</div><div class="midd_118"><i><b>3</b> /人</i></div></div>
-            <div class="right">
-              <div class="midd_119"><div class="midd_120">建议大行李箱</div><div class="midd_121"><i><b>1</b> /件</i></div></div>
-              <div class="midd_119"><div class="midd_120">建议小行李箱</div><div class="midd_121"><i><b>1</b> /件</i></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="midd_116">
-          <img src="images/guide_5_17.jpg">
-          <span><h1>豪华7座</h1><h2>丰田埃尔法豪华版或者同等</h2></span>
-          <div class="midd_117">
-            <div class="left"><div class="midd_117">建 议<br>乘 坐</div><div class="midd_118"><i><b>10</b> /人</i></div></div>
-            <div class="right">
-              <div class="midd_119"><div class="midd_120">建议大行李箱</div><div class="midd_121"><i><b>6</b> /件</i></div></div>
-              <div class="midd_119"><div class="midd_120">建议小行李箱</div><div class="midd_121"><i><b>4</b> /件</i></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="midd_116" style="margin-right:0;">
-          <div class="midd_122">预约前请注意</div>
-          <div class="midd_123">建议乘坐人数中成人与儿童同样占座<br>每减少1位乘客即可增加1件行李</div>
-        </div>
-      <div class="clear"></div>
-      </div>
-      <a name="q4"></a>
-      <div class="midd_107 midd_top20">服务标准</div>
-      <div class="midd_115">
-        <p class="midd_124">自定义区域<br>来到拜伦湾，你当然不能错过全澳最早的日出。</p>
-        <p class="midd_124">在湾区东边的山顶的那座白色灯塔下，俯瞰这片蔚蓝海岸被涂上金黄，只有凝神屏气，才不会辜负这份绝美的景观。</p>
-        <div class="midd_125"><img src="images/guide_4_42.jpg"><img src="images/guide_4_45.jpg" style="margin-right:0;"></div>
-      <div class="clear"></div>
-      </div>
-      <a name="q5"></a>
-      <div class="midd_107 midd_top20">注意事项</div>
+      <?php require_once 'include/car_info.php';?>
+
+
+	  <!-- 服务标准/注意事项 -->
+      <?php 
+      foreach($arrSetting as $index => $setting) {
+      	echo '<a name="q'.($settingIndex + $index).'"></a>';
+      	echo '<div class="midd_107 midd_top20">'.$setting["name"].'</div>';
+      ?>
       <div class="midd_126">
-        自定义区域<br>
-        1. 一经预定不得取消和修改日期；<br>
-        2. 此款特卖产品数量有限，因此需要您至少提前5天预订车辆；<br>
-        3. 请注意，这个产品是同店取还车；<br>
-        4. 主驾驶员要求持有驾照时间至少满一年；<br>
-        5. 驾驶员请在预约租车后准备相应的驾照翻译件，可联系租租车协助完成；<br>
-        6. 主驾驶人本人必须持有Visa或者Mastercard标志的国际信用卡；<br>
-        7. 提交订单后，租租车将在3个工作日内为您确认订单，如遇周末或法定节假日将顺延至工作日处理。
+        <?php echo $setting["content"];?>
+        
+        <?php 
+        if (count($setting["images"]) > 0) {
+        ?>
+        <div class="midd_125">
+        	<?php 
+		      foreach($setting["images"] as $images) {
+		      ?>
+        	<img src="<?php echo $images;?>">
+	        <?php 
+		      }
+		      ?>
+        </div>
+         <?php 
+	      }
+	      ?>
+      <div class="clear"></div>
       </div>
-      <a name="q6"></a>
+      
+      <?php 
+      }
+      ?>
+      
+      
+      <a name="q<?php echo $settingIndex + count($arrSetting);?>"></a>
       <div class="midd_107 midd_top20">用户评价</div>
       <div class="midd_40">
         <div class="left">整体评分：<span>4.7</span>/分</div>
@@ -489,37 +541,9 @@ jQuery(function(){
 <div class="clear"></div>
 </div>
 
+<!-- 底部 -->
+<?php require_once 'foot.php';?>
 
-<footer id="fh5co-footer" role="contentinfo">
-    <div class="container">
-      <div class="midd_10 col-sm-push-0 col-xs-push-0">
-        <h3>关于我们</h3>
-        <p>美溪传媒車友倶楽部成立于2016年8月1日，是在日本东京投资注册的独立法人公司。<br>公司专致于提供日本境内旅游业务，为外国游客提供餐饮和娱乐服务，</p>
-        <p><a href="#" class="btn btn-primary btn-outline with-arrow btn-sm">联系我们<i class="icon-arrow-right"></i></a></p>
-      </div>
-      <div class="col-md-6 col-md-push-1 col-sm-12 col-sm-push-0 col-xs-12 col-xs-push-0">
-        <ul class="float">
-        <h3>联系方式</h3>
-        <span>美溪车友传媒俱乐部</span>
-          <li><a href="#"><img src="images/6_03.png">東京都世田谷区玉川2-15-12</a></li>
-          <li><a href="#"><img src="images/6_07.png">090-0000-0000</a></li>
-          <li><a href="#"><img src="images/6_10.png">090-0000-0000</a></li>
-          <li><a href="#"><img src="images/6_13.png">090-0000-0000</a></li>
-          <li><a href="#"><img src="images/6_17.png">contact@meixinpo.com</a></li>
-        </ul>
-        <div class="midd_65"><h3>微信公众号</h3><img src="images/17_03.jpg"></div>
-      </div>
-      <div class="clear"></div>
-      <div class="midd_11">
-        © 2016 美溪车友传媒俱乐部 All rights reserved
-      </div>
-    </div>
-  </footer>
-<!-- 返回顶部 -->
-<div id="top"><img src="images/top.png"></div>
-<script>
-$('#top').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);return false;});
-</script>
 
 <!-- 产品图片 --> 
 <script src="js/slider.photo.js"></script>

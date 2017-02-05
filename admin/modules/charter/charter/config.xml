@@ -6,7 +6,7 @@
 	<medias max="20" resizing="1">
 		<big maxw="1920" maxh="1440"/>
 		<medium maxw="600" maxh="600"/>
-		<small maxw="400" maxh="400"/>
+		<small maxw="100" maxh="100"/>
 	</medias>
 	<list order="rank">
 		<filter label="服务类别" name="charter_type">

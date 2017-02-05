@@ -122,8 +122,8 @@ body{ background:#f7f7f7;}
      <a href="javascript:void(0);" onclick="searchFun('order_by', 'book');"><?php if ($hmWeb->t("order_by", $arrParams) == "book") {?><span>销量</span><img src="/images/9_08.png"><?php } else {?>销量<img src="/images/9_10.png"><?php }?></a>
     </div>
     <div class="right">
-    	<a href="javascript:void(0);" onclick="changeToGrid('guide.html');"><img src="images/7_10.png"><br>列表</a>
-		<a href="javascript:void(0);" onclick="changeToGrid('guide_grid.html');"><img src="images/8_05.png"><br><span>网格</span></a>
+    	<a href="javascript:void(0);" onclick="changeToGrid('guide.html');"><img src="/images/7_10.png"><br>列表</a>
+		<a href="javascript:void(0);" onclick="changeToGrid('guide_grid.html');"><img src="/images/8_05.png"><br><span>网格</span></a>
 	</div>
     <div class="clear"></div>
   </div>
@@ -159,11 +159,6 @@ foreach($charterList as $i => $arrCharter){
 	$charter_title = $arrCharter['title'];
 
 	
-	$min_price = 0;
-	if ($charter_price > 0) {
-		$min_price = $charter_price;
-	}
-	
 	$index++;
 ?>
   <div class="midd_fff midd_87" <?php if ($index%3 == 0) {echo 'style="margin-right:0;"';}?> > <a href="guidexx.html?id=<?php echo $charter_id;?>" class="item-grid text-center" >
@@ -171,7 +166,7 @@ foreach($charterList as $i => $arrCharter){
     	<?php 
   		if (empty($arrCharter['image_url'])) {
   		?>
-  		<img src="images/guide_2_03.jpg">
+  		<img src="/images/guide_2_03.jpg">
   		<?php } else {?>
   		<img style="max-width: 360px;" src="<?php echo $arrCharter['image_url'];?>" alt="<?php echo $arrCharter['image_label'];?>">
   		<?php }?>

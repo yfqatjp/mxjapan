@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module title="交易保障 " name="charter_guaranteed" multi="1" library="0" dashboard="0" icon="legal" ranking="0" home="0" main="0" validation="1" dates="0" release="0" index="38">
+<module title="车导设置" name="charter_guaranteed" multi="1" library="0" dashboard="0" icon="legal" ranking="0" home="0" main="0" validation="1" dates="0" release="0" index="38">
 	<!-- resizing
 	[0] 1 single image
 	[1] 1x big, 1x medium, 1x small -->
-	<medias max="1" resizing="0">
+	<medias max="10" resizing="0">
 		<big maxw="500" maxh="600"/>
 		<medium maxw="400" maxh="300"/>
 		<small maxw="200" maxh="150"/>
 	</medias>
 	<list order="name">
-		<col label="担保名称" name="name" type="none"/>
+		<col label="名称" name="name" type="none"/>
 	</list>
 	<form>
-		<field multi="1" label="担保名称" name="name" type="text" required="1" unique="1" validation="none"/>
-        <field multi="1" label="担保内容" name="content" type="textarea" editor="1" required="0" unique="0" validation="none"/>
+		<field multi="1" label="名称" name="name" type="text" required="1" unique="1" validation="none"/>
+        <field multi="1" label="内容" name="content" type="textarea" editor="1" required="0" unique="0" validation="none"/>
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>
