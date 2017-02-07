@@ -282,7 +282,7 @@ if (@$_GET['list'] == "") {
         if ($map == 1) {
             ?>
             <div id="mainMap" style="width: 1140px;height: 848px;"></div>
-        <?php } ?>
+        <?php }else{ ?>
         <div id='pagina'>
             <?php
             if ($page - 1 > 0) {
@@ -327,6 +327,7 @@ if (@$_GET['list'] == "") {
                 <a href="list2_<?php echo $page + 1 ?>_<?php echo @$_GET['ren'] ?>_<?php echo @$_GET['jia'] ?>_<?php echo @$_GET['sou'] ?>_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html">下一页</a>
             <?php } ?>
         </div>
+        <?php } ?>
     </div>
 </div>
 <?php require_once 'foot.php'; ?>
@@ -540,7 +541,7 @@ if (@$_GET['list'] == "") {
 
         map = new google.maps.Map(document.getElementById('mainMap'), myOptions);
         <?php
-        $rs = $pdo->query("SELECT a.* FROM pm_hotel as a LEFT JOIN pm_room as b on a.id = b.id_hotel " . @$sql . " GROUP BY id  limit $startCount,$perNumber");
+        $rs = $pdo->query("SELECT a.* FROM pm_hotel as a LEFT JOIN pm_room as b on a.id = b.id_hotel " . @$sql . " GROUP BY id  limit 0,100");
         $i = 1;
         while ($row = $rs->fetch()) {
         if (@$lat == "") {

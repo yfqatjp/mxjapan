@@ -36,8 +36,19 @@ function getModules($dir, $modules = array())
                 $module = $dom->getElementsByTagName("module")->item(0);
                 
                 $index = htmlentities($module->getAttribute("index"), ENT_QUOTES, "UTF-8");
+                
+
+                
                 $title = htmlentities($module->getAttribute("title"), ENT_QUOTES, "UTF-8");
+                
+
+                
                 $name = htmlentities($module->getAttribute("name"), ENT_QUOTES, "UTF-8");
+                
+                if($name == "hotel_pl"){
+                	echo "hotel_pl";
+                }
+                
                 $multi = htmlentities($module->getAttribute("multi"), ENT_QUOTES, "UTF-8");
                 $library = htmlentities($module->getAttribute("library"), ENT_QUOTES, "UTF-8");
                 $dashboard = htmlentities($module->getAttribute("dashboard"), ENT_QUOTES, "UTF-8");

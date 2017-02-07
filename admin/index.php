@@ -45,6 +45,11 @@ require_once("includes/fn_module.php"); ?>
 
                             $title = $module->getTitle();
                             $name = $module->getName();
+                            
+                            if($name == "hotel_pl"){
+                            	echo "hotel_pl";
+                            }
+                            
                             $dir = $module->getDir();
                             $dates = $module->isDates();
                             $count = 0;

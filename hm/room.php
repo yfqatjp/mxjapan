@@ -86,7 +86,7 @@ $dis .= "";
     <span id="room">
     <div class="midd_59"><span>入住日期：</span>
         <div class="midd_60">
-            <input name="ont" class="rendezvous-input-date"
+            <input name="ont" class="rendezvous-input-date" readonly="true"
 
                    data-validation-engine="validate[required]"
                    id="start">
@@ -95,7 +95,7 @@ $dis .= "";
     </div>
     <div class="midd_59"><span>退房日期：</span>
         <div class="midd_60">
-            <input name="offt" class="rendezvous-input-date"
+            <input name="offt" class="rendezvous-input-date" readonly="true"
 
                    data-validation-engine="validate[required]"
                    id="end">
