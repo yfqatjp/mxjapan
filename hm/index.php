@@ -194,11 +194,11 @@ $row2 = $rs2->fetch();
                 </div>
                 <input name="lid" class="lid" type="hidden" value="1">
                 <div class="midd_66">
-                    <input name="ont" class="rendezvous-input-date" id="start"
+                    <input name="ont" class="rendezvous-input-date" id="start" readonly
                            value="<?php if (@$_GET['ont'] == "") { ?>入住日期<?php } else {
                                echo @$_GET['ont'];
                            } ?>">
-                    <input name="offt" class="rendezvous-input-date" id="end"
+                    <input name="offt" class="rendezvous-input-date" id="end" readonly
                            value="<?php if (@$_GET['offt'] == "") { ?>退房日期<?php } else {
                                echo @$_GET['ont'];
                            } ?>">

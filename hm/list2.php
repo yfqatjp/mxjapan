@@ -106,11 +106,11 @@ if (@$_GET['list'] == "") {
                     </div>
                 </div>
                 <div class="midd_12">
-                    <input name="ont" class="rendezvous-input-date" id="start"
+                    <input name="ont" class="rendezvous-input-date" id="start" readonly
                            value="<?php if (@$_GET['ont'] == "") { ?>入住日期<?php } else {
                                echo @$_GET['ont'];
                            } ?>">
-                    <input name="offt" class="rendezvous-input-date" id="end"
+                    <input name="offt" class="rendezvous-input-date" id="end" readonly
                            value="<?php if (@$_GET['offt'] == "") { ?>退房日期<?php } else {
                                echo @$_GET['offt'];
                            } ?>">
