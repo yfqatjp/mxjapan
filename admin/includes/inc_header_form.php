@@ -11,21 +11,21 @@ require_once("inc_header_common.php"); ?>
             || ($(this).val() != 'delete_multi_file' && confirm('<?php echo $texts['ACTION_CONFIRM']." ".$texts['LOOSE_DATAS']; ?>')))
                 $('#form').attr('action','index.php?view=form&csrf_token=<?php echo $csrf_token; ?>&action='+$(this).val()).submit();
         });
-        $('.btn-slide').on('click', function(){
-            var library = $('#wrap-library');
-            if($(this).hasClass('left')){
-                $(this).removeClass('left').addClass('right');
-                library.animate({
-                    right:'0px'
-                }, 1000);
-            }else{
-                $(this).removeClass('right').addClass('left');
-                library.animate({
-                    right:-library.width()+'px'
-                }, 1000);
-            }
-            return false;
-        });
+        // $('.btn-slide').on('click', function(){
+        //     var library = $('#wrap-library');
+        //     if($(this).hasClass('left')){
+        //         $(this).removeClass('left').addClass('right');
+        //         library.animate({
+        //             right:'0px'
+        //         }, 1000);
+        //     }else{
+        //         $(this).removeClass('right').addClass('left');
+        //         library.animate({
+        //             right:-library.width()+'px'
+        //         }, 1000);
+        //     }
+        //     return false;
+        // });
         
         $('.actions-file a').on('click', function(){
             if(!confirm('<?php echo $texts['ACTION_CONFIRM']." ".$texts['LOOSE_DATAS']; ?>')) return false;

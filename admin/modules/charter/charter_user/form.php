@@ -461,7 +461,8 @@ $csrf_token = get_token("form"); ?>
         include(SYSBASE.ADMIN_FOLDER."/includes/inc_top.php");
         
         if(!in_array("no_access", $permissions)){
-            include(SYSBASE.ADMIN_FOLDER."/includes/inc_library.php"); ?>
+            // include(SYSBASE.ADMIN_FOLDER."/includes/inc_library.php");
+        ?>
             <form id="form" class="form-horizontal" role="form" action="index.php?view=form" method="post" enctype="multipart/form-data">
                 <div id="page-wrapper">
                     <div class="page-header">
