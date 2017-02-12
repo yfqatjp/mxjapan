@@ -1,4 +1,5 @@
-<?php require_once '../coon.php';
+<?php 
+require_once './../coon.php';
 if (@$_SESSION['userid'] == "") {
     header("Location: /signin.html");
     exit;
@@ -23,8 +24,10 @@ $txt = "包车订单";
 <?php require_once '../head.php';
 ?>
 
-<div class="midd_26"><img src="../images/11_03.png"><a href="/index.html">首页</a> > <a href="/user">个人中心</a> > <a
-        href="bcdd.html">包车订单</a></div>
+<div class="midd_26">
+<img src="../images/11_03.png"><a href="/index.html">首页</a> > <a href="/user">个人中心</a> > 
+<a href="bcdd.html">包车订单</a>
+</div>
 
 <div class="midd_auto user">
     <!-- 左侧导航 -->
@@ -34,6 +37,7 @@ $txt = "包车订单";
     <!-- 右侧 -->
     <div class="user_4">
         <div class="midd_68"><span>包车订单</span></div>
+        
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="user_13">
             <tr class="user_14">
                 <td width="34%" style="padding-left:10px;">商品</td>
@@ -42,128 +46,113 @@ $txt = "包车订单";
                 <td width="15%" align="center">订单状态</td>
                 <td width="18%" align="center">订单操作</td>
             </tr>
-            <tr>
-                <td><img src="../images/user_20.jpg" width="80" height="67"><span class="user_16">大阪丽思卡尔顿 大床房</span>
-                </td>
-                <td align="center" class="user_15">1595元</td>
-                <td align="center">2016-10-10 15:23</td>
-                <td align="center" class="user_15">等待付款</td>
-                <td align="center"><a href="payment.html">立即付款</a></td>
-            </tr>
-            <tr>
-                <td><img src="../images/user_20.jpg" width="80" height="67"><span class="user_16">大阪丽思卡尔顿 大床房</span>
-                </td>
-                <td align="center" class="user_15">1595元</td>
-                <td align="center">2016-10-10 15:23</td>
-                <td align="center">已完成</td>
-                <td align="center">&nbsp;</td>
-            </tr>
-            <tr>
-                <td><img src="../images/user_20.jpg" width="80" height="67"><span class="user_16">大阪丽思卡尔顿 大床房</span>
-                </td>
-                <td align="center" class="user_15">1595元</td>
-                <td align="center">2016-10-10 15:23</td>
-                <td align="center">已取消</td>
-                <td align="center">&nbsp;</td>
-            </tr>
-            <tr>
-                <td><img src="../images/user_20.jpg" width="80" height="67"><span class="user_16">大阪丽思卡尔顿 大床房</span>
-                </td>
-                <td align="center" class="user_15">1595元</td>
-                <td align="center">2016-10-10 15:23</td>
-                <td align="center" class="user_15">等待付款</td>
-                <td align="center"><a href="payment.html">立即付款</a></td>
-            </tr>
-            <tr>
-                <td><img src="../images/user_20.jpg" width="80" height="67"><span class="user_16">大阪丽思卡尔顿 大床房</span>
-                </td>
-                <td align="center" class="user_15">1595元</td>
-                <td align="center">2016-10-10 15:23</td>
-                <td align="center">已完成</td>
-                <td align="center">&nbsp;</td>
-            </tr>
-            <tr>
-                <td><img src="../images/user_20.jpg" width="80" height="67"><span class="user_16">大阪丽思卡尔顿 大床房</span>
-                </td>
-                <td align="center" class="user_15">1595元</td>
-                <td align="center">2016-10-10 15:23</td>
-                <td align="center">已取消</td>
-                <td align="center">&nbsp;</td>
-            </tr>
+            <?php
+            $perNumber = 6;
+            $page = @$_GET['page'];
+            $count = $pdo->query("SELECT b.* FROM pm_gwc AS a LEFT JOIN pm_charter_booking AS b ON a.onum = b.trans WHERE b.id IS NOT NULL AND a.uid = " . $_SESSION['userid'] . " ");
+            $totalNumber = $count->rowCount();
+            $totalPage = ceil($totalNumber / $perNumber);
+            if (!isset($page)) {
+                $page = 1;
+            }
+            $startCount = ($page - 1) * $perNumber;
+            $rs = $pdo->query("SELECT a.onum, a.dtime, b.* FROM pm_gwc AS a LEFT JOIN pm_charter_booking AS b ON a.onum = b.trans WHERE b.id IS NOT NULL AND a.uid = " . $_SESSION['userid'] . " limit $startCount,$perNumber");
+            while ($row = $rs->fetch()) {
+                    ?>
+                    <tr>
+                        <td><img
+                                    src="<?php $rs3 = $pdo->query("SELECT * FROM pm_charter_file WHERE id_item = " . $row['charter_id']);
+                                    $row3 = $rs3->fetch();
+                                    echo "/medias/charter/medium/" . $row3['id'] . "/" . $row3['file'] ?>" width="80"
+                                    height="67">
+                            <h2><?php echo $row['title'] ?></h2><br>
+                            <h3><?php echo $row['charter_class_name'] ?>
+                            	<br/>预定日：<?php echo date('Y-m-d', $row['arrive_time']) ?>
+                            </h3>
+                        </td>
+                        <td align="center" class="user_15"><?php echo $row['total'] ?>元</td>
+                        <td align="center"><?php echo $row['dtime'] ?></td>
+                        <td align="center"<?php if ($row['status'] == 0){ ?> class="user_15">
+                            等待付款<?php } else if ($row['status'] == 2) { ?>>取消<?php } else if ($row['status'] == 1) { ?>>预约等待中<?php } else if ($row['status'] == 4) { ?>>已付款<?php } else if ($row['status'] == 3) { ?>>拒绝付款<?php } else if ($row['status'] == 5) { ?>>确认预约<?php } ?></td>
+                        <td align="center"><?php if ($row['status'] == 0 || $row['status'] == 1) { ?><a
+                                    href="/topay.html?no=<?php echo $row['onum'];?>">立即付款</a><?php } ?>
+                        </td>
+                    </tr>
+                <?php 
+            } ?>
         </table>
-        <div class="sehun_6">
-            <img src="../images/user_20.jpg">
-            <div class="sehun_7">
-                <h1>大阪丽思卡尔顿 大床房</h1>
-                <span class="sehun_8">1595元</span>
-                <span class="sehun_9">2016-10-10 15:23</span>
-                <span class="sehun_8">等待付款</span>
-                <a href="payment.html">立即付款</a>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="sehun_6">
-            <img src="../images/user_20.jpg">
-            <div class="sehun_7">
-                <h1>大阪丽思卡尔顿 大床房</h1>
-                <span class="sehun_8">1595元</span>
-                <span class="sehun_9">2016-10-10 15:23</span>
-                <span class="sehun_9">已完成</span>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="sehun_6">
-            <img src="../images/user_20.jpg">
-            <div class="sehun_7">
-                <h1>大阪丽思卡尔顿 大床房</h1>
-                <span class="sehun_8">1595元</span>
-                <span class="sehun_9">2016-10-10 15:23</span>
-                <span class="sehun_9">已取消</span>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="sehun_6">
-            <img src="../images/user_20.jpg">
-            <div class="sehun_7">
-                <h1>大阪丽思卡尔顿 大床房</h1>
-                <span class="sehun_8">1595元</span>
-                <span class="sehun_9">2016-10-10 15:23</span>
-                <span class="sehun_8">等待付款</span>
-                <a href="payment.html">立即付款</a>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="sehun_6">
-            <img src="../images/user_20.jpg">
-            <div class="sehun_7">
-                <h1>大阪丽思卡尔顿 大床房</h1>
-                <span class="sehun_8">1595元</span>
-                <span class="sehun_9">2016-10-10 15:23</span>
-                <span class="sehun_9">已完成</span>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="sehun_6">
-            <img src="../images/user_20.jpg">
-            <div class="sehun_7">
-                <h1>大阪丽思卡尔顿 大床房</h1>
-                <span class="sehun_8">1595元</span>
-                <span class="sehun_9">2016-10-10 15:23</span>
-                <span class="sehun_9">已取消</span>
-            </div>
-            <div class="clear"></div>
-        </div>
+        <?php
+        $rs = $pdo->query("SELECT a.onum, a.dtime, b.* FROM pm_gwc AS a LEFT JOIN pm_charter_booking AS b ON a.onum = b.trans WHERE b.id IS NOT NULL AND a.uid = " . $_SESSION['userid'] . " limit $startCount,$perNumber");
+        while ($row = $rs->fetch()) {
+                ?>
+                <div class="sehun_6">
+                    <img src="<?php $rs3 = $pdo->query("SELECT * FROM pm_charter_file WHERE id_item = " . $row['charter_id']);
+                    $row3 = $rs3->fetch();
+                    echo "/medias/charter/medium/" . $row3['id'] . "/" . $row3['file'] ?>">
+                    <div class="sehun_7">
+                        <h1><?php echo $row['title'] ?></h1>
+                        <span class="sehun_9"><?php echo $row['charter_class_name'] ?></span>
+                        <span class="sehun_9">预定日：<?php echo date('Y-m-d', $row['arrive_time']) ?></span>
+                        <span class="sehun_8"><?php echo $row['total'] ?>元</span>
+                        <span class="sehun_9"><?php echo $row['dtime'] ?></span>
+                        <span class="sehun_8"><?php if ($row['status'] == 0) { ?>等待付款
+                            <?php } else if ($row['status'] == 2) { ?>取消
+                            <?php } else if ($row['status'] == 1) { ?>预约等待中
+                            <?php } else if ($row['status'] == 4) { ?>已付款
+                            <?php } else if ($row['status'] == 3) { ?>拒绝付款
+                            <?php } else if ($row['status'] == 5) { ?>确认预约<?php } ?></span>
+                        <?php if ($row['status'] == 0 || $row['status'] == 1) { ?><a
+                                href="/topay.html?no=<?php echo $row['onum'];?>">立即付款</a><?php } ?>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            <?php 
+        } ?>
         <div id='pagina'>
-            <a href='?tab=0&page=1'>上一页</a>
-            <a href='?tab=0&page=1' class='number'>1</a>
-            <a href='?tab=0&page=2'>2</a>
-            <a href='?tab=0&page=3'>3</a>
-            <a href='?tab=0&page=4'>4</a>
-            <a href='?tab=0&page=5'>5</a>
-            <a href='?tab=0&page=6'>6</a> &nbsp;
-            ... <a href='?tab=0&page=22'>22</a>
-            <a href='?tab=0&page=2'>下一页</a>
+            <?php
+            if ($page - 1 > 0) {
+                ?>
+                <a href="bcdd_<?php echo $page - 1 ?>.html">上一页</a>
+                <?php
+            }
+            if ($page == $totalPage && $page == 1) {
+                echo "<a class='number'>1</a>";
+            } else {
+                if ($page - 2 > 0) {
+                    ?>
+                    <a href="bcdd_<?php echo $page - 2 ?>.html"><?php echo $page - 2 ?></a>
+                    <?php
+                }
+                if ($page - 1 > 0) {
+                    ?>
+                    <a href="bcdd_<?php echo $page - 1 ?>.html"><?php echo $page - 1 ?></a>
+                    <?php
+                }
+
+                if ($totalPage > 5) {
+                    if ($totalPage - 2 >= $page) {
+                        $total = $page + 2;
+                    } else {
+                        $total = $totalPage;
+                    }
+                } else {
+                    $total = $totalPage;
+                }
+                for ($i = $page; $i <= @$total; $i++) {
+                    if ($page == $i) {
+                        echo '<a class="number">' . $i . '</a>';
+                    } else { ?>
+                        <a href="bcdd_<?php echo $i ?>.html"><?php echo $i ?></a>
+                        <?php
+                    }
+                }
+            }
+            if ($page + 1 < $totalPage) {
+                ?>
+                <a href="bcdd_<?php echo $page + 1 ?>.html">下一页</a>
+            <?php } ?>
         </div>
+        
     </div>
     <div class="clear"></div>
 </div>

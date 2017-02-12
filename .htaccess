@@ -12,6 +12,7 @@ order deny,allow
     RewriteRule ^user/nbxxk_(.*?)_(.*?)_(.*?).html /hm/user/nbxxk.php?page=$1&lid=$2&text=$3 [L]
     RewriteRule ^room_(.*?)_(.*?)_(.*?)_(.*?)_(.*?)_(.*?).html /hm/room.php?a=$1&b=$2&c=$3&d=$4&e=$5&f=$6 [L]
     RewriteRule ^guide_grid.html /hm/guide_grid.php [L]
+    RewriteRule ^guide_payment.html /hm/guide_payment.php [L]
     RewriteRule ^(.*?)_x(.*?).html /hm/$1.php?id=$2 [L]
     RewriteRule ^(.*?)_(.*?).html /hm/$1.php?page=$2 [L]
     RewriteRule ^(.*?).html /hm/$1.php [L]

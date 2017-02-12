@@ -37,6 +37,39 @@ class Admin extends Hotel {
     	}
     }
     
+
+    /**
+     * 服务详细情报的check
+     */
+    public function checkCharterOwner(&$fields, $id) {
+    	//
+    	$charterOwnerValue = 0;
+    	$arriveTime = "";
+    	foreach($fields[MODULE]["fields"] as $field){
+    		$fieldName = $field->getName();
+    		$value = $field->getValue();
+    		if ($fieldName == "charter_owner") {
+    			$charterOwnerValue = $value;
+    		}
+    		if ($fieldName == "arrive_time") {
+    			$arriveTime = $value;
+    		}
+    	}
+    	
+    	if ($charterOwnerValue > 0 && !empty($arriveTime)) {
+    		$sql = "SELECT count(id) as owner_count 
+    				FROM pm_charter_booking 
+    				WHERE id <> ".$id." and charter_owner = ".$charterOwnerValue." and arrive_time =".$arriveTime;
+    		$result1 = $this->db->query($sql);
+    		if($result1 !== false){
+    			if ($result1->fetchColumn(0) > 0) {
+    				return false;
+    			}
+    		}
+    	}
+    	return true;
+    }
+    
     /**
      * 包车服务的前处理
      */

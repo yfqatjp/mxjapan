@@ -61,7 +61,11 @@ if($fp !== false){
             if ($rs->rowCount() > 0) {
                 $row = $rs->fetch();
 
-                $sql = "SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $row['hotels'];
+                if (isset($row['type']) && $row['type'] == 1) {
+                	$sql = "SELECT * FROM pm_charter WHERE lang = 2 AND id = " . $row['charter_id'];
+                } else {
+                	$sql = "SELECT * FROM pm_hotel WHERE lang = 2 AND id = " . $row['hotels'];
+                }
                 $rs1 = $pdo->query($sql);
                 
                 $row1 = $rs1->fetch();
@@ -77,21 +81,49 @@ if($fp !== false){
 
                 $message = $message . $sql ."\n";                
                 
-                $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
-                if ($day <= 0) {
-                    $day = 1;
+                if (isset($row['type']) && $row['type'] == 1) {
+                	$rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row['uid']);
+                	 
+                	$row5 = $rs5->fetch();
+                	
+                	//
+                	require_once $_SERVER['DOCUMENT_ROOT'] . '/common/HmWeb.php';
+                	
+                	$otherData = array();
+                	$otherData["payment_date"] = strtotime("now");
+                	$otherData["payment_total"] = $payment_amount;
+                	$arrBookingData = $hmWeb->getBookingData($row["id"], $row, $row5, $row1, 3, 4, $otherData);
+                	
+                	//
+                	$charterBookingSql = "select * from pm_charter_booking where trans = ? ";
+                	$arrExistsBooking = $hmWeb->findOne($charterBookingSql, array($row["onum"]));
+                	if ($arrExistsBooking != null && count($arrExistsBooking) > 0) {
+                		//
+                		$hmWeb->update("pm_charter_booking", $arrBookingData, " id = ?", array($arrExistsBooking["id"]));
+                		
+                		$message = $message . "update pm_charter_booking [" .serialize($arrBookingData)."]\n";
+                	} else {
+                		
+	                	//
+	                	$hmWeb->insert("pm_charter_booking", $arrBookingData);
+	                	
+	                	$message = $message . "insert pm_charter_booking [" .serialize($arrBookingData)."]\n";
+                	}
+                } else {
+	                $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
+	                if ($day <= 0) {
+	                    $day = 1;
+	                }
+	
+	                $rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row['uid']);
+	                
+	                $row5 = $rs5->fetch();
+	
+	                $sql = "INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $payment_amount . "','" . $row5['phone'] . "','paypal',4,'中国','" . $item_number . "' FROM pm_gwc WHERE onum LIKE '" . $item_number . "'";
+	                
+	                $rs = $pdo->exec($sql);
+	                $message = $message . $sql ."\n";
                 }
-
-                $rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row['uid']);
-                
-                $row5 = $rs5->fetch();
-
-                $sql = "INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $payment_amount . "','" . $row5['phone'] . "','paypal',4,'中国','" . $item_number . "' FROM pm_gwc WHERE onum LIKE '" . $item_number . "'";
-                
-                $rs = $pdo->exec($sql);
-                
-                $message = $message . $sql ."\n";
-                
                 $rs0 = $pdo->exec("UPDATE pm_gwc SET pay=1,tai = 3,paytime=now(),paynum='" . $txn_id . "' WHERE id = " . $row['id'] . " ");
             }
             fwrite($file,$message);

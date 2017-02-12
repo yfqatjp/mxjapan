@@ -1,7 +1,6 @@
 <?php 
 
 require_once 'coon.php';
-
 $navid = 5;
 
 $rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND id = " . $navid);
@@ -60,6 +59,47 @@ if ($arrCharterFileResult != null && count($arrCharterFileResult) > 0) {
 	}
 }
 
+// 路线
+$arrCharterLines = array();
+// sql
+$lineSql = "SELECT * FROM pm_charter_line WHERE id_charter = ?  ORDER BY rank ASC ";
+$lineImageSql = "SELECT * FROM pm_charter_line_file WHERE id_item = ? AND checked = 1 AND type = 'image' AND file != '' ORDER BY rank ";
+
+//
+$arrLineData = $hmWeb->findAll($lineSql, array($charterId));
+foreach($arrLineData as $lineData) {
+	//
+	$arrLineImages = array();
+	//
+	$arrLineImageData = $hmWeb->findAll($lineImageSql, array($lineData["id"]));
+	if ($arrLineImageData != null && count($arrLineImageData) > 0) {
+		foreach($arrLineImageData as $lineImageData) {
+			$arrImages = array();
+			$file_id = $lineImageData['id'];
+			$filename = $lineImageData['file'];
+			$realpath = $_SERVER['DOCUMENT_ROOT']."/medias/charter_line/small/".$file_id."/".$filename;
+			$thumbpath = "/medias/charter_line/small/".$file_id."/".$filename;
+			if (is_file($realpath)) {
+				$arrImages["small_image"] = $thumbpath;
+			} else {
+				$arrImages["small_image"] = "";
+			}
+			$realpath = $_SERVER['DOCUMENT_ROOT']."/medias/charter_line/big/".$file_id."/".$filename;
+			$thumbpath = "/medias/charter_line/big/".$file_id."/".$filename;
+			if (is_file($realpath)) {
+				$arrImages["big_image"] = $thumbpath;
+			} else {
+				$arrImages["big_image"] = "";
+			}
+			$arrImages["image_label"] = $lineImageData["label"];
+			$arrLineImages[] = $arrImages;
+		}
+	}
+	$lineData["images"] = $arrLineImages;
+	$arrCharterLines[] = $lineData;
+}
+
+
 // 设定的座位
 $charterClassesSql = "SELECT T1.price, T1.class_id, T2.title
     				FROM pm_charter_classes T1
@@ -86,6 +126,23 @@ if (count($arrCharter["classes"]) > 0) {
 $arrSetting = $hmWeb->findCharterSetting();
 
 $settingIndex = 4;
+
+
+// 推荐的车导
+$recommendCharters = $hmWeb->findRecommendCharterList(array());
+
+//
+$token = $hmWeb->getToken();
+
+// 车导情报
+$bookingSql = "SELECT count(id) AS booking_count FROM `pm_charter_booking` WHERE  charter_id = ? ";
+
+// 取得车导情报
+$arrBooking = $hmWeb->findOne($bookingSql, array($charterId));
+$bookingCount = 0;
+if ($arrBooking != null && count($arrBooking) > 0) {
+	$bookingCount = $arrBooking["booking_count"];
+}
 
 ?><!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -118,6 +175,7 @@ for(var i=0;i<imgArray.length;i++){
     alert//加个, 就没有弹窗了//(this._num+1);
 	var inputid=this.parentNode.previousSibling
 	inputid.value=this._num+1;
+	$("#pl_xx").val(this._num+1);
    }
 }//欢迎来到站长 特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
 if(target.tagName=="IMG"){
@@ -235,6 +293,14 @@ if(target.tagName=="IMG"){
       </div>
       
       <div class="midd_28">
+      
+		<form name="booking_form" method="post" action="action.html?booking=post">
+		<input type="hidden" name="<?php echo $hmWeb->token_name?>" value="<?php echo $token ?>">
+		<input type="hidden" name="cid" value="<?php echo $charterId ?>">
+        
+        <input type="hidden" id="booking_date" name="booking_date" value="">
+        <input type="hidden" id="choice_class_id" name="choice_class_id" value="<?php echo $choiceClassId ?>">
+        
         <div class="midd_29"><?php echo $hmWeb->t("title", $arrCharter);?></div>
         <div class="midd_48">
         <span class="midd_102"><?php echo $hmWeb->t("descr", $arrCharter);?></span> </div>
@@ -244,7 +310,7 @@ if(target.tagName=="IMG"){
          <?php foreach($arrCharter['classes'] as $classesList) {?>
 	     <a href="javascript:void(0);" <?php if ($classesList["class_id"] == $choiceClassId) {echo 'class="active"';} ?> 
 	      data-price="<?php echo $classesList["price"];?>" 
-	      data-classId="<?php echo $classesList["class_id"];?>">
+	      data-classid="<?php echo $classesList["class_id"];?>">
 	      <?php echo $classesList["title"];?>
 	      </a>
 	     <?php } ?>
@@ -252,7 +318,7 @@ if(target.tagName=="IMG"){
         </div>
         <div class="midd_127"><div class="rendezvous-input-date" id="start">选择预定日期</div></div>
         <div class="midd_115">
-          <select name="select" class="input_11">
+          <select name="adults" class="input_11">
           <option value="0">成人/人</option>
           <?php 
           foreach($arrOptions as $k => $v) {
@@ -262,7 +328,7 @@ if(target.tagName=="IMG"){
           }
           ?>
           </select>
-          <select name="select" class="input_11" style="margin-right:0;">
+          <select name="children" class="input_11" style="margin-right:0;">
           <option value="0">儿童（0~5岁）/人</option>
           <?php 
           foreach($arrOptions as $k => $v) {
@@ -274,15 +340,16 @@ if(target.tagName=="IMG"){
           </select>
         <div class="clear"></div>
         </div>
-        <input type="submit" name="button" class="input_12" value="立即预约" onclick="window.location='payment.html';">
+        <input type="submit" name="button" class="input_12" value="立即预约" >
         
         <div class="midd_128">
-          <span style="color:#e83744;"><?php echo $arrCharter['book_count'];?></span>人预约 | 
+          <span style="color:#e83744;"><?php echo $bookingCount;?></span>人预约 | 
           <img src="images/guide_1_06.jpg"><span style="color:#e83744;"><?php echo $arrCharter['like_count'];?></span>/人点赞 | 顾客评分：
           <span style="color:#104787;"><?php echo $arrCharter['score_count'];?></span>分 | 评论数：
           <span style="color:#104787;"><?php echo $arrCharter['comment_count'];?></span>次
         </div>
         
+        </form>
         <!-- 选择日期 --> 
         <script type="text/javascript" src="js/laydate.js"></script> 
         <script type="text/javascript">
@@ -302,6 +369,7 @@ var start = {
     choose: function(datas){
          end.min = datas; //开始日选好后，重置结束日的最小日期
          end.start = datas //将结束日的初始值设定为开始日
+         $("#booking_date").val(datas);
     }
 };
 
@@ -345,6 +413,9 @@ jQuery(function(){
 
 		var price = jQuery(this).data("price");
 		$("#choice_class_price").html(price);
+
+		var choice_class_id = jQuery(this).data("classid");
+		$("#choice_class_id").val(choice_class_id);
 	});
 });
 </script>
@@ -353,57 +424,51 @@ jQuery(function(){
     </div>
     
 	<div class="midd_105">
+	  <?php if (count($arrCharterLines) > 0) {?>
       <a href="#q1" class="midd_106">线路详细</a>
       <a href="#q2">服务流程</a>
+      <?php } else { ?>
+      <a href="#q2" class="midd_106">服务流程</a>
+      <?php }  ?>
       <a href="#q3">车辆信息</a>
       <?php foreach($arrSetting as $index => $setting) {
       	echo '<a href="#q'.($settingIndex + $index).'">'.$setting["name"].'</a>';
       }?>
-      <a href="#q<?php echo $settingIndex + count($arrSetting);?>">用户评价</a>
+      <a href="#pl">用户评价</a>
 	</div>
 	
     <div class="midd_27" style="margin-top:0;">
+      <?php if (count($arrCharterLines) > 0) {?>
       <a name="q1"></a>
       <div class="midd_107">线路详细</div>
+      
+      <?php 
+      foreach($arrCharterLines as $charterLineData) {
+      ?>
       <div class="midd_108 midd_top20">
         <img src="images/guide_4_11.png">
-        <div class="midd_109">第一天：浅草到横滨  吃遍美食</div>
+        <div class="midd_109"><?php echo $charterLineData["line_name"];?></div>
       <div class="clear"></div>
       </div>
       <div class="midd_110">
-        <p>【大阪城公园】：丰臣秀吉于公元1583年在石山本愿寺遗址上初建，至今已有400多年历史，为当时日本名城，也是日本前所未有的大城堡（不登城）。
-        <br>【心斋桥】百货商店与各式专门店等为大阪代表性的中心商务区。
-        <br>【圆山公园】+【祗园艺伎街】+【八坂神社】(约60分钟)是位在京都府京都市东山区的公园。被指定为国之名胜。公园邻接东山、八坂神社、高台寺、知恩院等。是京都香火较旺的神社之一。这里每年7月都会举行热闹非凡的祇园祭，与东京的神田祭、大阪的天神祭并称为“日本三大祭”。</p>
-        <img src="images/guide_4_15.png">
-        <img src="images/guide_4_15.png">
+      	<?php echo $charterLineData["line_description"];?>
+        
+		<?php 
+			if (count($charterLineData["images"]) > 0) {
+				foreach($charterLineData["images"] as $lineImages) {
+		?>
+        	<img src='<?php echo $lineImages["big_image"];?>'>
+          <?php 
+				}
+	      	}
+	      ?>
       <div class="clear"></div>
       </div>
-      <div class="midd_108">
-        <img src="images/guide_4_11.png">
-        <div class="midd_109">第二天：东京到大板，看遍日本名胜古迹</div>
-      <div class="clear"></div>
-      </div>
-      <div class="midd_110">
-        <p>【富士山五合目】富士山由山脚至山顶共分为十合，半山腰称为五合目。★特别报告：如天气不好五合目封山, 将更改为一合目代替, 敬请理解!
-        <br>【忍野八海】忍野八海的平均水温约摄氏13度，水质清冽甘甜，被誉为“日本九寨沟”，是忍野地区指定的国家自然风景区，1985年入选“日本名水百选”。为国家指定天然记念物、名水百选、新富岳百景之一。
-        <br>【御殿场奥特莱斯】坐落于风景优美的自然环境中，可眺望富士山，拥有欧风式的建筑外观。自开业以来，这里就聚集了许多日本国内外著名品牌专营店，加上距离富士山、箱根等度假地距离很近的优越条件，所以是很多海外游客日本之旅的必经之地。</p>
-        <img src="images/guide_4_15.png">
-        <img src="images/guide_4_15.png">
-      <div class="clear"></div>
-      </div>
-      <div class="midd_108">
-        <img src="images/guide_4_11.png">
-        <div class="midd_109">第三天：浅草雷门观音寺</div>
-      <div class="clear"></div>
-      </div>
-      <div class="midd_111">
-        <p>【富士山五合目】富士山由山脚至山顶共分为十合，半山腰称为五合目。★特别报告：如天气不好五合目封山, 将更改为一合目代替, 敬请理解!
-        <br>【忍野八海】忍野八海的平均水温约摄氏13度，水质清冽甘甜，被誉为“日本九寨沟”，是忍野地区指定的国家自然风景区，1985年入选“日本名水百选”。为国家指定天然记念物、名水百选、新富岳百景之一。
-        <br>【御殿场奥特莱斯】坐落于风景优美的自然环境中，可眺望富士山，拥有欧风式的建筑外观。自开业以来，这里就聚集了许多日本国内外著名品牌专营店，加上距离富士山、箱根等度假地距离很近的优越条件，所以是很多海外游客日本之旅的必经之地。</p>
-        <img src="images/guide_4_15.png">
-        <img src="images/guide_4_15.png">
-      <div class="clear"></div>
-      </div>
+      <?php 
+      
+      	}
+      } 
+      ?>
       
       <!-- 服务流程 -->
       <a name="q2"></a>
@@ -445,98 +510,133 @@ jQuery(function(){
       }
       ?>
       
-      
-      <a name="q<?php echo $settingIndex + count($arrSetting);?>"></a>
+      <a name="pl"></a>
       <div class="midd_107 midd_top20">用户评价</div>
       <div class="midd_40">
-        <div class="left">整体评分：<span>4.7</span>/分</div>
-        <img src="images/11_10.png"><img src="images/11_10.png"><img src="images/11_10.png"><img src="images/11_10.png"><img src="images/11_10.png"></div>
+        <div class="left">整体评分：<span><?php echo $arrCharter['score_count'];?></span>/分</div>
+        <?php for ($i = 0; $i < floor($arrCharter['score_count']); $i++) { ?>
+                    <img src="images/11_10.png">
+                <?php }
+                for ($i = 0; $i < 5 - floor($arrCharter['score_count']); $i++) {
+                    ?>
+                    <img src="images/11_135.png"><?php } ?>
+        </div>
+        
       <div class="midd_115">
-        <div class="midd_41">
-          <div class="midd_42"><img src="images/13.jpg"><span>小鱼儿</span></div>
-          <div class="left">
-            <div class="midd_43"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/guide_6_07.jpg"><img src="images/guide_6_07.jpg"><img src="images/guide_6_07.jpg"><span>2016-10-25</span>
-              <div class="clear"></div>
-            </div>
-            <div class="midd_44">环境不错 性价比高 房间不错 这家酒店位置特别好找就在总统大厦旁边 房间设施也很好 特别是前台的服务很好 每次路过前台都是微笑的打招呼 对客人提出的要求也都尽最大的努力满足 跟前台经理张毅已经成了很熟的朋友 非常有家的感觉 强烈推荐</div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class="midd_41">
-          <div class="midd_42"><img src="images/13.jpg"><span>小鱼儿</span></div>
-          <div class="left">
-            <div class="midd_43"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/guide_6_07.jpg"><span>2016-10-25</span>
-              <div class="clear"></div>
-            </div>
-            <div class="midd_44">环境不错 性价比高 房间不错 这家酒店位置特别好找就在总统大厦旁边 房间设施也很好 特别是前台的服务很好 每次路过前台都是微笑的打招呼 对客人提出的要求也都尽最大的努力满足 跟前台经理张毅已经成了很熟的朋友 非常有家的感觉 强烈推荐</div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class="midd_41">
-          <div class="midd_42"><img src="images/13.jpg"><span>小鱼儿</span></div>
-          <div class="left">
-            <div class="midd_43"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><span>2016-10-25</span>
-              <div class="clear"></div>
-            </div>
-            <div class="midd_44">环境不错 性价比高 房间不错 这家酒店位置特别好找就在总统大厦旁边 房间设施也很好 特别是前台的服务很好 每次路过前台都是微笑的打招呼 对客人提出的要求也都尽最大的努力满足 跟前台经理张毅已经成了很熟的朋友 非常有家的感觉 强烈推荐</div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class="midd_41">
-          <div class="midd_42"><img src="images/13.jpg"><span>小鱼儿</span></div>
-          <div class="left">
-            <div class="midd_43"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><span>2016-10-25</span>
-              <div class="clear"></div>
-            </div>
-            <div class="midd_44">环境不错 性价比高 房间不错 这家酒店位置特别好找就在总统大厦旁边 房间设施也很好 特别是前台的服务很好 每次路过前台都是微笑的打招呼 对客人提出的要求也都尽最大的努力满足 跟前台经理张毅已经成了很熟的朋友 非常有家的感觉 强烈推荐</div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class="midd_41">
-          <div class="midd_42"><img src="images/13.jpg"><span>小鱼儿</span></div>
-          <div class="left">
-            <div class="midd_43"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/guide_6_07.jpg"><img src="images/guide_6_07.jpg"><span>2016-10-25</span>
-              <div class="clear"></div>
-            </div>
-            <div class="midd_44">环境不错 性价比高 房间不错 这家酒店位置特别好找就在总统大厦旁边 房间设施也很好 特别是前台的服务很好 每次路过前台都是微笑的打招呼 对客人提出的要求也都尽最大的努力满足 跟前台经理张毅已经成了很熟的朋友 非常有家的感觉 强烈推荐</div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class="midd_41">
-          <div class="midd_42"><img src="images/13.jpg"><span>小鱼儿</span></div>
-          <div class="left">
-            <div class="midd_43"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/10_10.png"><img src="images/guide_6_07.jpg"><img src="images/guide_6_07.jpg"><span>2016-10-25</span>
-              <div class="clear"></div>
-            </div>
-            <div class="midd_44">环境不错 性价比高 房间不错 这家酒店位置特别好找就在总统大厦旁边 房间设施也很好 特别是前台的服务很好 每次路过前台都是微笑的打招呼 对客人提出的要求也都尽最大的努力满足 跟前台经理张毅已经成了很熟的朋友 非常有家的感觉 强烈推荐</div>
-          </div>
-          <div class="clear"></div>
-        </div>
+      
+      <?php
+            $perNumber = 10;
+            $page = @$_GET['page'];
+            $count = $pdo->query("SELECT * FROM pm_charter_pl WHERE id_item = " . $charterId);
+            $totalNumber = $count->rowCount();
+            $totalPage = ceil($totalNumber / $perNumber);
+            if (!isset($page)) {
+                $page = 1;
+            }
+            $startCount = ($page - 1) * $perNumber;
+            $rs1 = $pdo->query("SELECT * FROM pm_charter_pl WHERE id_item = " . $charterId . " order by id desc limit $startCount,$perNumber");
+            while ($row1 = $rs1->fetch()) {
+                $rs2 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $row1['uid'] . " ");
+                $row2 = $rs2->fetch();
+                ?>
+                <div class="midd_41">
+                    <div class="midd_42"><img src="<?php echo $row2['ico'] ?>" onerror="this.src='/images/default.jpg'"><span><?php
+                            if ($row2['xname'] == "") {
+                                echo $row2['name'];
+                            } else {
+                                echo $row2['xname'];
+                            } ?></span>
+                    </div>
+                    <div class="left">
+                        <div class="midd_43"><?php for ($i = 1; $i <= $row1['rank']; $i++) { ?>
+                                <img src="images/10_10.png"><?php } ?>
+                            <span><?php echo date("Y-m-d", strtotime($row1['dtime'])) ?></span>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="midd_44"><?php echo $row1['text'] ?>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <?php
+            } ?>
       <div class="clear"></div>
       </div>
+      
       <!-- 翻页 -->
-      <div id='pagina'> <a href='?tab=0&page=1'>上一页</a> <a href='?tab=0&page=1' class='number'>1</a> <a href='?tab=0&page=2' >2</a> <a href='?tab=0&page=3' >3</a> <a href='?tab=0&page=4' >4</a> <a href='?tab=0&page=5' >5</a> <a href='?tab=0&page=6' >6</a> &nbsp;
-        ... <a href='?tab=0&page=22' >22</a> <a href='?tab=0&page=2'>下一页</a> </div>
-      <textarea name="textarea" class="input_1" placeholder="输入你的留言..."></textarea>
-        <div class="midd_45">
-        <div class="left" onmouseover="rate(this,event)"><span>评价：</span><img src="images/11_135.png"><img src="images/11_135.png"><img src="images/11_135.png"><img src="images/11_135.png"><img src="images/11_135.png"></div>
-        <div class="right">
-            <input type="submit" name="button" class="midd_39s" style="margin-top:0;" value="确认评价">
-          </div>
-        <div class="clear"></div>
-      </div>
+      <div id='pagina'>
+                <?php
+                if ($page - 1 > 0) {
+                    ?>
+                    <a href="guidexx.html?id=<?php echo $charterId ?>&page=<?php echo $page - 1 ?>#pl">上一页</a>
+                    <?php
+                }
+                if ($page == $totalPage && $page == 1) {
+                    echo "<a class='number'>1</a>";
+                } else {
+                    if ($page - 2 > 0) {
+                        ?>
+                        <a href="guidexx.html?id=<?php echo $charterId ?>&page=<?php echo $page - 2 ?>#pl"><?php echo $page - 2 ?></a>
+                        <?php
+                    }
+                    if ($page - 1 > 0) {
+                        ?>
+                        <a href="guidexx.html?id=<?php echo $charterId ?>&page=<?php echo $page - 1 ?>#pl"><?php echo $page - 1 ?></a>
+                        <?php
+                    }
+
+                    if ($totalPage > 5) {
+                        if ($totalPage - 2 >= $page) {
+                            $total = $page + 2;
+                        } else {
+                            $total = $totalPage;
+                        }
+                    } else {
+                        $total = $totalPage;
+                    }
+                    for ($i = $page; $i <= @$total; $i++) {
+                        if ($page == $i) {
+                            echo '<a class="number">' . $i . '</a>';
+                        } else { ?>
+                            <a href="guidexx.html?id=<?php echo $charterId ?>&page=<?php echo $i ?>#pl"><?php echo $i ?></a>
+                            <?php
+                        }
+                    }
+                }
+                if ($page + 1 < $totalPage) {
+                    ?>
+                    <a href="guidexx.html?id=<?php echo $charterId ?>&page=<?php echo $page + 1 ?>#pl">下一页</a>
+                <?php } ?>
+            </div>
+        
+      <form name="search_form" method="post" action="action.html?pl=post">
+			<input type="hidden" name="<?php echo $hmWeb->token_name?>" value="<?php echo $token ?>">
+			<input type="hidden" name="cid" value="<?php echo $charterId ?>">
+			<textarea name="text" class="input_1" placeholder="输入你的留言..."></textarea>
+			<div class="midd_45">
+				<div class="left" onmouseover="rate(this,event)"><span>评价：</span><img src="images/11_135.png"><img
+                            src="images/11_135.png"><img src="images/11_135.png"><img src="images/11_135.png"><img
+                            src="images/11_135.png">
+                </div>
+                    <input type="hidden" id="pl_xx" class="plid" name="xx" value="5">
+                    <div class="right">
+                        <?php if (@$_SESSION['userid'] == "") { ?>
+                            <a class="midd_39s" style="margin-top:0;"
+                               href="/signin_<?php echo @$_GET['id'] ?>.html">登录</a>
+                        <?php } else { ?>
+                            <input type="submit" name="button" class="midd_39s" style="margin-top:0;" value="确认评价">
+                        <?php } ?>
+                </div>
+				<div class="clear"></div>
+			</div>
+		</form>
+      
     <div class="clear"></div>
     </div>
     
-    <div class="midd_27">
-      <div class="midd_46">推荐车导服务</div>
-      <div class="midd_47"><a href="list.html"><img src="images/11_138.png"><span>东京专车私导服务</span></a></div>
-      <div class="midd_47"><a href="list.html"><img src="images/11_138.png"><span>东京专车私导服务</span></a></div>
-      <div class="midd_47"><a href="list.html"><img src="images/11_138.png"><span>东京专车私导服务</span></a></div>
-      <div class="midd_47"><a href="list.html"><img src="images/11_138.png"><span>东京专车私导服务</span></a></div>
-      <div class="midd_47" style="margin-right:0;"><a href="list.html"><img src="images/11_138.png"><span>东京专车私导服务</span></a></div>
-      <div class="clear"></div>
-    </div>
+	<!-- 推荐车导服务 -->
+	<?php require_once 'include/recommends.php';?>
+      
   </div>
 <div class="clear"></div>
 </div>

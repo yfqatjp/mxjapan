@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module title="包车订单" name="charter_booking" multi="0" library="0" dashboard="1" icon="calendar-check-o" ranking="0" home="0" main="0" validation="0" dates="1" release="0" index="29">
+<module title="包车预定" name="charter_booking" multi="0" library="0" dashboard="1" icon="calendar-check-o" ranking="0" home="0" main="0" validation="0" dates="1" release="0" index="29">
 	<!-- resizing
 	[0] 1 single image
 	[1] 1x big, 1x medium, 1x small -->
@@ -9,74 +9,59 @@
 		<small maxw="400" maxh="400"/>
 	</medias>
 	<list order="id DESC">
-        <filter label="Status" name="status">
+        <filter label="状态" name="status">
             <options>
                 <option value="1">等待支付</option>
                 <option value="2">取消</option>
-                <option value="3">已支付</option>
-                <option value="4">服务完成</option>
+                <option value="3">拒绝支付</option>
+                <option value="4">已支付</option>
             </options>
         </filter>
-		<col label="Title" name="title"/>
-		<col label="Customer" name="lastname firstname"/>
-		<col label="Booking date" name="add_date" type="date"/>
-		<col label="Depart date" name="depart_date" type="date"/>
-		<col label="Departs" name="depart_num"/>
-		<col label="Car info" name="car_model car_no"/>
-		<col label="Total" name="total" type="price"/>
+		<col label="包车名" name="title"/>
+		<col label="规格名" name="charter_class_name"/>
+		<col label="顾客名" name="firstname"/>
+		<col label="订单日期" name="add_date" type="date"/>
+		<col label="预定日期" name="arrive_time" type="date"/>
+		<col label="大人" name="adults"/>
+		<col label="小孩" name="children"/>
+		<col label="金额" name="total" type="price"/>
 	</list>
 	<form>
-        <field multi="0" label="Charter" name="charter_id" type="select" required="1" unique="0" validation="none">
+        <field multi="0" label="包车名" name="charter_id" type="select" required="1" unique="0" validation="none">
             <options table="pm_charter" fieldlabel="title" fieldvalue="id" order="title"></options>
         </field>
-        <field multi="1" label="Charter Type" name="charter_type" type="radio" required="1" unique="0" validation="none" >
+        <field multi="0" label="车导种类" name="charter_type" type="radio" required="1" unique="0" validation="none" >
             <options table="pm_charter_type" fieldlabel="name" fieldvalue="id" order="name"></options>
         </field>
-        <field multi="0" label="Booking Code" name="booking_code" type="text" required="1" unique="1" validation="none"/>
-
-        <field multi="0" label="Title" name="title" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Alias" name="alias" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Destination" name="destination" type="text" required="1" unique="0" validation="none"/>
-
-        <field multi="0" label="Car Brand" name="car_brand" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Car Model" name="car_model" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Car No" name="car_no" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Safe" name="safe" type="text" required="1" unique="0" validation="none"/>
-
-        <field multi="0" label="Depart Date" name="depart_date" type="date" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Depart Num" name="depart_num" type="text" required="1" unique="0" validation="numeric"/>
-
-        <field multi="0" label="Price" name="price" type="text" required="1" unique="0" validation="numeric" comment="{currency}"/>
-        <field multi="0" label="Tourist tax" name="tourist_tax" type="text" required="0" unique="0" validation="numeric" comment="{currency}"/>
-        <field multi="0" label="Total" name="total" type="text" required="1" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
-        <field multi="0" label="Payment Total" name="payment_total" type="text" required="0" unique="0" validation="numeric" comment="{currency} (incl. VAT)"/>
-
-        <field multi="0" label="Firstname" name="firstname" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Lastname" name="lastname" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Email" name="email" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Company" name="company" type="text" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Address" name="address" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Postcode" name="postcode" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="City" name="city" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Phone" name="phone" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Mobile" name="mobile" type="text" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Country" name="country" type="text" required="1" unique="0" validation="none"/>
-        <field multi="0" label="Comments" name="comments" type="textarea" editor="0" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Status" name="status" type="select" required="1" unique="0" validation="none">
+		<field multi="0" label="车主" name="charter_owner" type="select" required="1" unique="0" validation="none" >
+            <options table="pm_charter_user" fieldlabel="user_name" fieldvalue="id" order="user_name"></options>
+        </field>
+        <field multi="0" label="规格名" name="charter_class_name" type="text" required="1" unique="0" validation="none"/>
+        <field multi="0" label="接送日" name="arrive_time" type="date" required="1" unique="0" validation="none"/>
+        <field multi="0" label="大人" name="adults" type="text" required="1" unique="0" validation="numeric"/>
+        <field multi="0" label="小孩" name="children" type="text" required="0" unique="0" validation="numeric"/>
+        <field multi="0" label="单价" name="price" type="text" required="1" unique="0" validation="numeric" comment=""/>
+        <field multi="0" label="总价" name="total" type="text" required="1" unique="0" validation="numeric" comment=""/>
+         
+        <field multi="0" label="顾客名" name="firstname" type="text" required="1" unique="0" validation="none"/>
+        <field multi="0" label="手机" name="mobile" type="text" required="0" unique="0" validation="none"/>
+        <field multi="0" label="国家" name="country" type="text" required="1" unique="0" validation="none"/>
+        <field multi="0" label="留言" name="comments" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+        <field multi="0" label="状态" name="status" type="select" required="1" unique="0" validation="none">
             <options>
                 <option value="1">等待支付</option>
                 <option value="2">取消</option>
-                <option value="3">已支付</option>
-                <option value="4">服务完成</option>
+                <option value="3">拒绝支付</option>
+                <option value="4">已支付</option>
             </options>
         </field>
-        <field multi="0" label="Payment method" name="payment_method" type="text" required="0" unique="0" validation="none"/>
-        <field multi="0" label="Payment date" name="payment_date" type="datetime" required="0" unique="0" validation="none"/>
+        <field multi="0" label="支付方法" name="payment_method" type="text" required="0" unique="0" validation="none"/>
+        <field multi="0" label="订单编号" name="trans" type="text" required="0" unique="0" validation="none"/>
+        <field multi="0" label="支付日期" name="payment_date" type="datetime" required="0" unique="0" validation="none"/>
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>
-        <user type="manager" permissions="no_access"/>
+        <user type="manager" permissions="all"/>
         <user type="editor" permissions="no_access"/>
-        <user type="charter" permissions="edit,upload"/>
     </roles>
 </module>

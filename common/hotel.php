@@ -7,7 +7,7 @@ abstract class Hotel {
     // 当前数据库操作对象
     public $db               =   null;
 
-    public $token_name = "token";
+    public $token_name = "transactionid";
 
     /**
      * 架构函数
@@ -90,9 +90,10 @@ abstract class Hotel {
     }
 
     public function getToken() {
-    	if (empty($_SESSION[$this->token_name])) {
-    		$_SESSION[$this->token_name] = $this->createToken();
-    	}
+//     	if (empty($_SESSION[$this->token_name])) {
+//     		$_SESSION[$this->token_name] = $this->createToken();
+//     	}
+    	$_SESSION[$this->token_name] = $this->createToken();
     	return $_SESSION[$this->token_name];
     }
 

@@ -557,5 +557,87 @@ CREATE TABLE `pm_charter_user_file` (
 UPDATE `pm_page` SET `name`='车导服务',url = 'guide.html' WHERE `id`='5' AND (`lang`='2');
 
 
---   
+--   2017/2/8
+ALTER TABLE `pm_charter`
+ADD COLUMN `recommend`  int(11) NULL DEFAULT 0 COMMENT '是否推荐' AFTER `default_charter`;
 
+--
+-- 表的结构 `pm_hotel_pl`
+--
+
+CREATE TABLE IF NOT EXISTS `pm_charter_pl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lang` int(11) NOT NULL,
+  `id_item` int(11) NOT NULL,
+  `home` int(11) DEFAULT '0',
+  `checked` int(11) DEFAULT '1',
+  `rank` float(11,2) DEFAULT '0.00',
+  `text` longtext,
+  `uid` int(11) DEFAULT '0',
+  `userip` longtext,
+  `dtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `pm_charter`
+MODIFY COLUMN `score_count`  double(8,1) NULL DEFAULT 0 COMMENT '顾客评分' AFTER `book_count`;
+
+--
+ALTER TABLE `pm_charter_line`
+DROP COLUMN `scenic_area`,
+DROP COLUMN `caterers`,
+DROP COLUMN `traffic`;
+
+ALTER TABLE `pm_charter_line`
+CHANGE COLUMN `hotel` `line_description`  longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '路线介绍' AFTER `arrive_time`;
+
+ALTER TABLE `pm_charter_line`
+DROP COLUMN `self_comment`;
+
+ALTER TABLE `pm_charter_line`
+ADD COLUMN `rank`  int(11) NULL DEFAULT 0 COMMENT '排序' AFTER `edit_date`;
+
+
+--
+-- 表的结构 `pm_gwc`
+--
+ALTER TABLE `pm_gwc`
+ADD COLUMN `type`  int(11) NULL DEFAULT 0 COMMENT '类别(0：名宿  1:车导）' AFTER `children`,
+ADD COLUMN `charter_id`  int(11) NULL DEFAULT 0 COMMENT '车导ID' AFTER `type`,
+ADD COLUMN `charter_class_id`  int(11) NULL DEFAULT 0 COMMENT '车导规格ID' AFTER `charter_id`,
+ADD COLUMN `charter_title`  varchar(255) NULL AFTER `charter_class_id`,
+ADD COLUMN `charter_class_name`  varchar(255) NULL AFTER `charter_title`,
+ADD COLUMN `arrive_time`  datetime NULL COMMENT '到达时间' AFTER `charter_class_name`;
+
+DROP TABLE IF EXISTS `pm_charter_booking`;
+CREATE TABLE `pm_charter_booking` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gwc_id` int(11) DEFAULT NULL,
+  `trans` varchar(64) NOT NULL,
+  `charter_id` int(11) NOT NULL,
+  `charter_class_id` int(11) DEFAULT NULL,
+  `title` varchar(250) DEFAULT NULL,
+  `charter_type` int(11) DEFAULT '1',
+  `charter_class_name` varchar(250) DEFAULT NULL,
+  `arrive_time` int(11) DEFAULT NULL,
+  `adults` int(11) DEFAULT NULL,
+  `children` int(11) DEFAULT '0',
+  `charter_owner` int(11) DEFAULT NULL,
+  `add_date` int(11) DEFAULT NULL,
+  `edit_date` int(11) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `tourist_tax` float DEFAULT NULL,
+  `total` float DEFAULT NULL,
+  `booking_user_id` int(11) DEFAULT NULL,
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `mobile` varchar(50) DEFAULT NULL,
+  `country` varchar(100) NOT NULL,
+  `comments` text,
+  `status` int(11) DEFAULT '1',
+  `payment_date` int(11) DEFAULT NULL,
+  `payment_method` varchar(250) DEFAULT NULL,
+  `payment_total` float DEFAULT NULL,
+  `pay_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

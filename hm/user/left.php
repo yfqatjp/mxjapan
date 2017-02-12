@@ -22,7 +22,7 @@ $rou = $rsu->fetch();
         <li>
             <span>其他信息</span>
             <a href="nbxxk.html" <?php if (@$nleft == 6){ ?>class="user_12"<?php } ?>>内部信息库</a>
-            <a href="cysq.html" <?php if (@$nleft == 7) { ?>class="user_12"<?php } ?>>车友申请</a>
+            <!-- <a href="cysq.html" <?php if (@$nleft == 7) { ?>class="user_12"<?php } ?>>车友申请</a> -->
             <a href="/logout.html" <?php if (@$nleft == 8) { ?>class="user_12"<?php } ?>>退出登录</a>
         </li>
     </ul>

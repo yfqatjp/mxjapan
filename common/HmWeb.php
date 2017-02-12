@@ -182,7 +182,7 @@ class HmWeb extends Hotel {
     		if (isset($arrParams["order_by"]) && !empty($arrParams["order_by"])) {
     			//  人气 
     			if ($arrParams["order_by"] == "like") {
-    				$sql .= "  ORDER BY T1.add_date DESC ";
+    				$sql .= "  ORDER BY T1.like_count DESC ";
     			} else if ($arrParams["order_by"] == "book") {
     				//  销量
     				$sql .= "  ORDER BY T1.book_count DESC ";
@@ -291,6 +291,101 @@ class HmWeb extends Hotel {
     	}
     	return $arrSetting;
     }
+    
+    /**
+     * 包车服务的检索用的(推荐车导)
+     *
+     */
+    public function findRecommendCharterList($arrParams = array()) {
+    
+    	// SQL文
+    	$sql  = " SELECT ";
+    	$sql .= "     T1.charter_type AS charter_type ";
+    	$sql .= "    ,T1.id AS id ";
+    	$sql .= "    ,T1.title AS title ";
+    	// 检索的条件和表的设定
+    	$sql .= " FROM ";
+    	$sql .= "      pm_charter T1 ";                 // 包车服务
+    	$sql .= " WHERE ";
+    	$sql .= "      T1.checked = 1 ";
+    	$sql .= "      AND ";
+    	$sql .= "      T1.recommend = 1 ";
+    	$sql .= "      AND ";
+    	$sql .= "      T1.lang = ".$this->defaultLang;
+    
+    	// 
+    	$sql .= "  ORDER BY T1.add_date DESC ";
+    	//
+    	$sql .= "      LIMIT  0, 10 ";
+    	
+    	// 检索的结果
+    	$arrResult = $this->findAll($sql);
+    
+    	// 图片的sql
+    	$charterFileSql = "SELECT * FROM pm_charter_file WHERE id_item = ? AND checked = 1 AND lang = ".$this->defaultLang." AND type = 'image' AND file != '' ORDER BY rank LIMIT 1";
+    
+    	foreach($arrResult as $key => $arrRows) {
+    		$arrDataVal = array();
+    		$arrDataVal[] = $arrRows["id"];
+    	
+    		// 一览的图片设定
+    		$arrCharterFileResult = $this->findOne($charterFileSql, $arrDataVal);
+    		if ($arrCharterFileResult != null && count($arrCharterFileResult) > 0) {
+    			$file_id = $arrCharterFileResult['id'];
+    			$filename = $arrCharterFileResult['file'];
+    			$realpath = $_SERVER['DOCUMENT_ROOT']."/medias/charter/medium/".$file_id."/".$filename;
+    			$thumbpath = "/medias/charter/medium/".$file_id."/".$filename;
+    			if (is_file($realpath)) {
+    				$arrResult[$key]["image_url"] = $thumbpath;
+    			} else {
+    				$arrResult[$key]["image_url"] = "";
+    			}
+    			$arrResult[$key]["image_label"] = $arrRows["title"];
+    		} else {
+    			$arrResult[$key]["image_url"] = "";
+    			$arrResult[$key]["image_label"] = "";
+    		}
+    	}
+    	return $arrResult;
+    }
+    
+    // 添加预约情报数据
+    public function getBookingData($gwcId, $arrGwc, $arrUser, $arrCharter, $pay, $status, $arrData = array()) {
+    	$systime = strtotime("now");
+    	//
+    	$arrPayMethod = array(0 => "只预约", 1 => "支付宝支付", 2 => "微信支付", 3 => "paypal");
+    	$arrBookingData = array();
+    	$arrBookingData["gwc_id"] = $gwcId;
+    	$arrBookingData["trans"] = $arrGwc["onum"];
+    	$arrBookingData["charter_id"] = $arrCharter["id"];
+    	$arrBookingData["charter_class_id"] = $arrGwc["charter_class_id"];
+    	$arrBookingData["title"] = $arrCharter["title"];
+    	$arrBookingData["charter_type"] = $arrCharter["charter_type"];
+    	$arrBookingData["charter_class_name"] = $arrGwc["charter_class_name"];
+    	$arrBookingData["arrive_time"] = strtotime ($arrGwc["arrive_time"]);
+    	$arrBookingData["adults"] = $arrGwc["adults"];
+    	$arrBookingData["children"] = $arrGwc["children"];
+    	$arrBookingData["charter_owner"] = $arrCharter["default_charter"];
+    	$arrBookingData["add_date"] = $systime;
+    	$arrBookingData["edit_date"] = $systime;
+    	$arrBookingData["price"] = $arrGwc["price"];
+    	$arrBookingData["tourist_tax"] = 0;
+    	$arrBookingData["total"] = $arrGwc["price"];
+    	$arrBookingData["booking_user_id"] = $arrUser["id"];
+    	$arrBookingData["firstname"] = $arrUser["name"];
+    	//$arrBookingData["lastname"] = "";
+    	$arrBookingData["mobile"] = $arrUser["phone"];
+    	$arrBookingData["country"] = "中国";
+    	//$arrBookingData["comments"] = "";
+    	$arrBookingData["status"] = $status;
+    	//$arrBookingData["payment_date"] = "";
+    	$arrBookingData["payment_method"] = $arrPayMethod[$pay];
+    	//$arrBookingData["payment_total"] = 0;
+    	$arrBookingData["pay_id"] = $pay;
+    	$arrBookingData = array_merge($arrBookingData, $arrData);
+    	return $arrBookingData;
+    }
+    
     //////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////
     /**
