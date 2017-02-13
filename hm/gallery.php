@@ -78,7 +78,7 @@ while ($row = $rs->fetch()) {
     <?php
     if ($page - 1 > 0) {
         ?>
-        <a href="medical_<?php echo $page - 1 ?>.html">上一页</a>
+        <a href="gallery_<?php echo $page - 1 ?>.html">上一页</a>
         <?php
     }
     if ($page == $totalPage&& $page == 1) {
@@ -86,12 +86,12 @@ while ($row = $rs->fetch()) {
     } else {
         if ($page - 2 > 0) {
             ?>
-            <a href="medical_<?php echo $page - 2 ?>.html"><?php echo $page - 2 ?></a>
+            <a href="gallery_<?php echo $page - 2 ?>.html"><?php echo $page - 2 ?></a>
             <?php
         }
         if ($page - 1 > 0) {
             ?>
-            <a href="medical_<?php echo $page - 1 ?>.html"><?php echo $page - 1 ?></a>
+            <a href="gallery_<?php echo $page - 1 ?>.html"><?php echo $page - 1 ?></a>
             <?php
         }
 
@@ -108,14 +108,14 @@ while ($row = $rs->fetch()) {
             if ($page == $i) {
                 echo '<a class="number">' . $i . '</a>';
             } else { ?>
-                <a href="medical_<?= $i ?>.html"><?= $i ?></a>
+                <a href="gallery_<?= $i ?>.html"><?= $i ?></a>
                 <?php
             }
         }
     }
     if ($page + 1 <= $totalPage) {
         ?>
-        <a href="medical_<?= $page + 1 ?>.html">下一页</a>
+        <a href="gallery_<?= $page + 1 ?>.html">下一页</a>
     <?php } ?>
 </div>
 
