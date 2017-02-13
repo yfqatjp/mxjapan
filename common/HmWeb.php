@@ -121,6 +121,91 @@ class HmWeb extends Hotel {
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /**
+     * 包车服务的检索用的---首页展示用
+     *
+     */
+    public function findHomeCharterList() {
+    
+    	// SQL文
+    	$sql  = " SELECT ";
+    	$sql .= "     T1.charter_type AS charter_type ";
+    	$sql .= "    ,T1.id AS id ";
+    	$sql .= "    ,T1.title AS title ";
+    	$sql .= "    ,T1.subtitle AS subtitle ";
+    	$sql .= "    ,T1.like_count AS like_count ";
+    	$sql .= "    ,T4.book_count AS book_count ";
+    	$sql .= "    ,T2.name AS charter_type_name ";
+    	$sql .= "    ,T3.name AS city_name ";
+    	// 检索的条件和表的设定
+    	$sql .= " FROM ";
+    	$sql .= "      pm_charter T1 ";                 // 包车服务
+    	$sql .= " LEFT JOIN ";
+    	$sql .= "      pm_charter_type T2 ON ( T1.charter_type = T2.id and T2.lang = ".$this->defaultLang." ) ";             // 包车类别
+    	$sql .= " LEFT JOIN ";
+    	$sql .= "      pm_charter_city T3 ON ( T1.city = T3.id and T3.lang = ".$this->defaultLang." ) ";             // 包车类别
+    	$sql .= " LEFT JOIN ";
+    	$sql .= "      ( ";
+    	$sql .= "         SELECT count(id) AS book_count, charter_id ";
+    	$sql .= "         FROM pm_charter_booking ";
+    	$sql .= "         GROUP BY charter_id ";
+    	$sql .= "         ";
+    	$sql .= "      ) T4 ON (T4.charter_id = T1.id) ";
+    	$sql .= " WHERE ";
+    	$sql .= "      T1.checked = 1 ";
+    	$sql .= "      AND ";
+    	$sql .= "      T1.home = 1 ";     //首页展示用
+    	$sql .= "      AND ";
+    	$sql .= "      T1.lang = ".$this->defaultLang;
+    	//  按照type,
+    	$sql .= "  ORDER BY charter_type ASC, book_count DESC ";
+    	// 检索的结果
+    	$arrResult = $this->findAll($sql);
+    	
+    	// 图片的sql
+    	$charterFileSql = "SELECT * FROM pm_charter_file WHERE id_item = ? AND checked = 1 AND lang = ".$this->defaultLang." AND type = 'image' AND file != '' ORDER BY rank LIMIT 1";
+    	
+		//
+		$arrHomeCharters = array();
+		
+    	foreach($arrResult as $key => $arrRows) {
+    		//
+    		$charterTypeId = $arrRows["charter_type"];
+    		if (!array_key_exists($charterTypeId, $arrHomeCharters)) {
+    			$arrHomeCharters[$charterTypeId] = array();
+    			$arrHomeCharters[$charterTypeId]["name"] = $arrRows["charter_type_name"];
+    			$arrHomeCharters[$charterTypeId]["data"] = array();
+    		}
+    		
+    		$arrDataVal = array();
+    		$arrDataVal[] = $arrRows["id"];
+    		// 一览的图片设定
+    		$arrCharterFileResult = $this->findOne($charterFileSql, $arrDataVal);
+    		if ($arrCharterFileResult != null && count($arrCharterFileResult) > 0) {
+    			$file_id = $arrCharterFileResult['id'];
+    			$filename = $arrCharterFileResult['file'];
+    			$realpath = $_SERVER['DOCUMENT_ROOT']."/medias/charter/medium/".$file_id."/".$filename;
+    			$thumbpath = "/medias/charter/medium/".$file_id."/".$filename;
+    			if (is_file($realpath)) {
+    				$arrRows["image_url"] = $thumbpath;
+    			} else {
+    				$arrRows["image_url"] = "";
+    			}
+    			$arrRows["image_label"] = $arrRows["title"];
+    		} else {
+    			$arrRows["image_url"] = "";
+    			$arrRows["image_label"] = "";
+    		}
+    		if (empty($arrRows["book_count"])) {
+    			$arrRows["book_count"] = 0;
+    		}
+    		$arrHomeCharters[$charterTypeId]["data"][] = $arrRows;
+
+    	}
+    	return $arrHomeCharters;
+    }
+    
     /**
      * 包车服务的检索用的
      *
@@ -138,7 +223,7 @@ class HmWeb extends Hotel {
     		$sql .= "    ,T1.subtitle AS subtitle ";
     		$sql .= "    ,T1.descr AS descr ";
     		$sql .= "    ,T1.like_count AS like_count ";
-    		$sql .= "    ,T1.book_count AS book_count ";
+    		$sql .= "    ,T5.book_count AS book_count ";
     		$sql .= "    ,T1.score_count AS score_count ";
     		$sql .= "    ,T1.destination AS destination ";
     		$sql .= "    ,T2.name AS charter_type_name ";
@@ -160,6 +245,13 @@ class HmWeb extends Hotel {
 	    	$sql .= "        FROM pm_charter_classes ";
 	    	$sql .= "        GROUP BY charter_id  "; 
 	    	$sql .= "      ) T4 ON (T4.charter_id = T1.id)  ";
+	    	$sql .= " LEFT JOIN ";
+	    	$sql .= "      ( ";
+	    	$sql .= "         SELECT count(id) AS book_count, charter_id ";
+	    	$sql .= "         FROM pm_charter_booking ";
+	    	$sql .= "         GROUP BY charter_id ";
+	    	$sql .= "         ";
+	    	$sql .= "      ) T5 ON (T5.charter_id = T1.id) ";
     	}
     	$sql .= " WHERE ";
     	$sql .= "      T1.checked = 1 ";
@@ -185,7 +277,7 @@ class HmWeb extends Hotel {
     				$sql .= "  ORDER BY T1.like_count DESC ";
     			} else if ($arrParams["order_by"] == "book") {
     				//  销量
-    				$sql .= "  ORDER BY T1.book_count DESC ";
+    				$sql .= "  ORDER BY book_count DESC ";
     			} else if ($arrParams["order_by"] == "price") {
     				//  价格
     				$sql .= "  ORDER BY max_price DESC ";
@@ -236,6 +328,16 @@ class HmWeb extends Hotel {
     				$arrResult[$key]["classes"] = $arrCharterClassResult; 
     			} else {
     				$arrResult[$key]["classes"] = array();
+    			}
+    			
+    			// 预约的个数
+    			if (empty($arrResult[$key]["book_count"])) {
+    				$arrResult[$key]["book_count"] = 0;
+    			}
+    			
+    			// 赞个数
+    			if (empty($arrResult[$key]["like_count"])) {
+    				$arrResult[$key]["like_count"] = 0;
     			}
     		}
     		return $arrResult;

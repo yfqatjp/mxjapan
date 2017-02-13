@@ -6,6 +6,11 @@ $row = $rs->fetch();
 
 $rs2 = $pdo->query("SELECT * FROM pm_article_file WHERE checked = 1 AND lang = 2 AND type = 'image' AND file != '' ORDER BY rank LIMIT 1");
 $row2 = $rs2->fetch();
+
+//
+require_once $_SERVER['DOCUMENT_ROOT'] . '/common/HmWeb.php';
+// 首页显示的包车
+$arrHomeCharters = $hmWeb->findHomeCharterList();
 ?><!DOCTYPE html>
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -289,97 +294,69 @@ $row2 = $rs2->fetch();
         </div>
     </div>
 </div>
+
+<?php 
+if (count($arrHomeCharters) > 0) {
+?>
 <div id="fh5co-testimony-section" style="background:#fcfcfc;">
     <div class="container">
+    	<?php 
+    	foreach($arrHomeCharters as $arrCharterType) {
+    	?>
         <div class="row">
             <div class="col-md-6s col-md-offset-3 text-center mbottom80 animate-box">
-                <h2>包车畅游</h2>
+                <h2><?php echo $arrCharterType["name"];?></h2>
             </div>
         </div>
         <div class="row mbottom70">
-            <div class="midd_4 animate-box"><a href="#" class="item-grid text-center">
-                    <div class="image"><img src="images/5_11.png"></div>
+        	<?php 
+        	$charterIndex = 0;
+        	foreach($arrCharterType["data"] as $arrCharter) {
+        		$charterIndex++;
+        	?>
+            <div class="midd_4 animate-box" <?php if ($charterIndex%4 == 0) {echo 'style="margin-right:0;"';} ?>>
+            	<a href="guidexx.html?id=<?php echo $arrCharter["id"];?>" class="item-grid text-center">
+                    <div class="image">
+                    	<?php 
+                    	if (!empty($arrCharter["image_url"])) {
+                    	?>
+                    	<img src="<?php echo $arrCharter["image_url"];?>">
+                    	<?php 
+                    	} else {
+                    	?>
+                    	<img src="images/5_11.png">
+                    	<?php
+						 } 
+						 ?>
+                    </div>
                     <div class="v-align">
                         <div class="v-align-middle">
-                            <h3 class="title">东京专车私导服务</h3>
-                            <h5 class="category">东京 | <span>244人</span>预约</h5>
+                            <h3 class="title"><?php echo $arrCharter["title"];?></h3>
+                            <h5 class="category"><?php echo $arrCharter["city_name"];?> | <span><?php echo $arrCharter["book_count"];?>人</span>预约</h5>
                         </div>
                     </div>
-                </a></div>
-            <div class="midd_4 animate-box"><a href="#" class="item-grid text-center">
-                    <div class="image"><img src="images/5_11.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">东京专车私导服务</h3>
-                            <h5 class="category">东京 | <span>244人</span>预约</h5>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="midd_4 animate-box"><a href="#" class="item-grid text-center">
-                    <div class="image"><img src="images/5_11.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">东京专车私导服务</h3>
-                            <h5 class="category">东京 | <span>244人</span>预约</h5>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="midd_4 animate-box" style="margin-right:0;"><a href="#" class="item-grid text-center">
-                    <div class="image"><img src="images/5_11.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">东京专车私导服务</h3>
-                            <h5 class="category">东京 | <span>244人</span>预约</h5>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="clear"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-6s col-md-offset-3 text-center mbottom60 animate-box">
-                <h2>机场接送</h2>
+                </a>
             </div>
+            <?php 
+            	if ($charterIndex%4 == 0) {
+            ?>
+            	<div class="clear"></div>
+            </div>
+            <div class="row" >
+             <?php 
+				}
+			}
+			?>
         </div>
-        <div class="row">
-            <div class="midd_4 animate-box"><a href="#" class="item-grid text-center">
-                    <div class="image"><img src="images/5_11.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">成田机场 - 东京市内</h3>
-                            <h5 class="category">东京 | <span>244人</span>预约</h5>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="midd_4 animate-box"><a href="#" class="item-grid text-center">
-                    <div class="image"><img src="images/5_11.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">成田机场 - 东京市内</h3>
-                            <h5 class="category">东京 | <span>244人</span>预约</h5>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="midd_4 animate-box"><a href="#" class="item-grid text-center">
-                    <div class="image"><img src="images/5_11.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">成田机场 - 东京市内</h3>
-                            <h5 class="category">东京 | <span>244人</span>预约</h5>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="midd_4 animate-box" style="margin-right:0;"><a href="#" class="item-grid text-center">
-                    <div class="image"><img src="images/5_11.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">成田机场 - 东京市内</h3>
-                            <h5 class="category">东京 | <span>244人</span>预约</h5>
-                        </div>
-                    </div>
-                </a></div>
-        </div>
+		<?php 
+		}
+		?>
     </div>
 </div>
+<?php 
+}
+?>
+
 <div class="midd_5">
     <div class="midd_6">加盟商家</div>
     <div class="midd_7">美溪車友倶楽部所加盟的商家都是日本最大，正规审核通过的免税商家，日本全国400多家商家加盟中</div>
