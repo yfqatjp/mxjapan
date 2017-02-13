@@ -63,7 +63,7 @@ while ($row = $rs->fetch()) {
     <div class="midd_95"><a href="galleryxx.html" class="item-grid text-center">
             <div class="image"><img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE id_item = " . $row['id'] . " order by rank asc");
                     $row1 = $rs1->fetch();
-                    echo "/medias/hospital/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="361px"></div>
+                    echo "/medias/hospital/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="361px" height="256px"></div>
             <div class="v-align midd_top35 midd_88">
                 <div class="v-align-middle">
                     <h3 class="title midd_tsize">最美富士山</h3>
