@@ -47,6 +47,19 @@ $row2 = $rs2->fetch();
 
 <!-- 内容 -->
 <div class="midd_auto midd_top20">
+<?php
+$perNumber = 6;
+$page = @$_GET['page'];
+$count = $pdo->query("SELECT * FROM pm_hospital WHERE lang = 2 AND checked = 1 ORDER by rank");
+$totalNumber = $count->rowCount();
+$totalPage = ceil($totalNumber / $perNumber);
+if (!isset($page)) {
+    $page = 1;
+}
+$startCount = ($page - 1) * $perNumber;
+$rs = $pdo->query("SELECT * FROM pm_hospital where lang = 2 AND checked = 1 order by rank limit $startCount,$perNumber");
+while ($row = $rs->fetch()) {
+    ?>
     <div class="midd_95"><a href="galleryxx.html" class="item-grid text-center">
             <div class="image"><img src="images/gallery_1_03.jpg"></div>
             <div class="v-align midd_top35 midd_88">
@@ -57,100 +70,53 @@ $row2 = $rs2->fetch();
                 <div class="clear"></div>
             </div>
         </a></div>
-    <div class="midd_95"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="images/gallery_1_03.jpg"></div>
-            <div class="v-align midd_top35 midd_88">
-                <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </a></div>
-    <div class="midd_95" style="margin-right:0;"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="images/gallery_1_03.jpg"></div>
-            <div class="v-align midd_top35 midd_88">
-                <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </a></div>
+<?php } ?>
 
-    <div class="midd_95"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="images/gallery_1_03.jpg"></div>
-            <div class="v-align midd_top35 midd_88">
-                <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </a></div>
-    <div class="midd_95"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="images/gallery_1_03.jpg"></div>
-            <div class="v-align midd_top35 midd_88">
-                <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </a></div>
-    <div class="midd_95" style="margin-right:0;"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="images/gallery_1_03.jpg"></div>
-            <div class="v-align midd_top35 midd_88">
-                <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </a></div>
-
-    <div class="midd_95"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="images/gallery_1_03.jpg"></div>
-            <div class="v-align midd_top35 midd_88">
-                <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </a></div>
-    <div class="midd_95"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="images/gallery_1_03.jpg"></div>
-            <div class="v-align midd_top35 midd_88">
-                <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </a></div>
-    <div class="midd_95" style="margin-right:0;"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="images/gallery_1_03.jpg"></div>
-            <div class="v-align midd_top35 midd_88">
-                <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </a></div>
     <div class="clear"></div>
 </div>
 <div id='pagina'>
-    <a href='?tab=0&page=1'>上一页</a>
-    <a href='?tab=0&page=1' class='number'>1</a>
-    <a href='?tab=0&page=2'>2</a>
-    <a href='?tab=0&page=3'>3</a>
-    <a href='?tab=0&page=4'>4</a>
-    <a href='?tab=0&page=5'>5</a>
-    <a href='?tab=0&page=6'>6</a> &nbsp;
-    ... <a href='?tab=0&page=22'>22</a>
-    <a href='?tab=0&page=2'>下一页</a>
+    <?php
+    if ($page - 1 > 0) {
+        ?>
+        <a href="medical_<?php echo $page - 1 ?>.html">上一页</a>
+        <?php
+    }
+    if ($page == $totalPage&& $page == 1) {
+        echo "<a class='number'>1</a>";
+    } else {
+        if ($page - 2 > 0) {
+            ?>
+            <a href="medical_<?php echo $page - 2 ?>.html"><?php echo $page - 2 ?></a>
+            <?php
+        }
+        if ($page - 1 > 0) {
+            ?>
+            <a href="medical_<?php echo $page - 1 ?>.html"><?php echo $page - 1 ?></a>
+            <?php
+        }
+
+        if ($totalPage > 5) {
+            if ($totalPage - 2 >= $page) {
+                $total = $page + 2;
+            } else {
+                $total = $totalPage;
+            }
+        } else {
+            $total = $totalPage;
+        }
+        for ($i = $page; $i <= @$total; $i++) {
+            if ($page == $i) {
+                echo '<a class="number">' . $i . '</a>';
+            } else { ?>
+                <a href="medical_<?= $i ?>.html"><?= $i ?></a>
+                <?php
+            }
+        }
+    }
+    if ($page + 1 <= $totalPage) {
+        ?>
+        <a href="medical_<?= $page + 1 ?>.html">下一页</a>
+    <?php } ?>
 </div>
 
 <?php require_once 'foot.php'; ?>
