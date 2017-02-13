@@ -55,7 +55,9 @@ if ($arrCharterFileResult != null && count($arrCharterFileResult) > 0) {
 			$arrImages["big_image"] = "";
 		}
 		$arrImages["image_label"] = $arrImageResult["label"];
-		$arrCharterImages[] = $arrImages;
+		if (!empty($arrImages["big_image"]) && !empty($arrImages["small_image"])) {
+			$arrCharterImages[] = $arrImages;
+		}
 	}
 }
 
@@ -92,7 +94,9 @@ foreach($arrLineData as $lineData) {
 				$arrImages["big_image"] = "";
 			}
 			$arrImages["image_label"] = $lineImageData["label"];
-			$arrLineImages[] = $arrImages;
+			if (!empty($arrImages["big_image"]) && !empty($arrImages["small_image"])) {
+				$arrLineImages[] = $arrImages;
+			}
 		}
 	}
 	$lineData["images"] = $arrLineImages;

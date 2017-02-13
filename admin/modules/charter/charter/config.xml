@@ -13,8 +13,8 @@
             <options table="pm_charter_type" fieldlabel="name" fieldvalue="id" order="id"></options>
         </filter>
 		<col label="标题" name="title" type="none"/>
-		<col label="预约数" name="book_count" type="none"/>
-		<col label="点赞数" name="like_count" type="none"/>
+		<!-- <col label="预约数" name="book_count" type="none"/>
+		<col label="点赞数" name="like_count" type="none"/> -->
 		<col label="服务类别" name="charter_type" table="pm_charter_type" fieldvalue="name" fieldref="id"/>
 	</list>
 	<form>
