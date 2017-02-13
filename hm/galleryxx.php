@@ -97,7 +97,11 @@ body {
 
 <div class="midd_auto midd_top20 midd_fff" style="padding-bottom:20px;">
   <img src="images/gallery_2_03.jpg">
-  <div class="midd_96"><h1>探寻原生态自然风光首选鹿儿岛，一篇攻略全搞定</h1><span>发布时间：2016-10-28</span><div class="midd_97">熟悉日本的人都知道，日本绝不仅仅意味着巨型都市东京，这处狭长岛国最引人入胜之处恰在那广袤的乡间—号称西南明珠的日本最南端鹿儿岛就是一个极好的例证。迷失在绿荫环绕之中的刹那，即能唤醒你初次步出机场快线、踏入车水马龙的东京都时，那份刻骨铭心的震撼。</div></div>
+  <div class="midd_96">
+    <h1>探寻原生态自然风光首选鹿儿岛，一篇攻略全搞定</h1>
+    <span>发布时间：2016-10-28<?php //$time = $row['publish_date']; echo date('Y/m/d', $time) ?></span>
+    <div class="midd_97">熟悉日本的人都知道，日本绝不仅仅意味着巨型都市东京，这处狭长岛国最引人入胜之处恰在那广袤的乡间—号称西南明珠的日本最南端鹿儿岛就是一个极好的例证。迷失在绿荫环绕之中的刹那，即能唤醒你初次步出机场快线、踏入车水马龙的东京都时，那份刻骨铭心的震撼。</div>
+  </div>
   <div class="midd_center"><img src="images/gallery_2_07.jpg">
     <div class="midd_98">内容自定义、文字排版、图片说明，后台自定义编辑</div>
     <img src="images/gallery_2_10.jpg"></div>
