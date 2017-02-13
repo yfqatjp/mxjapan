@@ -4,7 +4,7 @@ CREATE TABLE `pm_gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lang` int(11) NOT NULL,
   `title` varchar(250) NOT NULL,
-  `departments` varchar(250) NOT NULL,
+  `subtitle` varchar(250) NOT NULL,
   `beds` varchar(250) NOT NULL,
   `establishmentday` varchar(250) NOT NULL,
   `text` longtext NOT NULL,

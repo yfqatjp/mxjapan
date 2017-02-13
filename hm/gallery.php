@@ -50,24 +50,24 @@ $row2 = $rs2->fetch();
 <?php
 $perNumber = 6;
 $page = @$_GET['page'];
-$count = $pdo->query("SELECT * FROM pm_hospital WHERE lang = 2 AND checked = 1 ORDER by rank");
+$count = $pdo->query("SELECT * FROM pm_gallery WHERE lang = 2 AND checked = 1 ORDER by rank");
 $totalNumber = $count->rowCount();
 $totalPage = ceil($totalNumber / $perNumber);
 if (!isset($page)) {
     $page = 1;
 }
 $startCount = ($page - 1) * $perNumber;
-$rs = $pdo->query("SELECT * FROM pm_hospital where lang = 2 AND checked = 1 order by rank limit $startCount,$perNumber");
+$rs = $pdo->query("SELECT * FROM pm_gallery where lang = 2 AND checked = 1 order by rank limit $startCount,$perNumber");
 while ($row = $rs->fetch()) {
     ?>
     <div class="midd_95"><a href="galleryxx.html" class="item-grid text-center">
-            <div class="image"><img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_hospital_file WHERE id_item = " . $row['id'] . " order by rank asc");
+            <div class="image"><img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $row['id'] . " order by rank asc");
                     $row1 = $rs1->fetch();
-                    echo "/medias/hospital/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="350px" height="256px"></div>
+                    echo "/medias/gallery/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="350px" height="256px"></div>
             <div class="v-align midd_top35 midd_88">
                 <div class="v-align-middle">
-                    <h3 class="title midd_tsize">最美富士山</h3>
-                    <div class="midd_94">富士山，是日本国内最高峰，日本重要国家象征之一。横跨静冈县和山梨县的活火山…….</div>
+                    <h3 class="title midd_tsize"><?php echo $row['title'] ?></h3>
+                    <div class="midd_94"><?php echo $row['subtitle'] ?></div>
                 </div>
                 <div class="clear"></div>
             </div>
