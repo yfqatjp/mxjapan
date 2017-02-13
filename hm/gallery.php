@@ -51,10 +51,7 @@ $row2 = $rs2->fetch();
 $perNumber = 6;
 $page = @$_GET['page'];
 $count = $pdo->query("SELECT * FROM pm_gallery WHERE lang = 2 AND checked = 1 ORDER by rank");
-$totalNumber = 0;
-if($count){
-    $totalNumber = $count->rowCount();
-}
+$totalNumber = $count->rowCount();
 $totalPage = ceil($totalNumber / $perNumber);
 if (!isset($page)) {
     $page = 1;
