@@ -1,3 +1,11 @@
+<?php require_once 'coon.php';
+$navid = 7;
+$rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND id = " . $navid);
+$row = $rs->fetch();
+
+$rs2 = $pdo->query("SELECT * FROM pm_article_file WHERE checked = 1 AND lang = 2 AND type = 'image' AND file != '' ORDER BY rank LIMIT 1");
+$row2 = $rs2->fetch();
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -91,16 +99,26 @@ body {
         <div class="clear"></div>
         </div>
       </aside>
+
+<?php
+$pageId = @$_GET['page'];
+$rs = $pdo->query("SELECT * FROM pm_gallery where lang = 2 AND checked = 1 AND id = $pageId order by rank");
+while ($row = $rs->fetch()) {
+  $title = $row['title'];
+  $publish_date = $row['publish_date'];
+  $subtitle = $row['subtitle'];
+}
+?>
 <div class="midd_25">
-  <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="gallery.html">旅游图库</a> > <a href="galleryxx.html">探寻原生态自然风光首选鹿儿岛，一篇攻略全搞定</a></div>
+  <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="gallery.html">旅游图库</a> > <a href="galleryxx_<?= $pageId ?>.html"><?php echo $title ?></a></div>
 </div>
 
 <div class="midd_auto midd_top20 midd_fff" style="padding-bottom:20px;">
   <img src="images/gallery_2_03.jpg">
   <div class="midd_96">
-    <h1>探寻原生态自然风光首选鹿儿岛，一篇攻略全搞定</h1>
-    <span>发布时间：2016-10-28<?php //$time = $row['publish_date']; echo date('Y/m/d', $time) ?></span>
-    <div class="midd_97">熟悉日本的人都知道，日本绝不仅仅意味着巨型都市东京，这处狭长岛国最引人入胜之处恰在那广袤的乡间—号称西南明珠的日本最南端鹿儿岛就是一个极好的例证。迷失在绿荫环绕之中的刹那，即能唤醒你初次步出机场快线、踏入车水马龙的东京都时，那份刻骨铭心的震撼。</div>
+    <h1><?php echo $title ?></h1>
+    <span>发布时间：<?php echo date('Y/m/d', $publish_date) ?></span>
+    <div class="midd_97"><?php echo $subtitle ?></div>
   </div>
   <div class="midd_center"><img src="images/gallery_2_07.jpg">
     <div class="midd_98">内容自定义、文字排版、图片说明，后台自定义编辑</div>
