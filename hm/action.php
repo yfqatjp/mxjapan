@@ -46,6 +46,7 @@ if (@$_GET['pl'] == 'post') {
 		$upData = array();
 		$upData["score_count"] = round($result["avg_rank"], 1);
 		$upData["comment_count"] = $result["pl_count"];
+		$upData["like_count"] = $result["pl_count"];
 		$hmWeb->update("pm_charter", $upData, "id=?", array($hmWeb->query("cid", 0)));
 	}
 	
@@ -169,10 +170,46 @@ if (@$_GET['topay'] == "post") {
 		$rs = $pdo->exec("UPDATE pm_gwc SET pay = 0,tai = 2,yytime = now() WHERE onum = '" . $o . "'");
 		exit(Alert(2, "预约成功,请等待客服致电确认预约信息", "/user/bcdd.html"));
 	} elseif ($_POST['pay'] == 1 && $_POST['price'] > 0) {
+		// 等待支付
+		$arrBookingData = $hmWeb->getBookingData($lid, $row, $row5, $row1, 1, 1, array());
+		//
+		$charterBookingSql = "select * from pm_charter_booking where trans = ? ";
+		$arrExistsBooking = $hmWeb->findOne($charterBookingSql, array($o));
+		if ($arrExistsBooking != null && count($arrExistsBooking) > 0) {
+			//
+			$hmWeb->update("pm_charter_booking", $arrBookingData, " id = ?", array($arrExistsBooking["id"]));
+		} else {
+			//
+			$hmWeb->insert("pm_charter_booking", $arrBookingData);
+		}
 		header("Location: /pay/create_direct_pay/alipayapi.php?o=" . $o);
 	} elseif ($_POST['pay'] == 2 && $_POST['price']  > 0) {
+		// 等待支付
+		$arrBookingData = $hmWeb->getBookingData($lid, $row, $row5, $row1, 2, 1, array());
+		//
+		$charterBookingSql = "select * from pm_charter_booking where trans = ? ";
+		$arrExistsBooking = $hmWeb->findOne($charterBookingSql, array($o));
+		if ($arrExistsBooking != null && count($arrExistsBooking) > 0) {
+			//
+			$hmWeb->update("pm_charter_booking", $arrBookingData, " id = ?", array($arrExistsBooking["id"]));
+		} else {
+			//
+			$hmWeb->insert("pm_charter_booking", $arrBookingData);
+		}
 		header("Location: /pay/WxpayAPI_php_v3/example/native.php");
 	} elseif ($_POST['pay'] == 3 && $_POST['price']  > 0) {
+		// 等待支付
+		$arrBookingData = $hmWeb->getBookingData($lid, $row, $row5, $row1, 3, 1, array());
+		//
+		$charterBookingSql = "select * from pm_charter_booking where trans = ? ";
+		$arrExistsBooking = $hmWeb->findOne($charterBookingSql, array($o));
+		if ($arrExistsBooking != null && count($arrExistsBooking) > 0) {
+			//
+			$hmWeb->update("pm_charter_booking", $arrBookingData, " id = ?", array($arrExistsBooking["id"]));
+		} else {
+			//
+			$hmWeb->insert("pm_charter_booking", $arrBookingData);
+		}
 		header("Location: /pay/paypal/alipayto.php?o=" . $o);
 	}
 	exit;
