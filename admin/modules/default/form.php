@@ -522,7 +522,7 @@ $csrf_token = get_token("form"); ?>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>"/>
                         <div class="panel panel-default">
-                            <?php
+                            <!--<?php
                             if(MULTILINGUAL){ ?>
                                 <ul class="nav nav-tabs pt5">
                                     <?php
@@ -552,7 +552,7 @@ $csrf_token = get_token("form"); ?>
                                     } ?>
                                 </ul>
                                 <?php
-                            } ?>
+                            } ?>-->
                             <div class="panel-body">
                                 <div class="tab-content">
                                     <?php
