@@ -60,10 +60,10 @@ $startCount = ($page - 1) * $perNumber;
 $rs = $pdo->query("SELECT * FROM pm_gallery where lang = 2 AND checked = 1 order by rank limit $startCount,$perNumber");
 while ($row = $rs->fetch()) {
     ?>
-    <div class="midd_95"><a href="galleryxx_<?= $row['id'] ?>.html" class="item-grid text-center">
+    <div class="midd_95"><a href="mallxx_<?= $row['id'] ?>.html" class="item-grid text-center">
             <div class="image"><img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $row['id'] . " order by rank asc");
                     $row1 = $rs1->fetch();
-                    echo "/medias/gallery/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="350px" height="256px"></div>
+                    echo "/medias/mall/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="350px" height="256px"></div>
             <div class="v-align midd_top35 midd_88">
                 <div class="v-align-middle">
                     <h3 class="title midd_tsize"><?php echo $row['title'] ?></h3>
