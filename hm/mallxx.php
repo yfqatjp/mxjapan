@@ -47,7 +47,6 @@ while ($row = $rs->fetch()) {
   $title = $row['title'];
   $publish_date = $row['publish_date'];
   $subtitle = $row['subtitle'];
-}
 ?>
 <div class="midd_25">
   <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="mail.html">美溪商城</a> > <a href="galleryxx_<?= $pageId ?>.html"><?php echo $title ?></a></div>
@@ -96,40 +95,35 @@ while ($row = $rs->fetch()) {
             </div>
             <div class="midd_28">
                 <div class="midd_29"><?php echo $row['title']; ?></div>
-                <div class="midd_48"> <span style="float:left;
-        font-size:14px; margin-right:5px;">推荐指数</span> <span><?php for ($i = 1; $i <= $row['num']; $i++) { ?><img
-                            src="images/10_10.png"><?php } ?></span>
-                    <div class="clear"></div>
+                
+                <div class="midd_37">
+                  <span>￥5000</span>/每晚
+                  <div class="right">
+                    <span>推荐指数</span>
+                    <span>
+                      <?php for ($i = 1; $i <= 5; $i++) { ?>
+                      <img src="images/10_10.png"><?php } ?>
+                    </span>
+                  </div>
                 </div>
-                <ul class="midd_49">
-                    <li><span>诊疗科目：</span>
-                        <div class="right"><?php echo $row['departments']; ?></div>
-                    </li>
-                    <li><span>病床数：</span>
-                        <div class="right"><?php echo $row['beds']; ?></div>
-                    </li>
-                    <li><span>成立日：</span>
-                        <div class="right"><?php echo $row['establishmentday']; ?></div>
-                    </li>
-                    <li><span>院长：</span>
-                        <div class="right"><?php echo $row['yuan']; ?></div>
-                    </li>
-                </ul>
-                <ul class="midd_49">
-                    <li><a href="#"><img src="images/11_14.png"><?php echo $row['addres']; ?></a></li>
-                    <li><a href="#"><img src="images/11_17.png"><?php echo $row['phone']; ?></a></li>
-                    <li><a href="#"><img src="images/11_19.png"><?php echo $row['mail']; ?></a></li>
-                </ul>
+                <div class="midd_29">
+                  <div class="midd_39" onclick="yd(6,3,2,'','',10)">
+                        预定
+                    </div>
+                </div>
             </div>
             <div class="clear"></div>
         </div>
         <div class="midd_27">
-            <div class="midd_30">医院介绍</div>
+            <div class="midd_30">详细</div>
             <?php echo $row['text'] ?>
         </div>
     </div>
     <div class="clear"></div>
 </div>
+<?php
+}
+?>
 
 <!-- 底部 -->
 <?php require_once 'foot.php'; ?>

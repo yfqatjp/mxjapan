@@ -46,6 +46,27 @@ $row2 = $rs2->fetch();
 </aside>
 
 <!-- 内容 -->
+
+<div class="midd_auto midd_fff midd_top20">
+  <div class="midd_78" id="midd_78">
+    <ul>
+      <li <?php if (empty($cityIdVal)) {echo 'class="active"';} ?>  onclick="searchFun('city', '');" >全部</li>
+      <li  onclick="searchFun('city', '');" >日本特产</li>
+      <?php 
+      	// if ($arrCity != null && count($arrCity) > 0) {
+      	// 	foreach($arrCity as $cityArr) {
+      	// 		$cityId = $cityArr["id"];
+      	// 		if ($cityIdVal == $cityId) {
+      	// 			echo "<li class=\"active\" onclick=\"searchFun('city', '".$cityId."')\">".$cityArr["name"]."</li>";
+      	// 		} else {
+      	// 			echo "<li onclick=\"searchFun('city', '".$cityId."')\">".$cityArr["name"]."</li>";
+      	// 		}
+      	// 	}
+      	// }
+      ?>
+    </ul>
+  <div class="clear"></div>
+  </div>
 <div class="midd_auto midd_top20">
 <?php
 $perNumber = 6;
