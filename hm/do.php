@@ -199,6 +199,13 @@ if (@$_GET['id'] == 'dl') {
     } else {
         $_SESSION['username'] = $row['xname'];
     }
+    
+    if (isset($_SESSION['wx_openid']) && !empty($_SESSION['wx_openid'])) {
+    	if ($row['wx_openid'] <> $_SESSION['wx_openid']) {
+    		// 在登录的时候，将用户和微信账号绑定
+	    	$rs = $pdo->exec("UPDATE pm_user SET `wx_openid` = '" . $_SESSION['wx_openid']. "' WHERE id = " . $_SESSION['userid']);
+    	}
+    }
     if (@$_POST['lid'] == "") {
         //exit(alert(2, "登录成功", "/user/"));
         header("Location: /user/");

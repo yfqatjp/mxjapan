@@ -53,7 +53,7 @@ if($fp !== false){
         $res = fgets($fp, 1024);
         if (strcmp($res, "VERIFIED") !== false) {
 
-        	$sql = "SELECT * FROM pm_gwc WHERE tai = 0 AND onum LIKE '" . $item_number . "'";
+        	$sql = "SELECT * FROM pm_gwc WHERE pay = 0 AND onum LIKE '" . $item_number . "'";
             $rs = $pdo->query($sql);
 
             $message =   $sql ."\n";

@@ -52,7 +52,7 @@ if ($verify_result) {//验证成功
         //1、开通了普通即时到账，买家付款成功后。
         //2、开通了高级即时到账，从该笔交易成功时间算起，过了签约时的可退款时限（如：三个月以内可退款、一年以内可退款等）后。
 
-        $rs = $pdo->query("SELECT * FROM pm_gwc WHERE tai = 0 AND onum LIKE '" . $out_trade_no . "'");
+        $rs = $pdo->query("SELECT * FROM pm_gwc WHERE pay = 0 AND onum LIKE '" . $out_trade_no . "'");
         if ($rs->rowCount() > 0) {
             $row = $rs->fetch();
 

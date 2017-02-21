@@ -1,5 +1,13 @@
-<?php require_once 'coon.php';
+<?php 
+require_once 'coon.php';
 $_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
+
+// 
+$appID = WEIXIN_APPID;
+$state = $_SESSION['formcode'];
+//
+$redirect_uri = urlencode("http://".$_SERVER['HTTP_HOST']."/user/wechatback.html");
+
 ?><!DOCTYPE html>
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -73,7 +81,7 @@ $_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
             <input type="submit" name="button" class="input_8" value="登录">
 
             <div class="midd_63"><img src="images/signin_2_07.png"><a
-                    href="https://open.weixin.qq.com/connect/qrconnect?appid= &redirect_uri=/login/wx&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect"><img
+                    href="https://open.weixin.qq.com/connect/qrconnect?appid=<?php echo $appID;?>&redirect_uri=<?php echo $redirect_uri;?>&response_type=code&scope=snsapi_login&state=<?php echo $state;?>#wechat_redirect"><img
                         src="images/signin_1_17.png"></a><a
                     href="/login/qq"><img src="images/signin_1_19.png"></a></div>
             <div class="midd_64"><a href="index.html">返回首页</a><span>|</span><a href="register.html">立即注册</a></div>

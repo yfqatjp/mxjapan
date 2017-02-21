@@ -316,11 +316,11 @@ if (count($arrHomeCharters) > 0) {
         	?>
             <div class="midd_4 animate-box" <?php if ($charterIndex%4 == 0) {echo 'style="margin-right:0;"';} ?>>
             	<a href="guidexx.html?id=<?php echo $arrCharter["id"];?>" class="item-grid text-center">
-                    <div class="image">
+                    <div class="image" style="height: 240px;overflow: hidden;">
                     	<?php 
                     	if (!empty($arrCharter["image_url"])) {
                     	?>
-                    	<img src="<?php echo $arrCharter["image_url"];?>">
+                    	<img src="<?php echo $arrCharter["image_url"];?>" style="height:240px;">
                     	<?php 
                     	} else {
                     	?>

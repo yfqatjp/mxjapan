@@ -15,6 +15,34 @@ if (!$hmWeb->isValidToken()) {
 	exit(Alert(2, "表单认证失败", "/"));
 }
 
+// 点赞
+if (@$_GET['like'] == 'post') {
+	$charter_id = $hmWeb->query("charter_id", 0);
+	$returnData = array();
+	$returnData["result"] = "errors";
+	$likeCount = 0;
+	if (!empty($charter_id)) {
+		$returnData["result"] = "success";
+		
+		// sql
+		$sql = "SELECT like_count FROM pm_charter WHERE id = ?  ";
+		$result = $hmWeb->findOne($sql, array($charter_id));
+		
+		if ($result != null) {
+			if (empty($result["like_count"])) {
+				$result["like_count"] = 0;
+			}
+			$upData = array();
+			$upData["like_count"] = $result["like_count"] + 1;
+			$hmWeb->update("pm_charter", $upData, "id=?", array($charter_id));
+			$likeCount = $upData["like_count"];
+		}
+		
+	}
+	$returnData["like_count"] = $likeCount;
+	echo json_encode($returnData);
+	exit;
+}
 // 添加评论的场合
 if (@$_GET['pl'] == 'post') {
 	if (@$_SESSION['userid'] == "") {
@@ -46,7 +74,7 @@ if (@$_GET['pl'] == 'post') {
 		$upData = array();
 		$upData["score_count"] = round($result["avg_rank"], 1);
 		$upData["comment_count"] = $result["pl_count"];
-		$upData["like_count"] = $result["pl_count"];
+		//$upData["like_count"] = $result["pl_count"];
 		$hmWeb->update("pm_charter", $upData, "id=?", array($hmWeb->query("cid", 0)));
 	}
 	
@@ -88,7 +116,7 @@ if (@$_GET['booking'] == "post") {
 	
 	$day = date('Ymd', strtotime($booking_date)) - date('Ymd', time());
 	if ($day <= 0) {
-		exit(alert(2, "请选择正确的日期", "/guidexx.html?id=" . $cid));
+		exit(alert(2, "请选择未来的日期", "/guidexx.html?id=" . $cid));
 	}
 
 	

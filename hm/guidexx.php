@@ -348,7 +348,7 @@ if(target.tagName=="IMG"){
         
         <div class="midd_128">
           <span style="color:#e83744;"><?php echo $bookingCount;?></span>人预约 | 
-          <img src="images/guide_1_06.jpg"><span style="color:#e83744;"><?php echo $arrCharter['like_count'];?></span>/人点赞 | 顾客评分：
+          <a href="javascript:void(0);" onclick="clickLike(<?php echo $charterId;?>)"><img src="images/guide_1_06.jpg"></a><span id="like_<?php echo $charterId ?>" style="color:#e83744;"><?php echo $arrCharter['like_count'];?></span>/人点赞 | 顾客评分：
           <span style="color:#104787;"><?php echo $arrCharter['score_count'];?></span>分 | 评论数：
           <span style="color:#104787;"><?php echo $arrCharter['comment_count'];?></span>次
         </div>
@@ -366,7 +366,7 @@ if(target.tagName=="IMG"){
 var start = {
     elem: '#start',
     format: 'YYYY-MM-DD',
-    min: laydate.now(), //设定最小日期为当前日期
+    min: laydate.now(+1), //设定最小日期为当前日期
     max: '2099-06-16', //最大日期
     istime: true,
     istoday: false,
@@ -422,6 +422,31 @@ jQuery(function(){
 		$("#choice_class_id").val(choice_class_id);
 	});
 });
+
+function clickLike(charterId) {
+	var data = {};
+	data['<?php echo $hmWeb->token_name?>'] = '<?php echo $token?>';
+	data['charter_id'] = charterId;
+	$.ajax({
+		type:'POST',
+		url:"action.html?like=post",
+		data:data,
+		dataType:'json',
+		success:function(data){
+			if (data.result == "error") {
+				alert('系统发送失败,请与客服联系。');
+				return false;
+			} else {
+				$("#like_" + charterId).html(data.like_count);
+			}
+		},
+		error:function(){
+			alert('系统发送失败。');
+		}
+	});
+}
+
+
 </script>
       </div>
       <div class="clear"></div>
