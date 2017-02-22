@@ -1704,8 +1704,6 @@ CREATE TABLE IF NOT EXISTS `pm_gallery` (
   `lang` int(11) NOT NULL,
   `title` varchar(250) NOT NULL,
   `subtitle` varchar(250) NOT NULL,
-  `beds` varchar(250) NOT NULL,
-  `establishmentday` varchar(250) NOT NULL,
   `text` longtext NOT NULL,
   `id_page` int(11) DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL,
