@@ -16,6 +16,34 @@ if (!$hmWeb->isValidToken()) {
 }
 
 // 点赞
+if (@$_GET['jiedan'] == 'post') {
+	$order_no = $hmWeb->query("order_no", "");
+	$page = $hmWeb->query("page", 1);
+	$jiedanResult = 0;
+	if (!empty($order_no)) {
+		// sql
+		$sql = "SELECT * FROM pm_charter_booking WHERE trans = ?  ";
+		$result = $hmWeb->findOne($sql, array($order_no));
+
+		if ($result != null) {
+			$upData = array();
+			// 状态变为已接单
+			$upData["status"] = 6;
+			$upData["edit_date"] = strtotime("now");
+			$hmWeb->update("pm_charter_booking", $upData, "trans = ?", array($order_no));
+			$jiedanResult = 1;
+		}
+
+	}
+	if ($jiedanResult == 1) {
+		exit(alert(2, "接单成功", "/user/acdd.html?page=" . $page));
+	} else {
+		exit(alert(2, "接单失败", "/user/acdd.html?page=" . $page));
+	}
+	
+}
+
+// 点赞
 if (@$_GET['like'] == 'post') {
 	$charter_id = $hmWeb->query("charter_id", 0);
 	$returnData = array();

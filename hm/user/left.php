@@ -1,6 +1,14 @@
 <?php
 $rsu = $pdo->query("SELECT * FROM pm_user WHERE id = " . $_SESSION['userid']);
 $rou = $rsu->fetch();
+
+$charterResult = $pdo->query("SELECT * FROM pm_charter_user WHERE user_id = " . $_SESSION['userid']);
+$isCharterOwner = 0;
+$charterInfo = array();
+if ($charterResult->rowCount() > 0) {
+	$charterInfo = $charterResult->fetch();
+	$isCharterOwner = 1;
+}
 ?>
 <div class="user_1">
     <div class="user_2">个人中心</div>
@@ -13,6 +21,18 @@ $rou = $rsu->fetch();
             <a href="jddd.html" <?php if (@$nleft == 1){ ?>class="user_12"<?php } ?>>酒店订单</a>
             <a href="bcdd.html" <?php if (@$nleft == 2) { ?>class="user_12"<?php } ?>>包车订单</a>
         </li>
+        
+        <?php 
+        if ($isCharterOwner == 1) {
+        ?>
+        <li>
+            <span>接单详细</span>
+            <a href="acdd.html" <?php if (@$nleft == 9) { ?>class="user_12"<?php } ?>>爱车订单</a>
+        </li>
+        <?php 
+        }
+        ?>
+        
         <li>
             <span>个人信息</span>
             <a href="grxx.html" <?php if (@$nleft == 3){ ?>class="user_12"<?php } ?>>个人信息</a>
@@ -22,7 +42,7 @@ $rou = $rsu->fetch();
         <li>
             <span>其他信息</span>
             <a href="nbxxk.html" <?php if (@$nleft == 6){ ?>class="user_12"<?php } ?>>内部信息库</a>
-            <!-- <a href="cysq.html" <?php if (@$nleft == 7) { ?>class="user_12"<?php } ?>>车友申请</a> -->
+            <a href="cysq.html" <?php if (@$nleft == 7) { ?>class="user_12"<?php } ?>>车友申请</a>
             <a href="/logout.html" <?php if (@$nleft == 8) { ?>class="user_12"<?php } ?>>退出登录</a>
         </li>
     </ul>
