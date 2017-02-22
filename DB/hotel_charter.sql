@@ -641,3 +641,7 @@ CREATE TABLE `pm_charter_booking` (
   `pay_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- 2017/2/12
+
+ALTER TABLE `pm_user`
+ADD COLUMN `wx_openid`  varchar(250) NULL COMMENT '微信授权用户唯一标识' AFTER `xname`;

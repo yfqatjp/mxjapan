@@ -45,3 +45,6 @@ define("TOURIST_TAX_TYPE", "fixed");
 define("ALLOW_COMMENTS", "1");
 define("ALLOW_RATINGS", "1"); // If comments enabled
 define("ENABLE_BOOKING_REQUESTS", "0"); // Possibility to make a reservation request if no availability
+
+define("WEIXIN_APPID", "wxbdc5610cc59c1631"); // 微信登录用的APPID
+define("WEIXIN_APPSECRET", "wxbdc5610cc59c1631"); // 应用密钥AppSecret

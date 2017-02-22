@@ -4,7 +4,7 @@ if (@$_SESSION['userid'] == "") {
     header("Location: /signin.html");
     exit;
 }
-$rs = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " AND onum IS NULL AND type = 1 AND tai = 0");
+$rs = $pdo->query("SELECT * FROM pm_gwc WHERE uid = " . $_SESSION['userid'] . " AND onum IS NULL AND type = 1 AND pay = 0");
 if ($rs->rowCount() == 0) {
     header("Location: /user/bcdd.html");
     exit;

@@ -44,6 +44,9 @@ $arrPager = $hmWeb->getPager($total, $arrParams["page"], $arrParams["limit"]);
 // 包车数据检索
 $charterList = $hmWeb->findCharterList($arrParams, false);
 
+//
+$token = $hmWeb->getToken();
+
 ?><!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -175,7 +178,7 @@ foreach($charterList as $i => $arrCharter){
     <div class="midd_83">
       <div class="left"><span><h4>￥</h4><h1><?php echo $arrCharter['max_price'];?></h1></span> / 车</div>
       <div class="right">
-        <img src="/images/guide_1_06.jpg"><?php echo $arrCharter['like_count'];?>/人点赞
+        <a href="javascript:void(0);" onclick="clickLike(<?php echo $charter_id;?>)"><img src="/images/guide_1_06.jpg"></a><span id="like_<?php echo $charter_id;?>"><?php echo $arrCharter['like_count'];?></span>/人点赞
       </div>
     <div class="clear"></div>
     </div>
@@ -259,6 +262,30 @@ function changeToGrid(url) {
 	$("#searchForm").attr("action", url);
 	$("#searchForm").submit();
 }
+
+function clickLike(charterId) {
+	var data = {};
+	data['<?php echo $hmWeb->token_name?>'] = '<?php echo $token?>';
+	data['charter_id'] = charterId;
+	$.ajax({
+		type:'POST',
+		url:"action.html?like=post",
+		data:data,
+		dataType:'json',
+		success:function(data){
+			if (data.result == "error") {
+				alert('系统发送失败,请与客服联系。');
+				return false;
+			} else {
+				$("#like_" + charterId).html(data.like_count);
+			}
+		},
+		error:function(){
+			alert('系统发送失败。');
+		}
+	});
+}
+
 </script>
 </body>
 </html>
