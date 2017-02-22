@@ -55,10 +55,12 @@ $row = $rs->fetch();
                 echo $row1['category'];
                 ?> &nbsp;&nbsp;&nbsp;&nbsp;发布日期：<?php echo date("Y-m-d", $row['add_date']); ?></span>
         </div>
+        <?php
+            $rs1 = $pdo->query("SELECT * FROM pm_notice_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank ASC");
+            if ($rs1->rowCount() >= 1) {?>
         <div class="flexslider131">
             <ul class="slides">
                 <?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_notice_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank aSC");
                     $i = 1;
                     while ($row1 = $rs1->fetch()) {
                         ?>
@@ -69,6 +71,7 @@ $row = $rs->fetch();
                     ?>
             </ul>
         </div>
+        <?php }?>
         <div class="user_19 midd_top20">
             <?php echo $row['text']; ?>
         </div>

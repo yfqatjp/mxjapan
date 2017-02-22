@@ -182,13 +182,18 @@ function add_item($db, $table, $result_insert, $id_lang)
         
         if($id == 0) $id = $db->lastInsertId();
         
-        if(is_numeric($id) && $id > 0)
-            $_SESSION['msg_success'][] = $lang." ".$texts['ADD_SUCCESS'];
-        else
-            $_SESSION['msg_error'][] = $lang." ".$texts['UPDATE_ERROR'];
-    }else
-        $_SESSION['msg_error'][] = $lang." ".$texts['UPDATE_ERROR'];
-        
+        if(is_numeric($id) && $id > 0) {
+            //$_SESSION['msg_success'][] = $lang." ".$texts['ADD_SUCCESS'];
+            $_SESSION['msg_success'][] = $texts['ADD_SUCCESS'];
+        } else {
+            //$_SESSION['msg_error'][] = $lang." ".$texts['UPDATE_ERROR'];
+            $_SESSION['msg_error'][] = $texts['UPDATE_ERROR'];
+        }
+    } else {
+        //$_SESSION['msg_error'][] = $lang." ".$texts['UPDATE_ERROR'];
+        $_SESSION['msg_error'][] = $texts['UPDATE_ERROR'];
+    }
+    
     if(NB_FILES > 0){
         
         $dir = SYSBASE."medias/".MODULE."/tmp/".$_SESSION['token']."/".$id_lang;
@@ -223,11 +228,13 @@ function edit_item($db, $table, $result_update, $id, $id_lang)
         if($result_lang !== false && $db->last_row_count() > 0) $lang = $result_lang->fetchColumn(0)." - ";
     }
     
-    if($result_update->execute() !== false)
-        $_SESSION['msg_success'][] = $lang." ".$texts['UPDATE_SUCCESS'];
-    else
-        $_SESSION['msg_error'][] = $lang." ".$texts['UPDATE_ERROR'];
-        
+    if($result_update->execute() !== false) {
+        //$_SESSION['msg_success'][] = $lang." ".$texts['UPDATE_SUCCESS'];
+        $_SESSION['msg_success'][] = $texts['UPDATE_SUCCESS'];
+    } else {
+        //$_SESSION['msg_error'][] = $lang." ".$texts['UPDATE_ERROR'];
+        $_SESSION['msg_error'][] = $texts['UPDATE_ERROR'];
+    }
     if(NB_FILES > 0){
         
         $dir = SYSBASE."medias/".MODULE."/tmp/".$_SESSION['token']."/".$id_lang;
