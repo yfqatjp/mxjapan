@@ -30,7 +30,7 @@ $row2 = $rs2->fetch();
 <aside id="fh5co-hero" class="js-fullheight">
     <div class="flexslider js-fullheight">
         <ul class="slides">
-            <li style="background: url(images/gallery.jpg) no-repeat; background-position:center center;">
+            <li style="background: url(images/mall.jpg) no-repeat; background-position:center center;">
                 <div class="overlay-gradient"></div>
                 <div class="container">
                     <div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
@@ -71,20 +71,20 @@ $row2 = $rs2->fetch();
 <?php
 $perNumber = 6;
 $page = @$_GET['page'];
-$count = $pdo->query("SELECT * FROM pm_gallery WHERE lang = 2 AND checked = 1 ORDER by rank");
+$count = $pdo->query("SELECT * FROM pm_product WHERE lang = 2 AND checked = 1 ORDER by rank");
 $totalNumber = $count->rowCount();
 $totalPage = ceil($totalNumber / $perNumber);
 if (!isset($page)) {
     $page = 1;
 }
 $startCount = ($page - 1) * $perNumber;
-$rs = $pdo->query("SELECT * FROM pm_gallery where lang = 2 AND checked = 1 order by rank limit $startCount,$perNumber");
+$rs = $pdo->query("SELECT * FROM pm_product where lang = 2 AND checked = 1 order by rank limit $startCount,$perNumber");
 while ($row = $rs->fetch()) {
     ?>
     <div class="midd_95"><a href="mallxx_<?= $row['id'] ?>.html" class="item-grid text-center">
-            <div class="image"><img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $row['id'] . " order by rank asc");
+            <div class="image"><img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_product_file WHERE id_item = " . $row['id'] . " order by rank asc");
                     $row1 = $rs1->fetch();
-                    echo "/medias/mall/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="350px" height="256px"></div>
+                    echo "/medias/product/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="350px" height="256px"></div>
             <div class="v-align midd_top35 midd_88">
                 <div class="v-align-middle">
                     <h3 class="title midd_tsize"><?php echo $row['title'] ?></h3>
@@ -101,7 +101,7 @@ while ($row = $rs->fetch()) {
     <?php
     if ($page - 1 > 0) {
         ?>
-        <a href="gallery_<?php echo $page - 1 ?>.html">上一页</a>
+        <a href="mall_<?php echo $page - 1 ?>.html">上一页</a>
         <?php
     }
     if ($page == $totalPage&& $page == 1) {
@@ -109,12 +109,12 @@ while ($row = $rs->fetch()) {
     } else {
         if ($page - 2 > 0) {
             ?>
-            <a href="gallery_<?php echo $page - 2 ?>.html"><?php echo $page - 2 ?></a>
+            <a href="mall_<?php echo $page - 2 ?>.html"><?php echo $page - 2 ?></a>
             <?php
         }
         if ($page - 1 > 0) {
             ?>
-            <a href="gallery_<?php echo $page - 1 ?>.html"><?php echo $page - 1 ?></a>
+            <a href="mall_<?php echo $page - 1 ?>.html"><?php echo $page - 1 ?></a>
             <?php
         }
 
@@ -131,14 +131,14 @@ while ($row = $rs->fetch()) {
             if ($page == $i) {
                 echo '<a class="number">' . $i . '</a>';
             } else { ?>
-                <a href="gallery_<?= $i ?>.html"><?= $i ?></a>
+                <a href="mall_<?= $i ?>.html"><?= $i ?></a>
                 <?php
             }
         }
     }
     if ($page + 1 <= $totalPage) {
         ?>
-        <a href="gallery_<?= $page + 1 ?>.html">下一页</a>
+        <a href="mall_<?= $page + 1 ?>.html">下一页</a>
     <?php } ?>
 </div>
 

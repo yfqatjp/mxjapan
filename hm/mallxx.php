@@ -42,14 +42,14 @@ $row2 = $rs2->fetch();
 
 <?php
 $pageId = @$_GET['page'];
-$rs = $pdo->query("SELECT * FROM pm_gallery where lang = 2 AND checked = 1 AND id = $pageId order by rank");
+$rs = $pdo->query("SELECT * FROM pm_product where lang = 2 AND checked = 1 AND id = $pageId order by rank");
 while ($row = $rs->fetch()) {
   $title = $row['title'];
   $publish_date = $row['publish_date'];
   $subtitle = $row['subtitle'];
 ?>
 <div class="midd_25">
-  <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="mail.html">美溪商城</a> > <a href="galleryxx_<?= $pageId ?>.html"><?php echo $title ?></a></div>
+  <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="mall.html">美溪商城</a> > <a href="mallxx_<?= $pageId ?>.html"><?php echo $title ?></a></div>
 </div>
 
 
@@ -59,12 +59,12 @@ while ($row = $rs->fetch()) {
             <div class="left midd_52">
                 <div id="originalpic">
                     <?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank asc");
+                    $rs1 = $pdo->query("SELECT * FROM pm_product_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank asc");
                     $i = 1;
                     while ($row1 = $rs1->fetch()) {
                         ?>
                         <li><a href="javascript:;"><img
-                                    src="<?php echo "/medias/mall/medium/" . $row1['id'] . "/" . $row1['file'] ?>"<?php if ($i == 1){ ?>
+                                    src="<?php echo "/medias/product/medium/" . $row1['id'] . "/" . $row1['file'] ?>"<?php if ($i == 1){ ?>
                                     style="display: inline;"<?php } ?>></a></li>
                         <?php
                         $i++;
@@ -79,12 +79,12 @@ while ($row = $rs->fetch()) {
                     <div id="piclist">
                         <ul>
                             <?php
-                            $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank asc");
+                            $rs1 = $pdo->query("SELECT * FROM pm_product_file WHERE lang = 2 and id_item = " . $row['id'] . " order by rank asc");
                             $i = 1;
                             while ($row1 = $rs1->fetch()) {
                                 ?>
                                 <li<?php if ($i == 1){ ?> class="hover"<?php } ?>><a href="javascript:;"><img
-                                            src="<?php echo "/medias/mall/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="120" height="86"></a></li>
+                                            src="<?php echo "/medias/product/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="120" height="86"></a></li>
                                 <?php
                                 $i++;
                             }

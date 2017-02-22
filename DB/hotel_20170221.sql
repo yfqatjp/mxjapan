@@ -2528,7 +2528,7 @@ INSERT INTO `pm_page` (`id`, `lang`, `name`, `title`, `subtitle`, `title_tag`, `
 (22, 2, '预定包车支付', '预定包车支付', '', 'Charter Payment', 'charter-payment', '', 'noindex,nofollow', '', '', '', '', 0, 'charter-payment', '', 0, 0, 0, 1, 11, 1472477070, 1473658466, 0, 0, 1, NULL),
 (23, 2, '预定包车支付完成', '预定包车支付完成', '', 'Charter Payment Complete', 'charter-payment-complete', '', 'noindex,nofollow', '', '', '', '', 0, 'charter-payment-complete', '', 0, 0, 0, 1, 11, 1472477070, 1473658466, 0, 0, 1, NULL),
 (24, 2, '包车接送', '包车接送', '', 'Charter pick up', 'pickup', '', 'noindex,nofollow', '', '', '', '', 0, 'charters', '', 1, 0, 0, 1, 11, 1472477070, 1473658466, 0, 0, 1, NULL),
-(25, 2, '商城', '商城', '', 'Charter pick up', 'pickup', '', 'noindex,nofollow', '', '', '', '', 0, 'charters', '', 1, 0, 0, 1, 11, 1472477070, 1473658466, 0, 0, 1, 'mall.html');
+(25, 2, '商城', '商城', '', 'Charter pick up', 'pickup', '', 'noindex,nofollow', '', '', '', '', NULL, 'mall', '', 1, 0, 0, 1, 11, 1472477070, 1473658466, 0, 0, 1, 'mall.html');
 
 -- --------------------------------------------------------
 
