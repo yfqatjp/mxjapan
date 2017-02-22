@@ -32,7 +32,6 @@ if ($charterResult->rowCount() > 0) {
         <?php 
         }
         ?>
-        
         <li>
             <span>个人信息</span>
             <a href="grxx.html" <?php if (@$nleft == 3){ ?>class="user_12"<?php } ?>>个人信息</a>

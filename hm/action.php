@@ -14,7 +14,6 @@ if (empty($token)) {
 if (!$hmWeb->isValidToken()) {
 	exit(Alert(2, "表单认证失败", "/"));
 }
-
 // 点赞
 if (@$_GET['jiedan'] == 'post') {
 	$order_no = $hmWeb->query("order_no", "");
