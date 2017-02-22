@@ -78,7 +78,7 @@ $txt = "内部信息库";
                     <div class="left" style="width: 25%; height: 100px;overflow: hidden;"><img
                             src="<?php $rs1 = $pdo->query("SELECT * FROM pm_notice_file WHERE id_item = " . $row['id'] . " ORDER BY rank DESC");
                             $row1 = $rs1->fetch();
-                            echo "/medias/notice/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="100%"></div>
+                            echo "/medias/notice/medium/" . $row1['id'] . "/" . $row1['file'] ?>" alt="没有图片" width="100%"></div>
                     <div class="user_11" style="width: 72%;margin-left:3%">
                         <h2><?php echo $row['title'] ?></h2>
                         <h3>
