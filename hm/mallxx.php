@@ -96,9 +96,15 @@ while ($row = $rs->fetch()) {
             <div class="midd_28">
                 <div class="midd_29"><?php echo $row['title']; ?></div>
                 
-                <div class="midd_37">
-                  <span>￥5000</span>/每晚
-                  <div class="right">
+                <div>
+                  <div style="float: left;">
+                    <span style="display: flex;">
+                        <span style="margin-top: 10px;">￥</span>
+                        <span style="font-size: 40px;color: red;">5000</span>
+                        <span style="margin-top: 10px;">/万円</span>
+                    </span>
+                  </div>
+                  <div class="right" style="margin-top: 20px;margin-bottom: 20px;">
                     <span>推荐指数</span>
                     <span>
                       <?php for ($i = 1; $i <= 5; $i++) { ?>
@@ -106,8 +112,18 @@ while ($row = $rs->fetch()) {
                     </span>
                   </div>
                 </div>
-                <div class="midd_29">
-                  <div class="midd_39" onclick="yd(6,3,2,'','',10)">
+            <div class="clear"></div>
+                <div class="midd_29" style="display: flex;margin-top: 30px;">
+                  <div style="
+                    cursor: pointer;
+                    color: #fff;
+                    width: 180px;
+                    height: 40px;
+                    background: #e83744;
+                    border-radius: 3px;
+                    text-align: center;
+                    line-height: 40px;
+                    margin: 0 auto;" onclick="yd(6,3,2,'','',10)">
                         预定
                     </div>
                 </div>
