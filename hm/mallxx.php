@@ -114,41 +114,53 @@ while ($row = $rs->fetch()) {
                 </div>
             <div class="clear"></div>
                 <div class="midd_29" style="display: flex;margin-top: 30px;">
-                  <!--<div style="
-                    cursor: pointer;
-                    color: #fff;
-                    width: 180px;
-                    height: 40px;
-                    background: #e83744;
-                    border-radius: 3px;
-                    text-align: center;
-                    line-height: 40px;
-                    margin: 0 auto;" onclick="yd(6,3,2,'','',10)">
-                        预定
-                    </div>-->
-                    <!-- Button trigger modal -->
-<button style=" width: 180px;border-radius: 3px;text-align: center;" type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal">
-  预定
-</button>
+                    <button style=" width: 180px;border-radius: 3px;margin: 0 auto;" type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal">
+                      预定
+                    </button>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">确认订单</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form class="form-horizontal">
+                              <div class="form-group">
+                                <label for="telno" class="col-sm-3 control-label">手机号</label>
+                                <div class="col-sm-7">
+                                  <input type="telno" class="form-control" id="inputEmail3" placeholder="手机号">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label for="weChatId" class="col-sm-3 control-label">微信号</label>
+                                <div class="col-sm-7">
+                                  <input type="wechatid" class="form-control" id="inputPassword3" placeholder="微信号">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label for="name1" class="col-sm-3 control-label">尊称</label>
+                                <div class="col-sm-7">
+                                  <input type="name1" class="form-control" id="inputPassword3" placeholder="尊称">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label for="number1" class="col-sm-3 control-label">数量</label>
+                                <div class="col-sm-7">
+                                  <input type="number1" class="form-control" id="inputPassword3" placeholder="数量">
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" style=" border-radius: 3px;" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" style=" border-radius: 3px;" class="btn btn-primary">确认提交</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 </div>
             </div>
             <div class="clear"></div>
