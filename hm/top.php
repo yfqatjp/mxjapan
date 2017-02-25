@@ -1,5 +1,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="旅游,美溪传媒车友俱乐部,美溪,租车,医疗,商城,不动产,民宿">
 <title><?php echo $row['name'] ?><?php echo constant("SITE_TITLE"); ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="description" content="<?php echo strtrunc(strip_tags($row['text']), 155) ?>"/>
