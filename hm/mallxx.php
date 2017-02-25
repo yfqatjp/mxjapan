@@ -114,7 +114,7 @@ while ($row = $rs->fetch()) {
                 </div>
             <div class="clear"></div>
                 <div class="midd_29" style="display: flex;margin-top: 30px;">
-                  <div style="
+                  <!--<div style="
                     cursor: pointer;
                     color: #fff;
                     width: 180px;
@@ -125,7 +125,30 @@ while ($row = $rs->fetch()) {
                     line-height: 40px;
                     margin: 0 auto;" onclick="yd(6,3,2,'','',10)">
                         预定
-                    </div>
+                    </div>-->
+                    <!-- Button trigger modal -->
+<button style=" width: 180px;border-radius: 3px;text-align: center;" type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal">
+  预定
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
                 </div>
             </div>
             <div class="clear"></div>
