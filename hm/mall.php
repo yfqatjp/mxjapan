@@ -67,6 +67,7 @@ $row2 = $rs2->fetch();
     </ul>
   <div class="clear"></div>
   </div>
+  </div>
 <div class="midd_auto midd_top20">
 <?php
 $perNumber = 6;
