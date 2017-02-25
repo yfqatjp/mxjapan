@@ -100,7 +100,7 @@ while ($row = $rs->fetch()) {
                   <div style="float: left;">
                     <span style="display: flex;">
                         <span style="margin-top: 10px;">￥</span>
-                        <span style="font-size: 40px;color: red;">5000</span>
+                        <span style="font-size: 40px;color: red;"><?php echo $row['price']; ?></span>
                         <span style="margin-top: 10px;">/万円</span>
                     </span>
                   </div>
