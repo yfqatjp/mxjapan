@@ -227,3 +227,16 @@ if (@$_GET['pl'] == 'post') {
     header("Location: "."/list_x" . $_POST['lid'] . ".html#pl");
 
 }
+
+if (@$_GET['id'] == 'spyd') {
+    if (@$_SESSION['userid'] == "") {
+        $pageId = @$_POST['pageid'];
+        header("Location: /mallxx_".$pageId.".html");
+        exit;
+    }
+
+    $rs = $pdo->exec("INSERT INTO pm_hotel_pl (`rank`,`text`,`uid`,`userip`,`dtime`,`lang`,id_item) VALUES ('" . $_POST['xx'] . "','" . $_POST['text'] . "','" . $_SESSION['userid'] . "','" . $userip . "',now(),'2'," . $_POST['lid'] . ")");
+   // exit(alert(2, "评论成功", "/list_x" . $_POST['lid'] . ".html#pl"));
+    header("Location: "."/list_x" . $_POST['lid'] . ".html#pl");
+
+}

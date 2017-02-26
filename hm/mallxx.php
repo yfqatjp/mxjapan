@@ -1,4 +1,5 @@
 <?php require_once 'coon.php';
+$_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
 $navid = 25;
 $rs = $pdo->query("SELECT * FROM `pm_page` WHERE `lang` = '2' AND id = " . $navid);
 $row = $rs->fetch();
@@ -127,7 +128,9 @@ while ($row = $rs->fetch()) {
                             <h4 class="modal-title" id="myModalLabel">确认订单</h4>
                           </div>
                           <div class="modal-body">
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" action="do?id=spyd" method="post" name="form" id="form">
+                              <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
+                              <input type="hidden" name="pageid" value="<?php echo $pageId ?>">
                               <div class="form-group">
                                 <label for="telno" class="col-sm-3 control-label">手机号</label>
                                 <div class="col-sm-7">
@@ -152,11 +155,11 @@ while ($row = $rs->fetch()) {
                                   <input type="number1" class="form-control" id="inputPassword3" placeholder="数量">
                                 </div>
                               </div>
-                            </form>
-                          </div>
                           <div class="modal-footer">
                             <button type="button" style=" border-radius: 3px;" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" style=" border-radius: 3px;" class="btn btn-primary">确认提交</button>
+                            <button type="submit" style=" border-radius: 3px;" class="btn btn-primary">确认提交</button>
+                          </div>
+                            </form>
                           </div>
                         </div>
                       </div>
