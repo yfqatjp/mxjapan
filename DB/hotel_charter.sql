@@ -645,3 +645,10 @@ CREATE TABLE `pm_charter_booking` (
 
 ALTER TABLE `pm_user`
 ADD COLUMN `wx_openid`  varchar(250) NULL COMMENT '微信授权用户唯一标识' AFTER `xname`;
+
+
+ALTER TABLE `pm_charter_user`
+ADD COLUMN `set_type`  tinyint(1) NULL DEFAULT 0 COMMENT '设置类型(0:不设置  1：每周  2：日期范围）',
+ADD COLUMN `week`  varchar(20) NULL COMMENT '每周' AFTER `set_type`,
+ADD COLUMN `start_date`  int(11) NULL COMMENT '不接单开始时间' AFTER `week`,
+ADD COLUMN `end_date`  int(11) NULL COMMENT '不接单结束日期' AFTER `start_date`;

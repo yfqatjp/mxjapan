@@ -28,6 +28,26 @@
 		<field multi="1" label="朋友如何评价您" name="friend_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
 		<field multi="1" label="您为什么来到这座城市" name="why_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
 		<field multi="1" label="特色服务" name="service_comment" type="textarea" editor="0" required="0" unique="0" validation="none"/>
+		<field multi="0" label="设置类型" name="set_type" type="radio" required="0" unique="0" validation="none">
+            <options>
+                <option value="0">不设置</option>
+                <option value="1">每周</option>
+                <option value="2">日期范围</option>
+            </options>
+        </field>
+        <field multi="0" label="每周" name="week" type="checkbox" required="0" unique="0" validation="none">
+            <options>
+                <option value="1">周一</option>
+                <option value="2">周二</option>
+                <option value="3">周三</option>
+                <option value="4">周四</option>
+                <option value="5">周五</option>
+                <option value="6">周六</option>
+                <option value="7">周日</option>
+            </options>
+        </field>
+        <field multi="1" label="不接单开始日" name="start_date" type="date" editor="0" required="0" unique="0" validation="none"/>
+        <field multi="1" label="不接单结束日" name="end_date" type="date" editor="0" required="0" unique="0" validation="none"/>
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>

@@ -170,11 +170,11 @@ foreach($charterList as $i => $arrCharter){
   </div>
   <div class="midd_82">
     <div class="midd_83">
-    <a href="guidexx.php?id=<?php echo $charter_id;?>">
-      <h2><?php echo $charter_title;?></h2>
+    <a href="guidexx.html?id=<?php echo $charter_id;?>">
+      <h2><?php echo $charter_title;?></h2></a>
       <div class="right"><?php echo $arrCharter['city_name'];?> | <span><?php echo $arrCharter['book_count'];?></span>人预约</div>
     <div class="clear"></div>
-    </a></div>
+    </div>
     <div class="midd_83">
       <div class="left"><span><h4>￥</h4><h1><?php echo $arrCharter['max_price'];?></h1></span> / 车</div>
       <div class="right">

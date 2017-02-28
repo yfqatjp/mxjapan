@@ -14,6 +14,111 @@ if (empty($token)) {
 if (!$hmWeb->isValidToken()) {
 	exit(Alert(2, "表单认证失败", "/"));
 }
+
+// 车友申请
+if (@$_GET['cysq'] == 'post') {
+	if (@$_SESSION['userid'] == "") {
+		header("Location: /signin.html");
+		exit;
+	}
+	$userId = $_SESSION['userid'];
+	$upData = array();
+	// 
+	if (empty($hmWeb->query("user_name"))) {
+		exit(alert(2, "姓名必须填", "/user/cysq.html"));
+	}
+	//
+	if (empty($hmWeb->query("drive_year"))) {
+		exit(alert(2, "在当地年限必须填", "/user/cysq.html"));
+	}
+	//
+	if (empty($hmWeb->query("mobile"))) {
+		exit(alert(2, "手机号码必须填", "/user/cysq.html"));
+	}
+	//
+	if (empty($hmWeb->query("identity"))) {
+		exit(alert(2, "身份证号必须填", "/user/cysq.html"));
+	}
+	//
+	if (empty($hmWeb->query("self_comment"))) {
+		exit(alert(2, "介绍自己必须填", "/user/cysq.html"));
+	}
+	//
+	if (empty($hmWeb->query("friend_comment"))) {
+		exit(alert(2, "朋友对您的评价必须填", "/user/cysq.html"));
+	}
+	$upData["user_name"] = $hmWeb->query("user_name");
+	$upData["drive_year"] = $hmWeb->query("drive_year");
+	$upData["mobile"] = $hmWeb->query("mobile");
+	$upData["alipay"] = $hmWeb->query("alipay");
+	$upData["identity"] = $hmWeb->query("identity");
+	$upData["self_comment"] = $hmWeb->query("self_comment");
+	$upData["friend_comment"] = $hmWeb->query("friend_comment");
+	$upData["why_comment"] = $hmWeb->query("why_comment");
+	//
+	$existSql = "select * from pm_charter_user where user_id = ? ";
+	$arrExistsUser = $hmWeb->findOne($existSql, array($userId));
+	if ($arrExistsUser != null && count($arrExistsUser) > 0) {
+		$upData["checked"] = "0";
+		$upData["add_date"] = strtotime("now");
+		$upData["edit_date"] = strtotime("now");
+		//
+		$hmWeb->update("pm_charter_user", $upData, " user_id = ?", array($userId));
+	} else {
+		$upData["edit_date"] = strtotime("now");
+		//
+		$hmWeb->insert("pm_charter_user", $upData);
+	}
+	exit(alert(2, "保存成功", "/user/cysq.html"));
+}
+
+// 爱车不接单时间的设置
+if (@$_GET['acsz'] == 'post') {
+	if (@$_SESSION['userid'] == "") {
+		header("Location: /signin.html");
+		exit;
+	}
+	$userId = $_SESSION['userid'];
+	
+	$upData = array();
+	$setType = $hmWeb->query("set_type", "0");
+	// 设置类型(0:不设置  1：每周  2：日期范围）
+	$upData["set_type"] = $hmWeb->query("set_type", "0");
+	if ($setType == "1") {
+		
+		$arrweek = $hmWeb->query("week");
+		if (is_array($arrweek)) {
+			$upData["week"] = implode(",", $arrweek);
+		} else {
+			$upData["week"] = $hmWeb->query("week");
+		}
+		
+		
+		$upData["end_date"] = "";
+		$upData["start_date"] = "";
+	} else if ($setType == "2") {
+		if (!empty($hmWeb->query("start_date"))) {
+			$upData["start_date"] = @strtotime($hmWeb->query("start_date"));
+		} else {
+			$upData["start_date"] = "";
+		}
+		if (!empty($hmWeb->query("end_date"))) {
+			$upData["end_date"] = @strtotime($hmWeb->query("end_date"));
+		} else {
+			$upData["end_date"] = "";
+		}
+		$upData["week"] = "";
+	} else {
+		$upData["week"] = "";
+		$upData["end_date"] = "";
+		$upData["start_date"] = "";
+	}
+	$upData["edit_date"] = strtotime("now");
+	$hmWeb->update("pm_charter_user", $upData, "user_id = ?", array($userId));
+	
+	exit(alert(2, "设置成功", "/user/acsz.html"));
+}
+
 // 点赞
 if (@$_GET['jiedan'] == 'post') {
 	$order_no = $hmWeb->query("order_no", "");

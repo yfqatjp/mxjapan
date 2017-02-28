@@ -37,6 +37,13 @@ if ($charterResult->rowCount() > 0) {
             <a href="grxx.html" <?php if (@$nleft == 3){ ?>class="user_12"<?php } ?>>个人信息</a>
             <a href="txsz.html" <?php if (@$nleft == 4) { ?>class="user_12"<?php } ?>>头像设置</a>
             <a href="mmxx.html" <?php if (@$nleft == 5) { ?>class="user_12"<?php } ?>>密码修改</a>
+            <?php 
+	        if ($isCharterOwner == 1) {
+	        ?>
+	        <a href="acsz.html" <?php if (@$nleft == 10) { ?>class="user_12"<?php } ?>>爱车设置</a>
+	        <?php 
+	        }
+	        ?>
         </li>
         <li>
             <span>其他信息</span>
@@ -58,6 +65,14 @@ if ($charterResult->rowCount() > 0) {
                 <a href="mmxx.html" <?php if (@$nleft == 5) { ?>class="user_12"<?php } ?>>密码修改</a>
                 <a href="nbxxk.html" <?php if (@$nleft == 6){ ?>class="user_12"<?php } ?>>内部信息库</a>
                 <a href="cysq.html" <?php if (@$nleft == 7) { ?>class="user_12"<?php } ?>>车友申请</a>
+                <?php 
+		        if ($isCharterOwner == 1) {
+		        ?>
+		        <a href="acdd.html" <?php if (@$nleft == 9) { ?>class="user_12"<?php } ?>>爱车订单</a>
+		        <a href="acsz.html" <?php if (@$nleft == 10) { ?>class="user_12"<?php } ?>>爱车设置</a>
+		        <?php 
+		        }
+		        ?>
                 <a href="/logout.html" <?php if (@$nleft == 8) { ?>class="user_12"<?php } ?>>退出登录</a>
             </div>
         </div>
