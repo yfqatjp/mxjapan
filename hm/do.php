@@ -231,9 +231,14 @@ if (@$_GET['pl'] == 'post') {
 if (@$_GET['id'] == 'spyd') {
     if (@$_SESSION['userid'] == "") {
         $pageId = @$_POST['pageid'];
-        header("Location: /mallxx_".$pageId.".html");
-        exit;
+        // 内容填写错误，不允许发送的状态设置
+        // header("Location: /mallxx_".$pageId.".html");
+        exit(alert(2, "输入内容有误", "/mallxx_".$pageId.".html"));
     }
+
+    // 目标邮箱地址取得相关处理
+    // 发送邮件
+    // 发送成功的状态设置
 
     $rs = $pdo->exec("INSERT INTO pm_hotel_pl (`rank`,`text`,`uid`,`userip`,`dtime`,`lang`,id_item) VALUES ('" . $_POST['xx'] . "','" . $_POST['text'] . "','" . $_SESSION['userid'] . "','" . $userip . "',now(),'2'," . $_POST['lid'] . ")");
    // exit(alert(2, "评论成功", "/list_x" . $_POST['lid'] . ".html#pl"));
