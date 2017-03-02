@@ -21,6 +21,20 @@ $row2 = $rs2->fetch();
     background: #f7f7f7;
   }
 </style>
+    <link rel="stylesheet" type="text/css" href="/js/validationEngine.jquery.css"/>
+    <script type="text/javascript" src="/js/jquery.validationEngine-zh_CN.js"></script>
+    <script type="text/javascript" src="/js/jquery.validationEngine.js"></script>
+    <script>
+        $(function () {
+            if ($('#form').size() > 0) {
+                jQuery('#form').validationEngine({
+                    showOneMessage: true,
+                    addPromptClass: "formError-white",
+                    promptPosition: 'topLeft'
+                })
+            }
+        })
+    </script>
 </head>
 <body>
 <div class="sehun"></div>
@@ -118,7 +132,7 @@ while ($row = $rs->fetch()) {
                     <button style=" width: 180px;border-radius: 3px;margin: 0 auto;" type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal">
                       预定
                     </button>
-
+                    
                     <!-- Modal -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog" role="document">
@@ -134,25 +148,25 @@ while ($row = $rs->fetch()) {
                               <div class="form-group">
                                 <label for="telno" class="col-sm-3 control-label">手机号</label>
                                 <div class="col-sm-7">
-                                  <input type="telno" class="form-control" id="inputEmail3" placeholder="手机号">
+                                  <input type="text" class="form-control" name="telno" id="telno" placeholder="手机号" data-validation-engine="validate[required]" >
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label for="weChatId" class="col-sm-3 control-label">微信号</label>
                                 <div class="col-sm-7">
-                                  <input type="wechatid" class="form-control" id="inputPassword3" placeholder="微信号">
+                                  <input type="text" class="form-control" name="wechatid" id="wechatid" placeholder="微信号" data-validation-engine="validate[required]" >
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label for="name1" class="col-sm-3 control-label">尊称</label>
                                 <div class="col-sm-7">
-                                  <input type="name1" class="form-control" id="inputPassword3" placeholder="尊称">
+                                  <input type="text" class="form-control" name="name1" id="name1" placeholder="尊称" data-validation-engine="validate[required]" >
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label for="number1" class="col-sm-3 control-label">数量</label>
                                 <div class="col-sm-7">
-                                  <input type="number1" class="form-control" id="inputPassword3" placeholder="数量">
+                                  <input type="number" class="form-control" name="number1" id="number1" placeholder="数量" data-validation-engine="validate[required],min[1]" >
                                 </div>
                               </div>
                           <div class="modal-footer">

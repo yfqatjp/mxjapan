@@ -259,8 +259,14 @@ if (@$_GET['pl'] == 'post') {
 }
 
 if (@$_GET['id'] == 'spyd') {
-    if (@$_SESSION['userid'] == "") {
-        $pageId = @$_POST['pageid'];
+    
+    $pageId = @$_POST['pageid'];
+    $telno = @$_POST['telno'];
+    $wechatid = @$_POST['wechatid'];
+    $name1 = @$_POST['name1'];
+    $number1 = @$_POST['number1'];
+
+    if ($telno == "" || $wechatid == "" || $name1 == "" || $number1 == "") {
         // 内容填写错误，不允许发送的状态设置
         // header("Location: /mallxx_".$pageId.".html");
         exit(alert(2, "输入内容有误", "/mallxx_".$pageId.".html"));
@@ -268,10 +274,10 @@ if (@$_GET['id'] == 'spyd') {
 
     // 目标邮箱地址取得相关处理
     // 发送邮件
+    $sendto_email = 'yuefuuan@gmail.com';
+    $subject = '商品订单-商品ID'.$pageId;
+    $body = '商品名：'.'<br>联系电话：'.$telno.'<br>微信号：'.$wechatid.'<br>联系人：'.$name1.'<br>数量：'.$number1;
+    smtp_mail($sendto_email, $subject, $body);
     // 发送成功的状态设置
-
-    $rs = $pdo->exec("INSERT INTO pm_hotel_pl (`rank`,`text`,`uid`,`userip`,`dtime`,`lang`,id_item) VALUES ('" . $_POST['xx'] . "','" . $_POST['text'] . "','" . $_SESSION['userid'] . "','" . $userip . "',now(),'2'," . $_POST['lid'] . ")");
-   // exit(alert(2, "评论成功", "/list_x" . $_POST['lid'] . ".html#pl"));
-    header("Location: "."/list_x" . $_POST['lid'] . ".html#pl");
-
+    exit(alert(2, "您的订单已提交，商家会及时联系您，请保持联系畅通。", "/mallxx_".$pageId.".html"));
 }
