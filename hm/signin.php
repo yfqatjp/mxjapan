@@ -22,7 +22,7 @@ $redirect_uri = urlencode("http://".$_SERVER['HTTP_HOST']."/user/wechatback.html
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>登录 <?php echo constant("SITE_TITLE"); ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="description" content="登录"/>
     <meta itemprop="name" content="登录">
     <meta itemprop="description" content="登录">

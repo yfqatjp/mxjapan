@@ -14,7 +14,7 @@ $_SESSION['formcode'] = rfc_encode(mt_rand(0, 1000000));
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>注册 <?php echo constant("SITE_TITLE"); ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="description" content="注册"/>
     <meta itemprop="name" content="注册">
     <meta itemprop="description" content="注册">
