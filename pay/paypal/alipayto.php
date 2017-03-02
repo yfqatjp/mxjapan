@@ -10,7 +10,7 @@ $row = $rs->fetch();
     <input type="hidden" name="cmd" value="_xclick">
     <input type="hidden" name="charset" value="utf-8">
     <input type="hidden" name="item_number" value="<?php echo $o ?>">
-    <input type="hidden" name="business" value="yuefuquan-facilitator-1@gmail.com">
+    <input type="hidden" name="business" value="yuefuquan-sale@gmail.com">
     <input type="hidden" name="item_name" value="订单ID:<?php echo $o ?>">
     <input type="hidden" name="currency_code" value="JPY">
     <input type="hidden" name="amount" value="<?php echo $row['price'] ?>">

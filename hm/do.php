@@ -117,16 +117,46 @@ if (@$_GET['pay'] == "post") {
     $row4 = $rs4->fetch();
 
 */
+    $rs4 = $pdo->query("SELECT * FROM pm_room WHERE lang = 2 AND id = " . $row['room'] . " ORDER BY id DESC");
+    $row4 = $rs4->fetch();
+
     $day = date('Ymd', strtotime($row['offt'])) - date('Ymd', strtotime($row['ont']));
     if ($day <= 0) {
         $day = 1;
+    }
+
+    if ($_POST['price'] != $row4['price'] * $day) {
+        exit(Alert(2, "订单信息发送变化", "/payment.html"));
     }
 
     $rs5 = $pdo->query("SELECT * FROM pm_user WHERE id = " . $_SESSION['userid']);
     $row5 = $rs5->fetch();
 
     if ($_POST['pay'] == 0) {
-        $rs = $pdo->exec("INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $_POST['price']. "','" . $row5['phone'] . "','只预约',1,'中国','" . $o . "' FROM pm_gwc WHERE onum LIKE '" . $o . "'");
+        smtp_mail($row5['email'], "预约订单确认", "尊敬的" . $row5['name'] . "<br>
+<br>
+您好<br>
+<br>
+欢迎使用美溪车友平台，您的订单已经提交，<br>
+请确认您的订单<br>
+<br>
+订单号：" . $o . "<br>
+入住日期：" . date('Y-m-d', strtotime($row['ont'])) . "<br>
+退房日期：" . date('Y-m-d', strtotime($row['offt'])) . "<br>
+价钱：" . $_POST['price'] . "<br>
+<br>
+<br>
+再次感谢");
+
+        smtp_mail("yuefuuan@gmail.com", "预约订单确认", "管理员您好<br>
+<br>
+客户预定了以下的订单<br>
+<br>
+订单号：" . $o . "<br>
+入住日期：" . date('Y-m-d', strtotime($row['ont'])) . "<br>
+退房日期：" . date('Y-m-d', strtotime($row['offt'])) . "<br>
+价钱：" . $_POST['price']);
+        $rs = $pdo->exec("INSERT INTO pm_booking (`id_room`,`room`,`comments`,`firstname`,`from_date`,`to_date`,`Nights`,`adults`,`children`,add_date,Total,phone,payment_method,`status`,country,trans) SELECT `room`,'" . $row1['title'] . "',`text`,'" . $row5['name'] . "',UNIX_TIMESTAMP(ont),UNIX_TIMESTAMP(offt),'" . $day . "',`adults`,`children`,UNIX_TIMESTAMP(dtime),'" . $_POST['price'] . "','" . $row5['phone'] . "','只预约',1,'中国','" . $o . "' FROM pm_gwc WHERE onum LIKE '" . $o . "'");
         $rs = $pdo->exec("UPDATE pm_gwc SET pay = 0,tai = 2,yytime = now() WHERE onum = '" . $o . "'");
         exit(Alert(2, "预约成功,请等待客服致电确认预约信息", "/user/jddd.html"));
     } elseif ($_POST['pay'] == 1 && $_POST['price'] > 0) {

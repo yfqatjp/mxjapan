@@ -4221,6 +4221,7 @@ ul,li{margin:0px;padding:0px;list-style-type:none;}
 	background:#e83744;
 	cursor:pointer;
 	font-size:16px;
+    -webkit-appearance:none;
 	font-family:"微软雅黑";
 }
 .midd_63{
