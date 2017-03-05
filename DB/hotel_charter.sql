@@ -652,3 +652,14 @@ ADD COLUMN `set_type`  tinyint(1) NULL DEFAULT 0 COMMENT '设置类型(0:不设�
 ADD COLUMN `week`  varchar(20) NULL COMMENT '每周' AFTER `set_type`,
 ADD COLUMN `start_date`  int(11) NULL COMMENT '不接单开始时间' AFTER `week`,
 ADD COLUMN `end_date`  int(11) NULL COMMENT '不接单结束日期' AFTER `start_date`;
+
+
+DROP TABLE IF EXISTS `pm_charter_user_setting`;
+CREATE TABLE `pm_charter_user_setting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `start_date`  int(11) NULL COMMENT '不接单开始时间',
+  `end_date`  int(11) NULL COMMENT '不接单结束日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+-- 2017/2/12

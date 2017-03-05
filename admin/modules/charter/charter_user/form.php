@@ -84,16 +84,16 @@ if(is_null($fields)) $fields = array();
 // 应用的前期处理
 $hotelApp->beforeAction($fields, $id);
 /* @jeff 包车服务  end */
-
+$charterUserId = 0;
 // Getting datas in the database
 if($db !== false){
     $result = $db->query("SELECT * FROM pm_".MODULE." WHERE id = ".$id);
     if($result !== false){
-        
+    	
         // Datas of the module
             
         foreach($result as $row){
-            
+        	$charterUserId = $row["user_id"];
             $id_lang = (MULTILINGUAL) ? $row['lang'] : 0;
             
             foreach($fields[MODULE]['fields'] as $fieldName => $field){
@@ -902,6 +902,30 @@ $csrf_token = get_token("form"); ?>
                                             }
                                             if(NB_FILES > 0){ ?>
                                             
+                                            <?php
+	                                                    $sql = "SELECT * FROM pm_".MODULE."_setting WHERE user_id = ".$charterUserId;
+	                                                    $sql .= " ORDER BY id desc ";
+	                                                    $result_date = $db->query($sql);
+	                                                    if($result_date != false && $result_date->rowCount() > 0){
+                                                    	?>
+                                                    	
+                                               	<div class="row mb10">
+                                                     <label class="col-md-2 control-label">不接单日期</label>
+                                                      <?php 
+                                                      foreach($result_date as $rowDate){
+                                                      ?>
+                                                     <div class="col-md-6">
+                                                      	<?php echo date('Y-m-d', $rowDate['start_date']) ?>
+                                                        &nbsp;&nbsp;-&nbsp;&nbsp;
+                                                        <?php echo date('Y-m-d', $rowDate['end_date']) ?>
+                                                    </div>
+                                                    <?php 
+	                                                    }
+                                                	?> 
+												</div>
+                                                <?php 
+	                                                    }
+                                                ?> 
                                                 <fieldset class="medias-gallery mt20">
                                                     <?php
                                                     $query_file = "SELECT * FROM pm_".MODULE."_file WHERE id_item = ".$id." AND file != ''";

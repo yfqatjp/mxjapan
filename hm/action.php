@@ -81,42 +81,31 @@ if (@$_GET['acsz'] == 'post') {
 	$userId = $_SESSION['userid'];
 	
 	$upData = array();
-	$setType = $hmWeb->query("set_type", "0");
-	// 设置类型(0:不设置  1：每周  2：日期范围）
-	$upData["set_type"] = $hmWeb->query("set_type", "0");
-	if ($setType == "1") {
-		
-		$arrweek = $hmWeb->query("week");
-		if (is_array($arrweek)) {
-			$upData["week"] = implode(",", $arrweek);
-		} else {
-			$upData["week"] = $hmWeb->query("week");
-		}
-		
-		
-		$upData["end_date"] = "";
-		$upData["start_date"] = "";
-	} else if ($setType == "2") {
-		if (!empty($hmWeb->query("start_date"))) {
-			$upData["start_date"] = @strtotime($hmWeb->query("start_date"));
-		} else {
-			$upData["start_date"] = "";
-		}
-		if (!empty($hmWeb->query("end_date"))) {
-			$upData["end_date"] = @strtotime($hmWeb->query("end_date"));
-		} else {
-			$upData["end_date"] = "";
-		}
-		$upData["week"] = "";
+	$setting_id = $hmWeb->query("setting_id", 0);
+	
+	//
+	if (empty($hmWeb->query("start_date")) && empty($hmWeb->query("end_date"))) {
+		exit(alert(2, "必须设置一个日期", "/user/acsz.html?id=".$setting_id));
+	}
+	$upData["user_id"] = $userId;
+	if (!empty($hmWeb->query("start_date"))) {
+		$upData["start_date"] = @strtotime($hmWeb->query("start_date"));
 	} else {
-		$upData["week"] = "";
-		$upData["end_date"] = "";
 		$upData["start_date"] = "";
 	}
-	$upData["edit_date"] = strtotime("now");
-	$hmWeb->update("pm_charter_user", $upData, "user_id = ?", array($userId));
+	if (!empty($hmWeb->query("end_date"))) {
+		$upData["end_date"] = @strtotime($hmWeb->query("end_date"));
+	} else {
+		$upData["end_date"] = "";
+	}
 	
-	exit(alert(2, "设置成功", "/user/acsz.html"));
+	$existSetting = $hmWeb->findOne("SELECT * FROM pm_charter_user_setting WHERE id = ? ", array($setting_id));
+	if ($existSetting != null && count($existSetting) > 0) {
+		$hmWeb->update("pm_charter_user_setting", $upData, "id = ?", array($setting_id));
+	} else {
+		$hmWeb->insert("pm_charter_user_setting", $upData);
+	}
+	exit(alert(2, "设置成功", "/user/acsz.html?id=".$setting_id));
 }
 
 // 点赞

@@ -10,36 +10,36 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/common/HmWeb.php';
 //
 $token = $hmWeb->getToken();
 
+
+$settingId = 0;
+if (isset($_GET["id"])) {
+	$settingId = $_GET["id"];
+	
+	//
+	if (isset($_GET["do"]) && $_GET["do"] == "delete") {
+		$pdo->query("delete from  pm_charter_user_setting WHERE id = " .  $settingId);
+		$settingId = 0;
+	}
+}
+
 // 取得原来爱车设置的信息
-$charterUserRow = $pdo->query("SELECT * FROM pm_charter_user WHERE user_id = " .  $_SESSION['userid']);
+$charterUserRow = $pdo->query("SELECT * FROM pm_charter_user_setting WHERE id = " .  $settingId);
 //
 $arrCharterUser = array();
 if ($charterUserRow != null && $charterUserRow->rowCount() > 0) {
 	$arrCharterUser = $charterUserRow->fetch();
 }
 
-$set_type = 0;
-if (isset($arrCharterUser["set_type"])) {
-	$set_type = $arrCharterUser["set_type"];
-}
-
-$arrChoiceWeek = array();
-if (isset($arrCharterUser["week"])) {
-	if (!empty($arrCharterUser["week"])) {
-		$arrChoiceWeek = explode("," , $arrCharterUser["week"]);
-	}
-}
-
 $start_date = "";
 if (isset($arrCharterUser["start_date"])) {
-	if (!empty($arrCharterUser["start_date"])) {
+	if (!empty($arrCharterUser["start_date"]) && $arrCharterUser["start_date"] > 0) {
 		$start_date = date("Y-m-d", $arrCharterUser["start_date"]);
 	}
 }
 
 $end_date = "";
 if (isset($arrCharterUser["end_date"])) {
-	if (!empty($arrCharterUser["end_date"])) {
+	if (!empty($arrCharterUser["end_date"]) && $arrCharterUser["end_date"] > 0) {
 		$end_date = date("Y-m-d", $arrCharterUser["end_date"]);
 	}
 }
@@ -89,41 +89,59 @@ if (isset($arrCharterUser["end_date"])) {
     <!-- 右侧 -->
     <form action="/action.html?acsz=post" method="post" name="form" id="form">
         <input type="hidden" name="<?php echo $hmWeb->token_name?>" value="<?php echo $token ?>">
+        <input type="hidden" name="setting_id" id="setting_id" value="<?php echo $settingId;?>">
         <input type="hidden" name="start_date" id="start_date" value="<?php echo $start_date ?>">
         <input type="hidden" name="end_date" id="end_date" value="<?php echo $end_date ?>">
         <div class="user_4">
             <div class="midd_68"><span>爱车设置-不接单时间设置</span></div>
-            <div class="user_17 midd_top55">
-                <span>设置类型：</span>
-                <input type="radio" name="set_type" value="0" id="set_type_0" <?php if ($set_type == "0") {echo 'checked';}?> onclick="clickRadio();"><label for="set_type_0">不设置</label>&nbsp;&nbsp;
-                <input type="radio" name="set_type" value="1" id="set_type_1" <?php if ($set_type == "1") {echo 'checked';}?> onclick="clickRadio();"><label for="set_type_1">每周</label>&nbsp;&nbsp;
-                <input type="radio" name="set_type" value="2" id="set_type_2" <?php if ($set_type == "2") {echo 'checked';}?> onclick="clickRadio();"><label for="set_type_2">日期范围</label>
-                <div class="clear"></div>
-            </div>
-            
-            <div class="user_17" id="weekradio_1" style="display:none;">
-                <span>周期：</span>
-                <input type="checkbox" name="week[]" value="1" id="week_1" <?php if (in_array("1", $arrChoiceWeek)) {echo 'checked';}?> ><label for="week_1">周一</label>&nbsp;&nbsp;
-                <input type="checkbox" name="week[]" value="2" id="week_2" <?php if (in_array("2", $arrChoiceWeek)) {echo 'checked';}?> ><label for="week_2">周二</label>&nbsp;&nbsp;
-                <input type="checkbox" name="week[]" value="3" id="week_3" <?php if (in_array("3", $arrChoiceWeek)) {echo 'checked';}?> ><label for="week_3">周三</label>&nbsp;&nbsp;
-                <input type="checkbox" name="week[]" value="4" id="week_4" <?php if (in_array("4", $arrChoiceWeek)) {echo 'checked';}?> ><label for="week_4">周四</label>&nbsp;&nbsp;
-                <input type="checkbox" name="week[]" value="5" id="week_5" <?php if (in_array("5", $arrChoiceWeek)) {echo 'checked';}?> ><label for="week_5">周五</label>&nbsp;&nbsp;
-                <input type="checkbox" name="week[]" value="6" id="week_6" <?php if (in_array("6", $arrChoiceWeek)) {echo 'checked';}?> ><label for="week_6">周六</label>&nbsp;&nbsp;
-                <input type="checkbox" name="week[]" value="7" id="week_7" <?php if (in_array("7", $arrChoiceWeek)) {echo 'checked';}?> ><label for="week_7">周日</label>
-                <div class="clear"></div>
-            </div>
-            
-            <div class="user_17" id="weekradio_2" style="display:none;">
-                <span>日期：</span>
+            <div class="user_17" id="weekradio_2" >
+                <span style="width:100px;">不接单日期：</span>
                 <div class="rendezvous-input-date" id="start" style="width:156px;background-position:122px center;">选择开始日期</div>
                 <div class="rendezvous-input-date" id="end" style="width:156px;background-position:122px center;">选择结束日期</div>
                 <div class="clear"></div>
             </div>
                    
             <input type="submit" name="button" class="input_14" value="确认">
+            
+            <br/>
+            
+            		<table width="80%" border="0" cellspacing="0" cellpadding="0" class="user_13" align="center">
+            <tr class="user_14">
+                <td width="35%" align="center">开始日期</td>
+                <td width="35%" align="center">结束日期</td>
+                <td width="30%" align="center">订单操作</td>
+            </tr>
+            <?php
+            $rs = $pdo->query("SELECT a.* FROM pm_charter_user_setting AS a WHERE a.user_id = " . $_SESSION['userid'] . " order by id desc ");
+            while ($row = $rs->fetch()) {
+                    ?>
+                    <tr>
+                        <td align="center">
+                            <?php if (!empty($row['start_date'])) { ?>
+                            	<?php echo date('Y-m-d', $row['start_date']) ?>
+                            	<?php } ?>
+                        </td>
+						<td align="center">
+                            <?php if (!empty($row['end_date'])) { ?>
+                            	<?php echo date('Y-m-d', $row['end_date']) ?>
+                            	<?php } ?>
+                        </td>
+                        <td align="center">
+                        	<a href="/user/acsz.html?id=<?php echo $row['id'];?>">编辑</a> &nbsp;&nbsp;&nbsp;&nbsp;
+                        	<a href="/user/acsz.html?do=delete&id=<?php echo $row['id'];?>">删除</a>
+                        </td>
+                    </tr>
+                <?php 
+            } ?>
+        </table>
+        
         </div>
         <div class="clear"></div>
     </form>
+    
+
+        
+    
 </div>
 
 <div class="midd_top20"></div>
@@ -195,21 +213,7 @@ laydate(end);
         
     });
 
-    clickRadio();
-    function clickRadio() {
-        var checked = $("input[name='set_type']:checked").val();
-        if (checked == "1") {
-            $("#weekradio_1").show();
-            $("#weekradio_2").hide();
-        } else if (checked == "2") {
-        	$("#weekradio_1").hide();
-        	$("#weekradio_2").show();
-        }else {
-        	$("#weekradio_1").hide();
-        	$("#weekradio_2").hide();
-        }
-            
-    }
+
 </script>
 </body>
 </html>
