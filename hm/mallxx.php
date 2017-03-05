@@ -179,6 +179,8 @@ while ($row = $rs->fetch()) {
                       </div>
                     </div>
                 </div>
+
+                <div class="midd_94"><?php echo $row['subtitle'] ?></div>
             </div>
             <div class="clear"></div>
         </div>
