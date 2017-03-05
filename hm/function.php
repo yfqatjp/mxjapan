@@ -24,71 +24,73 @@ function time_tran($the_time)
     }
 }
 
-function strtrunc($text, $length, $html = true, $ending = "...", $exact = false){
+function strtrunc($text, $length, $html = true, $ending = "...", $exact = false)
+{
 
     $text = preg_replace("/\s/", " ", $text);
     $text = preg_replace("/\s\s+/", " ", $text);
 
-    if(mb_strlen(preg_replace("/<.*?>/is", "", $text), "UTF-8") <= $length) return $text;
+    if (mb_strlen(preg_replace("/<.*?>/is", "", $text), "UTF-8") <= $length) return $text;
 
-    if($html){
+    if ($html) {
         preg_match_all("/(<.+?>)?([^<>]*)/is", $text, $matches, PREG_SET_ORDER);
 
         $matches_length = 0;
         $content_text = "";
         $tags = array();
 
-        foreach($matches as $match){
-            if(!empty($match[0])){
-                if(strlen($content_text) < $length){
+        foreach ($matches as $match) {
+            if (!empty($match[0])) {
+                if (strlen($content_text) < $length) {
                     $content_text .= $match[2];
-                    if(!empty($match[1])) $tags[strpos($match[0], $match[1]) + $matches_length] = $match[1];
+                    if (!empty($match[1])) $tags[strpos($match[0], $match[1]) + $matches_length] = $match[1];
                     $matches_length += strlen($match[0]);
-                }else
+                } else
                     break;
             }
         }
-    }else
+    } else
         $content_text = rip_tags($text);
 
     $result = substr($content_text, 0, $length);
 
-    if(!$exact){
+    if (!$exact) {
         $spacepos = strrpos($result, " ");
-        if($spacepos !== false)
+        if ($spacepos !== false)
             $result = substr($result, 0, $spacepos);
     }
-    if($html){
-        foreach($tags as $tag_pos => $tag){
+    if ($html) {
+        foreach ($tags as $tag_pos => $tag) {
             $str_start = substr($result, 0, $tag_pos);
             $str_end = substr($result, $tag_pos, strlen($result) - $tag_pos);
-            $result = $str_start.$tag.$str_end;
+            $result = $str_start . $tag . $str_end;
         }
         $result = close_html_tags($result);
         $result = preg_replace("/<([a-z]+[0-9]*)([^>]*)><\/([a-z]+[0-9]*)>/is", "", $result);
     }
-    return $result.$ending;
+    return $result . $ending;
 }
 
-function close_html_tags($text){
+function close_html_tags($text)
+{
 
     preg_match_all("/<[^>]*>/", $text, $tags);
     $list = array();
-    foreach($tags[0] as $tag){
-      if($tag{1} != "/"){
-          preg_match("/<([a-z]+[0-9]*)/i", $tag, $type);
-          $list[] = $type[1];
-      }else{
-           preg_match("/<\/([a-z]+[0-9]*)/i", $tag, $type);
-           for($i = count($list)-1; $i >= 0; $i--)
-                if($list[$i] == $type[1]) $list[$i] = "";
+    foreach ($tags[0] as $tag) {
+        if ($tag{1} != "/") {
+            preg_match("/<([a-z]+[0-9]*)/i", $tag, $type);
+            $list[] = $type[1];
+        } else {
+            preg_match("/<\/([a-z]+[0-9]*)/i", $tag, $type);
+            for ($i = count($list) - 1; $i >= 0; $i--)
+                if ($list[$i] == $type[1]) $list[$i] = "";
         }
     }
     $closed_tags = "";
-    for($i = count($list)-1; $i >= 0; $i--)
-        if($list[$i] != "" && $list[$i] != "br") $closed_tags .= "</".$list[$i].">";
+    for ($i = count($list) - 1; $i >= 0; $i--)
+        if ($list[$i] != "" && $list[$i] != "br") $closed_tags .= "</" . $list[$i] . ">";
 
-    return($text.$closed_tags);
+    return ($text . $closed_tags);
 }
 
 function xml_to_array($xml)
@@ -204,6 +206,39 @@ function url($s = 0)
     }
 }
 
+function smtp_mail($sendto_email, $subject, $body)
+{   //邮件发送
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/phpmailer/class.phpmailer.php");
+    $mail = new PHPMailer();
+    $mail->IsSMTP();                  // send via SMTP
+    $mail->Host = constant("SMTP_HOST");   // SMTP servers
+    $mail->SMTPAuth = true;           // turn on SMTP authentication
+    $mail->Username = constant("SMTP_USER");     // SMTP username
+    $mail->Password = constant("SMTP_PASS"); // SMTP password
+    $mail->From = constant("SMTP_USER");      // 发件人邮箱
+    $mail->FromName = "自动预约邮件";  // 发件人
+    $mail->Port =  constant("SMTP_PORT");
+    $mail->SMTPSecure = constant("SMTP_SECURITY");
+
+    $mail->CharSet = "UTF-8";
+    $mail->Encoding = "base64";
+    $mail->AddAddress($sendto_email, "username");  // 收件人邮箱和姓名
+    //$mail->AddReplyTo("yourmail@yourdomain.com","yourdomain.com");
+    //$mail->WordWrap = 50; // set word wrap 换行字数
+    //$mail->AddAttachment("/var/tmp/file.tar.gz"); // attachment 附件
+    //$mail->AddAttachment("/tmp/image.jpg", "new.jpg");
+    $mail->IsHTML(true);  // send as HTML
+
+    $mail->Subject = $subject;
+
+    $mail->Body = '<html><head><meta charset="gb2312"></head><body> ' . $body . ' </body></html>';
+    $mail->AltBody = "text/html";
+    if (!$mail->Send()) {
+        exit("console.log('邮件发送失败 " . $mail->ErrorInfo . "')");
+    } else {
+        return "1";
+    }
+}
 //水果php项目
 
 $rq = '?nid=' . @$_GET['nid'] . '&aid=' . @$_GET['aid']; //后台标记

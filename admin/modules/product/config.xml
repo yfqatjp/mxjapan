@@ -17,7 +17,7 @@
 	</list>
 	<form>
 		<field multi="1" label="图库名称" name="title" type="text" required="1" unique="0" validation="none"/>
-		<field multi="1" label="图库简介" name="subtitle" type="text" required="1" unique="0" validation="none"/>
+		<field multi="1" label="图库简介" name="subtitle" type="textarea" required="1" unique="0" validation="none"/>
 		<field multi="1" label="商品价格" name="price" type="text" required="1" unique="0" validation="none"/>
 		<field multi="1" label="图库详细" name="text" type="textarea" editor="1" required="0" unique="0" validation="none"/>
         <field multi="0" label="User" name="id_user" type="select" required="1" unique="0" validation="none" roles="administrator">
