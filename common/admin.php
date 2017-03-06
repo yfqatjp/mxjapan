@@ -66,6 +66,17 @@ class Admin extends Hotel {
     				return false;
     			}
     		}
+    		
+    		// 确认车主的不接单时间
+    		$settingsql = "SELECT count(id) as time_count 
+    				FROM pm_charter_user_setting 
+    				WHERE  user_id = ".$charterOwnerValue." and start_date <= ".$arriveTime." and end_date >= ".$arriveTime;
+    		$result2 = $this->db->query($settingsql);
+    		if($result2 !== false){
+    			if ($result2->fetchColumn(0) > 0) {
+    				return false;
+    			}
+    		}
     	}
     	return true;
     }

@@ -84,8 +84,8 @@ if (@$_GET['acsz'] == 'post') {
 	$setting_id = $hmWeb->query("setting_id", 0);
 	
 	//
-	if (empty($hmWeb->query("start_date")) && empty($hmWeb->query("end_date"))) {
-		exit(alert(2, "必须设置一个日期", "/user/acsz.html?id=".$setting_id));
+	if (empty($hmWeb->query("start_date")) || empty($hmWeb->query("end_date"))) {
+		exit(alert(2, "请设置不接单的开始日期和结束日期", "/user/acsz.html?id=".$setting_id));
 	}
 	$upData["user_id"] = $userId;
 	if (!empty($hmWeb->query("start_date"))) {
