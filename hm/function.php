@@ -208,7 +208,7 @@ function url($s = 0)
 
 function smtp_mail($sendto_email, $subject, $body)
 {   //邮件发送
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/phpmailer/class.phpmailer.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/PHPMailer/class.phpmailer.php");
     $mail = new PHPMailer();
     $mail->IsSMTP();                  // send via SMTP
     $mail->Host = constant("SMTP_HOST");   // SMTP servers
