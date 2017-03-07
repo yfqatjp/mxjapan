@@ -62,6 +62,7 @@ if (@$_GET['list'] == "") {
 </aside>
 <div id="fh5co-work-section" class="fh5co-light-grey-section">
     <div class="container">
+    <!--
         <form name="search_form" method="post" action="do?ss=list">
             <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
             <div class="midd_2" style="margin-bottom:0;">
@@ -114,8 +115,8 @@ if (@$_GET['list'] == "") {
                            value="<?php if (@$_GET['offt'] == "") { ?>退房日期<?php } else {
                                echo @$_GET['offt'];
                            } ?>">
-                </div>
-                <!-- 选择日期 -->
+                </div>-->
+                <!-- 选择日期 --><!-- 
                 <script src="js/jquery.min.js"></script>
                 <script type="text/javascript" src="js/laydate.js"></script>
                 <script type="text/javascript">
@@ -156,7 +157,7 @@ if (@$_GET['list'] == "") {
                 <input type="submit" name="button" class="input" value="搜索">
                 <div class="clearfix"></div>
             </div>
-        </form>
+        </form>-->
         <div class="midd_13">
             <div class="left">
                 <a href="list2_<?php echo @$_GET['page'] ?>_<?php if (@$_GET['ren'] == 0) { ?>1<?php } elseif (@$_GET['ren'] == 1) { ?>2<?php } else { ?>0<?php } ?>_0_0_<?php echo @$_GET['list'] ?>_<?php echo @$_GET['text'] ?>_<?php echo @$_GET['lid'] ?>_<?php echo @$_GET['ont'] ?>_<?php echo @$_GET['offt'] ?>.html#fh5co-work-section"><?php if (@$_GET['ren'] != 0){ ?>

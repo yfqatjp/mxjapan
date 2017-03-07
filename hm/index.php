@@ -180,6 +180,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
                 <h2>特色民宿 ＆ 星级酒店</h2>
             </div>
         </div>
+        <!-- 
         <form name="search_form" method="post" action="do?ss=list">
             <input type="hidden" name="formcode" value="<?php echo $_SESSION['formcode'] ?>">
             <div class="midd_2">
@@ -207,8 +208,8 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
                            value="<?php if (@$_GET['offt'] == "") { ?>退房日期<?php } else {
                                echo @$_GET['ont'];
                            } ?>">
-                </div>
-                <!-- 选择日期 -->
+                </div> -->
+                <!-- 选择日期 --><!--
                 <script src="js/jquery.min.js"></script>
                 <script type="text/javascript" src="js/laydate.js"></script>
                 <script type="text/javascript">
@@ -266,7 +267,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
                 <div class="clearfix"></div>
                 <div class="clear"></div>
             </div>
-        </form>
+        </form>-->
         <div class="row">
             <?php
             $rs = $pdo->query("SELECT * FROM pm_hotel WHERE lang = 2 AND checked = 1 AND home = 1 ORDER BY id DESC LIMIT 0,6");
