@@ -26,7 +26,7 @@
 <div class="kf repair_bar">
 	<div class="n1">
 		<div class="title">客服</div>
-		<a class="icon help" href="/Help/faq.html" target="_blank"></a>
+		<a class="icon help" href="/about.html" target="_blank"></a>
 		<div class="icon qq" id="open-support">
 			<div class="qq_hover"></div>
 		</div>
