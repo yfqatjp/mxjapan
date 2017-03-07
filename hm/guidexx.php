@@ -64,7 +64,7 @@ if ($arrCharterFileResult != null && count($arrCharterFileResult) > 0) {
 // 路线
 $arrCharterLines = array();
 // sql
-$lineSql = "SELECT * FROM pm_charter_line WHERE id_charter = ?  ORDER BY rank ASC ";
+$lineSql = "SELECT * FROM pm_charter_line WHERE id_charter = ?  ORDER BY sort ASC ";
 $lineImageSql = "SELECT * FROM pm_charter_line_file WHERE id_item = ? AND checked = 1 AND type = 'image' AND file != '' ORDER BY rank ";
 
 //

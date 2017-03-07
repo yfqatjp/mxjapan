@@ -663,3 +663,6 @@ CREATE TABLE `pm_charter_user_setting` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 -- 2017/2/12
+-----------------------------------------
+ALTER TABLE `pm_charter_line`
+CHANGE COLUMN `rank` `sort`  int(11) NULL DEFAULT 0 COMMENT '排序' AFTER `edit_date`;
