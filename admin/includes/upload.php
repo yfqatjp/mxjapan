@@ -27,6 +27,9 @@ $dir = $_SESSION['module_referer'];
 $uniqid = uniqid();
 $path = "../../medias/".$dir."/tmp";
 $path1 = "medias/".$dir."/tmp";
+
+$contentpath = "../../medias/".$dir."/content";
+$contentpath1 = "medias/".$dir."/content";
 if(!empty($_FILES)){
     $now = new DateTime();
     $a = md5("sessid_".$uniqid.$_POST['timestamp']);
@@ -37,6 +40,15 @@ if(!empty($_FILES)){
     chmod($path."/".$token."/".$langCode, 0777);
     if(!is_dir($path."/".$token."/".$langCode."/".$uniqid)) mkdir($path."/".$token."/".$langCode."/".$uniqid, 0777);
     chmod($path."/".$token."/".$langCode."/".$uniqid, 0777);
+
+    if(!is_dir($contentpath)) mkdir($contentpath, 0777);
+    chmod($contentpath, 0777);
+    if(!is_dir($contentpath."/".$token)) mkdir($contentpath."/".$token, 0777);
+    chmod($contentpath."/".$token, 0777);
+    if(!is_dir($contentpath."/".$token."/".$langCode)) mkdir($contentpath."/".$token."/".$langCode, 0777);
+    chmod($contentpath."/".$token."/".$langCode, 0777);
+    if(!is_dir($contentpath."/".$token."/".$langCode."/".$uniqid)) mkdir($contentpath."/".$token."/".$langCode."/".$uniqid, 0777);
+    chmod($contentpath."/".$token."/".$langCode."/".$uniqid, 0777);
     $tempFile = $_FILES['upload']['tmp_name'];
         
     $ext = mb_strtolower(strrchr($_FILES['upload']['name'], "."), "UTF-8");
@@ -55,13 +67,16 @@ if(!empty($_FILES)){
     $filename = strtolower($filename);
     $filename = utf8_encode($filename).$ext;
     $targetFile = $path."/".$token."/".$langCode."/".$uniqid."/".$filename;
-    $path1 = $path1."/".$token."/".$langCode."/".$uniqid."/".$filename;
+    $targetFile1 = SYSBASE."/".$contentpath1."/".$token."/".$langCode."/".$uniqid."/".$filename;
+    $path1 = SYSBASE."/".$path1."/".$token."/".$langCode."/".$uniqid."/".$filename;
+    $contentpath1 = $contentpath1."/".$token."/".$langCode."/".$uniqid."/".$filename;
 
     move_uploaded_file($tempFile, $targetFile);
+    copy($path1, $targetFile1);
 }
 
 // Check the $_FILES array and save the file. Assign the correct path to a variable ($url).
-$url = "/".$path1;
+$url = "/".$contentpath1;
 // Usually you will only assign something here if the file could not be uploaded.
 // $message = 'The uploaded file has been renamed';
 
