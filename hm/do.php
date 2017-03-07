@@ -148,7 +148,7 @@ if (@$_GET['pay'] == "post") {
 <br>
 再次感谢");
 
-        smtp_mail("yuefuuan@gmail.com", "预约订单确认", "管理员您好<br>
+        smtp_mail("yuefuquan@gmail.com", "预约订单确认", "管理员您好<br>
 <br>
 客户预定了以下的订单<br>
 <br>

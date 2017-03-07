@@ -366,7 +366,7 @@ if($db !== false){
 	                    }
 	                }
             	} else {
-            		$_SESSION['msg_error'][] = "该日期此车主已经被预约了";
+            		$_SESSION['msg_error'][] = "该日期此车主已经被预约了或此日期车主不接单，请与车主联系。";
             	}
             }else
                 $_SESSION['msg_error'][] = $texts['FORM_ERRORS'];
