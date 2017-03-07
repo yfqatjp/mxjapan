@@ -23,11 +23,46 @@
         </div>
     </div>
 </footer>
+<div class="kf repair_bar">
+	<div class="n1">
+		<div class="title">客服</div>
+		<a class="icon help" href="/Help/faq.html" target="_blank"></a>
+		<div class="icon qq" id="open-support">
+			<div class="qq_hover"></div>
+		</div>
+	</div>
+	<div class="n2">
+		<div class="qrcode_hover"></div>
+		<div class="icon qrcode"></div>
+	</div>
+	<div class="n3" id="gotop" style="visibility: visible; display: block;">
+		<div class="icon up"></div>
+	</div>
+</div>
+<style>
+.kf {position:fixed;top:130px;width:72px;right:10px;border-radius:5px;z-index:999;}
+.kf .n1,.kf .n2,.kf .n3{background:#444;border-radius:5px;cursor:pointer}
+.kf .n1{height:185px}
+.kf .n2,.kf .n3{padding:1px 0;margin-top:1px}
+.kf .n3{visibility: hidden; }
+.kf .title{text-align:center;height:53px;line-height:72px;color:#fff;font-size:14px}
+.kf .icon{background-color:#555;border-radius:47px;width:70px;height:61px; display:inline-block;}
+.kf .qq{background:url(../images/kefu_hover_s.png) no-repeat -270px -74px}
+.kf .help{background:url(../images/kefu_hover_s.png) no-repeat -270px -14px;}
+.kf .qrcode{background:url(../images/kefu_hover_s.png) no-repeat -269px -150px}
+.kf .up{background:url(../images/kefu_hover_s.png) no-repeat -269px -212px}
+.kf .qrcode_hover{
+    display:none;position:absolute;float:left;background:url(../images/kefu_hover_s.png) no-repeat -17px -185px;right:72px;width:134px;height:165px;top:89px
+}
+.kf .qq_hover{
+    display:none;position:absolute;float:left;background:url(../images/kefu_hover_s.png) no-repeat -10px -114px;right:72px;width:142px;height:62px
+}
+</style>
 
 <!-- 返回顶部 -->
-<div id="top"><img src="/images/top.png"></div>
+<!--<div id="top"><img src="/images/top.png"></div>-->
 <script>
-    $('#top').click(function () {
+    $('#gotop').click(function () {
         $('html,body').animate({scrollTop: '0px'}, 800);
         return false;
     });
