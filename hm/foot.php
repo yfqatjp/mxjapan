@@ -15,7 +15,7 @@
                 <li><a href="#"><img src="/images/6_13.png"><?php echo constant("FAX");?></a></li>
                 <li><a href="#"><img src="/images/6_17.png"><?php echo constant("EMAIL");?></a></li>
             </ul>
-            <div class="midd_65"><h3>微信公众号</h3><img src="<?php echo constant("OWNER");?>"></div>
+            <div class="midd_65"><h3>微信公众号</h3><img src="<?php echo constant("WECHAT_QR");?>"></div>
         </div>
         <div class="clear"></div>
         <div class="midd_11">
@@ -53,7 +53,7 @@
 .kf .qrcode{background:url(../images/kefu_hover_s.png) no-repeat -269px -150px}
 .kf .up{background:url(../images/kefu_hover_s.png) no-repeat -269px -212px}
 .kf .qrcode_hover{
-    display:none;position:absolute;float:left;background:url(../images/kefu_hover_s.png) no-repeat -17px -185px;right:72px;width:134px;height:165px;top:89px
+    display:none;position:absolute;float:left;background:url(../images/17_03.jpg);right:75px;width:164px;height:164px;top:89px
 }
 .kf .qq_hover{
     display:none;position:absolute;float:left;background:url(../images/kefu_hover_s.png) no-repeat -10px -114px;right:72px;width:142px;height:62px
@@ -68,4 +68,14 @@
         $('html,body').animate({scrollTop: '0px'}, 800);
         return false;
     });
+    $(".qq").mouseover(function(){
+		$(".qq_hover").show();
+	}).mouseout(function(){
+		$(".qq_hover").hide();
+	});
+    $(".qrcode").mouseover(function(){
+		$(".qrcode_hover").show();
+	}).mouseout(function(){
+		$(".qrcode_hover").hide();
+	});
 </script>

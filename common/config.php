@@ -48,3 +48,5 @@ define("ENABLE_BOOKING_REQUESTS", "0"); // Possibility to make a reservation req
 
 define("WEIXIN_APPID", "wxbdc5610cc59c1631"); // 微信登录用的APPID
 define("WEIXIN_APPSECRET", "wxbdc5610cc59c1631"); // 应用密钥AppSecret
+
+define("WECHAT_QR", "images/17_03.jpg");  // 微信公众号二维码
