@@ -53,10 +53,35 @@
 .kf .qrcode{background:url(../images/kefu_hover_s.png) no-repeat -269px -150px}
 .kf .up{background:url(../images/kefu_hover_s.png) no-repeat -269px -212px}
 .kf .qrcode_hover{
-    display:none;position:absolute;float:left;background:url(../images/17_03.jpg);right:75px;width:164px;height:164px;top:89px
+    display:none;position:absolute;float:left;
+    background:url(../images/17_03.jpg);
+    right:75px;width:164px;height:164px;top:89px
 }
 .kf .qq_hover{
-    display:none;position:absolute;float:left;background:url(../images/kefu_hover_s.png) no-repeat -10px -114px;right:72px;width:142px;height:62px
+    display:none;position:absolute;float:left;
+    /*background:url(../images/kefu_hover_s.png) no-repeat -10px -114px;*/
+    right:72px;width:142px;height:62px
+}
+.kf .qq_hover:before /*div:after*/{
+  content:"";
+  position:absolute;
+  top:22px;
+  left:132px;
+  width:0px;
+  height:0px;
+  border:10px solid transparent;
+  border-left-color:#fff;
+}
+.kf .qq_hover:after{
+  content:"090-1111-0000";
+  position:absolute;
+  top:1px;
+  left:0px;
+  width:132px;
+  height:60px;
+  background-color: #fff;
+  line-height: 62px;
+  padding-left: 5px;
 }
 }
 </style>
