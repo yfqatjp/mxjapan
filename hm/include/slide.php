@@ -7,16 +7,15 @@
             $i = 1;
             while ($row = $rs->fetch()) {
                 ?>
-                <li><img src="<?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id'] . " ORDER BY id ASC");
+                <li style="background: url(<?php
+                    $rs1 = $pdo->query("SELECT * FROM pm_slide_file WHERE id_item = " . $row['id']." order by id asc");
                     $row1 = $rs1->fetch();
-                    if (is_file($_SERVER['DOCUMENT_ROOT'] . "/images/" . $row1['file'])) {
+                    if (!is_file($_SERVER['DOCUMENT_ROOT']."/images/" . $row1['file'])) {
                         echo "/images/" . $row1['file'];
                     } else {
                         echo "/medias/slide/big/" . $row1['id'] . "/" . $row1['file'];
-                    } ?>">
+                    } ?>) no-repeat; background-position:center center;" >
                     <div class="overlay-gradient"></div>
-                    <div<?php if ($i == 1) { ?> class="midd_77"<?php } ?>>
                         <div class="container">
                             <div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
                                 <div class="slider-text-inner midd_230ss">
@@ -31,7 +30,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </li>
                 <?php $i++;
             } ?>
