@@ -14,7 +14,7 @@
                         echo "/images/" . $row1['file'];
                     } else {
                         echo "/medias/slide/big/" . $row1['id'] . "/" . $row1['file'];
-                    } ?>) no-repeat; background-position:center center;" >
+                    } ?>) no-repeat; background-position:center center;-moz-background-size:100% 100%;background-size:100% 100%;" >
                     <div class="overlay-gradient"></div>
                         <div class="container">
                             <div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
