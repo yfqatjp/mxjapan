@@ -35,11 +35,12 @@
 		<div class="qrcode_hover"></div>
 		<div class="icon qrcode"></div>
 	</div>
-	<div class="n3" id="gotop" style="visibility: visible; display: block;">
+	<!--<div class="n3" id="gotop" style="visibility: visible; display: block;">
 		<div class="icon up"></div>
-	</div>
+	</div>-->
 </div>
 <style>
+@media screen and (min-width: 768px) {
 .kf {position:fixed;top:130px;width:72px;right:10px;border-radius:5px;z-index:999;}
 .kf .n1,.kf .n2,.kf .n3{background:#444;border-radius:5px;cursor:pointer}
 .kf .n1{height:185px}
@@ -57,12 +58,13 @@
 .kf .qq_hover{
     display:none;position:absolute;float:left;background:url(../images/kefu_hover_s.png) no-repeat -10px -114px;right:72px;width:142px;height:62px
 }
+}
 </style>
 
 <!-- 返回顶部 -->
-<!--<div id="top"><img src="/images/top.png"></div>-->
+<div id="top"><img src="/images/top.png"></div>
 <script>
-    $('#gotop').click(function () {
+    $('#top').click(function () {
         $('html,body').animate({scrollTop: '0px'}, 800);
         return false;
     });
