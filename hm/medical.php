@@ -26,23 +26,7 @@ $row2 = $rs2->fetch();
 <body>
 <?php require_once 'head.php'; ?>
 
-<aside id="fh5co-hero" class="js-fullheight">
-    <div class="flexslider js-fullheight">
-        <ul class="slides">
-            <li style="background: url(images/medical.jpg) no-repeat; background-position:center center;">
-                <div class="overlay-gradient"></div>
-                <div class="container">
-                    <div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
-                        <div class="slider-text-inner midd_230ss">
-                            <h2>海外医疗</h2>
-                            <p><span>先进设备，为您健康保驾护航</span></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</aside>
+<?php require_once 'include/slide.php';?>
 
 <!-- 内容 -->
 <?php

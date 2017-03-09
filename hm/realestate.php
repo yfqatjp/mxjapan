@@ -27,23 +27,8 @@ $row2 = $rs2->fetch();
 <div class="sehun"></div>
 <?php require_once 'head.php'; ?>
 <div class="container"></div>
-<aside id="fh5co-hero" class="js-fullheight">
-    <div class="flexslider js-fullheight">
-        <ul class="slides">
-            <li style="background: url(images/realestate.jpg) no-repeat; background-position:center center;">
-                <div class="overlay-gradient"></div>
-                <div class="container">
-                    <div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
-                        <div class="slider-text-inner midd_230ss">
-                            <h2>不动产服务</h2>
-                            <p><span>城市中心养生名宅</span></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</aside>
+
+<?php require_once 'include/slide.php';?>
 
 <!-- 内容 -->
 <?php

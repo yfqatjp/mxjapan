@@ -42,24 +42,8 @@ if (@$_GET['list'] == "") {
 
 <?php require_once 'head.php'; ?>
 
-<div class="container"></div>
-<aside id="fh5co-hero" class="js-fullheight">
-    <div class="flexslider js-fullheight">
-        <ul class="slides">
-            <li style="background: url(images/7_02.png) no-repeat; background-position:center center;">
-                <div class="overlay-gradient"></div>
-                <div class="container">
-                    <div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
-                        <div class="slider-text-inner midd_230ss">
-                            <h2>日本特色民宿</h2>
-                            <p><span>无论走到世界任何地方您都会觉得在家一样</span></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</aside>
+<?php require_once 'include/slide.php';?>
+
 <div id="fh5co-work-section" class="fh5co-light-grey-section">
     <div class="container">
     <!--
