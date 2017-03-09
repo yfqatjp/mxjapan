@@ -332,7 +332,7 @@ if (count($arrHomeCharters) > 0) {
                     </div>
                     <div class="v-align">
                         <div class="v-align-middle">
-                            <h3 class="title"><?php echo $arrCharter["title"];?></h3>
+                            <h3 class="title" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"><?php echo $arrCharter["title"];?></h3>
                             <h5 class="category"><?php echo $arrCharter["city_name"];?> | <span><?php echo $arrCharter["book_count"];?>人</span>预约</h5>
                         </div>
                     </div>

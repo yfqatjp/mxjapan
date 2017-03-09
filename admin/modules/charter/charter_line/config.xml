@@ -9,8 +9,11 @@
 		<small maxw="400" maxh="400"/>
 	</medias>
 	<list order="id_charter, id">
-		<col label="包车服务" name="id_charter" table="pm_charter" fieldvalue="title" fieldref="id"/>
+		<filter label="包车服务" name="id_charter">
+            <options table="pm_charter" fieldlabel="title" fieldvalue="id" order="title"></options>
+        </filter>
 		<col label="行程名称" name="line_name" type="none"/>
+		<col label="包车服务" name="id_charter" table="pm_charter" fieldvalue="title" fieldref="id"/>
 	</list>
 	<form>
 		<!-- 服务明细 -->
