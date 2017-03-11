@@ -101,7 +101,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
     <div class="container">
         <div class="row">
             <div class="col-md-6s col-md-offset-3 text-center fh5co-heading animate-box">
-                <h2>日本旅行総合服務</h2>
+                <h2 style="padding-top: 15px;">日本旅行総合服務</h2>
             </div>
         </div>
         <div class="row">
@@ -177,7 +177,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
     <div class="container">
         <div class="row">
             <div class="col-md-6s col-md-offset-3 text-center mbottom80 animate-box">
-                <h2>特色民宿 ＆ 星级酒店</h2>
+                <h2 style="padding-top: 15px;">特色民宿 ＆ 星级酒店</h2>
             </div>
         </div>
         <!-- 
