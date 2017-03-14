@@ -469,6 +469,115 @@ if (count($arrHomeCharters) > 0) {
     </div>
 </div>
  -->
+ <div class="car-sharing partner pc-partner">
+    <h1 class="car-title">
+        <span class="height-middle">合作伙伴</span>
+    </h1>
+    <div class="pc-logo">
+        <ul class="clear">
+            <li class="fl"><a><img src="images/logo1.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo2.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo3.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo4.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo5.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo6.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo7.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo8.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo9.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo10.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo11.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo12.jpg" alt=""></a></li>
+        </ul>
+    </div>
+</div>
+<style>
+
+.pc-logo{
+    margin: 30px 0 40px 0;
+}
+.pc-partner{
+    padding-bottom: 30px;
+    margin: 0 auto;
+    width:1043px;
+}
+.pc-partner .fl { float:left; }
+.pc-partner .clear {overflow:hidden; zoom:1; height: inherit;}
+.pc-content .pc-partner{
+    margin-top: 50px;
+}
+.pc-logo ul li{
+    margin:5px 36px 15px 0;
+}
+.pc-logo ul li img{
+    width: 163px;
+}
+.pc-banner dl{
+    position: relative;
+}
+.pc-banner dl dd{
+    position: absolute;
+    color: #fff;
+    text-align: center;
+    font-size: 45px;
+    top: 40%;
+    width: 100%;
+}
+.pc-banner dl dd span{
+    font-size: 25px;
+}
+.border-bo{
+    border-bottom: 1px solid #ccc;
+}
+.car-sharing{
+    width: 95%;
+    margin:45px auto 0;
+}
+.car-sharing h1.car-title{
+    font-size: 30px;
+}
+.car-sharing span.line{
+    display: inline-block;
+    width: 1.3%;
+}
+.car-sharing dl{
+    margin-top:20px;
+    position: relative;
+}
+.car-sharing dl dt img{
+    border-radius: 5px;
+}
+.car-sharing dl dd.pic-tip{
+    position: absolute;
+    top:15px;
+    left:-12px;
+    color: #FFFEFF;
+    font-size: 14px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 30px;
+    border: 1px solid #fff;
+    height: 30px;
+    line-height: 30px;
+    width: 90px;
+    padding-left: 20px;
+}
+.car-sharing dl dd.pic-tip span.line{
+    width: 2.1%;
+}
+.car-sharing dl dd.pic-tip span.height-middle{
+    font-size: 16px;
+}
+.car-sharing dl dd.detail{
+    position: absolute;
+    bottom:-38px;
+    height: 80px;
+    width: 100%;
+    z-index: 100;
+}
+.car-sharing dl:hover dd.detail{
+    bottom: 0;
+    transition:.3s;
+}
+</style>
 <?php require_once 'foot.php'; ?>
 <!-- jQuery -->
 
