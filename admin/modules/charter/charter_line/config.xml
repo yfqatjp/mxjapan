@@ -8,7 +8,7 @@
 		<medium maxw="600" maxh="600"/>
 		<small maxw="400" maxh="400"/>
 	</medias>
-	<list order="id_charter, id">
+	<list order="rank asc">
 		<filter label="包车服务" name="id_charter">
             <options table="pm_charter" fieldlabel="title" fieldvalue="id" order="title"></options>
         </filter>
