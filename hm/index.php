@@ -509,7 +509,7 @@ if (count($arrHomeCharters) > 0) {
     margin:5px 36px 15px 0;
 }
 .pc-logo ul li img{
-    width: 163px;
+    width: 133px;
 }
 .pc-banner dl{
     position: relative;
