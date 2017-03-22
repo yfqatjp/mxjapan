@@ -366,58 +366,31 @@ if (count($arrHomeCharters) > 0) {
     <div class="container">
         <div class="row">
             <div class="col-md-6s col-md-offset-3 text-center mbottom80 animate-box">
-                <h2>旅游图库</h2>
+                <h2 style="padding-top: 15px;">旅游图库</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
-                    <div class="image"><img src="images/6_09.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">东京后花园轻井泽奢华</h3>
-                            <h5 class="date">发布日期2016-10-26 17:12</h5>
-                            <p>
-                                石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二的建筑。将20世纪初的思想家内村鉴三的思想“只有在大自然中才是真正的祈祷的地方”作为基础，把“石、光、水、绿色、树木”——自然界的五大基本要素全部融入到设计中，体现了“天然的教堂”的设计理念。教堂的设计师是有<span>[查看详情]</span>
-                            </p>
+            <?php
+            $rs = $pdo->query("SELECT * FROM pm_gallery WHERE lang = 2 AND checked = 1 AND home = 1 ORDER BY id DESC LIMIT 0,4");
+            while ($row = $rs->fetch()) {
+                ?>
+                <div class="col-md-6 col-sm-6 animate-box">
+                    <a href="galleryxx_<?= $row['id'] ?>.html" class="item-grid">
+                        <div class="image"><img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $row['id'] . " order by rank asc");
+                    $row1 = $rs1->fetch();
+                    echo "/medias/gallery/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="100%"></div>
+                        <div class="v-align">
+                            <div class="v-align-middle">
+                                <h3 class="title"><?php echo $row['title'] ?></h3>
+                                <h5 class="date">发布日期：<?php echo date('Y/m/d', $row['publish_date']) ?></h5>
+                                <p>
+                                    <?php echo $row['subtitle'] ?><span>[查看详情]</span>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
-                    <div class="image"><img src="images/6_09.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">冲绳亲子享受5日游</h3>
-                            <h5 class="date">发布日期2016-10-26 17:12</h5>
-                            <p>
-                                国际通又称为“奇迹的一哩”，全长达1.6公里。冲绳经历了第二次世界大战后，变成一座废墟。然而当地人以强烈的求生意志，在这块土地上建立了市集，并在极短的时间内恢复了元气。从此，这里就成为象征冲绳的主要大街，一直保持着当日的风貌，街道两旁林立着各大百货公<span>[查看详情]</span>
-                            </p>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
-                    <div class="image"><img src="images/6_09.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">东京后花园轻井泽奢华</h3>
-                            <h5 class="date">发布日期2016-10-26 17:12</h5>
-                            <p>
-                                石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二的建筑。将20世纪初的思想家内村鉴三的思想“只有在大自然中才是真正的祈祷的地方”作为基础，把“石、光、水、绿色、树木”——自然界的五大基本要素全部融入到设计中，体现了“天然的教堂”的设计理念。教堂的设计师是有<span>[查看详情]</span>
-                            </p>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
-                    <div class="image"><img src="images/6_09.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">冲绳亲子享受5日游</h3>
-                            <h5 class="date">发布日期2016-10-26 17:12</h5>
-                            <p>
-                                国际通又称为“奇迹的一哩”，全长达1.6公里。冲绳经历了第二次世界大战后，变成一座废墟。然而当地人以强烈的求生意志，在这块土地上建立了市集，并在极短的时间内恢复了元气。从此，这里就成为象征冲绳的主要大街，一直保持着当日的风貌，街道两旁林立着各大百货公<span>[查看详情]</span>
-                            </p>
-                        </div>
-                    </div>
-                </a></div>
+                    </a>
+                </div>
+            <?php } ?>
             <div class="col-md-12 text-center animate-box">
                 <p><a href="gallery.html" class="btn btn-primary">了解更多</a></p>
             </div>
