@@ -500,13 +500,25 @@ if (count($arrHomeCharters) > 0) {
     margin: 0 auto;
     width:1043px;
 }
-.pc-partner .fl { float:left; }
+.pc-partner .fl { 
+    /*float:left;*/
+ }
 .pc-partner .clear {overflow:hidden; zoom:1; height: inherit;}
 .pc-content .pc-partner{
     margin-top: 50px;
 }
+.pc-logo ul{
+    text-align:center;
+    list-style-type:none;
+}
+@media screen and (min-width: 768px){
+    .pc-logo ul{
+        max-width: 90%;
+    }
+}
 .pc-logo ul li{
-    margin:5px 36px 15px 0;
+    margin: 10px 18px 10px 18px;
+    display:inline-block;
 }
 .pc-logo ul li img{
     width: 133px;
