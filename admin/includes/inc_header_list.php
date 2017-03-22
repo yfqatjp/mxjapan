@@ -32,7 +32,7 @@ if(RANKING){ ?>
                 });
             });
             <?php
-            if($_SESSION['user']['type'] == "administrator"){ ?>
+            if($_SESSION['user']['type'] == "administrator" || $_SESSION['user']['type'] == "manager"){ ?>
                 $('#listing_base').tableDnD({
                     onDrop: function(table, row){
                         
