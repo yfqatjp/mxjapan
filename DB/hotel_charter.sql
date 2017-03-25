@@ -666,3 +666,19 @@ CREATE TABLE `pm_charter_user_setting` (
 -----------------------------------------
 ALTER TABLE `pm_charter_line`
 CHANGE COLUMN `rank` `sort`  int(11) NULL DEFAULT 0 COMMENT '排序' AFTER `edit_date`;
+
+ALTER TABLE `pm_charter_line`
+CHANGE COLUMN `sort` `rank`  int(11) NULL DEFAULT 0 COMMENT '排序' AFTER `edit_date`;
+
+
+------------------------------------------
+DROP TABLE IF EXISTS `pm_charter_like`;
+CREATE TABLE `pm_charter_like` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `charter_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `like_ip` text,
+  `like_date`  int(11) NULL COMMENT '时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+

@@ -141,6 +141,7 @@ if (@$_GET['like'] == 'post') {
 	$charter_id = $hmWeb->query("charter_id", 0);
 	$returnData = array();
 	$returnData["result"] = "errors";
+	$returnData["like_result"] = "1";
 	$likeCount = 0;
 	if (!empty($charter_id)) {
 		$returnData["result"] = "success";
@@ -148,15 +149,31 @@ if (@$_GET['like'] == 'post') {
 		// sql
 		$sql = "SELECT like_count FROM pm_charter WHERE id = ?  ";
 		$result = $hmWeb->findOne($sql, array($charter_id));
-		
 		if ($result != null) {
 			if (empty($result["like_count"])) {
 				$result["like_count"] = 0;
 			}
-			$upData = array();
-			$upData["like_count"] = $result["like_count"] + 1;
-			$hmWeb->update("pm_charter", $upData, "id=?", array($charter_id));
-			$likeCount = $upData["like_count"];
+			// sql
+			$sql = "SELECT count(id) as like_count FROM pm_charter_like WHERE charter_id = ? and like_ip = ? ";
+			$likeResult = $hmWeb->findOne($sql, array($charter_id, $userip));
+			if ($likeResult != null && $likeResult["like_count"] > 0) {
+				// 已经点过赞了
+				$returnData["like_result"] = "0";
+			} else {
+				//
+				$arrLike = array();
+				$arrLike["charter_id"] = $charter_id;
+				$arrLike["user_id"] = isset($_SESSION['userid']) ? $_SESSION['userid'] : 0;
+				$arrLike["like_ip"] = $userip;
+				$arrLike["like_date"] = "Now()";
+				
+				$hmWeb->insert("pm_charter_like", $arrLike);
+					
+				$upData = array();
+				$upData["like_count"] = $result["like_count"] + 1;
+				$hmWeb->update("pm_charter", $upData, "id=?", array($charter_id));
+				$likeCount = $upData["like_count"];
+			}
 		}
 		
 	}
