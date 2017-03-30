@@ -277,7 +277,13 @@ function clickLike(charterId) {
 				alert('系统发送失败,请与客服联系。');
 				return false;
 			} else {
-				$("#like_" + charterId).html(data.like_count);
+				if (data.like_result == "1") {
+					$("#like_" + charterId).html(data.like_count);
+				} else {
+					alert('您已经点过赞了。');
+					return false;
+				}
+				
 			}
 		},
 		error:function(){

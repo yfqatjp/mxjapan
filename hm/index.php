@@ -315,7 +315,7 @@ if (count($arrHomeCharters) > 0) {
         	foreach($arrCharterType["data"] as $arrCharter) {
         		$charterIndex++;
         	?>
-            <div class="midd_4 animate-box" <?php if ($charterIndex%4 == 0) {echo 'style="margin-right:0;"';} ?>>
+            <div class="col-md-4 animate-box" <?php if ($charterIndex%3 == 0) {echo 'style="margin-right:0;"';} ?>>
             	<a href="guidexx.html?id=<?php echo $arrCharter["id"];?>" class="item-grid text-center">
                     <div class="image" style="height: 240px;overflow: hidden;">
                     	<?php 
