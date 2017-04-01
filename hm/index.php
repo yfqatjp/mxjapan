@@ -391,6 +391,7 @@ if (count($arrHomeCharters) > 0) {
                     </a>
                 </div>
             <?php } ?>
+            <div class="clear"></div>
             <div class="col-md-12 text-center animate-box">
                 <p><a href="gallery.html" class="btn btn-primary">了解更多</a></p>
             </div>
