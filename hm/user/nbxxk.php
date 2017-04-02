@@ -63,7 +63,7 @@ $txt = "内部信息库";
         }
         $perNumber = 6;
         $page = @$_GET['page'];
-        $count = $pdo->query("SELECT * FROM pm_notice WHERE lang = 2 AND checked = 1 " . $sql);
+        $count = $pdo->query("SELECT * FROM pm_notice WHERE lang = 2 AND checked = 1 AND IFNULL(unpublish_date, DATE_FORMAT('99991231','YYYYMMDD')) >= DATE_FORMAT(SYSDATE(),'YYYYMMDD')" . $sql);
         //GROUP BY id
         $totalNumber = $count->rowCount();
         $totalPage = ceil($totalNumber / $perNumber);
@@ -87,7 +87,7 @@ $txt = "内部信息库";
                             $rs1 = $pdo->query("SELECT * FROM pm_category WHERE id = " . $row['category']);
                             $row1 = $rs1->fetch();
                             echo $row1['category'];
-                            ?>&nbsp; |&nbsp; 发布日期：<?php echo date("Y-m-d", $row['add_date']); ?></span>
+                            ?>&nbsp; |&nbsp; 发布日期：<?php echo date("Y-m-d", $row['publish_date']); ?>&nbsp; |&nbsp; 有效日期：<?php echo date("Y-m-d", $row['expiration_date']); ?> </span>
                     </div>
                     <div class="clear"></div>
                 </a></div>
