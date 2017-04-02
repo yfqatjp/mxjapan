@@ -101,7 +101,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
     <div class="container">
         <div class="row">
             <div class="col-md-6s col-md-offset-3 text-center fh5co-heading animate-box">
-                <h2>日本旅行総合服務</h2>
+                <h2 style="padding-top: 15px;">日本旅行総合服務</h2>
             </div>
         </div>
         <div class="row">
@@ -177,7 +177,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
     <div class="container">
         <div class="row">
             <div class="col-md-6s col-md-offset-3 text-center mbottom80 animate-box">
-                <h2>特色民宿 ＆ 星级酒店</h2>
+                <h2 style="padding-top: 15px;">特色民宿 ＆ 星级酒店</h2>
             </div>
         </div>
         <!-- 
@@ -315,7 +315,7 @@ if (count($arrHomeCharters) > 0) {
         	foreach($arrCharterType["data"] as $arrCharter) {
         		$charterIndex++;
         	?>
-            <div class="midd_4 animate-box" <?php if ($charterIndex%4 == 0) {echo 'style="margin-right:0;"';} ?>>
+            <div class="col-md-4 animate-box" <?php if ($charterIndex%3 == 0) {echo 'style="margin-right:0;"';} ?>>
             	<a href="guidexx.html?id=<?php echo $arrCharter["id"];?>" class="item-grid text-center">
                     <div class="image" style="height: 240px;overflow: hidden;">
                     	<?php 
@@ -366,58 +366,32 @@ if (count($arrHomeCharters) > 0) {
     <div class="container">
         <div class="row">
             <div class="col-md-6s col-md-offset-3 text-center mbottom80 animate-box">
-                <h2>旅游图库</h2>
+                <h2 style="padding-top: 15px;">旅游图库</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
-                    <div class="image"><img src="images/6_09.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">东京后花园轻井泽奢华</h3>
-                            <h5 class="date">发布日期2016-10-26 17:12</h5>
-                            <p>
-                                石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二的建筑。将20世纪初的思想家内村鉴三的思想“只有在大自然中才是真正的祈祷的地方”作为基础，把“石、光、水、绿色、树木”——自然界的五大基本要素全部融入到设计中，体现了“天然的教堂”的设计理念。教堂的设计师是有<span>[查看详情]</span>
-                            </p>
+            <?php
+            $rs = $pdo->query("SELECT * FROM pm_gallery WHERE lang = 2 AND checked = 1 AND home = 1 ORDER BY id DESC LIMIT 0,4");
+            while ($row = $rs->fetch()) {
+                ?>
+                <div class="col-md-6 col-sm-6 animate-box">
+                    <a href="galleryxx_<?= $row['id'] ?>.html" class="item-grid">
+                        <div class="image"><img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $row['id'] . " order by rank asc");
+                    $row1 = $rs1->fetch();
+                    echo "/medias/gallery/medium/" . $row1['id'] . "/" . $row1['file'] ?>" width="100%"></div>
+                        <div class="v-align">
+                            <div class="v-align-middle">
+                                <h3 class="title"><?php echo $row['title'] ?></h3>
+                                <h5 class="date">发布日期：<?php echo date('Y/m/d', $row['publish_date']) ?></h5>
+                                <p>
+                                    <?php echo $row['subtitle'] ?><span>[查看详情]</span>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
-                    <div class="image"><img src="images/6_09.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">冲绳亲子享受5日游</h3>
-                            <h5 class="date">发布日期2016-10-26 17:12</h5>
-                            <p>
-                                国际通又称为“奇迹的一哩”，全长达1.6公里。冲绳经历了第二次世界大战后，变成一座废墟。然而当地人以强烈的求生意志，在这块土地上建立了市集，并在极短的时间内恢复了元气。从此，这里就成为象征冲绳的主要大街，一直保持着当日的风貌，街道两旁林立着各大百货公<span>[查看详情]</span>
-                            </p>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
-                    <div class="image"><img src="images/6_09.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">东京后花园轻井泽奢华</h3>
-                            <h5 class="date">发布日期2016-10-26 17:12</h5>
-                            <p>
-                                石之教堂又名内村鉴三纪念堂，是建造在宁静森林中的一座独一无二的建筑。将20世纪初的思想家内村鉴三的思想“只有在大自然中才是真正的祈祷的地方”作为基础，把“石、光、水、绿色、树木”——自然界的五大基本要素全部融入到设计中，体现了“天然的教堂”的设计理念。教堂的设计师是有<span>[查看详情]</span>
-                            </p>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="col-md-6 col-sm-6 animate-box"><a href="galleryxx.html" class="item-grid">
-                    <div class="image"><img src="images/6_09.png"></div>
-                    <div class="v-align">
-                        <div class="v-align-middle">
-                            <h3 class="title">冲绳亲子享受5日游</h3>
-                            <h5 class="date">发布日期2016-10-26 17:12</h5>
-                            <p>
-                                国际通又称为“奇迹的一哩”，全长达1.6公里。冲绳经历了第二次世界大战后，变成一座废墟。然而当地人以强烈的求生意志，在这块土地上建立了市集，并在极短的时间内恢复了元气。从此，这里就成为象征冲绳的主要大街，一直保持着当日的风貌，街道两旁林立着各大百货公<span>[查看详情]</span>
-                            </p>
-                        </div>
-                    </div>
-                </a></div>
+                    </a>
+                </div>
+            <?php } ?>
+            <div class="clear"></div>
             <div class="col-md-12 text-center animate-box">
                 <p><a href="gallery.html" class="btn btn-primary">了解更多</a></p>
             </div>
@@ -469,6 +443,127 @@ if (count($arrHomeCharters) > 0) {
     </div>
 </div>
  -->
+ <div class="car-sharing partner pc-partner">
+    <h1 class="car-title">
+        <span class="height-middle">合作伙伴</span>
+    </h1>
+    <div class="pc-logo">
+        <ul class="clear">
+            <li class="fl"><a><img src="images/logo1.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo2.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo3.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo4.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo5.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo6.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo7.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo8.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo9.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo10.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo11.jpg" alt=""></a></li>
+            <li class="fl"><a><img src="images/logo12.jpg" alt=""></a></li>
+        </ul>
+    </div>
+</div>
+<style>
+
+.pc-logo{
+    margin: 30px 0 40px 0;
+}
+.pc-partner{
+    padding-bottom: 30px;
+    margin: 0 auto;
+    width:1043px;
+}
+.pc-partner .fl { 
+    /*float:left;*/
+ }
+.pc-partner .clear {overflow:hidden; zoom:1; height: inherit;}
+.pc-content .pc-partner{
+    margin-top: 50px;
+}
+.pc-logo ul{
+    text-align:center;
+    list-style-type:none;
+}
+@media screen and (min-width: 768px){
+    .pc-logo ul{
+        max-width: 90%;
+    }
+}
+.pc-logo ul li{
+    margin: 10px 18px 10px 18px;
+    display:inline-block;
+}
+.pc-logo ul li img{
+    width: 133px;
+}
+.pc-banner dl{
+    position: relative;
+}
+.pc-banner dl dd{
+    position: absolute;
+    color: #fff;
+    text-align: center;
+    font-size: 45px;
+    top: 40%;
+    width: 100%;
+}
+.pc-banner dl dd span{
+    font-size: 25px;
+}
+.border-bo{
+    border-bottom: 1px solid #ccc;
+}
+.car-sharing{
+    width: 95%;
+    margin:45px auto 0;
+}
+.car-sharing h1.car-title{
+    font-size: 30px;
+}
+.car-sharing span.line{
+    display: inline-block;
+    width: 1.3%;
+}
+.car-sharing dl{
+    margin-top:20px;
+    position: relative;
+}
+.car-sharing dl dt img{
+    border-radius: 5px;
+}
+.car-sharing dl dd.pic-tip{
+    position: absolute;
+    top:15px;
+    left:-12px;
+    color: #FFFEFF;
+    font-size: 14px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 30px;
+    border: 1px solid #fff;
+    height: 30px;
+    line-height: 30px;
+    width: 90px;
+    padding-left: 20px;
+}
+.car-sharing dl dd.pic-tip span.line{
+    width: 2.1%;
+}
+.car-sharing dl dd.pic-tip span.height-middle{
+    font-size: 16px;
+}
+.car-sharing dl dd.detail{
+    position: absolute;
+    bottom:-38px;
+    height: 80px;
+    width: 100%;
+    z-index: 100;
+}
+.car-sharing dl:hover dd.detail{
+    bottom: 0;
+    transition:.3s;
+}
+</style>
 <?php require_once 'foot.php'; ?>
 <!-- jQuery -->
 

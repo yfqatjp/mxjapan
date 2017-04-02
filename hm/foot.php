@@ -84,6 +84,10 @@
   padding-left: 5px;
 }
 }
+p img{
+    max-width: 100%;
+    height: auto !important;
+}
 </style>
 
 <!-- 返回顶部 -->

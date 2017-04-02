@@ -81,7 +81,11 @@ if (@$_GET['xx'] == "") {
 }
 
 if (isset($_FILES["myfile"])) {
-    $uploadDir = DIRECTORY_SEPARATOR . 'uploadFiles' . DIRECTORY_SEPARATOR . $_GET['xx'] . DIRECTORY_SEPARATOR;
+    if ($_GET['xx'] == "tou") {       
+        $uploadDir = DIRECTORY_SEPARATOR . 'medias' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . $_GET['xx'] . DIRECTORY_SEPARATOR . $_GET['userid'] . DIRECTORY_SEPARATOR;
+    }else{
+        $uploadDir = DIRECTORY_SEPARATOR . 'uploadFiles' . DIRECTORY_SEPARATOR . $_GET['xx'] . DIRECTORY_SEPARATOR;
+    }
     $dir = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $uploadDir;
     file_exists($dir) || (mkdir($dir, 0777, true) && chmod($dir, 0777));
     if (!is_array($_FILES["myfile"]["name"])) {

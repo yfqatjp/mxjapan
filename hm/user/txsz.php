@@ -30,7 +30,7 @@ $txt = "头像设置";
             fileObj = document.getElementById("file").files[0];
             if (fileObj) {
                 $('body').append('<img src="/images/loading.gif" class="load"><div class="load2"></div>');
-                var FileController = '/hm/upload.php?xx=tou';
+                var FileController = '/hm/upload.php?xx=tou&userid='+jQuery('#userid').val();
                 var form = new FormData();
                 form.append("myfile", fileObj);
                 createXMLHttpRequest();
@@ -111,7 +111,9 @@ $txt = "头像设置";
         <div class="midd_68"><span>头像设置</span></div>
         <div class="midd_center midd_top65"><img src="<?= $rou['ico'] ?>" class="tou" onerror="this.src='/images/default.jpg'"></span>
             <input type="file" id="file" runat="server" name="file" onchange="UpladFile()" accept="image/*"
-                   capture="camera" style="display:none"/></div>
+                   capture="camera" style="display:none"/>
+            <input type="hidden" id="userid" name="userid" value="<?php echo $rou['id'] ?>">
+        </div>
         <input type="submit" name="button" class="input_14" onclick="file.click();" value="选择">
     </div>
     <div class="clear"></div>
