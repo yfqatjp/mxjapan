@@ -88,9 +88,11 @@ class Admin extends Hotel {
     	if ($this->id > 0) {
     		foreach($fields[MODULE]["fields"] as $field){
     			$fieldName = $field->getName();
+    			/*
     			if ($fieldName == "charter_type") {
     				$field->setActive(0);
     			}
+    			*/
     		}
     	}
     }

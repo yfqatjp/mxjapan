@@ -176,7 +176,7 @@ foreach($charterList as $i => $arrCharter){
     <div class="clear"></div>
     </div>
     <div class="midd_83">
-      <div class="left"><span><h4>￥</h4><h1><?php echo $arrCharter['max_price'];?></h1></span> / 车</div>
+      <div class="left"><span><h4>￥</h4><h1><?php echo $arrCharter['min_price'];?></h1></span> / 车</div>
       <div class="right">
         <a href="javascript:void(0);" onclick="clickLike(<?php echo $charter_id;?>)"><img src="/images/guide_1_06.jpg"></a><span id="like_<?php echo $charter_id;?>"><?php echo $arrCharter['like_count'];?></span>/人点赞
       </div>

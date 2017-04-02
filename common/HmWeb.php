@@ -274,13 +274,13 @@ class HmWeb extends Hotel {
     		if (isset($arrParams["order_by"]) && !empty($arrParams["order_by"])) {
     			//  人气 
     			if ($arrParams["order_by"] == "like") {
-    				$sql .= "  ORDER BY T1.like_count DESC ";
+    				$sql .= "  ORDER BY T1.like_count ASC ";
     			} else if ($arrParams["order_by"] == "book") {
     				//  销量
-    				$sql .= "  ORDER BY book_count DESC ";
+    				$sql .= "  ORDER BY book_count ASC ";
     			} else if ($arrParams["order_by"] == "price") {
     				//  价格
-    				$sql .= "  ORDER BY max_price DESC ";
+    				$sql .= "  ORDER BY max_price ASC ";
     			}
     		} else {
     			$sql .= "  ORDER BY T1.add_date DESC ";

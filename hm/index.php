@@ -299,7 +299,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
 <?php 
 if (count($arrHomeCharters) > 0) {
 ?>
-<div id="fh5co-testimony-section" style="background:#fcfcfc;">
+<div id="fh5co-work-section" class="fh5co-light-grey-section">
     <div class="container">
     	<?php 
     	foreach($arrHomeCharters as $arrCharterType) {
@@ -309,7 +309,7 @@ if (count($arrHomeCharters) > 0) {
                 <h2><?php echo $arrCharterType["name"];?></h2>
             </div>
         </div>
-        <div class="row mbottom70">
+        <div class="row">
         	<?php 
         	$charterIndex = 0;
         	foreach($arrCharterType["data"] as $arrCharter) {
@@ -339,7 +339,7 @@ if (count($arrHomeCharters) > 0) {
                 </a>
             </div>
             <?php 
-            	if ($charterIndex%4 == 0) {
+            	if ($charterIndex%3 == 0) {
             ?>
             	<div class="clear"></div>
             </div>
@@ -372,7 +372,7 @@ if (count($arrHomeCharters) > 0) {
         <div class="row">
             <?php
             $rs = $pdo->query("SELECT * FROM pm_gallery WHERE lang = 2 AND checked = 1 AND home = 1 ORDER BY id DESC LIMIT 0,4");
-            while ($row = $rs->fetch()) {
+            while ($rs != null && $row = $rs->fetch()) {
                 ?>
                 <div class="col-md-6 col-sm-6 animate-box">
                     <a href="galleryxx_<?= $row['id'] ?>.html" class="item-grid">

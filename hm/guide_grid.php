@@ -176,7 +176,7 @@ foreach($charterList as $i => $arrCharter){
         <h3 class="title midd_tsize"><?php echo $charter_title;?></h3>
         <div class="midd_86">
           <div class="left"><span><?php echo $arrCharter['like_count'];?>人</span>赞 | <span><?php echo $arrCharter['book_count'];?>人</span>预约</div>
-          <div class="right"><span><h2>￥</h2><h1><?php echo $arrCharter['max_price'];?></h1></span>/ 车</div>
+          <div class="right"><span><h2>￥</h2><h1><?php echo $arrCharter['min_price'];?></h1></span>/ 车</div>
         <div class="clear"></div>
         </div>
       </div>
