@@ -53,7 +53,7 @@ $row = $rs->fetch();
                 $rs1 = $pdo->query("SELECT * FROM pm_category WHERE id = " . $row['category']);
                 $row1 = $rs1->fetch();
                 echo $row1['category'];
-                ?> &nbsp;&nbsp;&nbsp;&nbsp;发布日期：<?php echo date("Y-m-d", $row['add_date']); ?></span>
+                ?> &nbsp;&nbsp;&nbsp;&nbsp;发布日期：<?php echo date("Y-m-d", $row['publish_date']); ?> &nbsp;&nbsp;&nbsp;&nbsp;有效日期：<?php echo date("Y-m-d", $row['expiration_date']); ?></span>
         </div>
         <?php
             $rs1 = $pdo->query("SELECT * FROM pm_notice_file WHERE lang = 2 AND id_item = " . $row['id'] . " ORDER BY rank ASC");

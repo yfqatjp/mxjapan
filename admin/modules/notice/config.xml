@@ -15,16 +15,13 @@
 		<filter label="优先级" name="level">
             <options table="pm_level" fieldlabel="level" fieldvalue="value" order="value"/>
         </filter>
-        <!--
 		<filter label="权限" name="authority">
-            <options table="pm_user" fieldlabel="type" fieldvalue="id" order="id"/>
-        </filter> -->
+            <options table="pm_authority" fieldlabel="authority" fieldvalue="value" order="value"/>
+        </filter>
 		<col label="标题" name="title" type="none"/>
 		<col label="类别" name="category" table="pm_category" fieldvalue="category" fieldref="value"/>
 		<col label="优先级" name="level" type="none" table="pm_level" fieldvalue="level" fieldref="value"/>
-		<!--
-		<col label="权限" name="authority" table="pm_user" fieldvalue="name" fieldref="id"/>
-		-->
+		<col label="权限" name="authority" table="pm_authority" fieldvalue="authority" fieldref="value"/>
 		<col label="有效期限" name="expiration_date" type="datetime"/>
 		<!--
 		<col label="Page" name="id_page" table="pm_page" fieldvalue="name" fieldref="id"/>
@@ -64,10 +61,10 @@
         <field multi="0" label="优先级" name="level" type="select" required="1" unique="0" validation="none">
 			<options table="pm_level" fieldlabel="level" fieldvalue="value" order="value"/>
 		</field>
-		<!--
-        <field multi="0" label="权限" name="authority" type="select" required="1" unique="0" validation="none" roles="administrator">
-			<options table="pm_user" fieldlabel="type" fieldvalue="id" order="type"/>
+        <field multi="0" label="权限" name="authority" type="select" required="1" unique="0" validation="none">
+			<options table="pm_authority" fieldlabel="authority" fieldvalue="value" order="value"/>
 		</field>
+		<!--
         <field multi="0" label="User" name="id_user" type="select" required="1" unique="0" validation="none" roles="administrator">
 			<options table="pm_user" fieldlabel="login" fieldvalue="id" order="login"/>
 		</field>
@@ -76,7 +73,7 @@
 	</form>
     <roles>
         <user type="administrator" permissions="all"/>
-        <user type="manager" permissions="no_access"/>
-        <user type="editor" permissions="add,edit,upload"/>
+        <user type="manager" permissions="all"/>
+        <user type="editor" permissions="no_access"/>
     </roles>
 </module>
