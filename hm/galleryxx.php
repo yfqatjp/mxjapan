@@ -47,6 +47,7 @@ while ($row = $rs->fetch()) {
   $title = $row['title'];
   $publish_date = $row['publish_date'];
   $subtitle = $row['subtitle'];
+  $text = $row['text'];
 }
 ?>
 <div class="midd_25">
@@ -54,16 +55,18 @@ while ($row = $rs->fetch()) {
 </div>
 
 <div class="midd_auto midd_top20 midd_fff" style="padding-bottom:20px;">
-  <img src="images/gallery_2_03.jpg">
+  <img src="<?php $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $pageId . " order by rank asc");
+                    $row1 = $rs1->fetch();
+                    echo "/medias/gallery/medium/" . $row1['id'] . "/" . $row1['file'] ?>">
   <div class="midd_96">
     <h1><?php echo $title ?></h1>
     <span>发布时间：<?php echo date('Y/m/d', $publish_date) ?></span>
     <div class="midd_97"><?php echo $subtitle ?></div>
   </div>
-  <div class="midd_center"><img src="images/gallery_2_07.jpg">
-    <div class="midd_98">内容自定义、文字排版、图片说明，后台自定义编辑</div>
-    <img src="images/gallery_2_10.jpg"></div>
-<div class="clear"></div>
+  <div class="midd_center">
+    <?php echo $text ?>
+    <div class="clear">
+  </div>
 </div>
 
 <!-- 底部 -->
