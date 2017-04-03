@@ -51,7 +51,12 @@ while ($row = $rs->fetch()) {
 }
 ?>
 <div class="midd_25">
-  <div class="midd_26"><img src="images/11_03.png"><a href="index.html">首页</a> > <a href="gallery.html">旅游图库</a> > <a href="galleryxx_<?= $pageId ?>.html"><?php echo $title ?></a></div>
+  <div class="midd_26">
+    <img src="images/11_03.png">
+    <a href="index.html">首页</a> > 
+    <a href="gallery.html">旅游图库</a> > 
+    <a href="galleryxx_<?= $pageId ?>.html"><?php echo $title ?></a>
+  </div>
 </div>
 
 <div class="midd_auto midd_top20 midd_fff" style="padding-bottom:20px;">
@@ -67,6 +72,15 @@ while ($row = $rs->fetch()) {
     <?php echo $text ?>
     <div class="clear">
   </div>
+  <?php
+    $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $pageId . " order by rank asc");
+    while ($row = $rs1->fetch()) {
+  ?>
+      <img src="<?php echo "/medias/gallery/medium/" . $row['id'] . "/" . $row['file'] ?>">
+  <?php
+    }
+  ?>
+</div>
 </div>
 
 <!-- 底部 -->
