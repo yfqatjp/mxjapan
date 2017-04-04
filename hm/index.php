@@ -173,7 +173,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
     </div>
 </div>
 
-<div id="fh5co-work-section" class="fh5co-light-grey-section">
+<div id="fh5co-work-section" class="fh5co-light-grey-section" style="padding-bottom:15px;">
     <div class="container">
         <div class="row">
             <div class="col-md-6s col-md-offset-3 text-center mbottom80 animate-box">
@@ -299,7 +299,7 @@ $arrHomeCharters = $hmWeb->findHomeCharterList();
 <?php 
 if (count($arrHomeCharters) > 0) {
 ?>
-<div id="fh5co-work-section" class="fh5co-light-grey-section">
+<div id="fh5co-work-section" class="fh5co-light-grey-section" style="padding-top:15px;">
     <div class="container">
     	<?php 
     	foreach($arrHomeCharters as $arrCharterType) {
