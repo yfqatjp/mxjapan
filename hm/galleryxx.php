@@ -60,44 +60,15 @@ while ($row = $rs->fetch()) {
 </div>
 
 <div class="midd_auto midd_top20 midd_fff" style="padding-bottom:20px;">
-
-                <div id="originalpic" style="width: 100%;">
-                    <?php
-                    $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE lang = 2 AND id_item = " . $pageId . " ORDER BY rank aSC");
-                    $i = 1;
-                    while ($row1 = $rs1->fetch()) {
-                        ?>
-                        <li><a href="javascript:;"><img
-                                    src="/medias/gallery/medium/<?php echo $row1['id'] ?>/<?php echo $row1['file'] ?>" <?php if ($i == 1) { ?>
-                                    style="display: inline;"<?php } ?>></a></li>
-                        <?php
-                        $i++;
-                    }
-                    ?>
-                    <a id="aPrev"
-                       style="cursor: url(/images//prev.cur), auto; height: 600px;"></a>
-                    <a id="aNext"
-                       style="cursor: url(/images//next.cur), auto; height: 600px;"></a>
-                </div>
-                <div class="thumbpic" style="width: 100%;"><a href="javascript:;" class="bntprev"></a>
-                    <div id="piclist">
-                        <ul>
-                            <?php
-                            $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE lang = 2 AND id_item = " . $pageId . " ORDER BY rank aSC");
-                            $i = 1;
-                            while ($row1 = $rs1->fetch()) {
-                                ?>
-                                <li<?php if ($i == 1) {
-                                    $img = "/medias/gallery/medium/" . $row1['id'] . "/" . $row1['file']; ?> class="hover"<?php } ?>>
-                                    <a href="javascript:;"><img
-                                            src="/medias/gallery/medium/<?php echo $row1['id'] ?>/<?php echo $row1['file'] ?>"
-                                            width="120" height="86"></a></li>
-                                <?php
-                                $i++;
-                            } ?>
-                        </ul>
-                    </div>
-                    <a href="javascript:;" class="bntnext"></a></div>
+  <?php 
+    $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $pageId . " order by rank asc");
+    while ($row1 = $rs1->fetch()) {
+  ?>
+  <img src="<?php echo "/medias/gallery/medium/" . $row1['id'] . "/" . $row1['file']?>" style="width: 100%;">
+  <?php 
+      break;
+    }
+  ?>
   <div class="midd_96">
     <h1><?php echo $title ?></h1>
     <span>发布时间：<?php echo date('Y/m/d', $publish_date) ?></span>
@@ -106,7 +77,20 @@ while ($row = $rs->fetch()) {
   <div class="midd_center">
     <?php echo $text ?>
     <div class="clear">
-  </div>    
+  </div>
+  <?php 
+    $rs1 = $pdo->query("SELECT * FROM pm_gallery_file WHERE id_item = " . $pageId . " order by rank asc");
+    $imageCount = 0;
+    while ($row1 = $rs1->fetch()) {
+      $imageCount++;
+      if($imageCount <= 1){
+        continue;
+      }
+  ?>
+  <img src="<?php echo "/medias/gallery/medium/" . $row1['id'] . "/" . $row1['file']?>" style="width: 100%;">
+  <?php 
+    }
+  ?> 
 </div>
 </div>
 
